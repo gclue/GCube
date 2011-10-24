@@ -1,0 +1,144 @@
+/*
+ * The MIT License (MIT)
+ * Copyright (c) 2011 GClue, inc.
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+/*
+ * APIGlue.h
+ *
+ *  Created on: 2011/09/16
+ *      Author: GClue, Inc.
+ */
+#ifndef APIGLUE_H_
+#define APIGLUE_H_
+
+#include <vector>
+
+/**
+ * サウンドモード.
+ */
+enum SoundMode {
+	SoundMode_CreateBGM = 0,	//!< BGM作成
+	SoundMode_DisposeBGM,		//!< BGM削除
+	SoundMode_PlayBGM ,			//!< BGM再生
+	SoundMode_StopBGM,			//!< BGM停止
+	SoundMode_RepeatBGM,		//!< BGMの連続停止（同じ名前のファイルの場合には、続けて再生します
+	SoundMode_PauseBGM,			//!< BGMの一時停止
+	SoundMode_ResumeBGM,		//!< BGMの再開
+	SoundMode_PrepareSE,		//!< SE登録
+	SoundMode_DisposeSE,		//!< SE削除
+	SoundMode_PlaySE,			//!< SE再生
+	SoundMode_StopSE,			//!< SE停止
+	SoundMode_StopAllSE,		//!< すべてのSE停止
+	SoundMode_PauseSE,			//!< SEの一時停止
+	SoundMode_ResumeSE,			//!< SEの再生再開
+};
+
+/**
+ * Java側の処理の結果.
+ */
+enum {
+	JAVA_SUCCESS = -1,			//!< 成功
+	JAVA_UNKNOWN_ERROR = 1,		//!< 原因不明のエラー
+	JAVA_OFFLINE = 2,			//!< オフライン
+	JAVA_SERVER_ERROR = 4,		//!< サーバーエラー
+	JAVA_BAD_REQUEST = 8,		//!< リクエストが不正
+	JAVA_AUTH_CANCEL = 16,		//!< プレイヤーによる認証キャンセル
+};
+
+class Figure;
+class Texture;
+class PackerTexture;
+class ApplicationController;
+
+extern "C" {
+
+int GCInitApplicationController(ApplicationController *controller);
+
+/**
+ * 文字列を描画したテクスチャを取得します.
+ * もし文字列の描画が行われていなかった場合にはNULLを返却します.
+ *
+ * この関数を呼び出す前にJNIDrawTextで実行された文字列を描画したテクスチャを作成します。
+ * この関数が呼ばれるとJNIDrawTextで登録された文字列はすべてJava上から削除されてしまうので
+ * 再度、この関数を呼び出すときはJNIDrawTextを行ってください。
+ *
+ * また、PackerTextureに登録されているテスチャIDはJNIDrawTextで登録した順番になっています。
+ *
+ * @return Textureクラス
+ */
+PackerTexture* GCGetTextTexture();
+
+/**
+ * 指定された文字列をテクスチャに書き込みます.
+ * @param[in] text 文字列
+ * @param[in] fontSize フォントサイズ
+ * @param[in] r 赤色成分
+ * @param[in] g 緑色成分
+ * @param[in] b 青色成分
+ * @return テクスチャデータ
+ */
+void GCDrawText(const char *text, float fontSize, float r, float g, float b);
+
+/**
+ * SE,BGM再生
+ * mode: 0:BGM再生
+ *       1:BGM停止
+ *       2:SE登録
+ *       3:SE再生
+ * @param[in] fname ファイル名
+ * @param[in] mode モード
+ */
+void GCSoundEvent(const char *fileName, int mode);
+
+/**
+ * Assetの中を読み込みます.
+ * @param[in] fileName ファイル名
+ * @return charのvectorオブジェクト
+ */
+std::vector<char>* GCLoadAsset(const char *fileName);
+
+/**
+ * Java側にイベントを配送します.
+ * @param[in] type イベントタイプ
+ * @param[in] param1 イベントパラメータ
+ * @param[in] param2 イベントパラメータ
+ * @param[in] param3 イベントパラメータ
+ * @param[in] param4 イベントパラメータ
+ * @param[in] param5 イベントパラメータ
+ */
+void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, const char *param5);
+
+/**
+ * テクスチャを読み込みます.
+ * @param[in] fname ファイル名
+ * @return テクスチャオブジェクト
+ */
+bool GCLoadTexture(Texture *texture, const char *fname);
+
+/**
+ * フィギュアを読み込みます.
+ * @param[in] name ファイル名
+ * @return フィギュアオブジェクト
+ */
+Figure* GCLoadFigure(const char *name);
+}
+
+#endif /* APIGLUE_H_ */
