@@ -114,19 +114,15 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>aizu_engine</name>
+			<name>gcube</name>
 			<type>2</type>
-			<locationURI>aizu_engine1</locationURI>
+			<locationURI>gcube</locationURI>
 		</link>
 	</linkedResources>
 	<variableList>
 		<variable>
-			<name>aizu_engine</name>
+			<name>gcube</name>
 			<value>$%7BPARENT-2-PROJECT_LOC%7D/engine</value>
-		</variable>
-		<variable>
-			<name>aizu_engine1</name>
-			<value>$%7BPARENT-3-aizu_engine%7D/Desktop/trunk/engine</value>
 		</variable>
 	</variableList>
 </projectDescription>
