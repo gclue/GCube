@@ -34,7 +34,7 @@
 #include "SimpleShader.h"
 #include "Texture.h"
 
-ImageView::ImageView(AEContext *context) : View(context) {
+ImageView::ImageView(GCContext *context) : View(context) {
 	figure = NULL;
 	clickable = false;
 }

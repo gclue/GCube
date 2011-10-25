@@ -44,7 +44,7 @@ public:
 	 * コンストラクタ.
 	 * @param[in] context View用のコンテキスト
 	 */
-	ImageView(AEContext *context);
+	ImageView(GCContext *context);
 
 	/**
 	 * デストラクタ.

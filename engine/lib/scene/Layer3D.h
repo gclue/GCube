@@ -32,8 +32,9 @@
 #include "Layer.h"
 
 class Layer3D : public Layer {
+private:
 public:
-	Layer3D(AEContext *context);
+	Layer3D(GCContext *context);
 	virtual ~Layer3D();
 
 	//////////////////////////////////////////////////////////

@@ -33,7 +33,7 @@
 
 #include <math.h>
 
-View::View(AEContext *context) {
+View::View(GCContext *context) {
 	this->context = context;
 	animation = NULL;
 	parent = NULL;

@@ -47,7 +47,7 @@
  */
 #define RENDER_RANGE 1.0
 
-ScrollView::ScrollView(AEContext *context) : ViewGroup(context) {
+ScrollView::ScrollView(GCContext *context) : ViewGroup(context) {
 	listener = NULL;
 	currentIndex = 0;
 	nextIndex = 0;

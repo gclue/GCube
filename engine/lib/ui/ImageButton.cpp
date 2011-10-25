@@ -35,7 +35,7 @@
 #include "Texture.h"
 #include "ImageView.h"
 
-ImageButton::ImageButton(AEContext *context) : Button(context) {
+ImageButton::ImageButton(GCContext *context) : Button(context) {
 	view[0] = NULL;
 	view[1] = NULL;
 	listener = NULL;

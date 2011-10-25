@@ -51,7 +51,7 @@ public:
 	 * コンストラクタ.
 	 * @param context 描画するためのコンテキスト
 	 */
-	Layer2D(AEContext *context);
+	Layer2D(GCContext *context);
 
 	/**
 	 * デストラクタ.

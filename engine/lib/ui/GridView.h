@@ -47,7 +47,7 @@ public:
 	 * @param[in] row 行数
 	 * @param[in] column 列数
 	 */
-	GridView(AEContext *context, int row = 4, int column = 4);
+	GridView(GCContext *context, int row = 4, int column = 4);
 
 	/**
 	 * デストラクタ.

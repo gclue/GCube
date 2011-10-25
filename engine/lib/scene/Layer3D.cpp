@@ -28,7 +28,7 @@
  */
 #include "Layer3D.h"
 
-Layer3D::Layer3D(AEContext *context) : Layer(context) {
+Layer3D::Layer3D(GCContext *context) : Layer(context) {
 }
 
 Layer3D::~Layer3D() {

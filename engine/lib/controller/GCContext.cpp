@@ -21,18 +21,18 @@
  */
 
 /*
- * AEContext.cpp
+ * GCContext.cpp
  *
  *  Created on: 2011/10/08
  *      Author: GClue, Inc.
  */
-#include "AEContext.h"
+#include "GCContext.h"
 #include "Camera.h"
 #include "SimpleShader.h"
 #include "TextureManager.h"
 #include "defines.h"
 
-AEContext::AEContext() {
+GCContext::GCContext() {
 	// シンプルなシェーダの初期化
 	shader = new SimpleShader();
 
@@ -45,16 +45,16 @@ AEContext::AEContext() {
 	texMgr = new TextureManager();
 }
 
-AEContext::~AEContext() {
+GCContext::~GCContext() {
 	DELETE(shader);
 	DELETE(camera);
 	DELETE(texMgr);
 }
 
-void AEContext::setUserObj(void* obj) {
+void GCContext::setUserObj(void* obj) {
 	this->userObj = obj;
 }
 
-void* AEContext::getUserObj() {
+void* GCContext::getUserObj() {
 	return userObj;
 }

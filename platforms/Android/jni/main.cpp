@@ -42,8 +42,8 @@
 
 int GCInitApplicationController(ApplicationController *controller) {
 
-//	SceneTitle *scene = new SceneTitle(controller);
-	Scene3D *scene = new Scene3D(controller);
+	SceneTitle *scene = new SceneTitle(controller);
+//	Scene3D *scene = new Scene3D(controller);
 
 	controller->addScene(1, scene);
 	controller->sceneChange(1);

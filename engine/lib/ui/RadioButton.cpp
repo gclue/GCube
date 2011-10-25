@@ -33,7 +33,7 @@
 
 #include <math.h>
 
-RadioButton::RadioButton(AEContext *context) : View(context) {
+RadioButton::RadioButton(GCContext *context) : View(context) {
 	view[0] = NULL;
 	view[1] = NULL;
 	selectFlag = false;

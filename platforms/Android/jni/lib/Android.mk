@@ -34,7 +34,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    gl/collada/Triangles.cpp \
                    gl/collada/Vertices.cpp \
                    gl/loader/WFObjLoader.cpp \
-                   controller/AEContext.cpp \
+                   controller/GCContext.cpp \
                    controller/ApplicationController.cpp \
                    controller/TextureManager.cpp \
                    scene/Scene.cpp \

@@ -34,7 +34,7 @@
 #include "SimpleShader.h"
 #include "Texture.h"
 
-Button::Button(AEContext *context) : View(context) {
+Button::Button(GCContext *context) : View(context) {
 	clickAnim = NULL;
 	figure[0] = NULL;
 	figure[1] = NULL;

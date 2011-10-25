@@ -28,7 +28,7 @@
  */
 #include "GridView.h"
 
-GridView::GridView(AEContext *context, int row, int column) : ViewGroup(context) {
+GridView::GridView(GCContext *context, int row, int column) : ViewGroup(context) {
 	this->row = row;
 	this->column = column;
 	aspect = 1.0;

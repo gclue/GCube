@@ -59,7 +59,7 @@ public:
 	 * コンストラクタ.
 	 * @param context View用のコンテキスト
 	 */
-	NumberView(AEContext *context);
+	NumberView(GCContext *context);
 
 	/**
 	 * デストラクタ.

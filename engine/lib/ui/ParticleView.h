@@ -47,7 +47,7 @@ public:
 	 * コンストラクタ.
 	 * @param[in] context View用のコンテキスト
 	 */
-	ParticleView(AEContext *context);
+	ParticleView(GCContext *context);
 
 	/**
 	 * デストラクタ.

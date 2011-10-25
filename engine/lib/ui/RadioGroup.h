@@ -62,7 +62,7 @@ public:
 	 * コンストラクタ.
 	 * @param context View用のコンテキスト
 	 */
-	RadioGroup(AEContext *context);
+	RadioGroup(GCContext *context);
 
 	/**
 	 * デストラクタ.

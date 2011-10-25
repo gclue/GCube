@@ -45,7 +45,7 @@ public:
 	 * コンストラクタ.
 	 * @param context View用のコンテキスト
 	 */
-	RadioButton(AEContext *context);
+	RadioButton(GCContext *context);
 
 	/**
 	 * デストラクタ.

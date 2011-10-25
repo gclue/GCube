@@ -26,7 +26,7 @@
 #include <map>
 
 #include "IScene.h"
-#include "AEContext.h"
+#include "GCContext.h"
 
 class Animation;
 class SimpleShader;
@@ -42,7 +42,7 @@ enum SceneID {
 /**
  * アプリケーションコントローラクラス.
  */
-class ApplicationController : public AEContext {
+class ApplicationController : public GCContext {
 private:
 	float red;		//!< 赤色成分
 	float green;	//!< 緑色成分

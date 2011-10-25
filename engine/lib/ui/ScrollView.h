@@ -122,7 +122,7 @@ public:
 	 * コンストラクタ.
 	 * @param context View用のコンテキスト
 	 */
-	ScrollView(AEContext *context);
+	ScrollView(GCContext *context);
 
 	/**
 	 * デストラクタ.

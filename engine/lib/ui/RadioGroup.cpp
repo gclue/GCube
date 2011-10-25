@@ -32,7 +32,7 @@
 #include "defines.h"
 #include <math.h>
 
-RadioGroup::RadioGroup(AEContext *context) : ViewGroup(context) {
+RadioGroup::RadioGroup(GCContext *context) : ViewGroup(context) {
 	listener = NULL;
 }
 

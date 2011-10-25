@@ -29,7 +29,7 @@
 #include "ImageAnimationView.h"
 #include "Log.h"
 
-ImageAnimationView::ImageAnimationView(AEContext *context) : ViewGroup(context) {
+ImageAnimationView::ImageAnimationView(GCContext *context) : ViewGroup(context) {
 	frame = 0.2;
 	index = 0;
 	time = 0;

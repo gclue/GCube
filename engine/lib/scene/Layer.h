@@ -36,10 +36,10 @@
  */
 class Layer {
 protected:
-	AEContext *context;
+	GCContext *context;
 
 public:
-	Layer(AEContext *context) { this->context = context; }
+	Layer(GCContext *context) { this->context = context; }
 	virtual ~Layer() {};
 
 	/**

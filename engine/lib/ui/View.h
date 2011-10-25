@@ -31,7 +31,7 @@
 
 #include "defines.h"
 #include "Matrix3D.h"
-#include "AEContext.h"
+#include "GCContext.h"
 
 /**
  * タッチイベントのタイプを定義します.
@@ -93,7 +93,7 @@ protected:
 	virtual void testMatrix2D(Pointf *p);
 
 public:
-	AEContext *context;		//!< Viewを描画するためのコンテキスト
+	GCContext *context;			//!< Viewを描画するためのコンテキスト
 	IAnimation *animation;		//!< アニメーション
 
 	View *parent;				//!< 親になるView
@@ -119,7 +119,7 @@ public:
 	 * コンストラクタ.
 	 * @param[in] context コンテキスト
 	 */
-	View(AEContext *context);
+	View(GCContext *context);
 
 	/**
 	 * デストラクタ.

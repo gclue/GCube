@@ -63,7 +63,7 @@ private:
 	std::map<int, AnimationFrame*> frames;	//!< フレーム保存用
 
 public:
-	ImageAnimationView(AEContext *context);
+	ImageAnimationView(GCContext *context);
 	virtual ~ImageAnimationView();
 
 	/**

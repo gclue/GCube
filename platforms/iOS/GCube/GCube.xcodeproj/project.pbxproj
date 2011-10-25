@@ -177,7 +177,7 @@
 		6674754D14552E540065EDF3 /* simpleShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6674752314552ACA0065EDF3 /* simpleShader.vsh */; };
 		6674760114552F0A0065EDF3 /* matrixUtil.c in Sources */ = {isa = PBXBuildFile; fileRef = 6674755114552F0A0065EDF3 /* matrixUtil.c */; };
 		6674760214552F0A0065EDF3 /* vectorUtil.c in Sources */ = {isa = PBXBuildFile; fileRef = 6674755314552F0A0065EDF3 /* vectorUtil.c */; };
-		6674760314552F0A0065EDF3 /* AEContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674755714552F0A0065EDF3 /* AEContext.cpp */; };
+		6674760314552F0A0065EDF3 /* GCContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674755714552F0A0065EDF3 /* GCContext.cpp */; };
 		6674760414552F0A0065EDF3 /* ApplicationController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674755914552F0A0065EDF3 /* ApplicationController.cpp */; };
 		6674760514552F0A0065EDF3 /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674755B14552F0A0065EDF3 /* TextureManager.cpp */; };
 		6674760614552F0A0065EDF3 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674755E14552F0A0065EDF3 /* Camera.cpp */; };
@@ -669,8 +669,8 @@
 		6674755214552F0A0065EDF3 /* matrixUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = matrixUtil.h; sourceTree = "<group>"; };
 		6674755314552F0A0065EDF3 /* vectorUtil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vectorUtil.c; sourceTree = "<group>"; };
 		6674755414552F0A0065EDF3 /* vectorUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vectorUtil.h; sourceTree = "<group>"; };
-		6674755714552F0A0065EDF3 /* AEContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AEContext.cpp; sourceTree = "<group>"; };
-		6674755814552F0A0065EDF3 /* AEContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AEContext.h; sourceTree = "<group>"; };
+		6674755714552F0A0065EDF3 /* GCContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GCContext.cpp; sourceTree = "<group>"; };
+		6674755814552F0A0065EDF3 /* GCContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCContext.h; sourceTree = "<group>"; };
 		6674755914552F0A0065EDF3 /* ApplicationController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ApplicationController.cpp; sourceTree = "<group>"; };
 		6674755A14552F0A0065EDF3 /* ApplicationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApplicationController.h; sourceTree = "<group>"; };
 		6674755B14552F0A0065EDF3 /* TextureManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureManager.cpp; sourceTree = "<group>"; };
@@ -1570,8 +1570,8 @@
 		6674755614552F0A0065EDF3 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				6674755714552F0A0065EDF3 /* AEContext.cpp */,
-				6674755814552F0A0065EDF3 /* AEContext.h */,
+				6674755714552F0A0065EDF3 /* GCContext.cpp */,
+				6674755814552F0A0065EDF3 /* GCContext.h */,
 				6674755914552F0A0065EDF3 /* ApplicationController.cpp */,
 				6674755A14552F0A0065EDF3 /* ApplicationController.h */,
 				6674755B14552F0A0065EDF3 /* TextureManager.cpp */,
@@ -1911,7 +1911,7 @@
 				6674753A14552B2A0065EDF3 /* GCViewController.mm in Sources */,
 				6674760114552F0A0065EDF3 /* matrixUtil.c in Sources */,
 				6674760214552F0A0065EDF3 /* vectorUtil.c in Sources */,
-				6674760314552F0A0065EDF3 /* AEContext.cpp in Sources */,
+				6674760314552F0A0065EDF3 /* GCContext.cpp in Sources */,
 				6674760414552F0A0065EDF3 /* ApplicationController.cpp in Sources */,
 				6674760514552F0A0065EDF3 /* TextureManager.cpp in Sources */,
 				6674760614552F0A0065EDF3 /* Camera.cpp in Sources */,

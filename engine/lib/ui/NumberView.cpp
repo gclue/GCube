@@ -34,7 +34,7 @@
 #include "SimpleShader.h"
 #include "Texture.h"
 
-NumberView::NumberView(AEContext *context) : View(context) {
+NumberView::NumberView(GCContext *context) : View(context) {
 	zeroFill = false;
 	value = 0;
 	digit = 8;

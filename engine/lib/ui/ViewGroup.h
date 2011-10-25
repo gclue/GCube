@@ -40,7 +40,7 @@ public:
 	 * コンストラクタ.
 	 * @param[in] context コンテキスト
 	 */
-	ViewGroup(AEContext *context);
+	ViewGroup(GCContext *context);
 
 	/**
 	 * デストラクタ.

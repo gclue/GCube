@@ -34,7 +34,7 @@
 #include "SimpleShader.h"
 #include "Texture.h"
 
-ParticleView::ParticleView(AEContext *context) : View(context) {
+ParticleView::ParticleView(GCContext *context) : View(context) {
 	figure = NULL;
 	clickable = false;
 }

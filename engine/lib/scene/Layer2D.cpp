@@ -30,7 +30,7 @@
 #include "Camera.h"
 #include "SimpleShader.h"
 
-Layer2D::Layer2D(AEContext *context) : Layer(context){
+Layer2D::Layer2D(GCContext *context) : Layer(context){
 	root = NULL;
 	dialog = NULL;
 	aspect = 1.0;

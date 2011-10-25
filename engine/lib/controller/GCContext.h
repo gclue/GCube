@@ -21,7 +21,7 @@
  */
 
 /*
- * AEContext.h
+ * GCContext.h
  *
  *  Created on: 2011/10/08
  *      Author: GClue, Inc.
@@ -34,9 +34,9 @@ class SimpleShader;
 class TextureManager;
 
 /**
- * AEで使用されるコンテキスト.
+ * GCubeで使用されるコンテキスト.
  */
-class AEContext {
+class GCContext {
 public:
 	Camera *camera;			//!< カメラ (UIライブラリなどで使用する)
 	SimpleShader *shader;	//!< シェーダ (UIライブラリなどで使用する)
@@ -47,9 +47,9 @@ public:
 	void *userObj;			//!< ユーザデータ
 
 	/** コンストラクタ. */
-	AEContext();
+	GCContext();
 	/** デストラクタ. */
-	virtual ~AEContext();
+	virtual ~GCContext();
 
 	/**
 	 * ユーザデータを設定します.

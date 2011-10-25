@@ -72,7 +72,7 @@ public:
 	 * コンストラクタ.
 	 * @param context コンテキスト
 	 */
-	Button(AEContext *context);
+	Button(GCContext *context);
 
 	/**
 	 * デストラクタ.
