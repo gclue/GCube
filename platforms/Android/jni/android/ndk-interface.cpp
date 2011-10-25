@@ -383,7 +383,7 @@ Figure* GCLoadFigure(const char *fname) {
 		f->addNormal(n, normalsSize);
 		f->addTextureCoords(t, textureCoordsSize);
 		f->addVertexIndexes((const GLushort *) i, vertexIndexesSize);
-		f->buildVAO();
+		f->build();
 
 		// メモリを開放
 		env->DeleteLocalRef(figure);

@@ -2,3 +2,4 @@ gen/*
 bin/*
 obj/*
 R.java
+*.apk

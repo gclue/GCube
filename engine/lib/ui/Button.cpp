@@ -77,11 +77,9 @@ void Button::startClickAnimation() {
 void Button::setFigure(Figure *figure) {
 	this->figure[0] = figure;
 
-	// これは、PrimitiveObjectBuilderで作成されたFigureを前提で
-	// 計算を行っています。違うメソッドで作られた場合には動かない。
 	if (figure) {
-		size.x = (float) (figure->vertices->at(3) - figure->vertices->at(0)) / 2.0;
-		size.y = (float) (figure->vertices->at(7) - figure->vertices->at(4)) / 2.0;
+		size.x = figure->size.x / 2.0;
+		size.y = figure->size.y / 2.0;
 	}
 }
 
@@ -125,7 +123,7 @@ void Button::draw(double dt, IAnimation *a) {
 		context->shader->setAlpha(alpha);
 		context->shader->setBright(bright);
 
-		figure[1]->bindVBO();
+		figure[1]->bind();
 		figure[1]->draw();
 
 		// animationの削除は上のクラスで行うので、ここでは行わない。
@@ -145,7 +143,7 @@ void Button::draw(double dt, IAnimation *a) {
 		context->shader->setAlpha(alpha);
 		context->shader->setBright(bright);
 
-		figure[0]->bindVBO();
+		figure[0]->bind();
 		figure[0]->draw();
 	}
 }

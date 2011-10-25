@@ -66,7 +66,7 @@ void NumberView::drawFigure(int index, float x, float y) {
 	context->shader->setAlpha(alpha);
 	context->shader->setBright(bright);
 
-	figure[index]->bindVBO();
+	figure[index]->bind();
 	figure[index]->draw();
 }
 
@@ -150,11 +150,9 @@ int NumberView::getAlign() {
 void NumberView::setFigure(int index, Figure *f) {
 	figure[index] = f;
 
-	// これは、PrimitiveObjectBuilderで作成されたFigureを前提で
-	// 計算を行っています。違うメソッドで作られた場合には動かない。
 	if (f && w == 0 && h == 0) {
-		w = (float) (f->vertices->at(3) - f->vertices->at(0));
-		h = (float) (f->vertices->at(7) - f->vertices->at(4));
+		w = f->size.x;
+		h = f->size.y;
 	}
 }
 

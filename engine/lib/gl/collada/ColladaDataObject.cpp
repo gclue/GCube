@@ -137,8 +137,8 @@ Figure *ColladaDataObject::makeFigure() {
 			int uidx = meshIndexesArray[i*elements+offset];
 			fig->addTextureCoords(&uvArray[uidx*2], 2);
 		}
-		fig->addJoints(&joint1Array[idx], &joint2Array[idx], 1);
-		fig->addWeights(&weight1Array[idx], &weight2Array[idx], 1);
+		fig->addJoints(&joint1Array[idx], &weight1Array[idx], &joint2Array[idx], &weight2Array[idx], 1);
+//		fig->addWeights(&weight1Array[idx], &weight2Array[idx], 1);
 		//
 //		GLushort vi[] = {i*3, i*3+1, i*3+2};
 //		fig->addVertexIndexes(vi, 3);

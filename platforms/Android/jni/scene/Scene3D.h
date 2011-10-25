@@ -23,7 +23,6 @@
 #ifndef SCENE3D_H_
 #define SCENE3D_H_
 
-#include "Application.h"
 #include "IScene.h"
 #include "BoneShader.h"
 
@@ -37,6 +36,7 @@ class Scene3D : public IScene {
 private:
 	Camera *camera;					//!< カメラ
 	Figure *fig;
+	Figure *fig2;
 	BoneShader *shader;
 
 public:

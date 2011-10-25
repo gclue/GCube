@@ -87,10 +87,10 @@ void BoneShader::bindAttribute(GLuint program, const char *name, int user) {
 	glBindAttribLocation(program, ATTRIB_VERTEX, "a_position");
 	glBindAttribLocation(program, ATTRIB_TEXCOORD, "a_texcoord");
 	glBindAttribLocation(program, ATTRIB_NORMAL, "a_normal");
-	glBindAttribLocation(program, ATTRIB_JOINT_1, "a_joint_1");
-	glBindAttribLocation(program, ATTRIB_JOINT_2, "a_joint_2");
-	glBindAttribLocation(program, ATTRIB_WEIGHT_1, "a_weight_1");
-	glBindAttribLocation(program, ATTRIB_WEIGHT_2, "a_weight_2");
+	glBindAttribLocation(program, ATTRIB_JOINTS, "a_joints");
+//	glBindAttribLocation(program, ATTRIB_JOINT_2, "a_joint_2");
+//	glBindAttribLocation(program, ATTRIB_WEIGHT_1, "a_weight_1");
+//	glBindAttribLocation(program, ATTRIB_WEIGHT_2, "a_weight_2");
 }
 
 void BoneShader::getUniform(GLuint program, const char *name, int user) {

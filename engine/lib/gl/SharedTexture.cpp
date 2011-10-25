@@ -82,7 +82,7 @@ Figure* SharedTexture::makePlate(int ID, int sub) {
 	float w = (rect.right - rect.left) * texture->width / dispW;
 	float p = (rect.bottom - rect.top) / (rect.right - rect.left);
 	figure = createPlateWithTexpos(w, w*p, rect.left, rect.top, rect.right, rect.bottom);
-	figure->buildVAO();
+	figure->build();
 
 	// キャッシュに登録
 	cache->putFigure(ID, sub, 0, 0, figure);
@@ -100,7 +100,7 @@ Figure* SharedTexture::makeFixPlate(int ID, int sub, float w) {
 	Rectf rect = this->getTexpos(ID, sub);
 	float p = (rect.bottom - rect.top) / (rect.right - rect.left);
 	figure = createPlateWithTexpos(w, w*p, rect.left, rect.top, rect.right, rect.bottom);
-	figure->buildVAO();
+	figure->build();
 
 	// キャッシュに登録
 	cache->putFigure(ID, sub, w, 0, figure);
@@ -118,7 +118,7 @@ Figure* SharedTexture::makeFixHeightPlate(int ID, int sub, float h) {
 	Rectf rect = this->getTexpos(ID, sub);
 	float p = (rect.right - rect.left) / (rect.bottom - rect.top);
 	figure = createPlateWithTexpos(h*p, h, rect.left, rect.top, rect.right, rect.bottom);
-	figure->buildVAO();
+	figure->build();
 
 	// キャッシュに登録
 	cache->putFigure(ID, sub, 0, h, figure);
@@ -134,7 +134,7 @@ Figure* SharedTexture::makePlateWithSize(int ID, int sub, float w, float h) {
 
 	Rectf rect = this->getTexpos(ID, sub);
 	figure = createPlateWithTexpos(w, h, rect.left, rect.top, rect.right, rect.bottom);
-	figure->buildVAO();
+	figure->build();
 
 	// キャッシュに登録
 	cache->putFigure(ID, sub, w, h, figure);
@@ -152,7 +152,7 @@ Figure* SharedTexture::makePlate(const char *name) {
 	float w = (rect.right - rect.left) * texture->width / dispW;
 	float p = (rect.bottom - rect.top) / (rect.right - rect.left);
 	figure = createPlateWithTexpos(w, w*p, rect.left, rect.top, rect.right, rect.bottom);
-	figure->buildVAO();
+	figure->build();
 
 	// キャッシュに登録
 	cache->putFigure(name, 0, 0, figure);
@@ -169,7 +169,7 @@ Figure* SharedTexture::makeFixPlate(const char *name, float w) {
 	Rectf rect = this->getTexpos(name);
 	float p = (rect.bottom - rect.top) / (rect.right - rect.left);
 	figure = createPlateWithTexpos(w, w*p, rect.left, rect.top, rect.right, rect.bottom);
-	figure->buildVAO();
+	figure->build();
 
 	// キャッシュに登録
 	cache->putFigure(name, w, 0, figure);
@@ -186,7 +186,7 @@ Figure* SharedTexture::makeFixHeightPlate(const char *name, float h) {
 	Rectf rect = this->getTexpos(name);
 	float p = (rect.right - rect.left) / (rect.bottom - rect.top);
 	figure = createPlateWithTexpos(h*p, h, rect.left, rect.top, rect.right, rect.bottom);
-	figure->buildVAO();
+	figure->build();
 
 	// キャッシュに登録
 	cache->putFigure(name, 0, h, figure);
@@ -202,7 +202,7 @@ Figure* SharedTexture::makePlateWithSize(const char *name, float w, float h) {
 
 	Rectf rect = this->getTexpos(name);
 	figure = createPlateWithTexpos(w, h, rect.left, rect.top, rect.right, rect.bottom);
-	figure->buildVAO();
+	figure->build();
 
 	// キャッシュに登録
 	cache->putFigure(name, w, h, figure);

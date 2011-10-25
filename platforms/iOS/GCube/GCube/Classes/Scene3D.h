@@ -36,6 +36,7 @@ class Scene3D : public IScene {
 private:
 	Camera *camera;					//!< カメラ
 	Figure *fig;
+	Figure *fig2;
 	BoneShader *shader;
     
 public:

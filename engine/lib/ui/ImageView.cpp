@@ -46,10 +46,8 @@ void ImageView::setFigure(Figure *figure) {
 	this->figure = figure;
 
 	if (figure) {
-		// これは、PrimitiveObjectBuilderで作成されたFigureを前提で
-		// 計算を行っています。違うメソッドで作られた場合には動かない。
-		size.x = (float) (figure->vertices->at(3) - figure->vertices->at(0)) / 2.0;
-		size.y = (float) (figure->vertices->at(7) - figure->vertices->at(4)) / 2.0;
+		size.x = figure->size.x / 2.0;
+		size.y = figure->size.y / 2.0;
 	}
 }
 
@@ -71,6 +69,6 @@ void ImageView::draw(double dt, IAnimation *a) {
 	context->shader->setAlpha(alpha);
 	context->shader->setBright(bright);
 
-	figure->bindVBO();
+	figure->bind();
 	figure->draw();
 }
