@@ -2,17 +2,18 @@ MY_PATH := $(call my-dir)
 LOCAL_PATH := $(MY_PATH)
 include $(CLEAR_VARS)
 
-include $(LOCAL_PATH)/lib/math.mk
+include $(LOCAL_PATH)/mk/math.mk
 
 LOCAL_PATH := $(MY_PATH)
 include $(CLEAR_VARS)
 
-include $(LOCAL_PATH)/lib/Android.mk
+include $(LOCAL_PATH)/mk/lib.mk
 
 LOCAL_PATH := $(MY_PATH)
 include $(CLEAR_VARS)
 
 ENGINE_PATH := ../../engine
+MAIN_PATH := ../../../main
 
 APP_MODULES     := gcube
 LOCAL_MODULE    := gcube
@@ -20,13 +21,9 @@ LOCAL_CFLAGS    := -Werror
 LOCAL_SRC_FILES := android/ndk-interface.cpp \
                    android/ui-interface.cpp \
                    android/UIController.cpp \
-                   renderer/Renderer.cpp \
-                   renderer/TitleRenderer.cpp \
-                   scene/SceneTitle.cpp \
-                   scene/SceneGame.cpp \
-                   scene/SceneHelp.cpp \
-                   scene/Scene3D.cpp \
-                   main.cpp
+                   $(MAIN_PATH)/SceneTitle.cpp \
+                   $(MAIN_PATH)/Scene3D.cpp \
+                   $(MAIN_PATH)/main.cpp
 
 LOCAL_LDLIBS    := -llog -lGLESv2
 LOCAL_C_INCLUDES:= $(MY_PATH) \
@@ -45,10 +42,8 @@ LOCAL_C_INCLUDES:= $(MY_PATH) \
                    $(ENGINE_PATH)/lib/xml \
                    $(ENGINE_PATH)/lib/xml/expat \
                    $(ENGINE_PATH)/external/math \
-                   $(MY_PATH)/data \
-                   $(MY_PATH)/renderer \
-                   $(MY_PATH)/scene \
+                   $(MAIN_PATH) \
                    $(ENGINE_PATH)/util
-LOCAL_STATIC_LIBRARIES := common xml math
+LOCAL_STATIC_LIBRARIES := common math
 
 include $(BUILD_SHARED_LIBRARY)

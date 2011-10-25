@@ -167,15 +167,15 @@
 		6644324414568A55001847A0 /* number.png in Resources */ = {isa = PBXBuildFile; fileRef = 6644323614568A55001847A0 /* number.png */; };
 		6644324514568A55001847A0 /* number.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6644323714568A55001847A0 /* number.txt */; };
 		6644324614568A55001847A0 /* z34_a.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6644323814568A55001847A0 /* z34_a.jpg */; };
+		6644324D1456A22C001847A0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 664432481456A22C001847A0 /* main.cpp */; };
+		6644324E1456A22C001847A0 /* Scene3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 664432491456A22C001847A0 /* Scene3D.cpp */; };
+		6644324F1456A22C001847A0 /* SceneTitle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6644324B1456A22C001847A0 /* SceneTitle.cpp */; };
 		667474F0145528DE0065EDF3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667474EF145528DE0065EDF3 /* UIKit.framework */; };
 		667474F2145528DE0065EDF3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667474F1145528DE0065EDF3 /* Foundation.framework */; };
 		667474F4145528DE0065EDF3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667474F3145528DE0065EDF3 /* CoreGraphics.framework */; };
 		667474FA145528DE0065EDF3 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 667474F8145528DE0065EDF3 /* InfoPlist.strings */; };
 		667474FC145528DE0065EDF3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 667474FB145528DE0065EDF3 /* main.m */; };
 		66747500145528DE0065EDF3 /* GCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 667474FF145528DE0065EDF3 /* GCAppDelegate.m */; };
-		6674752714552ACA0065EDF3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674751114552ACA0065EDF3 /* main.cpp */; };
-		6674752814552ACA0065EDF3 /* Scene3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674751214552ACA0065EDF3 /* Scene3D.cpp */; };
-		6674752914552ACA0065EDF3 /* SceneTitle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674751414552ACA0065EDF3 /* SceneTitle.cpp */; };
 		6674753914552B2A0065EDF3 /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6674753514552B2A0065EDF3 /* EAGLView.m */; };
 		6674753A14552B2A0065EDF3 /* GCViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6674753714552B2A0065EDF3 /* GCViewController.mm */; };
 		6674753B14552B2A0065EDF3 /* GCViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6674753814552B2A0065EDF3 /* GCViewController.xib */; };
@@ -655,6 +655,11 @@
 		6644323614568A55001847A0 /* number.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number.png; sourceTree = "<group>"; };
 		6644323714568A55001847A0 /* number.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = number.txt; sourceTree = "<group>"; };
 		6644323814568A55001847A0 /* z34_a.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = z34_a.jpg; sourceTree = "<group>"; };
+		664432481456A22C001847A0 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		664432491456A22C001847A0 /* Scene3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene3D.cpp; sourceTree = "<group>"; };
+		6644324A1456A22C001847A0 /* Scene3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene3D.h; sourceTree = "<group>"; };
+		6644324B1456A22C001847A0 /* SceneTitle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneTitle.cpp; sourceTree = "<group>"; };
+		6644324C1456A22C001847A0 /* SceneTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneTitle.h; sourceTree = "<group>"; };
 		667474EB145528DE0065EDF3 /* GCube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GCube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		667474EF145528DE0065EDF3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		667474F1145528DE0065EDF3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -665,11 +670,6 @@
 		667474FD145528DE0065EDF3 /* GCube-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GCube-Prefix.pch"; sourceTree = "<group>"; };
 		667474FE145528DE0065EDF3 /* GCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCAppDelegate.h; sourceTree = "<group>"; };
 		667474FF145528DE0065EDF3 /* GCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GCAppDelegate.m; sourceTree = "<group>"; };
-		6674751114552ACA0065EDF3 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		6674751214552ACA0065EDF3 /* Scene3D.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene3D.cpp; sourceTree = "<group>"; };
-		6674751314552ACA0065EDF3 /* Scene3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene3D.h; sourceTree = "<group>"; };
-		6674751414552ACA0065EDF3 /* SceneTitle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneTitle.cpp; sourceTree = "<group>"; };
-		6674751514552ACA0065EDF3 /* SceneTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneTitle.h; sourceTree = "<group>"; };
 		6674753414552B2A0065EDF3 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
 		6674753514552B2A0065EDF3 /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
 		6674753614552B2A0065EDF3 /* GCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCViewController.h; sourceTree = "<group>"; };
@@ -1451,6 +1451,19 @@
 			path = texture;
 			sourceTree = "<group>";
 		};
+		664432471456A229001847A0 /* main */ = {
+			isa = PBXGroup;
+			children = (
+				664432481456A22C001847A0 /* main.cpp */,
+				664432491456A22C001847A0 /* Scene3D.cpp */,
+				6644324A1456A22C001847A0 /* Scene3D.h */,
+				6644324B1456A22C001847A0 /* SceneTitle.cpp */,
+				6644324C1456A22C001847A0 /* SceneTitle.h */,
+			);
+			name = main;
+			path = ../../../../main;
+			sourceTree = "<group>";
+		};
 		667474E0145528DE0065EDF3 = {
 			isa = PBXGroup;
 			children = (
@@ -1485,8 +1498,8 @@
 			children = (
 				667474FE145528DE0065EDF3 /* GCAppDelegate.h */,
 				667474FF145528DE0065EDF3 /* GCAppDelegate.m */,
+				664432471456A229001847A0 /* main */,
 				6674753314552B2A0065EDF3 /* GCClasses */,
-				6674751014552ACA0065EDF3 /* Classes */,
 				6644322614568A4F001847A0 /* assets */,
 				667474F6145528DE0065EDF3 /* Supporting Files */,
 			);
@@ -1502,18 +1515,6 @@
 				667474FD145528DE0065EDF3 /* GCube-Prefix.pch */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		6674751014552ACA0065EDF3 /* Classes */ = {
-			isa = PBXGroup;
-			children = (
-				6674751114552ACA0065EDF3 /* main.cpp */,
-				6674751214552ACA0065EDF3 /* Scene3D.cpp */,
-				6674751314552ACA0065EDF3 /* Scene3D.h */,
-				6674751414552ACA0065EDF3 /* SceneTitle.cpp */,
-				6674751514552ACA0065EDF3 /* SceneTitle.h */,
-			);
-			path = Classes;
 			sourceTree = "<group>";
 		};
 		6674753314552B2A0065EDF3 /* GCClasses */ = {
@@ -1921,9 +1922,6 @@
 			files = (
 				667474FC145528DE0065EDF3 /* main.m in Sources */,
 				66747500145528DE0065EDF3 /* GCAppDelegate.m in Sources */,
-				6674752714552ACA0065EDF3 /* main.cpp in Sources */,
-				6674752814552ACA0065EDF3 /* Scene3D.cpp in Sources */,
-				6674752914552ACA0065EDF3 /* SceneTitle.cpp in Sources */,
 				6674753914552B2A0065EDF3 /* EAGLView.m in Sources */,
 				6674753A14552B2A0065EDF3 /* GCViewController.mm in Sources */,
 				6674760114552F0A0065EDF3 /* matrixUtil.c in Sources */,
@@ -2141,6 +2139,9 @@
 				6644321D145552AB001847A0 /* btQuickprof.cpp in Sources */,
 				6644321E145552AB001847A0 /* btSerializer.cpp in Sources */,
 				6644322414566C04001847A0 /* Shader.cpp in Sources */,
+				6644324D1456A22C001847A0 /* main.cpp in Sources */,
+				6644324E1456A22C001847A0 /* Scene3D.cpp in Sources */,
+				6644324F1456A22C001847A0 /* SceneTitle.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

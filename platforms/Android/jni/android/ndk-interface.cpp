@@ -30,7 +30,6 @@
  */
 #include "APIGlue.h"
 
-#include "Application.h"
 #include "ApplicationController.h"
 #include "Figure.h"
 #include "Texture.h"
