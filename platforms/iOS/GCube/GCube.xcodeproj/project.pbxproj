@@ -153,6 +153,20 @@
 		6644321E145552AB001847A0 /* btSerializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66443136145552AB001847A0 /* btSerializer.cpp */; };
 		6644321F145552AB001847A0 /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = 6644314D145552AB001847A0 /* VERSION */; };
 		6644322414566C04001847A0 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6644322314566C03001847A0 /* Shader.cpp */; };
+		6644323914568A55001847A0 /* z34_a.dae in Resources */ = {isa = PBXBuildFile; fileRef = 6644322814568A55001847A0 /* z34_a.dae */; };
+		6644323A14568A55001847A0 /* boneShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322A14568A55001847A0 /* boneShader.fsh */; };
+		6644323B14568A55001847A0 /* boneShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322B14568A55001847A0 /* boneShader.vsh */; };
+		6644323C14568A55001847A0 /* pointShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322C14568A55001847A0 /* pointShader.fsh */; };
+		6644323D14568A55001847A0 /* pointShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322D14568A55001847A0 /* pointShader.vsh */; };
+		6644323E14568A55001847A0 /* simpleShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322E14568A55001847A0 /* simpleShader.fsh */; };
+		6644323F14568A55001847A0 /* simpleShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322F14568A55001847A0 /* simpleShader.vsh */; };
+		6644324014568A55001847A0 /* tap.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6644323114568A55001847A0 /* tap.mp3 */; };
+		6644324114568A55001847A0 /* chara_texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 6644323314568A55001847A0 /* chara_texture.png */; };
+		6644324214568A55001847A0 /* chara_texture.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6644323414568A55001847A0 /* chara_texture.txt */; };
+		6644324314568A55001847A0 /* gclue_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6644323514568A55001847A0 /* gclue_logo.png */; };
+		6644324414568A55001847A0 /* number.png in Resources */ = {isa = PBXBuildFile; fileRef = 6644323614568A55001847A0 /* number.png */; };
+		6644324514568A55001847A0 /* number.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6644323714568A55001847A0 /* number.txt */; };
+		6644324614568A55001847A0 /* z34_a.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6644323814568A55001847A0 /* z34_a.jpg */; };
 		667474F0145528DE0065EDF3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667474EF145528DE0065EDF3 /* UIKit.framework */; };
 		667474F2145528DE0065EDF3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667474F1145528DE0065EDF3 /* Foundation.framework */; };
 		667474F4145528DE0065EDF3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667474F3145528DE0065EDF3 /* CoreGraphics.framework */; };
@@ -162,19 +176,11 @@
 		6674752714552ACA0065EDF3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674751114552ACA0065EDF3 /* main.cpp */; };
 		6674752814552ACA0065EDF3 /* Scene3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674751214552ACA0065EDF3 /* Scene3D.cpp */; };
 		6674752914552ACA0065EDF3 /* SceneTitle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674751414552ACA0065EDF3 /* SceneTitle.cpp */; };
-		6674752A14552ACA0065EDF3 /* chara_texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 6674751B14552ACA0065EDF3 /* chara_texture.png */; };
-		6674752B14552ACA0065EDF3 /* chara_texture.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6674751C14552ACA0065EDF3 /* chara_texture.txt */; };
 		6674753914552B2A0065EDF3 /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6674753514552B2A0065EDF3 /* EAGLView.m */; };
 		6674753A14552B2A0065EDF3 /* GCViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6674753714552B2A0065EDF3 /* GCViewController.mm */; };
 		6674753B14552B2A0065EDF3 /* GCViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6674753814552B2A0065EDF3 /* GCViewController.xib */; };
 		6674754014552CCB0065EDF3 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6674753E14552CB60065EDF3 /* OpenGLES.framework */; };
 		6674754714552E1E0065EDF3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6674754514552E110065EDF3 /* QuartzCore.framework */; };
-		6674754814552E540065EDF3 /* boneShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6674751E14552ACA0065EDF3 /* boneShader.fsh */; };
-		6674754914552E540065EDF3 /* boneShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6674751F14552ACA0065EDF3 /* boneShader.vsh */; };
-		6674754A14552E540065EDF3 /* pointShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6674752014552ACA0065EDF3 /* pointShader.fsh */; };
-		6674754B14552E540065EDF3 /* pointShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6674752114552ACA0065EDF3 /* pointShader.vsh */; };
-		6674754C14552E540065EDF3 /* simpleShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6674752214552ACA0065EDF3 /* simpleShader.fsh */; };
-		6674754D14552E540065EDF3 /* simpleShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6674752314552ACA0065EDF3 /* simpleShader.vsh */; };
 		6674760114552F0A0065EDF3 /* matrixUtil.c in Sources */ = {isa = PBXBuildFile; fileRef = 6674755114552F0A0065EDF3 /* matrixUtil.c */; };
 		6674760214552F0A0065EDF3 /* vectorUtil.c in Sources */ = {isa = PBXBuildFile; fileRef = 6674755314552F0A0065EDF3 /* vectorUtil.c */; };
 		6674760314552F0A0065EDF3 /* GCContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674755714552F0A0065EDF3 /* GCContext.cpp */; };
@@ -635,6 +641,20 @@
 		6644314D145552AB001847A0 /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
 		6644322314566C03001847A0 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		6644322514566C1B001847A0 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
+		6644322814568A55001847A0 /* z34_a.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = z34_a.dae; sourceTree = "<group>"; };
+		6644322A14568A55001847A0 /* boneShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = boneShader.fsh; sourceTree = "<group>"; };
+		6644322B14568A55001847A0 /* boneShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = boneShader.vsh; sourceTree = "<group>"; };
+		6644322C14568A55001847A0 /* pointShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = pointShader.fsh; sourceTree = "<group>"; };
+		6644322D14568A55001847A0 /* pointShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = pointShader.vsh; sourceTree = "<group>"; };
+		6644322E14568A55001847A0 /* simpleShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simpleShader.fsh; sourceTree = "<group>"; };
+		6644322F14568A55001847A0 /* simpleShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simpleShader.vsh; sourceTree = "<group>"; };
+		6644323114568A55001847A0 /* tap.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tap.mp3; sourceTree = "<group>"; };
+		6644323314568A55001847A0 /* chara_texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chara_texture.png; sourceTree = "<group>"; };
+		6644323414568A55001847A0 /* chara_texture.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chara_texture.txt; sourceTree = "<group>"; };
+		6644323514568A55001847A0 /* gclue_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gclue_logo.png; sourceTree = "<group>"; };
+		6644323614568A55001847A0 /* number.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = number.png; sourceTree = "<group>"; };
+		6644323714568A55001847A0 /* number.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = number.txt; sourceTree = "<group>"; };
+		6644323814568A55001847A0 /* z34_a.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = z34_a.jpg; sourceTree = "<group>"; };
 		667474EB145528DE0065EDF3 /* GCube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GCube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		667474EF145528DE0065EDF3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		667474F1145528DE0065EDF3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -650,14 +670,6 @@
 		6674751314552ACA0065EDF3 /* Scene3D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene3D.h; sourceTree = "<group>"; };
 		6674751414552ACA0065EDF3 /* SceneTitle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneTitle.cpp; sourceTree = "<group>"; };
 		6674751514552ACA0065EDF3 /* SceneTitle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneTitle.h; sourceTree = "<group>"; };
-		6674751B14552ACA0065EDF3 /* chara_texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chara_texture.png; sourceTree = "<group>"; };
-		6674751C14552ACA0065EDF3 /* chara_texture.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = chara_texture.txt; sourceTree = "<group>"; };
-		6674751E14552ACA0065EDF3 /* boneShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = boneShader.fsh; sourceTree = "<group>"; };
-		6674751F14552ACA0065EDF3 /* boneShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = boneShader.vsh; sourceTree = "<group>"; };
-		6674752014552ACA0065EDF3 /* pointShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = pointShader.fsh; sourceTree = "<group>"; };
-		6674752114552ACA0065EDF3 /* pointShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = pointShader.vsh; sourceTree = "<group>"; };
-		6674752214552ACA0065EDF3 /* simpleShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simpleShader.fsh; sourceTree = "<group>"; };
-		6674752314552ACA0065EDF3 /* simpleShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simpleShader.vsh; sourceTree = "<group>"; };
 		6674753414552B2A0065EDF3 /* EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAGLView.h; sourceTree = "<group>"; };
 		6674753514552B2A0065EDF3 /* EAGLView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAGLView.m; sourceTree = "<group>"; };
 		6674753614552B2A0065EDF3 /* GCViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCViewController.h; sourceTree = "<group>"; };
@@ -1385,6 +1397,60 @@
 			path = sse;
 			sourceTree = "<group>";
 		};
+		6644322614568A4F001847A0 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				6644322714568A55001847A0 /* model */,
+				6644322914568A55001847A0 /* shader */,
+				6644323014568A55001847A0 /* sound */,
+				6644323214568A55001847A0 /* texture */,
+			);
+			name = assets;
+			path = ../../../../assets;
+			sourceTree = "<group>";
+		};
+		6644322714568A55001847A0 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				6644322814568A55001847A0 /* z34_a.dae */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		6644322914568A55001847A0 /* shader */ = {
+			isa = PBXGroup;
+			children = (
+				6644322A14568A55001847A0 /* boneShader.fsh */,
+				6644322B14568A55001847A0 /* boneShader.vsh */,
+				6644322C14568A55001847A0 /* pointShader.fsh */,
+				6644322D14568A55001847A0 /* pointShader.vsh */,
+				6644322E14568A55001847A0 /* simpleShader.fsh */,
+				6644322F14568A55001847A0 /* simpleShader.vsh */,
+			);
+			path = shader;
+			sourceTree = "<group>";
+		};
+		6644323014568A55001847A0 /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				6644323114568A55001847A0 /* tap.mp3 */,
+			);
+			path = sound;
+			sourceTree = "<group>";
+		};
+		6644323214568A55001847A0 /* texture */ = {
+			isa = PBXGroup;
+			children = (
+				6644323314568A55001847A0 /* chara_texture.png */,
+				6644323414568A55001847A0 /* chara_texture.txt */,
+				6644323514568A55001847A0 /* gclue_logo.png */,
+				6644323614568A55001847A0 /* number.png */,
+				6644323714568A55001847A0 /* number.txt */,
+				6644323814568A55001847A0 /* z34_a.jpg */,
+			);
+			path = texture;
+			sourceTree = "<group>";
+		};
 		667474E0145528DE0065EDF3 = {
 			isa = PBXGroup;
 			children = (
@@ -1421,8 +1487,7 @@
 				667474FF145528DE0065EDF3 /* GCAppDelegate.m */,
 				6674753314552B2A0065EDF3 /* GCClasses */,
 				6674751014552ACA0065EDF3 /* Classes */,
-				6674751614552ACA0065EDF3 /* Resources */,
-				6674751D14552ACA0065EDF3 /* Shaders */,
+				6644322614568A4F001847A0 /* assets */,
 				667474F6145528DE0065EDF3 /* Supporting Files */,
 			);
 			path = GCube;
@@ -1449,60 +1514,6 @@
 				6674751514552ACA0065EDF3 /* SceneTitle.h */,
 			);
 			path = Classes;
-			sourceTree = "<group>";
-		};
-		6674751614552ACA0065EDF3 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				6674751714552ACA0065EDF3 /* image */,
-				6674751814552ACA0065EDF3 /* model */,
-				6674751914552ACA0065EDF3 /* sound */,
-				6674751A14552ACA0065EDF3 /* texture */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		6674751714552ACA0065EDF3 /* image */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = image;
-			sourceTree = "<group>";
-		};
-		6674751814552ACA0065EDF3 /* model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = model;
-			sourceTree = "<group>";
-		};
-		6674751914552ACA0065EDF3 /* sound */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = sound;
-			sourceTree = "<group>";
-		};
-		6674751A14552ACA0065EDF3 /* texture */ = {
-			isa = PBXGroup;
-			children = (
-				6674751B14552ACA0065EDF3 /* chara_texture.png */,
-				6674751C14552ACA0065EDF3 /* chara_texture.txt */,
-			);
-			path = texture;
-			sourceTree = "<group>";
-		};
-		6674751D14552ACA0065EDF3 /* Shaders */ = {
-			isa = PBXGroup;
-			children = (
-				6674751E14552ACA0065EDF3 /* boneShader.fsh */,
-				6674751F14552ACA0065EDF3 /* boneShader.vsh */,
-				6674752014552ACA0065EDF3 /* pointShader.fsh */,
-				6674752114552ACA0065EDF3 /* pointShader.vsh */,
-				6674752214552ACA0065EDF3 /* simpleShader.fsh */,
-				6674752314552ACA0065EDF3 /* simpleShader.vsh */,
-			);
-			path = Shaders;
 			sourceTree = "<group>";
 		};
 		6674753314552B2A0065EDF3 /* GCClasses */ = {
@@ -1881,17 +1892,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6674754814552E540065EDF3 /* boneShader.fsh in Resources */,
-				6674754914552E540065EDF3 /* boneShader.vsh in Resources */,
-				6674754A14552E540065EDF3 /* pointShader.fsh in Resources */,
-				6674754B14552E540065EDF3 /* pointShader.vsh in Resources */,
-				6674754C14552E540065EDF3 /* simpleShader.fsh in Resources */,
-				6674754D14552E540065EDF3 /* simpleShader.vsh in Resources */,
+				6644323A14568A55001847A0 /* boneShader.fsh in Resources */,
+				6644323B14568A55001847A0 /* boneShader.vsh in Resources */,
+				6644323C14568A55001847A0 /* pointShader.fsh in Resources */,
+				6644323D14568A55001847A0 /* pointShader.vsh in Resources */,
+				6644323E14568A55001847A0 /* simpleShader.fsh in Resources */,
+				6644323F14568A55001847A0 /* simpleShader.vsh in Resources */,
 				667474FA145528DE0065EDF3 /* InfoPlist.strings in Resources */,
-				6674752A14552ACA0065EDF3 /* chara_texture.png in Resources */,
-				6674752B14552ACA0065EDF3 /* chara_texture.txt in Resources */,
 				6674753B14552B2A0065EDF3 /* GCViewController.xib in Resources */,
 				6644321F145552AB001847A0 /* VERSION in Resources */,
+				6644323914568A55001847A0 /* z34_a.dae in Resources */,
+				6644324014568A55001847A0 /* tap.mp3 in Resources */,
+				6644324114568A55001847A0 /* chara_texture.png in Resources */,
+				6644324214568A55001847A0 /* chara_texture.txt in Resources */,
+				6644324314568A55001847A0 /* gclue_logo.png in Resources */,
+				6644324414568A55001847A0 /* number.png in Resources */,
+				6644324514568A55001847A0 /* number.txt in Resources */,
+				6644324614568A55001847A0 /* z34_a.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

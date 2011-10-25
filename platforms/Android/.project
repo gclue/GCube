@@ -114,6 +114,11 @@
 	</natures>
 	<linkedResources>
 		<link>
+			<name>assets</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/assets</locationURI>
+		</link>
+		<link>
 			<name>gcube</name>
 			<type>2</type>
 			<locationURI>gcube</locationURI>
