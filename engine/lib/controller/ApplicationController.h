@@ -33,13 +33,6 @@ class SimpleShader;
 class Camera;
 
 /**
- * シーンID.
- */
-enum SceneID {
-	SceneID_None = 0,		//!< シーンなし
-};
-
-/**
  * アプリケーションコントローラクラス.
  */
 class ApplicationController : public GCContext {
@@ -57,19 +50,23 @@ private:
 	int preSceneID;					//!< 一つ前のシーンID
 	Animation *fadeAnimation;		//!< フェードアニメーション
 
-	static ApplicationController* singleton;
+	static ApplicationController* singleton; //!< 唯一のインスタンス
 
-public:
 	/**
 	 * コンストラクタ.
 	 */
 	ApplicationController();
+	
+public:
 
 	/**
 	 * デストラクタ.
 	 */
 	virtual ~ApplicationController();
-
+	
+	/**
+	 * インスタンス取得.
+	 */
 	static ApplicationController* getInstance() {
 		if (!singleton) {
 			singleton = new ApplicationController();

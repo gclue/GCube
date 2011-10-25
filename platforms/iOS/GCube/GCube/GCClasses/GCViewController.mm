@@ -211,6 +211,37 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
 }
 
 
+#pragma mark - Events
+
+// タッチイベント
+- (void)toucheEvent:(NSSet *)touches withEvent:(UIEvent *)event withType:(int)type {
+	UITouch *touch = [touches anyObject];
+	CGPoint location = [touch locationInView:self.view];
+	if (controller) {
+		controller->onTouch(type, location.x, location.y, touch.timestamp);
+	}
+}
+
+// タッチ開始イベント
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	[self toucheEvent:touches withEvent:event withType:0];
+}
+
+// タッチ移動イベント
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	[self toucheEvent:touches withEvent:event withType:2];
+}
+
+// タッチ終了イベント
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	[self toucheEvent:touches withEvent:event withType:1];
+}
+
+// タッチキャンセルイベント
+//- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+//}
+
+
 #pragma mark - DisplayLink
 
 - (void)drawFrame
@@ -276,6 +307,20 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
         self.displayLink = nil;
         animating = FALSE;
     }
+}
+
+- (void)suspend
+{
+	if (controller) {
+		controller->onPause();
+	}
+}
+
+- (void)resume
+{
+	if (controller) {
+		controller->onResume();
+	}
 }
 
 

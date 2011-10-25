@@ -148,7 +148,8 @@ void SceneTitle::onContextChanged() {
 }
 
 void SceneTitle::onTouch(TouchEvent &event) {
-	if (event.type == touchUp) {
+	LOGD("****SceneTitle::onTouch");
+	if (event.type == touchDown) {
 		Layer2D *layer = (Layer2D *) getLayer(1);
 
 		ImageAnimationView *v = (ImageAnimationView *) layer->findViewByID(10);

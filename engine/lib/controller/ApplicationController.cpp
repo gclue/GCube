@@ -26,8 +26,13 @@
 #include "Log.h"
 #include "SimpleShader.h"
 
+// シーンなし
+#define SceneID_None 0
+
+
 ApplicationController* ApplicationController::singleton = NULL;
 
+// コンストラクタ
 ApplicationController::ApplicationController() {
 	LOGD("***********ApplicationController");
 
@@ -149,6 +154,7 @@ void ApplicationController::resize(int width, int height) {
 	if (activeScene) {
 		activeScene->resize(width, height);
 	}
+	LOGD("***********resize end");
 }
 
 // 一時停止します.
@@ -238,6 +244,7 @@ bool ApplicationController::onPressBackKey() {
 
 // タッチイベント
 void ApplicationController::onTouch(int action, float x, float y, long time) {
+	LOGD("***********onTouch[%d](%f,%f) %d", action, x, y, time);
 	if (activeScene) {
 		x = x * 480.0 / width;
 		y = y * 800.0 / height;

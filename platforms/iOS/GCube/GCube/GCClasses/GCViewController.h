@@ -44,5 +44,7 @@
 
 - (void)startAnimation;
 - (void)stopAnimation;
+- (void)suspend;
+- (void)resume;
 
 @end
