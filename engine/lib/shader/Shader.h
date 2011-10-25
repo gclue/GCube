@@ -20,15 +20,15 @@
  * THE SOFTWARE.
  */
 
-#ifndef GL_RENDERER_H
-#define GL_RENDERER_H
+#ifndef GCube_Shader_h
+#define GCube_Shader_h
 
 #include "glcommon.h"
 
 /**
- * OpenGLES2.0のレンダリングを行う為の基底クラス.
+ * OpenGLES2.0のシェーダを扱う為の基底クラス.
  */
-class ES2Renderer {
+class Shader {
 private:
 	/**
 	 * Shaderのプログラムをコンパイルし、バインドしたプログラムを返却します.
@@ -37,7 +37,7 @@ private:
 	 * @return プログラム
 	 */
 	GLuint compileShaderFromFile(GLenum shaderType, const char* fileName);
-
+	
 	/**
 	 * Shaderをファイルから読み込みコンパイルします.
 	 * @param shaderType シェーダタイプ(GL_VERTEX_SHADER or GL_FRAGMENT_SHADER)
@@ -45,7 +45,7 @@ private:
 	 * @return Shaderをコンパイルした後のID
 	 */
 	GLuint compileShader(GLenum shaderType, const char* fileName);
-
+	
 	/**
 	 * シェーダからprogramを作成します.
 	 * @param vertShader 頂点シェーダ
@@ -55,28 +55,26 @@ private:
 	 * @return program
 	 */
 	GLuint createProgram(GLuint vertShader, GLuint fragShader, const char* name, int user);
-
+	
 	/**
 	 * プログラムをリンクします.
 	 * @param prog リンクするプログラム
 	 * @return
 	 */
 	bool linkProgram(GLuint prog);
-
+	
 public:
-	int width;			//!< 画面の横幅
-	int height;			//!< 画面の縦幅
-
+	
 	/**
 	 * コンストラクタ.
 	 */
-	ES2Renderer();
-
+	Shader();
+	
 	/**
 	 * デストラクタ.
 	 */
-	virtual ~ES2Renderer();
-
+	virtual ~Shader();
+	
 	/**
 	 * 指定された名前のシェーダを読み込み、Programを作成します.
 	 * <br><br>
@@ -85,7 +83,7 @@ public:
 	 * @return ProgramのIDを返却します。シェーダの読み込みに失敗した場合にはNULLを返却します。
 	 */
 	GLuint loadShader(const char* name, int user);
-
+	
 	/**
 	 * 指定されたVertexShaderのソースとFragmentShaderのソースからProgramを作成します.
 	 * @param vertexShader 頂点シェーダ
@@ -94,7 +92,7 @@ public:
 	 * @return Program
 	 */
 	GLuint loadShader(const char* vertexShader, const char* fragmentShader, int user);
-
+	
 	/**
 	 * 指定されたprogramに合うシェーダのAttributeのバインド処理を行ってください.
 	 * <br><br>
@@ -107,7 +105,7 @@ public:
 	 * @param[in] user 識別ID
 	 */
 	virtual void bindAttribute(GLuint program, const char *name, int user) = 0;
-
+	
 	/**
 	 * 指定されたprogrameに合うシェーダのUniformを取得します.
 	 * <br><br>
@@ -122,4 +120,4 @@ public:
 	virtual void getUniform(GLuint program, const char *name, int user) = 0;
 };
 
-#endif // end of GL_RENDERER_H
+#endif

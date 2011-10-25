@@ -30,10 +30,10 @@
 #define POINTSPRITESHADER_H_
 
 #include "Camera.h"
-#include "ES2Renderer.h"
+#include "Shader.h"
 #include "Figure.h"
 
-class PointSpriteShader : public ES2Renderer {
+class PointSpriteShader : public Shader {
 private:
 	GLuint gProgram;	//!< プログラム
 	float baseAlpha;	//!< 基準透明度

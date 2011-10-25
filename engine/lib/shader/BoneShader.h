@@ -25,13 +25,13 @@
 
 #include "glcommon.h"
 #include "Camera.h"
-#include "ES2Renderer.h"
+#include "Shader.h"
 #include "Figure.h"
 
 /**
  * ボーンアニメーションシェーダークラス.
  */
-class BoneShader : public ES2Renderer {
+class BoneShader : public Shader {
 private:
 	GLuint gProgram;	//!< プログラム
 	int texname;		//!< 使用しているtextureのID

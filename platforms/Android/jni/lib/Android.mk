@@ -9,7 +9,6 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    math/Oscillator.cpp \
                    gl/Camera.cpp \
                    gl/Figure.cpp \
-                   gl/ES2Renderer.cpp \
                    gl/Texture.cpp \
                    gl/SharedTexture.cpp \
                    gl/PackerTexture.cpp \
@@ -41,6 +40,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    scene/Scene.cpp \
                    scene/Layer2D.cpp \
                    scene/Layer3D.cpp \
+                   shader/Shader.cpp \
                    shader/SimpleShader.cpp \
                    shader/PointSpriteShader.cpp \
                    shader/BoneShader.cpp \

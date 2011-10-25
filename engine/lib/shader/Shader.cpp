@@ -20,38 +20,38 @@
  * THE SOFTWARE.
  */
 
-#include "ES2Renderer.h"
+#include "Shader.h"
 #include "AssetManager.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-ES2Renderer::ES2Renderer() {
+Shader::Shader() {
 }
 
-ES2Renderer::~ES2Renderer() {
+Shader::~Shader() {
 }
 
-GLuint ES2Renderer::loadShader(const char* vertexShader, const char* fragmentShader, int user) {
+GLuint Shader::loadShader(const char* vertexShader, const char* fragmentShader, int user) {
 	GLuint vertShader = NULL;
 	GLuint fragShader = NULL;
-
+	
 	// 頂点(Vertex)シェーダ
 	vertShader = compileShader(GL_VERTEX_SHADER, vertexShader);
 	if (!vertShader) {
 		LOGE("Failed to compile vertex shader");
 		goto ERROR;
 	}
-
+	
 	// ピクセル(Fragment)シェーダ
 	fragShader = compileShader(GL_FRAGMENT_SHADER, fragmentShader);
 	if (!fragShader) {
 		LOGE("Failed to compile fragment shader");
 		goto ERROR;
 	}
-
+	
 	// Create shader program
 	return createProgram(vertShader, fragShader, "abc", user);
-
+	
 ERROR:	// エラー時の処理
 	if (vertShader) {
 		glDeleteShader(vertShader);
@@ -64,13 +64,13 @@ ERROR:	// エラー時の処理
 	return NULL;
 }
 
-GLuint ES2Renderer::loadShader(const char* name, int user) {
+GLuint Shader::loadShader(const char* name, int user) {
 	GLuint vertShader = NULL;
 	GLuint fragShader = NULL;
-//	GLuint program = NULL;
-
+	//	GLuint program = NULL;
+	
 	char fileName[512];
-
+	
 	// 頂点(Vertex)シェーダ
 	sprintf(fileName, "%s.vsh", name);
 	vertShader = compileShaderFromFile(GL_VERTEX_SHADER, fileName);
@@ -78,7 +78,7 @@ GLuint ES2Renderer::loadShader(const char* name, int user) {
 		LOGE("Failed to compile vertex shader");
 		goto ERROR;
 	}
-
+	
 	// ピクセル(Fragment)シェーダ
 	sprintf(fileName, "%s.fsh", name);
 	fragShader = compileShaderFromFile(GL_FRAGMENT_SHADER, fileName);
@@ -86,9 +86,9 @@ GLuint ES2Renderer::loadShader(const char* name, int user) {
 		LOGE("Failed to compile fragment shader");
 		goto ERROR;
 	}
-
+	
 	return createProgram(vertShader, fragShader, name, user);
-
+	
 ERROR:	// エラー時の処理
 	if (vertShader) {
 		glDeleteShader(vertShader);
@@ -108,31 +108,31 @@ ERROR:	// エラー時の処理
 ///
 ////////////////////////////////////////////////////////////////
 
-GLuint ES2Renderer::createProgram(GLuint vertShader, GLuint fragShader, const char* name, int user) {
+GLuint Shader::createProgram(GLuint vertShader, GLuint fragShader, const char* name, int user) {
 	GLuint program = NULL;
-
+	
 	// Create shader program
 	program = glCreateProgram();
 	// Attach vertex shader to program
 	glAttachShader(program, vertShader);
 	// Attach fragment shader to program
 	glAttachShader(program, fragShader);
-
+	
 	// attributeを設定
 	// この関数は、virtual関数なので、継承したクラスの
 	// メソッドを実行します。
 	bindAttribute(program, name, user);
-
+	
 	// Link program
 	if (!linkProgram(program)) {
 		goto ERROR;
 	}
-
+	
 	// Get uniform locations
 	// この関数は、virtual関数なので、継承したクラスの
 	// メソッドを実行します。
 	getUniform(program, name, user);
-
+	
 	// 後始末
 	if (vertShader) {
 		glDeleteShader(vertShader);
@@ -141,7 +141,7 @@ GLuint ES2Renderer::createProgram(GLuint vertShader, GLuint fragShader, const ch
 		glDeleteShader(fragShader);
 	}
 	return program;
-
+	
 ERROR:	// エラー時の処理
 	if (vertShader) {
 		glDeleteShader(vertShader);
@@ -158,7 +158,7 @@ ERROR:	// エラー時の処理
 	return NULL;
 }
 
-GLuint ES2Renderer::compileShaderFromFile(GLenum shaderType, const char* fileName) {
+GLuint Shader::compileShaderFromFile(GLenum shaderType, const char* fileName) {
 	// assetからファイルの読み込み
 	AssetManager mgr = AssetManager::getInstance();
 	std::vector<char> *fdata = mgr.open(fileName);
@@ -170,16 +170,16 @@ GLuint ES2Renderer::compileShaderFromFile(GLenum shaderType, const char* fileNam
     
     // ログ
     LOGD("[%s]:\n%s\n", fileName, data);
-
+	
 	// シェーダのコンパイル処理
 	GLint status;
 	GLuint shader = glCreateShader(shaderType);
 	glShaderSource(shader, 1, &data, NULL);
 	glCompileShader(shader);
-
+	
 	// メモリを解放
 	delete fdata;
-
+	
 	// コンパイル結果を取得
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 	if (status == 0) {
@@ -192,13 +192,13 @@ GLuint ES2Renderer::compileShaderFromFile(GLenum shaderType, const char* fileNam
 }
 
 
-GLuint ES2Renderer::compileShader(GLenum shaderType, const char* source) {
+GLuint Shader::compileShader(GLenum shaderType, const char* source) {
 	// シェーダのコンパイル処理
 	GLint status;
 	GLuint shader = glCreateShader(shaderType);
 	glShaderSource(shader, 1, &source, NULL);
 	glCompileShader(shader);
-
+	
 	// コンパイル結果を取得
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 	if (status == 0) {
@@ -210,7 +210,7 @@ GLuint ES2Renderer::compileShader(GLenum shaderType, const char* source) {
 	return shader;
 }
 
-bool ES2Renderer::linkProgram(GLuint prog) {
+bool Shader::linkProgram(GLuint prog) {
 	GLint status;
 	// プログラムをリンク
 	glLinkProgram(prog);

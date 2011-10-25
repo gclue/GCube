@@ -24,13 +24,13 @@
 #define SIMPLESHADER_H_
 
 #include "Camera.h"
-#include "ES2Renderer.h"
+#include "Shader.h"
 #include "Figure.h"
 
 /**
  * シェーダークラス.
  */
-class SimpleShader : public ES2Renderer {
+class SimpleShader : public Shader {
 private:
 	GLuint gProgram;	//!< プログラム
 	float baseAlpha;	//!< 基準透明度

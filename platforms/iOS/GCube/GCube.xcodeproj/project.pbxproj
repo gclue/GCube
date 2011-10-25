@@ -152,6 +152,7 @@
 		6644321D145552AB001847A0 /* btQuickprof.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66443132145552AB001847A0 /* btQuickprof.cpp */; };
 		6644321E145552AB001847A0 /* btSerializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66443136145552AB001847A0 /* btSerializer.cpp */; };
 		6644321F145552AB001847A0 /* VERSION in Resources */ = {isa = PBXBuildFile; fileRef = 6644314D145552AB001847A0 /* VERSION */; };
+		6644322414566C04001847A0 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6644322314566C03001847A0 /* Shader.cpp */; };
 		667474F0145528DE0065EDF3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667474EF145528DE0065EDF3 /* UIKit.framework */; };
 		667474F2145528DE0065EDF3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667474F1145528DE0065EDF3 /* Foundation.framework */; };
 		667474F4145528DE0065EDF3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667474F3145528DE0065EDF3 /* CoreGraphics.framework */; };
@@ -199,7 +200,6 @@
 		6674761714552F0A0065EDF3 /* TechniqueCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674758114552F0A0065EDF3 /* TechniqueCommon.cpp */; };
 		6674761814552F0A0065EDF3 /* Triangles.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674758314552F0A0065EDF3 /* Triangles.cpp */; };
 		6674761914552F0A0065EDF3 /* Vertices.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674758514552F0A0065EDF3 /* Vertices.cpp */; };
-		6674761A14552F0A0065EDF3 /* ES2Renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674758714552F0A0065EDF3 /* ES2Renderer.cpp */; };
 		6674761B14552F0A0065EDF3 /* Figure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674758914552F0A0065EDF3 /* Figure.cpp */; };
 		6674761C14552F0A0065EDF3 /* Joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674758C14552F0A0065EDF3 /* Joint.cpp */; };
 		6674761D14552F0A0065EDF3 /* WFObjLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6674758F14552F0A0065EDF3 /* WFObjLoader.cpp */; };
@@ -633,6 +633,8 @@
 		6644314B145552AB001847A0 /* vectormath_aos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vectormath_aos.h; sourceTree = "<group>"; };
 		6644314C145552AB001847A0 /* vmInclude.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vmInclude.h; sourceTree = "<group>"; };
 		6644314D145552AB001847A0 /* VERSION */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VERSION; sourceTree = "<group>"; };
+		6644322314566C03001847A0 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
+		6644322514566C1B001847A0 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		667474EB145528DE0065EDF3 /* GCube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GCube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		667474EF145528DE0065EDF3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		667474F1145528DE0065EDF3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -713,8 +715,6 @@
 		6674758414552F0A0065EDF3 /* Triangles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Triangles.h; sourceTree = "<group>"; };
 		6674758514552F0A0065EDF3 /* Vertices.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vertices.cpp; sourceTree = "<group>"; };
 		6674758614552F0A0065EDF3 /* Vertices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vertices.h; sourceTree = "<group>"; };
-		6674758714552F0A0065EDF3 /* ES2Renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ES2Renderer.cpp; sourceTree = "<group>"; };
-		6674758814552F0A0065EDF3 /* ES2Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ES2Renderer.h; sourceTree = "<group>"; };
 		6674758914552F0A0065EDF3 /* Figure.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Figure.cpp; sourceTree = "<group>"; };
 		6674758A14552F0A0065EDF3 /* Figure.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Figure.h; sourceTree = "<group>"; };
 		6674758B14552F0A0065EDF3 /* glcommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glcommon.h; sourceTree = "<group>"; };
@@ -1587,8 +1587,6 @@
 				6674758E14552F0A0065EDF3 /* loader */,
 				6674755E14552F0A0065EDF3 /* Camera.cpp */,
 				6674755F14552F0A0065EDF3 /* Camera.h */,
-				6674758714552F0A0065EDF3 /* ES2Renderer.cpp */,
-				6674758814552F0A0065EDF3 /* ES2Renderer.h */,
 				6674758914552F0A0065EDF3 /* Figure.cpp */,
 				6674758A14552F0A0065EDF3 /* Figure.h */,
 				6674758B14552F0A0065EDF3 /* glcommon.h */,
@@ -1709,6 +1707,8 @@
 				667475B314552F0A0065EDF3 /* PointSpriteShader.h */,
 				667475B414552F0A0065EDF3 /* SimpleShader.cpp */,
 				667475B514552F0A0065EDF3 /* SimpleShader.h */,
+				6644322314566C03001847A0 /* Shader.cpp */,
+				6644322514566C1B001847A0 /* Shader.h */,
 			);
 			path = shader;
 			sourceTree = "<group>";
@@ -1934,7 +1934,6 @@
 				6674761714552F0A0065EDF3 /* TechniqueCommon.cpp in Sources */,
 				6674761814552F0A0065EDF3 /* Triangles.cpp in Sources */,
 				6674761914552F0A0065EDF3 /* Vertices.cpp in Sources */,
-				6674761A14552F0A0065EDF3 /* ES2Renderer.cpp in Sources */,
 				6674761B14552F0A0065EDF3 /* Figure.cpp in Sources */,
 				6674761C14552F0A0065EDF3 /* Joint.cpp in Sources */,
 				6674761D14552F0A0065EDF3 /* WFObjLoader.cpp in Sources */,
@@ -2124,6 +2123,7 @@
 				6644321C145552AB001847A0 /* btGeometryUtil.cpp in Sources */,
 				6644321D145552AB001847A0 /* btQuickprof.cpp in Sources */,
 				6644321E145552AB001847A0 /* btSerializer.cpp in Sources */,
+				6644322414566C04001847A0 /* Shader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
