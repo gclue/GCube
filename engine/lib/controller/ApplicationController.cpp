@@ -29,7 +29,7 @@
 // シーンなし
 #define SceneID_None 0
 
-
+// インスタンス初期化
 ApplicationController* ApplicationController::singleton = NULL;
 
 // コンストラクタ
@@ -62,6 +62,7 @@ ApplicationController::ApplicationController() {
 	blue = 0.5f;
 }
 
+// デストラクタ
 ApplicationController::~ApplicationController() {
 	LOGD("***********~ApplicationController");
 
@@ -104,6 +105,7 @@ void ApplicationController::backScene() {
 	preSceneID = SceneID_None;
 }
 
+// 背景色を設定
 void ApplicationController::setBackgroundColor(float r, float g, float b) {
 	red = r;
 	green = g;
@@ -230,6 +232,7 @@ void ApplicationController::step(float dt) {
 	int e = glGetError();
 	if (e > 0) {
 		LOGE("glGetError:%d", e);
+		exit(1);
 	}
 }
 
@@ -246,16 +249,10 @@ bool ApplicationController::onPressBackKey() {
 void ApplicationController::onTouch(int action, float x, float y, long time) {
 	LOGD("***********onTouch[%d](%f,%f) %d", action, x, y, time);
 	if (activeScene) {
-		x = x * 480.0 / width;
-		y = y * 800.0 / height;
-
-		Pointf p;
-		p.x = (x / 240.0) - 1.0;
-		p.y = (((-y) / 400.0) + 1.0) / aspect;
 		TouchEvent event;
 		event.type = action;
-		event.x = p.x;
-		event.y = p.y;
+		event.x = x / width * 2.0 - 1.0;
+		event.y = -(y / height * 2.0 - 1.0) / aspect;
 		event.time = time;
 		activeScene->onTouch(event);
 	}
@@ -271,7 +268,7 @@ void ApplicationController::onMoveSenser(double sensor) {
 	}
 }
 
-// Javaからのイベント
+// ゲームイベント
 void ApplicationController::onGameEvent(int type, int param1, int param2, int param3, int param4, const char *param5) {
 	LOGD("***********onGameEvent:%d,%d,%d,%d,%d,%s",type, param1, param2, param3, param4, param5);
 	if (activeScene) {

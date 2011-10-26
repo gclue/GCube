@@ -35,7 +35,8 @@
 #include "Figure.h"
 #include "Texture.h"
 
-static ApplicationController *controller;
+// コントローラーインスタンス
+static ApplicationController *controller = NULL;
 
 /**
  * Figureを読み込みます.

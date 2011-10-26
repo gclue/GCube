@@ -139,7 +139,7 @@ public:
 	void onMoveSenser(double sensor);
 
 	/**
-	 * Javaからのイベントを処理します.
+	 * ゲームイベントを処理します.
 	 * @param[in] type イベントタイプ
 	 * @param[in] param1 イベントパラメータ
 	 * @param[in] param2 イベントパラメータ
