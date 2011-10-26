@@ -59,5 +59,7 @@ void Texture::clamp() {
 }
 
 void Texture::reload() {
-	GCLoadTexture(this, filename.c_str());
+	if (!GCLoadTexture(this, filename.c_str())) {
+		LOGD("***********ERROR*Texture::reload**********");
+	}
 }

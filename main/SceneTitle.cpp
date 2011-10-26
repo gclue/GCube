@@ -30,28 +30,18 @@
 #include "ImageAnimationView.h"
 #include "ViewGroup.h"
 #include "Layer2D.h"
+#include "PrimitiveObjectBuilder.h"
 
 SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	LOGD("****SceneTitle");
 	// アクティブフラグをOFF
 	activeflg = false;
 	index = 0;
-	setup();
-}
+//	setup();
+	fig = createPlate(0.5, 0.5);
+	fig->build();
 
-SceneTitle::~SceneTitle() {
-	LOGD("****~SceneTitle");
-}
-
-//////////////////////////////////////////////////////////
-// IScene の実装
-//////////////////////////////////////////////////////////
-
-// セットアップ処理を行います.
-void SceneTitle::setup() {
-	LOGD("****SceneTitle::setup");
-
-	TextureManager *mgr = controller->getTextureManager();
+	TextureManager *mgr = controller->texMgr;
 
 	SharedTexture *tex = mgr->getSharedTexture(
 			"texture/chara_texture.png",
@@ -98,9 +88,9 @@ void SceneTitle::setup() {
 	animView->setAnimationFrameIndex(1);
 	animView->setUserID(10);
 	
-	animView->setPosition(0.5, 0.5);
-	animView->setRotate(30);
-	animView->setScale(1.5, 1.5);
+//	animView->setPosition(0.5, 0.5);
+//	animView->setRotate(30);
+//	animView->setScale(1.5, 1.5);
 
 	root->addView(animView);
 
@@ -108,6 +98,20 @@ void SceneTitle::setup() {
 	layer->setContentView(root);
 
 	addLayer(1, layer);
+}
+
+SceneTitle::~SceneTitle() {
+	LOGD("****~SceneTitle");
+}
+
+//////////////////////////////////////////////////////////
+// IScene の実装
+//////////////////////////////////////////////////////////
+
+// セットアップ処理を行います.
+void SceneTitle::setup() {
+	LOGD("****SceneTitle::setup");
+
 
 	LOGD("****SceneTitle::setup end");
 }
@@ -145,6 +149,8 @@ void SceneTitle::onEnd() {
 // コンテキストが切り替わったことを通知します.
 void SceneTitle::onContextChanged() {
 	LOGD("****SceneTitle::onContextChanged");
+	fig->destroy();
+	fig->build();
 }
 
 void SceneTitle::onTouch(TouchEvent &event) {

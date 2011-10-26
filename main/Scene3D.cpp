@@ -130,6 +130,7 @@ void Scene3D::setup() {
 	//	fig->transForm->rotate(20, RotateDirY);
 	
 	fig2->build();
+	fig2->transForm->loadIdentity();
 	fig2->transForm->translate(1.5,0,0);
 }
 
@@ -231,7 +232,15 @@ void Scene3D::onEnd() {
 
 // コンテキストが切り替わったことを通知します.
 void Scene3D::onContextChanged() {
-	
+	LOGD("****Scene3D::onContextChanged");
+//	this->setup();
+	fig->destroy();
+	fig2->destroy();
+	fig->build();
+	fig2->build();
+//	fig = new Figure();
+//	fig2 = createBox(0.5, 0.5, 0.5);
+	shader = new BoneShader();
 }
 
 // バックキーイベント

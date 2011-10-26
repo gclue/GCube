@@ -29,6 +29,7 @@
 class Camera;
 class TitleRenderer;
 class SimpleShader;
+class Figure;
 
 /**
  * タイトルシーンクラス.
@@ -36,6 +37,7 @@ class SimpleShader;
 class SceneTitle : public Scene {
 private:
 	int index;
+	Figure *fig;
 public:
 	/**
 	 * コンストラクタ.

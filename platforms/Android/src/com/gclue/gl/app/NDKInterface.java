@@ -57,7 +57,7 @@ public class NDKInterface {
 	/**
 	 * デバック用タグを定義します.
 	 */
-	private static final String TAG = "GLLibrary";
+	private static final String TAG = "GCube";
 	
 	//////////////////////////////////////////////////////////////////////////////
 	// サウンドイベント

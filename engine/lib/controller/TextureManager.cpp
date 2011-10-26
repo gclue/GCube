@@ -116,7 +116,10 @@ void TextureManager::deleteTexture(const char *name) {
 }
 
 void TextureManager::reload() {
-
+	for (int i = 0; i < cache.size(); i++) {
+		TextureObj *obj = cache.at(i);
+		obj->packTex->reload();
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////

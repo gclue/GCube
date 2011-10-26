@@ -37,31 +37,25 @@ class TextureManager;
  * GCubeで使用されるコンテキスト.
  */
 class GCContext {
+protected:
+	int width;				//!< 画面の横幅
+	int height;				//!< 画面の縦幅
+	float aspect;			//!< 画面のアスペクト比
+
 public:
 	Camera *camera;			//!< カメラ (UIライブラリなどで使用する)
 	SimpleShader *shader;	//!< シェーダ (UIライブラリなどで使用する)
 	TextureManager *texMgr;	//!< テクスチャ管理クラス
-	int width;				//!< 画面の横幅
-	int height;				//!< 画面の縦幅
-	float aspect;			//!< 画面のアスペクト比
 	void *userObj;			//!< ユーザデータ
 
 	/** コンストラクタ. */
 	GCContext();
+
 	/** デストラクタ. */
 	virtual ~GCContext();
 
-	/**
-	 * ユーザデータを設定します.
-	 * @param obj ユーザデータ
-	 */
-	void setUserObj(void* obj);
-
-	/**
-	 * ユーザデータを取得します.
-	 * @return ユーザデータ
-	 */
-	void* getUserObj();
+	/** セットアップ. */
+	void setupContext();
 
 	int getWidth() {
 		return width;
@@ -75,21 +69,6 @@ public:
 		return aspect;
 	}
 
-	Camera* getCamera() {
-		return camera;
-	}
-
-	SimpleShader *getShader() {
-		return shader;
-	}
-
-	/**
-	 * テクスチャ管理クラスを取得します.
-	 * @return TextureManagerのインスタンス
-	 */
-	TextureManager* getTextureManager() {
-		return texMgr;
-	}
 };
 
 #endif /* AECONTEXT_H_ */

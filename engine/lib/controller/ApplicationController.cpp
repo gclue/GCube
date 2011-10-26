@@ -116,9 +116,8 @@ void ApplicationController::setBackgroundColor(float r, float g, float b) {
 void ApplicationController::resetup() {
 	LOGD("***********resetup");
 
-	// シェーダー再準備
-	delete shader;
-	shader = new SimpleShader();
+	// コンテキスト再構成
+	this->setupContext();
 
 	// 各シーン
 	std::map<int, IScene*>::iterator it = scenes.begin();

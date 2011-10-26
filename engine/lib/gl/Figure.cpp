@@ -151,9 +151,9 @@ void Figure::bind() {
 // ビルド
 void Figure::build() {
 	// ビルド済みの場合は無視
-	if (vaoName) {
-		return;
-	}
+//	if (vaoName) {
+//		return;
+//	}
 
 	// Create a vertex array object (VAO)
 #ifdef USE_VAO

@@ -33,15 +33,13 @@
 #include "defines.h"
 
 GCContext::GCContext() {
-	// シンプルなシェーダの初期化
-	shader = new SimpleShader();
-
 	// カメラの初期化
 	camera = new Camera();
 	camera->loadOrthographic(true);
 	camera->transForm.translate(0, 0, 100);
 
-	// テクスチャ管理クラスの初期化
+	// 初期化
+	shader = new SimpleShader();
 	texMgr = new TextureManager();
 }
 
@@ -51,10 +49,11 @@ GCContext::~GCContext() {
 	DELETE(texMgr);
 }
 
-void GCContext::setUserObj(void* obj) {
-	this->userObj = obj;
+void GCContext::setupContext() {
+	// シンプルなシェーダの初期化
+	delete shader;
+	shader = new SimpleShader();
+	// テクスチャマネージャーの初期化
+	texMgr->reload();
 }
 
-void* GCContext::getUserObj() {
-	return userObj;
-}

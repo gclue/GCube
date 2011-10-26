@@ -462,24 +462,24 @@ Java_com_gclue_gl_JNILib_init(
 		JNIEnv * env, jobject obj, jint width, jint height) {
 	LOGD("Java_com_gclue_gl_JNILib_init");
 
-	DELETE(controller);
-	controller = ApplicationController::getInstance();
-	controller->resize(width, height);
-	controller->resetup();
-	GCInitApplicationController(controller);
-	return true;
+//	DELETE(controller);
+//	controller = ApplicationController::getInstance();
+//	controller->resize(width, height);
+//	controller->resetup();
+//	GCInitApplicationController(controller);
+//	return true;
 
-	//	//メインクラスの作成します.
-//	if (!controller) {
-//		controller = ApplicationController::getInstance();
-//		controller->resize(width, height);
-//		controller->resetup();
-//		JNIInitApplicationController(controller);
-//		return true;
-//	} else {
-//		controller->resetup();
-//		return true;
-//	}
+	// メインクラスの作成します.
+	if (!controller) {
+		controller = ApplicationController::getInstance();
+		controller->resize(width, height);
+		controller->resetup();
+		GCInitApplicationController(controller);
+		return true;
+	} else {
+		controller->resetup();
+		return true;
+	}
 }
 
 /**

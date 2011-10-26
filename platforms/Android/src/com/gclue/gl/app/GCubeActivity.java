@@ -46,7 +46,7 @@ public class GCubeActivity extends Activity {
 	 */
 	public static final boolean DEBUG = true;
 	/** デバック用タグ. */
-	public static final String TAG = "GLLibrary";
+	public static final String TAG = "GCube";
 	
 	/** GLの描画を行うView. */
 	private GCGLSurfaceView view;
