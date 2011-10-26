@@ -36,10 +36,16 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	LOGD("****SceneTitle");
 	// アクティブフラグをOFF
 	activeflg = false;
+	
 	index = 0;
-//	setup();
-	fig = createPlate(0.5, 0.5);
+	
+	// カメラ
+	bcamera = new Camera();
+	
+	fig = createBox(0.5, 0.5, 0.5);
 	fig->build();
+	bshader = new BoneShader();
+
 
 	TextureManager *mgr = controller->texMgr;
 
@@ -88,9 +94,9 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	animView->setAnimationFrameIndex(1);
 	animView->setUserID(10);
 	
-//	animView->setPosition(0.5, 0.5);
-//	animView->setRotate(30);
-//	animView->setScale(1.5, 1.5);
+	animView->setPosition(0.5, 0.5);
+	animView->setRotate(30);
+	animView->setScale(1.5, 1.5);
 
 	root->addView(animView);
 
@@ -108,52 +114,78 @@ SceneTitle::~SceneTitle() {
 // IScene の実装
 //////////////////////////////////////////////////////////
 
+// ステップ実行します
+void SceneTitle::step(float dt) {
+	super::step(dt);
+	
+	
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	
+	bshader->useProgram();
+	bshader->setNormalMatrix(fig->transForm);
+	bshader->setMVPMatrix(bcamera, fig->transForm);
+	fig->bind();
+	fig->draw();
+}
+
 // セットアップ処理を行います.
 void SceneTitle::setup() {
+	super::setup();
 	LOGD("****SceneTitle::setup");
-
-
-	LOGD("****SceneTitle::setup end");
 }
 
 // リサイズ
 void SceneTitle::resize(int width, int height) {
+	super::resize(width, height);
 	LOGD("****SceneTitle::resize:%d-%d", width, height);
-
-	LOGD("****SceneTitle::resize end");
+	bcamera->fieldOfView = 80;
+	bcamera->loadPerspective();
+	Vector3D eye = Vector3D(3,4,-5);
+	Vector3D at = Vector3D(0,0,0);
+	bcamera->transForm.lookAt(&eye, &at);
 }
 
 // 活性化します.
 void SceneTitle::onActivate() {
+	super::onActivate();
 	LOGD("****SceneTitle::onActivate");
 	activeflg = true;
 }
 
 // 休止します.
 void SceneTitle::onSuspend() {
+	super::onSuspend();
 	LOGD("****SceneTitle::onSuspend");
 	activeflg = false;
 }
 
 // 活性化してシーンが切り替え終わったこと通知します.
 void SceneTitle::onStart() {
+	super::onStart();
 	LOGD("****SceneTitle::onStart");
 
 }
 
 // 非活性化してシーンが切り替え終わったこと通知します.
 void SceneTitle::onEnd() {
+	super::onEnd();
 	LOGD("****SceneTitle::onEnd");
 }
 
 // コンテキストが切り替わったことを通知します.
 void SceneTitle::onContextChanged() {
+	super::onContextChanged();
 	LOGD("****SceneTitle::onContextChanged");
+	delete bshader;
+	bshader = new BoneShader();
 	fig->destroy();
 	fig->build();
 }
 
 void SceneTitle::onTouch(TouchEvent &event) {
+	super::onTouch(event);
 	LOGD("****SceneTitle::onTouch");
 	if (event.type == touchDown) {
 		Layer2D *layer = (Layer2D *) getLayer(1);
@@ -164,5 +196,6 @@ void SceneTitle::onTouch(TouchEvent &event) {
 			index %= 4;
 			v->setAnimationFrameIndex(index + 1);
 		}
+		controller->sceneChange(2);
 	}
 }

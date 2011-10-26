@@ -37,14 +37,10 @@ Scene3D::Scene3D(ApplicationController *controller) : IScene(controller) {
 	camera = new Camera();
 	camera->fieldOfView = 80;
 	camera->loadPerspective();
-	//	camera->transForm.translate(0, 0, 8);
 	Vector3D eye = Vector3D(0,0,8);
 	Vector3D at = Vector3D(0,0,0);
 	Vector3D up = Vector3D(0,1,0);
 	camera->transForm.lookAt(&eye, &at, &up);
-	
-	//    camera->transForm.rotate(30, 1.0f, 0, 0);
-    //	camera->transForm.rotate(30, RotateDirX);
 	
 	fig = new Figure();
 	fig2 = createBox(0.5, 0.5, 0.5);
@@ -252,6 +248,7 @@ bool Scene3D::onPressBackKey() {
 // タッチイベント
 void Scene3D::onTouch(TouchEvent &event) {
 	LOGD("****Scene3D::onTouch:%.1f-%.1f", event.x, event.y);
+	controller->sceneChange(1);
 }
 
 // 加速度センサー

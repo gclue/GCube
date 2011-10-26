@@ -28,6 +28,7 @@ enum {
 	UNIFORM_MODELVIEW_MATRIX,				//!< モデルのマトリクス変数へのユニフォーム
 	UNIFORM_TEXTURE_BASE,					//!< テクスチャへのユニフォーム
 	UNIFORM_NORMAL_MATRIX,					//!< 法線マトリックス
+	UNIFORM_USE_SKINNING,					//!< スキニングを使用するフラグ
 	UNIFORM_SKINNING_MATRIX,				//!< スキニングマトリクスのユニフォーム
 	NUM_UNIFORMS							//!< ユニフォーム数
 };
@@ -74,6 +75,7 @@ void BoneShader::setSkinningMatrix(Matrix3D **matrix, int len) {
 	for (int i = 0; i < len; ++i) {
 		matrix[i]->getElements(&mtx[16*i]);
 	}
+	glUniform1i(uniforms[UNIFORM_USE_SKINNING], 1);
 	glUniformMatrix4fv(uniforms[UNIFORM_SKINNING_MATRIX], len, GL_FALSE, mtx);
 }
 
@@ -88,9 +90,6 @@ void BoneShader::bindAttribute(GLuint program, const char *name, int user) {
 	glBindAttribLocation(program, ATTRIB_TEXCOORD, "a_texcoord");
 	glBindAttribLocation(program, ATTRIB_NORMAL, "a_normal");
 	glBindAttribLocation(program, ATTRIB_JOINTS, "a_joints");
-//	glBindAttribLocation(program, ATTRIB_JOINT_2, "a_joint_2");
-//	glBindAttribLocation(program, ATTRIB_WEIGHT_1, "a_weight_1");
-//	glBindAttribLocation(program, ATTRIB_WEIGHT_2, "a_weight_2");
 }
 
 void BoneShader::getUniform(GLuint program, const char *name, int user) {
@@ -99,5 +98,6 @@ void BoneShader::getUniform(GLuint program, const char *name, int user) {
 	uniforms[UNIFORM_TEXTURE_BASE] = glGetUniformLocation(program, "u_diffuseTexture");
 	uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(program, "u_nMatrix");
 	uniforms[UNIFORM_SKINNING_MATRIX] = glGetUniformLocation(program, "u_skinningMatrix");
+	uniforms[UNIFORM_USE_SKINNING] = glGetUniformLocation(program, "u_useSkinning");
 }
 

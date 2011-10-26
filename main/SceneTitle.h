@@ -23,8 +23,8 @@
 #ifndef SCENETITLE_H_
 #define SCENETITLE_H_
 
-//#include "Application.h"
 #include "Scene.h"
+#include "BoneShader.h"
 
 class Camera;
 class TitleRenderer;
@@ -36,8 +36,12 @@ class Figure;
  */
 class SceneTitle : public Scene {
 private:
+	typedef Scene super;
 	int index;
+	Camera *bcamera;					//!< カメラ
 	Figure *fig;
+	BoneShader *bshader;
+	
 public:
 	/**
 	 * コンストラクタ.
@@ -53,6 +57,12 @@ public:
 	//////////////////////////////////////////////////////////
 	// IScene の実装
 	//////////////////////////////////////////////////////////
+	
+	/**
+	 * ステップ実行します.
+	 */
+	virtual void step(float dt);
+	
 	/**
 	 * セットアップ処理を行います.
 	 */

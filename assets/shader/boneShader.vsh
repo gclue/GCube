@@ -2,6 +2,7 @@ uniform mat4 u_mvMatrix;
 uniform mat4 u_mvpMatrix;
 uniform mat4 u_skinningMatrix[10];
 uniform mat3 u_nMatrix;
+uniform bool u_useSkinning;
 
 attribute vec3 a_position;
 attribute vec3 a_normal;
@@ -15,11 +16,16 @@ const vec3 lightPos = vec3(0.0, 4.0, 5.0);
 
 void main()
 {
-	// bone
     v_texcoord = a_texcoord;
-    vec4 p1 = u_skinningMatrix[int(a_joints[0])] * vec4(a_position, 1.0);
-    vec4 p2 = u_skinningMatrix[int(a_joints[2])] * vec4(a_position, 1.0);
-    gl_Position = u_mvpMatrix * (p1 * a_joints[1] + p2 * a_joints[3]);
+	
+	// bone
+	if (u_useSkinning) {
+		vec4 p1 = u_skinningMatrix[int(a_joints[0])] * vec4(a_position, 1.0);
+		vec4 p2 = u_skinningMatrix[int(a_joints[2])] * vec4(a_position, 1.0);
+		gl_Position = u_mvpMatrix * (p1 * a_joints[1] + p2 * a_joints[3]);
+	} else {
+		gl_Position = u_mvpMatrix * vec4(a_position, 1.0);
+	}
 
     // light
     vec4 pos = u_mvMatrix * vec4(a_position, 1.0);
