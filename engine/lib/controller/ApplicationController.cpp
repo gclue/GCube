@@ -25,6 +25,7 @@
 #include "Camera.h"
 #include "Log.h"
 #include "SimpleShader.h"
+#include "BoneShader.h"
 
 // シーンなし
 #define SceneID_None 0
@@ -202,12 +203,15 @@ void ApplicationController::step(float dt) {
 		// このやり方だと裏が見えるのでFBOを使うやり方に変更したい
 		fadeAnimation->step(dt);
 		shader->setBaseAlpha(1.0-fadeAnimation->alpha);
+		shader3d->setBaseAlpha(1.0-fadeAnimation->alpha);
 		if (activeScene) {
 			activeScene->step(dt);
 		}
 		shader->setBaseAlpha(fadeAnimation->alpha);
+		shader3d->setBaseAlpha(fadeAnimation->alpha);
 		scenes[nextSceneID]->step(dt);
 		shader->setBaseAlpha(1.0);
+		shader3d->setBaseAlpha(1.0);
 
 		// フェードが終わったらアクティブを切り替え
 		if (fadeAnimation->isFinish()) {

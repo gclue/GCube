@@ -71,8 +71,28 @@ public:
 	virtual void addFigure(int id, Figure *fig, Texture *tex=NULL, Matrix3D *mtx=NULL);
 	
 	
+	/**
+	 * 指定したIDに対応するFigureを取得します.
+	 * 指定したIDに対応するFigureが存在しない場合にはNULLを返却します.
+	 * @param id ID
+	 * @return Figure
+	 */
 	virtual Figure* findFigureByID(int id);
+	
+	/**
+	 * 指定したIDに対応するTextureを取得します.
+	 * 指定したIDに対応するTextureが存在しない場合にはNULLを返却します.
+	 * @param id ID
+	 * @return Texture
+	 */
 	virtual Texture* findTextureByID(int id);
+	
+	/**
+	 * 指定したIDに対応するMatrix3Dを取得します.
+	 * 指定したIDに対応するMatrix3Dが存在しない場合にはNULLを返却します.
+	 * @param id ID
+	 * @return Matrix3D
+	 */
 	virtual Matrix3D* findMatrixByID(int id);
 
 

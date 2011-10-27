@@ -66,7 +66,15 @@ public:
 	 * @param[in] matrix 変換マトリックス
 	 */
 	void setMVPMatrix(Camera *camera, Matrix3D *matrix);
-
+	
+	/**
+	 * 基底の透明度をシェーダに設定します.
+	 * 明るさも同時に設定されます.
+	 * <br>
+	 * @param[in] a 透明度
+	 */
+    void setBaseAlpha(float baseAlpha);
+	
 	/**
 	 * 透明度をシェーダに設定します.
 	 * 明るさも同時に設定されます.
@@ -74,7 +82,7 @@ public:
 	 * @param[in] a 透明度
 	 */
 	void setAlpha(float a);
-
+	
 	/**
 	 * 明るさをシェーダに設定します.
 	 * <br>
@@ -105,10 +113,6 @@ public:
 	 * @param[in] user ユーザ識別ID
 	 */
 	void getUniform(GLuint program, const char *name, int user);
-
-    float getBaseAlpha() const;
-
-    void setBaseAlpha(float baseAlpha);
 
 };
 

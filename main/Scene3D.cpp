@@ -27,41 +27,10 @@
 #include "SimpleShader.h"
 #include "ColladaDataObject.h"
 #include "Joint.h"
+#include "Layer3D.h"
 
-Scene3D::Scene3D(ApplicationController *controller) : IScene(controller) {
+Scene3D::Scene3D(ApplicationController *controller) : Scene(controller) {
 	LOGD("****Scene3D");
-	// アクティブフラグをOFF
-	
-	// カメラ
-	camera = new Camera();
-	camera->fieldOfView = 80;
-	camera->loadPerspective();
-	Vector3D eye = Vector3D(0,0,8);
-	Vector3D at = Vector3D(0,0,0);
-	Vector3D up = Vector3D(0,1,0);
-	camera->transForm.lookAt(&eye, &at, &up);
-	
-	fig = new Figure();
-	fig2 = createBox(0.5, 0.5, 0.5);
-	shader = new BoneShader();
-	
-	this->setup();
-}
-
-Scene3D::~Scene3D() {
-	LOGD("****~Scene3D");
-	DELETE(camera);
-	DELETE(fig);
-	DELETE(shader);
-}
-
-//////////////////////////////////////////////////////////
-// IScene の実装
-//////////////////////////////////////////////////////////
-
-// セットアップ処理を行います.
-void Scene3D::setup() {
-	LOGD("****Scene3D::setup");
 	/////// library_geometries
 	// mesh-vertices
 	const GLfloat posArray[] = {0,1,-1,0.1950903,0.9807853,-1,0.3826835,0.9238795,-1,0.5555703,0.8314696,-1,0.7071068,0.7071068,-1,0.8314696,0.5555702,-1,0.9238795,0.3826834,-1,0.9807853,0.1950903,-1,1,0,-1,0.9807853,-0.1950902,-1,0.9238796,-0.3826833,-1,0.8314697,-0.5555702,-1,0.7071068,-0.7071068,-1,0.5555702,-0.8314697,-1,0.3826833,-0.9238796,-1,0.1950901,-0.9807854,-1,-3.25841e-7,-1,-1,-0.1950907,-0.9807852,-1,-0.3826839,-0.9238793,-1,-0.5555707,-0.8314693,-1,-0.7071073,-0.7071064,-1,-0.83147,-0.5555697,-1,-0.9238798,-0.3826827,-1,-0.9807855,-0.1950894,-1,-1,9.65599e-7,-1,-0.9807851,0.1950913,-1,-0.9238791,0.3826845,-1,-0.8314689,0.5555713,-1,-0.7071059,0.7071077,-1,-0.5555691,0.8314704,-1,-0.3826821,0.9238801,-1,-0.1950888,0.9807856,-1,1.60536e-6,1,1,0.195092,0.980785,1,0.3826851,0.9238789,1,0.5555718,0.8314686,1,0.7071081,0.7071054,1,0.8314707,0.5555686,1,0.9238803,0.3826815,1,0.9807857,0.1950882,1,1,-2.24512e-6,1,0.980785,-0.1950921,1,0.923879,-0.3826848,1,0.831469,-0.5555711,1,0.7071063,-0.7071073,1,0.55557,-0.8314697,1,0.3826836,-0.9238795,1,0.1950908,-0.9807852,1,9.29825e-7,-1,1,-0.195089,-0.9807856,1,-0.3826819,-0.9238802,1,-0.5555685,-0.8314708,1,-0.707105,-0.7071086,1,-0.831468,-0.5555727,1,-0.9238783,-0.3826865,1,-0.9807846,-0.1950939,1,-1,-4.10476e-6,1,-0.9807862,0.1950859,1,-0.9238814,0.3826789,1,-0.8314725,0.5555658,1,-0.7071108,0.7071028,1,-0.5555753,0.8314662,1,-0.3826894,0.9238771,1,-0.195097,0.9807839,1,0,0,-1,-0.195097,0.9807839,3,-0.3826894,0.9238771,3,-0.5555753,0.8314662,3,-0.7071108,0.7071028,3,-0.8314725,0.5555658,3,-0.9238814,0.3826789,3,-0.9807862,0.1950859,3,-1,-4.10476e-6,3,-0.9807846,-0.1950939,3,-0.9238783,-0.3826865,3,-0.831468,-0.5555727,3,-0.707105,-0.7071086,3,-0.5555685,-0.8314708,3,-0.3826819,-0.9238802,3,-0.195089,-0.9807856,3,9.29825e-7,-1,3,0.1950908,-0.9807852,3,0.3826836,-0.9238795,3,0.55557,-0.8314697,3,0.7071063,-0.7071073,3,0.831469,-0.5555711,3,0.923879,-0.3826848,3,0.980785,-0.1950921,3,1,-2.24512e-6,3,0.9807857,0.1950882,3,0.9238803,0.3826815,3,0.8314707,0.5555686,3,0.7071081,0.7071054,3,0.5555718,0.8314686,3,0.3826851,0.9238789,3,0.195092,0.980785,3,1.60536e-6,1,3,1.60536e-6,1,5,0.195092,0.980785,5,0.3826851,0.9238789,5,0.5555718,0.8314686,5,0.7071081,0.7071054,5,0.8314707,0.5555686,5,0.9238803,0.3826815,5,0.9807857,0.1950882,5,1,-2.24512e-6,5,0.980785,-0.1950921,5,0.923879,-0.3826848,5,0.831469,-0.5555711,5,0.7071063,-0.7071073,5,0.55557,-0.8314697,5,0.3826836,-0.9238795,5,0.1950908,-0.9807852,5,9.29825e-7,-1,5,-0.195089,-0.9807856,5,-0.3826819,-0.9238802,5,-0.5555685,-0.8314708,5,-0.707105,-0.7071086,5,-0.831468,-0.5555727,5,-0.9238783,-0.3826865,5,-0.9807846,-0.1950939,5,-1,-4.10476e-6,5,-0.9807862,0.1950859,5,-0.9238814,0.3826789,5,-0.8314725,0.5555658,5,-0.7071108,0.7071028,5,-0.5555753,0.8314662,5,-0.3826894,0.9238771,5,-0.195097,0.9807839,5,0,0,5};
@@ -122,134 +91,52 @@ void Scene3D::setup() {
 	fig = data.makeFigure();
 	fig->build();
 	fig->transForm->rotate(-90, RotateDirX);
-	//	fig->transForm->rotate(20, RotateDirY);
 	
+	Figure *fig2 = createBox(0.5, 0.5, 0.5);
 	fig2->build();
 	fig2->transForm->loadIdentity();
 	fig2->transForm->translate(1.5,0,0);
+	
+	Layer3D *layer = new Layer3D(controller);
+	layer->addFigure(1, fig);
+	layer->addFigure(2, fig2);
+	addLayer(1, layer);
+	
+	rot = 0;
 }
 
-// リサイズ
-void Scene3D::resize(int width, int height) {
-	LOGD("****Scene3D::resize:%d-%d", width, height);
-	float aspect = width / (float)height;
-	camera->aspect = aspect;
-	camera->loadPerspective();
-	Vector3D eye = Vector3D(0,2,-8);
-	Vector3D at = Vector3D(0,0,0);
-	//	Vector3D up = Vector3D(1,0,0);
-	camera->transForm.lookAt(&eye, &at);
+Scene3D::~Scene3D() {
+	LOGD("****~Scene3D");
 }
 
-static float rot = 0;
+//////////////////////////////////////////////////////////
+// IScene の実装
+//////////////////////////////////////////////////////////
+
 
 // ステップ実行します
 void Scene3D::step(float dt) {
-	glEnable(GL_DEPTH_TEST);
 	
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	
+	// 角度
 	rot += 0.2;
 	if (rot>30) rot = 0;
 	
-	shader->useProgram();
-	int e = glGetError();
-	if (e > 0) {
-		LOGE("glGetError:1:%d", e);
-	}
-	fig->bind();
-	e = glGetError();
-	if (e > 0) {
-		LOGE("glGetError:2:%d", e);
-	}
-	
 	// ジョイントのアニメーション
-    //	fig->transForm->loadIdentity();
-    //	fig->transForm->rotate(rot, RotateDirY);
 	Joint *joint = fig->joint;
-    //	joint->transForm->loadIdentity();
-    //	joint->transForm->rotate(rot, RotateDirZ);
-    //	joint->getChildren()[0]->transForm->loadIdentity();
-    //	joint->getChildren()[0]->transForm->rotate(rot, RotateDirZ);
 	joint->getChildren()[0]->getChildren()[0]->transForm->loadIdentity();
 	joint->getChildren()[0]->getChildren()[0]->transForm->rotate(rot, RotateDirZ);
-    //	joint->getChildren()[1]->transForm->loadIdentity();
-    //	joint->getChildren()[1]->transForm->rotate(-rot, RotateDirZ);
-	joint->setSkinningMatrix(shader);
-	e = glGetError();
-	if (e > 0) {
-		LOGE("glGetError:3:%d", e);
-	}
 	
-	// シェーダーに値を設定
-	shader->setNormalMatrix(fig->transForm);
-	e = glGetError();
-	if (e > 0) {
-		LOGE("glGetError:4:%d", e);
-	}
-	shader->setMVPMatrix(camera, fig->transForm);
-	e = glGetError();
-	if (e > 0) {
-		LOGE("glGetError:5:%d", e);
-	}
-	fig->draw();
-	e = glGetError();
-	if (e > 0) {
-		LOGE("glGetError:6:%d", e);
-	}
-	
-	shader->setMVPMatrix(camera, fig2->transForm);
-	fig2->bind();
-	fig2->draw();
-}
-
-// 活性化します.
-void Scene3D::onActivate() {
-	LOGD("****Scene3D::onActivate");
-}
-
-// 休止します.
-void Scene3D::onSuspend() {
-	LOGD("****Scene3D::onSuspend");
-}
-
-// 活性化してシーンが切り替え終わったこと通知します.
-void Scene3D::onStart() {
-	
-}
-
-// 非活性化してシーンが切り替え終わったこと通知します.
-void Scene3D::onEnd() {
-}
-
-// コンテキストが切り替わったことを通知します.
-void Scene3D::onContextChanged() {
-	LOGD("****Scene3D::onContextChanged");
-//	this->setup();
-	fig->destroy();
-	fig2->destroy();
-	fig->build();
-	fig2->build();
-//	fig = new Figure();
-//	fig2 = createBox(0.5, 0.5, 0.5);
-	shader = new BoneShader();
-}
-
-// バックキーイベント
-bool Scene3D::onPressBackKey() {
-	LOGD("****Scene3D::onPressBackKey");
-	return false;
+	// 親をステップ実行
+	super::step(dt);
 }
 
 // タッチイベント
 void Scene3D::onTouch(TouchEvent &event) {
+	super::onTouch(event);
 	LOGD("****Scene3D::onTouch:%.1f-%.1f", event.x, event.y);
-	controller->sceneChange(1);
-}
-
-// 加速度センサー
-void Scene3D::onMoveSensor(double sensor) {
+	if (event.type == touchDown) {
+		controller->sceneChange(1);
+	}
 }
 
 // JNIイベント

@@ -31,6 +31,7 @@
 #include <memory>
 #include "Camera.h"
 #include "BoneShader.h"
+#include "Joint.h"
 
 // コンストラクタ
 Layer3D::Layer3D(GCContext *context) : Layer(context) {
@@ -150,7 +151,6 @@ void Layer3D::render(double dt) {
 	
 	BoneShader *shader = context->shader3d;
 	shader->useProgram();
-//	int currenttex = -1;
 	std::map<int, FigureSet>::iterator it = figures.begin();
 	while (it != figures.end()) {
 		FigureSet set = (*it).second;
@@ -165,7 +165,15 @@ void Layer3D::render(double dt) {
 		}
 		
 		// テクスチャ設定
-		if (set.mtx) {
+		if (set.tex) {
+			shader->bindTexture(set.tex->texName);
+		} else {
+			shader->bindTexture(0);
+		}
+		
+		// ジョイント設定
+		if (set.fig->joint) {
+			set.fig->joint->setSkinningMatrix(shader);
 		}
 		
 		// 描画

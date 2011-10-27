@@ -23,22 +23,17 @@
 #ifndef SCENE3D_H_
 #define SCENE3D_H_
 
-#include "IScene.h"
-#include "BoneShader.h"
-
-class Camera;
-class Figure;
+#include "Scene.h"
 
 /**
  * 3Dサンプルシーンクラス.
  */
-class Scene3D : public IScene {
+class Scene3D : public Scene {
 private:
-	Camera *camera;					//!< カメラ
+	typedef Scene super;
+	float rot;
 	Figure *fig;
-	Figure *fig2;
-	BoneShader *shader;
-    
+	
 public:
 	/**
 	 * コンストラクタ.
@@ -53,65 +48,17 @@ public:
 	//////////////////////////////////////////////////////////
 	// IScene の実装
 	//////////////////////////////////////////////////////////
-	/**
-	 * セットアップ処理を行います.
-	 */
-	virtual void setup();
-    
-	/**
-	 * リサイズ処理を行います.
-	 * @param[in] width 横幅
-	 * @param[in] height 縦幅
-	 */
-	virtual void resize(int width, int height);
-    
+	
 	/**
 	 * ステップ実行します.
 	 */
 	virtual void step(float dt);
     
 	/**
-	 * 活性化します.
-	 */
-	virtual void onActivate();
-    
-	/**
-	 * 休止します.
-	 */
-	virtual void onSuspend();
-    
-	/**
-	 * 活性化してシーンが切り替え終わったこと通知します.
-	 */
-	virtual void onStart();
-    
-	/**
-	 * 非活性化してシーンが切り替え終わったこと通知します.
-	 */
-	virtual void onEnd();
-    
-	/**
-	 * コンテキストが切り替わったことを通知します.
-	 */
-	virtual void onContextChanged();
-    
-	/**
-	 * バックキーのイベント.
-	 * @return 処理をした場合はtrue,しないでシステムに返す場合はfalse
-	 */
-	virtual bool onPressBackKey();
-    
-	/**
 	 * タッチイベント.
 	 * @param[in] event タッチイベント
 	 */
 	virtual void onTouch(TouchEvent &event);
-    
-	/**
-	 * 加速度センサーイベント.
-	 * @param senser 加速度の値
-	 */
-	virtual void onMoveSensor(double sensor);
     
 	/**
 	 * Java側からのイベントを受け取るメソッド.

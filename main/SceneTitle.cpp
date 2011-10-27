@@ -35,8 +35,6 @@
 
 SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	LOGD("****SceneTitle");
-	// アクティブフラグをOFF
-	
 	index = 0;
 	
 	TextureManager *mgr = controller->texMgr;
@@ -86,7 +84,6 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	animView->setAnimationFrameIndex(1);
 	animView->setUserID(10);
 	
-	animView->setPosition(0.5, 0.5);
 	animView->setRotate(30);
 	animView->setScale(1.5, 1.5);
 
@@ -108,7 +105,7 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	Layer3D *l3 = new Layer3D(controller);
 	l3->addFigure(1, fig, NULL, mtx1);
 	l3->addFigure(2, fig, NULL, mtx2);
-	addLayer(2, l3);
+	addLayer(0, l3);
 }
 
 SceneTitle::~SceneTitle() {

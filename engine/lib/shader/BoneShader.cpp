@@ -27,6 +27,7 @@ enum {
 	UNIFORM_MODELVIEW_PROJECTION_MATRIX,	//!< モデルのマトリクスとカメラのマトリクスをかけた変数へのユニフォーム
 	UNIFORM_MODELVIEW_MATRIX,				//!< モデルのマトリクス変数へのユニフォーム
 	UNIFORM_TEXTURE_BASE,					//!< テクスチャへのユニフォーム
+	UNIFORM_ALPHA,							//!< アルファ値へのユニフォーム
 	UNIFORM_NORMAL_MATRIX,					//!< 法線マトリックス
 	UNIFORM_USE_SKINNING,					//!< スキニングを使用するフラグ
 	UNIFORM_SKINNING_MATRIX,				//!< スキニングマトリクスのユニフォーム
@@ -36,6 +37,7 @@ static GLint uniforms[NUM_UNIFORMS];
 
 BoneShader::BoneShader() {
 	gProgram = loadShader("shader/boneShader", 0);
+	baseAlpha = 0.5;
 	texname = -1;
 }
 
@@ -49,11 +51,12 @@ BoneShader::~BoneShader() {
 
 void BoneShader::useProgram() {
 	glUseProgram(gProgram);
+	this->setAlpha(1.0);
 	this->texname = -1;
 }
 
 void BoneShader::bindTexture(int texname) {
-	if (this->texname == texname) {
+	if (this->texname == texname && texname>0) {
 		// 前回bindしたテクスチャと同じ場合には何も処理を行わない
 		return;
 	}
@@ -99,5 +102,14 @@ void BoneShader::getUniform(GLuint program, const char *name, int user) {
 	uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(program, "u_nMatrix");
 	uniforms[UNIFORM_SKINNING_MATRIX] = glGetUniformLocation(program, "u_skinningMatrix");
 	uniforms[UNIFORM_USE_SKINNING] = glGetUniformLocation(program, "u_useSkinning");
+	uniforms[UNIFORM_ALPHA] = glGetUniformLocation(program, "u_alpha");
+}
+
+void BoneShader::setAlpha(float a) {
+	glUniform1f(uniforms[UNIFORM_ALPHA], a * baseAlpha);
+}
+
+void BoneShader::setBaseAlpha(float baseAlpha) {
+	this->baseAlpha = baseAlpha;
 }
 

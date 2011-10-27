@@ -93,6 +93,9 @@ void Layer2D::resize(float aspect) {
  * @param dt 前回描画からの差分時間
  */
 void Layer2D::render(double dt) {
+	glDisable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
+	
 	if (root) {
 		if (context->shader) {
 			context->shader->useProgram();

@@ -34,6 +34,7 @@
 class BoneShader : public Shader {
 private:
 	GLuint gProgram;	//!< プログラム
+	float baseAlpha;	//!< 基準透明度
 	int texname;		//!< 使用しているtextureのID
 
 public:
@@ -60,6 +61,22 @@ public:
 	void bindTexture(int texname);
 
 	/**
+	 * 基底の透明度をシェーダに設定します.
+	 * 明るさも同時に設定されます.
+	 * <br>
+	 * @param[in] a 透明度
+	 */
+    void setBaseAlpha(float baseAlpha);
+	
+	/**
+	 * 透明度をシェーダに設定します.
+	 * 明るさも同時に設定されます.
+	 * <br>
+	 * @param[in] a 透明度
+	 */
+	void setAlpha(float a);
+	
+	/**
 	 * カメラと変換行列からMVPをシェーダに設定します.
 	 * <br>
 	 * @param[in] camera カメラオブジェクト
@@ -67,7 +84,19 @@ public:
 	 */
 	void setMVPMatrix(Camera *camera, Matrix3D *matrix);
 
+	/**
+	 * スキニング用のボーンの変換行列をシェーダに設定します.
+	 * <br>
+	 * @param[in] matrix 変換行列の配列
+	 * @param[in] len 配列の長さ
+	 */
 	void setSkinningMatrix(Matrix3D **matrix, int len);
+	
+	/**
+	 * 変換行列から法線行列を計算しシェーダに設定します.
+	 * <br>
+	 * @param[in] matrix 変換行列
+	 */
 	void setNormalMatrix(Matrix3D *matrix);
 
 	/**

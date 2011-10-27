@@ -91,10 +91,6 @@ void SimpleShader::getUniform(GLuint program, const char *name, int user) {
 	uniforms[UNIFORM_BRIGHT] = glGetUniformLocation(program, "u_bright");
 }
 
-float SimpleShader::getBaseAlpha() const {
-	return baseAlpha;
-}
-
 void SimpleShader::setBaseAlpha(float baseAlpha) {
 	this->baseAlpha = baseAlpha;
 }
