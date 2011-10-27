@@ -97,9 +97,10 @@ Scene3D::Scene3D(ApplicationController *controller) : Scene(controller) {
 	fig2->transForm->loadIdentity();
 	fig2->transForm->translate(1.5,0,0);
 	
+	Texture *tex = new Texture("texture/gclue_logo.png");
 	Layer3D *layer = new Layer3D(controller);
 	layer->addFigure(1, fig);
-	layer->addFigure(2, fig2);
+	layer->addFigure(2, fig2, tex);
 	addLayer(1, layer);
 	
 	rot = 0;

@@ -174,6 +174,8 @@ void Layer3D::render(double dt) {
 		// ジョイント設定
 		if (set.fig->joint) {
 			set.fig->joint->setSkinningMatrix(shader);
+		} else {
+			shader->setSkinningMatrix(NULL, 0);
 		}
 		
 		// 描画

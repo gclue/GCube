@@ -27,6 +27,7 @@ enum {
 	UNIFORM_MODELVIEW_PROJECTION_MATRIX,	//!< モデルのマトリクスとカメラのマトリクスをかけた変数へのユニフォーム
 	UNIFORM_MODELVIEW_MATRIX,				//!< モデルのマトリクス変数へのユニフォーム
 	UNIFORM_TEXTURE_BASE,					//!< テクスチャへのユニフォーム
+	UNIFORM_USE_TEXTURE,					//!< テクスチャを使用するフラグ
 	UNIFORM_ALPHA,							//!< アルファ値へのユニフォーム
 	UNIFORM_NORMAL_MATRIX,					//!< 法線マトリックス
 	UNIFORM_USE_SKINNING,					//!< スキニングを使用するフラグ
@@ -63,6 +64,7 @@ void BoneShader::bindTexture(int texname) {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texname);
 	glUniform1i(uniforms[UNIFORM_TEXTURE_BASE], 0);
+	glUniform1i(uniforms[UNIFORM_USE_TEXTURE], texname>0);
 
 	this->texname = texname;
 }
@@ -74,12 +76,16 @@ void BoneShader::setMVPMatrix(Camera *camera, Matrix3D *matrix) {
 }
 
 void BoneShader::setSkinningMatrix(Matrix3D **matrix, int len) {
-	GLfloat mtx[16*len];
-	for (int i = 0; i < len; ++i) {
-		matrix[i]->getElements(&mtx[16*i]);
+	if (matrix) {
+		GLfloat mtx[16*len];
+		for (int i = 0; i < len; ++i) {
+			matrix[i]->getElements(&mtx[16*i]);
+		}
+		glUniform1i(uniforms[UNIFORM_USE_SKINNING], 1);
+		glUniformMatrix4fv(uniforms[UNIFORM_SKINNING_MATRIX], len, GL_FALSE, mtx);
+	} else {
+		glUniform1i(uniforms[UNIFORM_USE_SKINNING], 0);
 	}
-	glUniform1i(uniforms[UNIFORM_USE_SKINNING], 1);
-	glUniformMatrix4fv(uniforms[UNIFORM_SKINNING_MATRIX], len, GL_FALSE, mtx);
 }
 
 void BoneShader::setNormalMatrix(Matrix3D *matrix) {
@@ -98,6 +104,7 @@ void BoneShader::bindAttribute(GLuint program, const char *name, int user) {
 void BoneShader::getUniform(GLuint program, const char *name, int user) {
 	uniforms[UNIFORM_MODELVIEW_PROJECTION_MATRIX] = glGetUniformLocation(program, "u_mvpMatrix");
 	uniforms[UNIFORM_MODELVIEW_MATRIX] = glGetUniformLocation(program, "u_mvMatrix");
+	uniforms[UNIFORM_USE_TEXTURE] = glGetUniformLocation(program, "u_useTexture");
 	uniforms[UNIFORM_TEXTURE_BASE] = glGetUniformLocation(program, "u_diffuseTexture");
 	uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(program, "u_nMatrix");
 	uniforms[UNIFORM_SKINNING_MATRIX] = glGetUniformLocation(program, "u_skinningMatrix");
