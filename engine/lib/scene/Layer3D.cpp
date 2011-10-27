@@ -28,10 +28,94 @@
  */
 #include "Layer3D.h"
 
+#include <memory>
+#include "Camera.h"
+#include "BoneShader.h"
+
+// コンストラクタ
 Layer3D::Layer3D(GCContext *context) : Layer(context) {
+	LOGD("**Layer3D");
+	camera = new Camera();
+	Vector3D eye = Vector3D(5,5,-10);
+	Vector3D at = Vector3D(0,0,0);
+	camera->transForm.lookAt(&eye, &at);
 }
 
+// デストラクタ
 Layer3D::~Layer3D() {
+	LOGD("**~Layer3D");
+	delete camera;
+	
+	// addしたオブジェクトを解放
+	std::vector<Figure*> figs;
+	std::vector<Texture*> texs;
+	std::vector<Matrix3D*> mtxs;
+	std::map<int, FigureSet>::iterator it = figures.begin();
+	while (it != figures.end()) {
+		FigureSet set = (*it).second;
+		// 同じオブジェクトを２回処理しないように。。。
+		if (set.fig) {
+			std::vector<Figure*>::iterator itf = std::find(figs.begin(), figs.end(), set.fig);
+			if (itf == figs.end()) {
+				figs.push_back(set.fig);
+				delete set.fig;
+			}
+		}
+		if (set.tex) {
+			std::vector<Texture*>::iterator its = std::find(texs.begin(), texs.end(), set.tex);
+			if (its == texs.end()) {
+				texs.push_back(set.tex);
+				delete set.tex;
+			}
+		}
+		if (set.mtx) {
+			std::vector<Matrix3D*>::iterator itm = std::find(mtxs.begin(), mtxs.end(), set.mtx);
+			if (itm == mtxs.end()) {
+				mtxs.push_back(set.mtx);
+				delete set.mtx;
+			}
+		}
+		it++;
+	}
+}
+
+// Figure追加
+void Layer3D::addFigure(int id, Figure *fig, Texture *tex, Matrix3D *mtx) {
+	FigureSet set;
+	set.fig = fig;
+	set.tex = tex;
+	set.mtx = mtx;
+	figures[id] = set;
+}
+
+// Furure検索
+Figure* Layer3D::findFigureByID(int id) {
+	std::map<int, FigureSet>::iterator it = figures.find(id);
+	if (it!=figures.end()) {
+		return (*it).second.fig;
+	} else {
+		return NULL;
+	}
+}
+
+// Texture検索
+Texture* Layer3D::findTextureByID(int id) {
+	std::map<int, FigureSet>::iterator it = figures.find(id);
+	if (it!=figures.end()) {
+		return (*it).second.tex;
+	} else {
+		return NULL;
+	}
+}
+
+// Matrix検索
+Matrix3D* Layer3D::findMatrixByID(int id) {
+	std::map<int, FigureSet>::iterator it = figures.find(id);
+	if (it!=figures.end()) {
+		return (*it).second.mtx;
+	} else {
+		return NULL;
+	}
 }
 
 //////////////////////////////////////////////////////////
@@ -42,6 +126,7 @@ Layer3D::~Layer3D() {
  * セットアップを行います.
  */
 void Layer3D::setup() {
+	LOGD("**Layer3D::setup");
 }
 
 /**
@@ -49,6 +134,9 @@ void Layer3D::setup() {
  * @param aspect 画面のアスペクト比
  */
 void Layer3D::resize(float aspect) {
+	LOGD("**Layer3D::resize:%f", aspect);
+	camera->aspect = aspect;
+	camera->loadPerspective();
 }
 
 /**
@@ -56,6 +144,36 @@ void Layer3D::resize(float aspect) {
  * @param dt 前回描画からの差分時間
  */
 void Layer3D::render(double dt) {
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	
+	BoneShader *shader = context->shader3d;
+	shader->useProgram();
+//	int currenttex = -1;
+	std::map<int, FigureSet>::iterator it = figures.begin();
+	while (it != figures.end()) {
+		FigureSet set = (*it).second;
+			
+		// マトリックス設定
+		if (set.mtx) {
+			shader->setNormalMatrix(set.mtx);
+			shader->setMVPMatrix(camera, set.mtx);
+		} else {
+			shader->setNormalMatrix(set.fig->transForm);
+			shader->setMVPMatrix(camera, set.fig->transForm);
+		}
+		
+		// テクスチャ設定
+		if (set.mtx) {
+		}
+		
+		// 描画
+		set.fig->bind();
+		set.fig->draw();
+		
+		it++;
+	}
 }
 
 /**
@@ -63,5 +181,40 @@ void Layer3D::render(double dt) {
  * @param event タッチイベント
  */
 bool Layer3D::onTouch(TouchEvent &event) {
+	LOGD("**Layer3D::onTouch:(%f,%f)", event.x, event.y);
 	return false;
 }
+
+/**
+ * コンテキストが切り替わったことを通知します.
+ */
+void Layer3D::onContextChanged() {
+	LOGD("**Layer3D::onContextChanged:()");
+	
+	// FigureとTextureを再構築
+	std::vector<Figure*> figs;
+	std::vector<Texture*> texs;
+	std::map<int, FigureSet>::iterator it = figures.begin();
+	while (it != figures.end()) {
+		FigureSet set = (*it).second;
+		// 同じオブジェクトを２回処理しないように。。。
+		if (set.fig) {
+			std::vector<Figure*>::iterator itf = std::find(figs.begin(), figs.end(), set.fig);
+			if (itf == figs.end()) {
+				figs.push_back(set.fig);
+				set.fig->build();
+			}
+		}
+		if (set.tex) {
+			std::vector<Texture*>::iterator its = std::find(texs.begin(), texs.end(), set.tex);
+			if (its == texs.end()) {
+				texs.push_back(set.tex);
+				set.tex->reload();
+			}
+		}
+		
+		it++;
+	}
+}
+
+

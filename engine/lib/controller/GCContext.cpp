@@ -29,6 +29,7 @@
 #include "GCContext.h"
 #include "Camera.h"
 #include "SimpleShader.h"
+#include "BoneShader.h"
 #include "TextureManager.h"
 #include "defines.h"
 
@@ -40,10 +41,12 @@ GCContext::GCContext() {
 
 	// 初期化
 	shader = new SimpleShader();
+	shader3d = new BoneShader();
 	texMgr = new TextureManager();
 }
 
 GCContext::~GCContext() {
+	DELETE(shader3d);
 	DELETE(shader);
 	DELETE(camera);
 	DELETE(texMgr);
@@ -53,6 +56,9 @@ void GCContext::setupContext() {
 	// シンプルなシェーダの初期化
 	delete shader;
 	shader = new SimpleShader();
+	// 3D用シェーダの初期化
+	delete shader3d;
+	shader3d = new BoneShader();
 	// テクスチャマネージャーの初期化
 	texMgr->reload();
 }

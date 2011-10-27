@@ -29,13 +29,52 @@
 #ifndef LAYER3D_H_
 #define LAYER3D_H_
 
+#include <map>
+#include <vector>
 #include "Layer.h"
+
+class Camera;
+class Figure;
+class Matrix3D;
 
 class Layer3D : public Layer {
 private:
+	struct FigureSet {
+		Figure *fig;
+		Texture *tex;
+		Matrix3D *mtx;
+	};
+	std::map<int, FigureSet> figures;	//!< 追加したFigureを保持
+
+	
 public:
+	Camera *camera;	//!< カメラ
+	
+	/**
+	 * コンストラクタ.
+	 */
 	Layer3D(GCContext *context);
+	
+	/**
+	 * デストラクタ.
+	 */
 	virtual ~Layer3D();
+	
+	/**
+	 * Figureを追加します.
+	 * 追加したFigureはこのオブジェクトと共に解放されます.
+	 * @param id 識別ID
+	 * @param fig Figure
+	 * @param tex テクスチャ
+	 * @param mtx 座標変換行列（NULLの場合はFigureのtransformを使用します）
+	 */
+	virtual void addFigure(int id, Figure *fig, Texture *tex=NULL, Matrix3D *mtx=NULL);
+	
+	
+	virtual Figure* findFigureByID(int id);
+	virtual Texture* findTextureByID(int id);
+	virtual Matrix3D* findMatrixByID(int id);
+
 
 	//////////////////////////////////////////////////////////
 	// Layer の実装
@@ -63,6 +102,12 @@ public:
 	 * @return true: 次のレイヤーにイベントを渡さない、false: 次のレイヤーにイベントを渡す
 	 */
 	virtual bool onTouch(TouchEvent &event);
+	
+	/**
+	 * コンテキストが切り替わったことを通知します.
+	 */
+	virtual void onContextChanged();
+	
 };
 
 #endif /* LAYER3D_H_ */

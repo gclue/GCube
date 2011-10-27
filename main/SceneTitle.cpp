@@ -30,23 +30,15 @@
 #include "ImageAnimationView.h"
 #include "ViewGroup.h"
 #include "Layer2D.h"
+#include "Layer3D.h"
 #include "PrimitiveObjectBuilder.h"
 
 SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	LOGD("****SceneTitle");
 	// アクティブフラグをOFF
-	activeflg = false;
 	
 	index = 0;
 	
-	// カメラ
-	bcamera = new Camera();
-	
-	fig = createBox(0.5, 0.5, 0.5);
-	fig->build();
-	bshader = new BoneShader();
-
-
 	TextureManager *mgr = controller->texMgr;
 
 	SharedTexture *tex = mgr->getSharedTexture(
@@ -104,6 +96,19 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	layer->setContentView(root);
 
 	addLayer(1, layer);
+	
+	
+	Figure *fig = createBox(0.5, 0.5, 0.5);
+	fig->build();
+	Matrix3D *mtx1 = new Matrix3D();
+	mtx1->translate(0.5, 0, 0);
+	Matrix3D *mtx2 = new Matrix3D();
+	mtx2->translate(0, 0, 0.5);
+	
+	Layer3D *l3 = new Layer3D(controller);
+	l3->addFigure(1, fig, NULL, mtx1);
+	l3->addFigure(2, fig, NULL, mtx2);
+	addLayer(2, l3);
 }
 
 SceneTitle::~SceneTitle() {
@@ -117,17 +122,6 @@ SceneTitle::~SceneTitle() {
 // ステップ実行します
 void SceneTitle::step(float dt) {
 	super::step(dt);
-	
-	
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-	
-	bshader->useProgram();
-	bshader->setNormalMatrix(fig->transForm);
-	bshader->setMVPMatrix(bcamera, fig->transForm);
-	fig->bind();
-	fig->draw();
 }
 
 // セットアップ処理を行います.
@@ -140,25 +134,18 @@ void SceneTitle::setup() {
 void SceneTitle::resize(int width, int height) {
 	super::resize(width, height);
 	LOGD("****SceneTitle::resize:%d-%d", width, height);
-	bcamera->fieldOfView = 80;
-	bcamera->loadPerspective();
-	Vector3D eye = Vector3D(3,4,-5);
-	Vector3D at = Vector3D(0,0,0);
-	bcamera->transForm.lookAt(&eye, &at);
 }
 
 // 活性化します.
 void SceneTitle::onActivate() {
 	super::onActivate();
 	LOGD("****SceneTitle::onActivate");
-	activeflg = true;
 }
 
 // 休止します.
 void SceneTitle::onSuspend() {
 	super::onSuspend();
 	LOGD("****SceneTitle::onSuspend");
-	activeflg = false;
 }
 
 // 活性化してシーンが切り替え終わったこと通知します.
@@ -178,10 +165,6 @@ void SceneTitle::onEnd() {
 void SceneTitle::onContextChanged() {
 	super::onContextChanged();
 	LOGD("****SceneTitle::onContextChanged");
-	delete bshader;
-	bshader = new BoneShader();
-	fig->destroy();
-	fig->build();
 }
 
 void SceneTitle::onTouch(TouchEvent &event) {

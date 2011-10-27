@@ -32,6 +32,7 @@
 class Camera;
 class SimpleShader;
 class TextureManager;
+class BoneShader;
 
 /**
  * GCubeで使用されるコンテキスト.
@@ -46,6 +47,7 @@ public:
 	Camera *camera;			//!< カメラ (UIライブラリなどで使用する)
 	SimpleShader *shader;	//!< シェーダ (UIライブラリなどで使用する)
 	TextureManager *texMgr;	//!< テクスチャ管理クラス
+	BoneShader *shader3d;	//!< 3D用シェーダ
 	void *userObj;			//!< ユーザデータ
 
 	/** コンストラクタ. */

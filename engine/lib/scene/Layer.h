@@ -65,6 +65,12 @@ public:
 	 * @return true: 次のレイヤーにイベントを渡さない、false: 次のレイヤーにイベントを渡す
 	 */
 	virtual bool onTouch(TouchEvent &event) = 0;
+	
+	/**
+	 * コンテキストが切り替わったことを通知します.
+	 */
+	virtual void onContextChanged() {};
+	
 };
 
 #endif /* LAYER_H_ */

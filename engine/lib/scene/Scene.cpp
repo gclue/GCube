@@ -36,7 +36,6 @@ Scene::Scene(ApplicationController *controller) : IScene(controller) {
 
 Scene::~Scene() {
 	LOGD("****~Scene");
-
 	// 各レイヤーの削除
 	std::map<int, Layer*>::iterator it = layers.begin();
 	while (it != layers.end()) {
@@ -51,8 +50,14 @@ void Scene::addLayer(int id, Layer *layer) {
 	layers[id] = layer;
 }
 
+// レイヤーを検索
 Layer *Scene::getLayer(int id) {
-	return layers[id];
+	std::map<int, Layer*>::iterator it = layers.find(id);
+	if (it!=layers.end()) {
+		return (*it).second;
+	} else {
+		return NULL;
+	}
 }
 
 /////////////////////////////////////////////////////////////
@@ -99,14 +104,14 @@ void Scene::step(float dt) {
 
 // 活性化します.
 void Scene::onActivate() {
+	super::onActivate();
 	LOGD("****Scene::onActivate");
-	activeflg = true;
 }
 
 // 休止します.
 void Scene::onSuspend() {
+	super::onSuspend();
 	LOGD("****Scene::onSuspend");
-	activeflg = false;
 }
 
 // 活性化してシーンが切り替え終わったこと通知します.
@@ -122,16 +127,23 @@ void Scene::onEnd() {
 // コンテキストが切り替わったことを通知します.
 void Scene::onContextChanged() {
 	LOGD("****Scene::onContextChanged");
+	std::map<int, Layer*>::iterator it = layers.begin();
+	while (it != layers.end()) {
+		Layer *layer = (*it).second;
+		layer->onContextChanged();
+		it++;
+	}
 }
 
 // バックキーイベント
 bool Scene::onPressBackKey() {
+	LOGD("****Scene::onPressBackKey");
 	return false;
 }
 
 // タッチイベント
 void Scene::onTouch(TouchEvent &event) {
-	// 各レイヤーの描画
+	LOGD("****Scene::onTouch");
 	std::map<int, Layer*>::iterator it = layers.begin();
 	while (it != layers.end()) {
 		Layer *layer = (*it).second;

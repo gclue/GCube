@@ -31,7 +31,6 @@
 Scene3D::Scene3D(ApplicationController *controller) : IScene(controller) {
 	LOGD("****Scene3D");
 	// アクティブフラグをOFF
-	activeflg = false;
 	
 	// カメラ
 	camera = new Camera();
@@ -208,13 +207,11 @@ void Scene3D::step(float dt) {
 // 活性化します.
 void Scene3D::onActivate() {
 	LOGD("****Scene3D::onActivate");
-	activeflg = true;
 }
 
 // 休止します.
 void Scene3D::onSuspend() {
 	LOGD("****Scene3D::onSuspend");
-	activeflg = false;
 }
 
 // 活性化してシーンが切り替え終わったこと通知します.

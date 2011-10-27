@@ -138,6 +138,7 @@ public:
 	 * @return true: 次のレイヤーにイベントを渡さない、false: 次のレイヤーにイベントを渡す
 	 */
 	virtual bool onTouch(TouchEvent &event);
+	
 };
 
 #endif /* LAYER2D_H_ */

@@ -38,6 +38,9 @@ class Layer;
  * シーンクラス.
  */
 class Scene : public IScene {
+private:
+	typedef IScene super;
+
 protected:
 	std::map<int, Layer*> layers;	//!< レイヤー
 
@@ -131,7 +134,7 @@ public:
 	virtual void onMoveSensor(double sensor);
 
 	/**
-	 * Java側からのイベントを受け取るメソッド.
+	 * ゲームイベントを受け取るメソッド.
 	 * @param type イベントタイプ
 	 * @param param1 イベントパラメータ
 	 * @param param2 イベントパラメータ

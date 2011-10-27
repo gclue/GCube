@@ -24,7 +24,6 @@
 #define SCENETITLE_H_
 
 #include "Scene.h"
-#include "BoneShader.h"
 
 class Camera;
 class TitleRenderer;
@@ -38,9 +37,6 @@ class SceneTitle : public Scene {
 private:
 	typedef Scene super;
 	int index;
-	Camera *bcamera;					//!< カメラ
-	Figure *fig;
-	BoneShader *bshader;
 	
 public:
 	/**

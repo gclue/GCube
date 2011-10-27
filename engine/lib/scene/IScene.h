@@ -40,7 +40,7 @@ class TextureManager;
 class IScene {
 protected:
 	ApplicationController *controller;	//!< コントローラー
-	bool activeflg;			//!< アクティブフラグ(true: アクティブ)
+	bool _activeflg;	//!< アクティブフラグ(true: アクティブ)
 
 public:
 	/**
@@ -49,6 +49,7 @@ public:
 	 */
 	IScene(ApplicationController *controller) {
 		this->controller = controller;
+		_activeflg = false;
 	}
 
 	/**
@@ -76,12 +77,12 @@ public:
 	/**
 	 * 活性化します.
 	 */
-	virtual void onActivate() = 0;
+	virtual void onActivate() {_activeflg = true;};
 
 	/**
 	 * 非活性化して休止します.
 	 */
-	virtual void onSuspend() = 0;
+	virtual void onSuspend() {_activeflg = false;};
 
 	/**
 	 * 活性化してシーンが切り替え終わったこと通知します.
@@ -102,7 +103,7 @@ public:
 	 * 活性化状態かを返します.
 	 * @return 活性化状態の場合はtrue
 	 */
-	virtual bool isActive() {return activeflg;};
+	virtual bool isActive() {return _activeflg;};
 
 	/**
 	 * バックキーのイベント.
@@ -123,7 +124,7 @@ public:
 	virtual void onMoveSensor(double sensor) = 0;
 
 	/**
-	 * Java側からのイベントを受け取るメソッド.
+	 * ゲームイベントを受け取るメソッド.
 	 * @param type イベントタイプ
 	 * @param param1 イベントパラメータ
 	 * @param param2 イベントパラメータ
