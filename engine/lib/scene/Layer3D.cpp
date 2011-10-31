@@ -32,6 +32,7 @@
 #include "Camera.h"
 #include "BoneShader.h"
 #include "Joint.h"
+#include "BulletWorld.h"
 
 // コンストラクタ
 Layer3D::Layer3D(GCContext *context) : Layer(context) {
@@ -40,12 +41,18 @@ Layer3D::Layer3D(GCContext *context) : Layer(context) {
 	Vector3D eye = Vector3D(5,5,-10);
 	Vector3D at = Vector3D(0,0,0);
 	camera->transForm.lookAt(&eye, &at);
+	bullet = NULL;
+	
+	bullet = new BulletWorld();
+	bullet->setEventHandler(this);
+	bullet->addGround(0, 0);
 }
 
 // デストラクタ
 Layer3D::~Layer3D() {
 	LOGD("**~Layer3D");
 	delete camera;
+	delete bullet;
 	
 	// addしたオブジェクトを解放
 	std::vector<Figure*> figs;
@@ -81,12 +88,32 @@ Layer3D::~Layer3D() {
 }
 
 // Figure追加
-void Layer3D::addFigure(int id, Figure *fig, Texture *tex, Matrix3D *mtx) {
+void Layer3D::addFigure(int id, Figure *fig, Texture *tex, Matrix3D *mtx, RigidBodyType type, RigidBodyOption option) {
+	//
 	FigureSet set;
 	set.fig = fig;
 	set.tex = tex;
 	set.mtx = mtx;
 	figures[id] = set;
+
+	//
+	btRigidBody* body = NULL;
+	switch (type) {
+		case RigidBodyType_None:
+			break;
+		case RigidBodyType_Box:
+			body = bullet->addRigidBoxShape(option.x, option.y, option.z, option.sizeX, option.sizeY, option.sizeZ, option.mass, option.restitution, option.friction, option.isKinematic);
+			break;
+		case RigidBodyType_Cylinder:
+			break;
+		case RigidBodyType_Ground:
+			break;
+		case RigidBodyType_Sphere:
+			break;
+		case RigidBodyType_Mesh:
+			break;
+	}
+	if (body) body->setUserPointer(&figures[id]);
 }
 
 // Furure検索
@@ -148,6 +175,8 @@ void Layer3D::render(double dt) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+	
+	if (bullet) bullet->step(dt);
 	
 	BoneShader *shader = context->shader3d;
 	shader->useProgram();
@@ -226,5 +255,27 @@ void Layer3D::onContextChanged() {
 		it++;
 	}
 }
+
+//////////////////////////////////////////////////////////
+// IBulletWorldEventHandler の実装
+//////////////////////////////////////////////////////////
+
+/**
+ * 各オブキェクトの処理.
+ */
+void Layer3D::stepBulletObject(BulletWorld *world, btCollisionObject *obj) {
+	// オブジェクトに物理演算の結果を設定
+	FigureSet *set = (FigureSet*)obj->getUserPointer();
+	if (set) {
+		float worldMat[16];
+		obj->getWorldTransform().getOpenGLMatrix(worldMat);
+		if (set->mtx) {
+			set->mtx->setElements(worldMat);
+		} else {
+			set->fig->transForm->setElements(worldMat);
+		}
+	}
+}
+
 
 

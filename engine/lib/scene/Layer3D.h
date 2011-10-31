@@ -32,12 +32,40 @@
 #include <map>
 #include <vector>
 #include "Layer.h"
+#include "BulletWorld.h"
 
 class Camera;
 class Figure;
 class Matrix3D;
 
-class Layer3D : public Layer {
+struct RigidBodyOption {
+	float x;
+	float y;
+	float z;
+	float sizeX;
+	float sizeY;
+	float sizeZ;
+	float radius;
+	float mass;
+	float restitution;
+	float friction;
+	bool isKinematic;
+	
+	RigidBodyOption() {
+		x = y = z = sizeX = sizeY = sizeZ = mass = radius = restitution = friction = isKinematic = 0;
+	}
+};
+
+enum RigidBodyType {
+	RigidBodyType_None,
+	RigidBodyType_Ground,
+	RigidBodyType_Box,
+	RigidBodyType_Sphere,
+	RigidBodyType_Cylinder,
+	RigidBodyType_Mesh
+};
+
+class Layer3D : public Layer, IBulletWorldEventHandler {
 private:
 	struct FigureSet {
 		Figure *fig;
@@ -45,6 +73,7 @@ private:
 		Matrix3D *mtx;
 	};
 	std::map<int, FigureSet> figures;	//!< 追加したFigureを保持
+	BulletWorld *bullet;
 
 	
 public:
@@ -68,8 +97,7 @@ public:
 	 * @param tex テクスチャ
 	 * @param mtx 座標変換行列（NULLの場合はFigureのtransformを使用します）
 	 */
-	virtual void addFigure(int id, Figure *fig, Texture *tex=NULL, Matrix3D *mtx=NULL);
-	
+	virtual void addFigure(int id, Figure *fig, Texture *tex=NULL, Matrix3D *mtx=NULL, RigidBodyType type=RigidBodyType_None, RigidBodyOption option=RigidBodyOption());
 	
 	/**
 	 * 指定したIDに対応するFigureを取得します.
@@ -128,6 +156,15 @@ public:
 	 */
 	virtual void onContextChanged();
 	
+	
+	//////////////////////////////////////////////////////////
+	// IBulletWorldEventHandler の実装
+	//////////////////////////////////////////////////////////
+	
+	/**
+	 * 各オブキェクトの処理.
+	 */
+	virtual void stepBulletObject(BulletWorld *world, btCollisionObject *obj);
 };
 
 #endif /* LAYER3D_H_ */

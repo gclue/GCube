@@ -94,6 +94,14 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 
 	addLayer(1, layer);
 	
+	RigidBodyOption opt;
+	opt.y = 5;
+	opt.sizeX = 0.5;
+	opt.sizeY = 0.5;
+	opt.sizeZ = 0.5;
+	opt.mass = 3.0;
+	opt.restitution = 0.3;
+	opt.friction = 1.0;
 	
 	Figure *fig = createBox(0.5, 0.5, 0.5);
 	fig->build();
@@ -104,7 +112,9 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	
 	Layer3D *l3 = new Layer3D(controller);
 	l3->addFigure(1, fig, NULL, mtx1);
-	l3->addFigure(2, fig, NULL, mtx2);
+//	l3->addFigure(2, fig, NULL, mtx2);
+	l3->addFigure(2, fig, NULL, mtx2, RigidBodyType_Box, opt);
+//	l3->addBox(3, fig);
 	addLayer(0, l3);
 }
 

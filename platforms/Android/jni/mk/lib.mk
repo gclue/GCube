@@ -37,6 +37,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    controller/GCContext.cpp \
                    controller/ApplicationController.cpp \
                    controller/TextureManager.cpp \
+                   scene/3D/BulletWorld.cpp \
                    scene/Scene.cpp \
                    scene/Layer2D.cpp \
                    scene/Layer3D.cpp \
@@ -73,12 +74,12 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
 LOCAL_LDLIBS    := -llog -lGLESv2
 LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/.. \
-                   $(LOCAL_PATH)/../Box2D \
                    $(LOCAL_PATH)/controller \
                    $(LOCAL_PATH)/gl \
                    $(LOCAL_PATH)/math \
                    $(LOCAL_PATH)/porting \
                    $(LOCAL_PATH)/scene \
+                   $(LOCAL_PATH)/scene/3D \
                    $(LOCAL_PATH)/shader \
                    $(LOCAL_PATH)/sound \
                    $(LOCAL_PATH)/ui \
@@ -86,7 +87,11 @@ LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/xml \
                    $(LOCAL_PATH)/xml/expat \
                    $(LOCAL_PATH)/../external/math \
+                   $(LOCAL_PATH)/../external/Bullet \
+                   $(LOCAL_PATH)/../external/Bullet/BulletDynamics/Dynamics \
+				   $(LOCAL_PATH)/../external/Bullet/Extras/Serialize/BulletWorldImporter  \
+				   $(LOCAL_PATH)/../external/Bullet/Extras/Serialize/BulletFileLoader \
                    $(LOCAL_PATH)/yspng
-LOCAL_STATIC_LIBRARIES := math
+LOCAL_STATIC_LIBRARIES := math bullet
 
 include $(BUILD_STATIC_LIBRARY)
