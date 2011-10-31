@@ -126,7 +126,7 @@ public:
 	/**
 	 * 地面を追加します.
 	 */
-	btRigidBody* addGround(float restitution, float friction);
+	btRigidBody* addGround(float x, float y, float z, float restitution, float friction);
 	
 	/**
 	 * Bulletにボックスオブジェクトを追加します.

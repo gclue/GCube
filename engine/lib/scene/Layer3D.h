@@ -71,6 +71,15 @@ private:
 		Figure *fig;
 		Texture *tex;
 		Matrix3D *mtx;
+		btRigidBody* body;
+		
+		Matrix3D *getMatrix() {
+			if (mtx) {
+				return mtx;
+			} else {
+				return fig->transForm;
+			}
+		}
 	};
 	std::map<int, FigureSet> figures;	//!< 追加したFigureを保持
 	BulletWorld *bullet;

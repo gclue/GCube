@@ -94,27 +94,37 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 
 	addLayer(1, layer);
 	
+
+	Matrix3D *mtx1 = new Matrix3D();
+	mtx1->translate(1.5, 1, -1);
+	
+	// キューブ
+	Figure *fig = createBox(0.5, 0.5, 0.5);
+	fig->build();
+	Matrix3D *mtx2 = new Matrix3D();
+	mtx2->rotate(30, RotateDirX);
+	mtx2->translate(1, 5, 0);
 	RigidBodyOption opt;
-	opt.y = 5;
 	opt.sizeX = 0.5;
 	opt.sizeY = 0.5;
 	opt.sizeZ = 0.5;
 	opt.mass = 3.0;
 	opt.restitution = 0.3;
 	opt.friction = 1.0;
+
+	// 床
+	Figure *fig2 = createPlate(3, 3);
+	fig2->build();
+	fig2->transForm->rotate(90, RotateDirX);
+	RigidBodyOption opt2;
+	opt.restitution = 0.3;
+	opt.friction = 1.0;
 	
-	Figure *fig = createBox(0.5, 0.5, 0.5);
-	fig->build();
-	Matrix3D *mtx1 = new Matrix3D();
-	mtx1->translate(0.5, 0, 0);
-	Matrix3D *mtx2 = new Matrix3D();
-	mtx2->translate(0, 0, 0.5);
 	
 	Layer3D *l3 = new Layer3D(controller);
 	l3->addFigure(1, fig, NULL, mtx1);
-//	l3->addFigure(2, fig, NULL, mtx2);
-	l3->addFigure(2, fig, NULL, mtx2, RigidBodyType_Box, opt);
-//	l3->addBox(3, fig);
+	l3->addFigure(2, fig, NULL, mtx2, RigidBodyType_Mesh, opt);
+	l3->addFigure(3, fig2, NULL, NULL, RigidBodyType_Ground, opt2);
 	addLayer(0, l3);
 }
 

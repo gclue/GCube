@@ -33,6 +33,7 @@
 
 Matrix3D::Matrix3D() {
 	loadIdentity();
+	dirtyflag = false;
 }
 
 Matrix3D::~Matrix3D() {
@@ -43,6 +44,14 @@ void Matrix3D::debugPrint() {
 	LOGD("matrix:[%f,%f,%f,%f][%f,%f,%f,%f][%f,%f,%f,%f]]", matrix[0], matrix[1], matrix[2], matrix[3], matrix[4], matrix[5], matrix[6], matrix[7], matrix[8], matrix[9], matrix[10], matrix[11], matrix[12], matrix[13], matrix[14], matrix[15]);
 }
 
+// 等しいか
+bool Matrix3D::equals(Matrix3D *mtx) {
+	for (int i=0; i<16; i++) {
+		if (matrix[i]!=mtx->matrix[i]) return false;
+	}
+	return true;
+}
+
 // 要素の取得
 void Matrix3D::getElements(float *outElements) {
     memcpy(outElements, matrix, sizeof(float) * 16);
@@ -51,11 +60,13 @@ void Matrix3D::getElements(float *outElements) {
 // 単位行列を設定
 void Matrix3D::loadIdentity() {
 	mtxLoadIdentity(matrix);
+	dirtyflag = true;
 }
 
 // 要素の設定
 void Matrix3D::setElements(const float *inElements) {
     memcpy(matrix, inElements, sizeof(float) * 16);
+	dirtyflag = true;
 }
 
 // 乗算
@@ -63,6 +74,7 @@ void Matrix3D::multiply(Matrix3D *mtx) {
 	float ret[16];
 	mtxMultiply(ret, matrix, mtx->matrix);
 	memcpy(matrix, ret, sizeof(float)*16);
+	dirtyflag = true;
 }
 
 // 平行移動
@@ -72,6 +84,7 @@ void Matrix3D::translate(float x, float y, float z, bool apply) {
 	} else {
 		mtxTranslateMatrix(matrix, x, y, z);
 	}
+	dirtyflag = true;
 }
 
 // 回転
@@ -102,6 +115,7 @@ void Matrix3D::rotate(float deg, RotateDir dir, bool apply) {
 				break;
 		}
 	}
+	dirtyflag = true;
 }
 
 // 回転
@@ -111,6 +125,7 @@ void Matrix3D::rotate(float deg, float x, float y, float z, bool apply) {
 	} else {
 		mtxRotateMatrix(matrix, deg, x, y, z);
 	}
+	dirtyflag = true;
 }
 
 // 拡大縮小
@@ -120,6 +135,7 @@ void Matrix3D::scale(float x, float y, float z, bool apply) {
 	} else {
 		mtxScaleMatrix(matrix, x, y, z);
 	}
+	dirtyflag = true;
 }
 
 // 法線ベクトル取得

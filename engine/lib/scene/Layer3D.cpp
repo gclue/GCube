@@ -42,10 +42,6 @@ Layer3D::Layer3D(GCContext *context) : Layer(context) {
 	Vector3D at = Vector3D(0,0,0);
 	camera->transForm.lookAt(&eye, &at);
 	bullet = NULL;
-	
-	bullet = new BulletWorld();
-	bullet->setEventHandler(this);
-	bullet->addGround(0, 0);
 }
 
 // デストラクタ
@@ -89,31 +85,42 @@ Layer3D::~Layer3D() {
 
 // Figure追加
 void Layer3D::addFigure(int id, Figure *fig, Texture *tex, Matrix3D *mtx, RigidBodyType type, RigidBodyOption option) {
-	//
+	// 
 	FigureSet set;
 	set.fig = fig;
 	set.tex = tex;
 	set.mtx = mtx;
-	figures[id] = set;
+	set.body = NULL;
 
-	//
-	btRigidBody* body = NULL;
-	switch (type) {
-		case RigidBodyType_None:
-			break;
-		case RigidBodyType_Box:
-			body = bullet->addRigidBoxShape(option.x, option.y, option.z, option.sizeX, option.sizeY, option.sizeZ, option.mass, option.restitution, option.friction, option.isKinematic);
-			break;
-		case RigidBodyType_Cylinder:
-			break;
-		case RigidBodyType_Ground:
-			break;
-		case RigidBodyType_Sphere:
-			break;
-		case RigidBodyType_Mesh:
-			break;
+	if (type != RigidBodyType_None) {
+		if (!bullet) {
+			bullet = new BulletWorld();
+			bullet->setEventHandler(this);
+		}
+		//
+		switch (type) {
+			case RigidBodyType_None:
+				break;
+			case RigidBodyType_Box:
+				set.body = bullet->addRigidBoxShape(option.x, option.y, option.z, option.sizeX, option.sizeY, option.sizeZ, option.mass, option.restitution, option.friction, option.isKinematic);
+				break;
+			case RigidBodyType_Cylinder:
+				set.body = bullet->addRigidCylinderShape(option.x, option.y, option.z, option.sizeX, option.sizeY, option.sizeZ, option.mass, option.restitution, option.friction, option.isKinematic);
+				break;
+			case RigidBodyType_Ground:
+				bullet->addGround(option.x, option.y, option.z, option.restitution, option.friction);
+				break;
+			case RigidBodyType_Sphere:
+				set.body = bullet->addRigidSphereShape(option.x, option.y, option.z, option.radius, option.mass, option.restitution, option.friction, option.isKinematic);
+				break;
+			case RigidBodyType_Mesh:
+				set.body = bullet->addMeshShape(option.x, option.y, option.z, fig, option.mass, option.restitution, option.friction, option.isKinematic);
+				break;
+		}
+		if (set.body) set.body->setUserPointer(&figures[id]);
 	}
-	if (body) body->setUserPointer(&figures[id]);
+	
+	figures[id] = set;
 }
 
 // Furure検索
@@ -175,9 +182,28 @@ void Layer3D::render(double dt) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+
+	if (bullet) {
+		// 位置変更があった場合はBulletに反映（TODO:スケーリングの考慮も必要）
+		float mat[16];
+		std::map<int, FigureSet>::iterator it = figures.begin();
+		while (it != figures.end()) {
+			FigureSet set = (*it).second;
+			if( set.getMatrix()->dirtyflag && set.body && set.body->getMotionState() ){
+				btTransform transform;
+				set.getMatrix()->getElements(mat);
+				transform.setFromOpenGLMatrix(mat);
+				set.body->setWorldTransform(transform);
+				set.getMatrix()->dirtyflag = false;
+			}
+			it++;
+		}
+		
+		// 物理演算
+		bullet->step(dt);
+	}
 	
-	if (bullet) bullet->step(dt);
-	
+	// 描画
 	BoneShader *shader = context->shader3d;
 	shader->useProgram();
 	std::map<int, FigureSet>::iterator it = figures.begin();
@@ -268,12 +294,14 @@ void Layer3D::stepBulletObject(BulletWorld *world, btCollisionObject *obj) {
 	FigureSet *set = (FigureSet*)obj->getUserPointer();
 	if (set) {
 		float worldMat[16];
-		obj->getWorldTransform().getOpenGLMatrix(worldMat);
-		if (set->mtx) {
-			set->mtx->setElements(worldMat);
+		btRigidBody* body = btRigidBody::upcast(obj);
+		if( body && body->getMotionState() ){
+			btDefaultMotionState* motion = (btDefaultMotionState*)body->getMotionState();
+			motion->m_graphicsWorldTrans.getOpenGLMatrix(worldMat);
 		} else {
-			set->fig->transForm->setElements(worldMat);
+			obj->getWorldTransform().getOpenGLMatrix(worldMat);
 		}
+		set->getMatrix()->setElements(worldMat);
 	}
 }
 

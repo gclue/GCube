@@ -44,6 +44,7 @@ typedef enum {
 class Matrix3D {
 public:
 	float matrix[16];	//!< 4x4マトリクス.
+	bool dirtyflag;
     
 	/**
 	 * コンストラクタ.
@@ -55,6 +56,14 @@ public:
 	 */
 	~Matrix3D();
 
+	/**
+	 * 指定されたmatrixと内容が等しいかを返します.
+	 * <br><br>
+	 * @param[in] mtx 対象のMatrix3D
+	 * @return 等しい場合はtrue
+	 */
+	bool equals(Matrix3D *mtx);
+	
 	/**
 	 * 指定されたmtxをかけ算します.
 	 * <br><br>

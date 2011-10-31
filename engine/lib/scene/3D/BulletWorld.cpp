@@ -133,11 +133,11 @@ bool BulletWorld::load(const char *filename) {
 }
 
 // 地面追加
-btRigidBody* BulletWorld::addGround(float restitution, float friction) {
+btRigidBody* BulletWorld::addGround(float x, float y, float z, float restitution, float friction) {
 	
 	btTransform transform;
 	transform.setIdentity();
-	transform.setOrigin(btVector3(0,0,0));
+	transform.setOrigin(btVector3(x, y, z));
 	btCollisionShape* shape = new btStaticPlaneShape(btVector3(0,1,0),0);
 	if (shape) {
 		return addRigidShape(shape, transform, 0, restitution, friction, false);
@@ -192,32 +192,36 @@ btRigidBody* BulletWorld::addMeshShape(float x, float y, float z,
 	transform.setIdentity();
 	transform.setOrigin(btVector3(x, y, z));
 
-//	btTriangleMesh* triangle = new btTriangleMesh;
-//	short indexCount = mesh->vertexIndexes->size() / sizeof(short);
-//	for( unsigned int i = 0; i < indexCount; i +=3 ){
-//		btVector3 tri[3];
-//		for (int j=0; j<3; j++) {
-//			int idx = mesh->vertexIndexes->at(i+j) * 3;
-//			btScalar x = mesh->vertices->at(idx);
-//			btScalar y = mesh->vertices->at(idx+1);
-//			btScalar z = mesh->vertices->at(idx+2);
-//			tri[j] = btVector3(x, y, z);
-//		}
-//		triangle->addTriangle( tri[0], tri[1], tri[2] );
-//	}
-//
-//    btConvexShape* convex = new btConvexTriangleMeshShape( triangle );
-//
-//    btShapeHull *hull = new btShapeHull( convex );
-//    hull->buildHull( convex->getMargin() );
-//
-//    btConvexHullShape* shape = new btConvexHullShape;
-//    for( int i = 0; i < hull->numVertices(); i++ ){
-//        shape->addPoint( hull->getVertexPointer()[i] );
-//    }
-//
-//	return addRigidShape(shape, transform, mass, restitution, friction, isKinematic);
-	return NULL;
+	// メッシュの再構成
+	btTriangleMesh* triangle = new btTriangleMesh;
+	short indexCount = mesh->vertexIndexes.size();
+	for( unsigned int i = 0; i < indexCount; i +=3 ){
+		btVector3 tri[3];
+		for (int j=0; j<3; j++) {
+			int idx = mesh->vertexIndexes.at(i+j) * 3;
+			btScalar x = mesh->vertices.at(idx);
+			btScalar y = mesh->vertices.at(idx+1);
+			btScalar z = mesh->vertices.at(idx+2);
+			tri[j] = btVector3(x, y, z);
+		}
+		triangle->addTriangle( tri[0], tri[1], tri[2] );
+	}
+
+    btConvexShape* convex = new btConvexTriangleMeshShape( triangle );
+
+    btShapeHull *hull = new btShapeHull( convex );
+    hull->buildHull( convex->getMargin() );
+
+    btConvexHullShape* shape = new btConvexHullShape;
+    for( int i = 0; i < hull->numVertices(); i++ ){
+        shape->addPoint( hull->getVertexPointer()[i] );
+    }
+	
+	delete triangle;
+	delete convex;
+	delete hull;
+
+	return addRigidShape(shape, transform, mass, restitution, friction, isKinematic);
 }
 
 

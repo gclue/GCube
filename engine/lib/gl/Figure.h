@@ -61,12 +61,6 @@ enum {
  */
 class Figure {
 private:
-	std::vector<float> vertices;		//!< 頂点データ.
-	std::vector<float> normals;			//!< 法線データ.
-	std::vector<float> textureCoords;	//!< uvデータ.
-	std::vector<float> jointData;		//!< jointデータ.（内容はjoint1, weight1, joint2, weight2の順）
-	std::vector<short> vertexIndexes;	//!< 頂点インデックスデータ.
-	
 	GLuint vaoName;				//!< VAOの名前.
 	GLuint vboNames[NUM_VBO];	//!< VBOの名前リスト.
 	
@@ -86,6 +80,12 @@ private:
 	GLuint buildVBO(void *data, int size, GLenum buffer);
 
 public:
+	std::vector<float> vertices;		//!< 頂点データ.
+	std::vector<float> normals;			//!< 法線データ.
+	std::vector<float> textureCoords;	//!< uvデータ.
+	std::vector<float> jointData;		//!< jointデータ.（内容はjoint1, weight1, joint2, weight2の順）
+	std::vector<short> vertexIndexes;	//!< 頂点インデックスデータ.
+	
 	Matrix3D *transForm;	//!< フィギュアのマトリクス.
 	Joint *joint;			//!< ルートジョイント
 	Point3f size;			//!< フィギュアのサイズ
