@@ -238,7 +238,9 @@
 		66E54820145E2C900050571F /* btGeometryUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66E54768145E2C8F0050571F /* btGeometryUtil.cpp */; };
 		66E54821145E2C900050571F /* btQuickprof.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66E54773145E2C8F0050571F /* btQuickprof.cpp */; };
 		66E54822145E2C900050571F /* btSerializer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66E54777145E2C8F0050571F /* btSerializer.cpp */; };
-		66F68B15145A5AC500081A57 /* BulletWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66F68B14145A5AC500081A57 /* BulletWorld.cpp */; };
+		66E5482F145EA40F0050571F /* BulletWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66E5482D145EA40F0050571F /* BulletWorld.cpp */; };
+		66E54831145EABDE0050571F /* cube.model in Resources */ = {isa = PBXBuildFile; fileRef = 66E54830145EABDE0050571F /* cube.model */; };
+		66E54833145F96A30050571F /* kotoji.model in Resources */ = {isa = PBXBuildFile; fileRef = 66E54832145F96A30050571F /* kotoji.model */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -827,8 +829,10 @@
 		66E54796145E2C8F0050571F /* vecidx_aos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vecidx_aos.h; sourceTree = "<group>"; };
 		66E54797145E2C8F0050571F /* vectormath_aos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vectormath_aos.h; sourceTree = "<group>"; };
 		66E54798145E2C8F0050571F /* vmInclude.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vmInclude.h; sourceTree = "<group>"; };
-		66F68B14145A5AC500081A57 /* BulletWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BulletWorld.cpp; sourceTree = "<group>"; };
-		66F68B17145A5AEF00081A57 /* BulletWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletWorld.h; sourceTree = "<group>"; };
+		66E5482D145EA40F0050571F /* BulletWorld.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BulletWorld.cpp; sourceTree = "<group>"; };
+		66E5482E145EA40F0050571F /* BulletWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletWorld.h; sourceTree = "<group>"; };
+		66E54830145EABDE0050571F /* cube.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.model; sourceTree = "<group>"; };
+		66E54832145F96A30050571F /* kotoji.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kotoji.model; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -862,6 +866,8 @@
 		6644322714568A55001847A0 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				66E54832145F96A30050571F /* kotoji.model */,
+				66E54830145EABDE0050571F /* cube.model */,
 				6644322814568A55001847A0 /* z34_a.dae */,
 			);
 			path = model;
@@ -1148,7 +1154,6 @@
 		667475A614552F0A0065EDF3 /* scene */ = {
 			isa = PBXGroup;
 			children = (
-				66F68B13145A5AA100081A57 /* 3D */,
 				667475A714552F0A0065EDF3 /* IScene.h */,
 				667475A814552F0A0065EDF3 /* Layer.h */,
 				667475A914552F0A0065EDF3 /* Layer2D.cpp */,
@@ -1227,6 +1232,8 @@
 				667475D814552F0A0065EDF3 /* AnimationSet.h */,
 				667475D914552F0A0065EDF3 /* AssetManager.cpp */,
 				667475DA14552F0A0065EDF3 /* AssetManager.h */,
+				66E5482D145EA40F0050571F /* BulletWorld.cpp */,
+				66E5482E145EA40F0050571F /* BulletWorld.h */,
 				667475DB14552F0A0065EDF3 /* defines.h */,
 				667475DC14552F0A0065EDF3 /* Easing.cpp */,
 				667475DD14552F0A0065EDF3 /* Easing.h */,
@@ -1866,15 +1873,6 @@
 			path = sse;
 			sourceTree = "<group>";
 		};
-		66F68B13145A5AA100081A57 /* 3D */ = {
-			isa = PBXGroup;
-			children = (
-				66F68B14145A5AC500081A57 /* BulletWorld.cpp */,
-				66F68B17145A5AEF00081A57 /* BulletWorld.h */,
-			);
-			path = 3D;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1941,6 +1939,8 @@
 				6644324414568A55001847A0 /* number.png in Resources */,
 				6644324514568A55001847A0 /* number.txt in Resources */,
 				6644324614568A55001847A0 /* z34_a.jpg in Resources */,
+				66E54831145EABDE0050571F /* cube.model in Resources */,
+				66E54833145F96A30050571F /* kotoji.model in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2029,7 +2029,6 @@
 				6644324D1456A22C001847A0 /* main.cpp in Sources */,
 				6644324E1456A22C001847A0 /* Scene3D.cpp in Sources */,
 				6644324F1456A22C001847A0 /* SceneTitle.cpp in Sources */,
-				66F68B15145A5AC500081A57 /* BulletWorld.cpp in Sources */,
 				66E5479A145E2C8F0050571F /* btAxisSweep3.cpp in Sources */,
 				66E5479B145E2C8F0050571F /* btBroadphaseProxy.cpp in Sources */,
 				66E5479C145E2C8F0050571F /* btCollisionAlgorithm.cpp in Sources */,
@@ -2162,6 +2161,7 @@
 				66E54820145E2C900050571F /* btGeometryUtil.cpp in Sources */,
 				66E54821145E2C900050571F /* btQuickprof.cpp in Sources */,
 				66E54822145E2C900050571F /* btSerializer.cpp in Sources */,
+				66E5482F145EA40F0050571F /* BulletWorld.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

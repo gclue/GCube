@@ -37,7 +37,6 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    controller/GCContext.cpp \
                    controller/ApplicationController.cpp \
                    controller/TextureManager.cpp \
-                   scene/3D/BulletWorld.cpp \
                    scene/Scene.cpp \
                    scene/Layer2D.cpp \
                    scene/Layer3D.cpp \
@@ -61,6 +60,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    util/Animation.cpp \
                    util/AnimationSet.cpp \
                    util/AssetManager.cpp \
+                   util/BulletWorld.cpp \
                    util/Easing.cpp \
                    util/FigureCache.cpp \
                    util/Storage.cpp \
@@ -79,7 +79,6 @@ LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/math \
                    $(LOCAL_PATH)/porting \
                    $(LOCAL_PATH)/scene \
-                   $(LOCAL_PATH)/scene/3D \
                    $(LOCAL_PATH)/shader \
                    $(LOCAL_PATH)/sound \
                    $(LOCAL_PATH)/ui \

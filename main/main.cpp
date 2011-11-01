@@ -31,8 +31,8 @@
 #include "SceneTitle.h"
 #include "Scene3D.h"
 
-
 int GCInitApplicationController(ApplicationController *controller) {
+	
 	SceneTitle *scene1 = new SceneTitle(controller);
 	Scene3D *scene2 = new Scene3D(controller);
 	

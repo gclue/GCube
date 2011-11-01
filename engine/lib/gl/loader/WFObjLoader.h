@@ -23,35 +23,54 @@
 #ifndef GL_WFOBJLOADER_H
 #define GL_WFOBJLOADER_H
 
-#include "../glcommon.h"
-
 #include <vector>
 #include <string>
 #include <iterator>
-#include <algorithm>
+#include <sstream>
+
+
+#include "Figure.h"
 
 /**
  * Obj形式の3Dオブジェクト読み込みクラス.
  */
 class WFObjLoader {
+private:
+	/**
+	 * 文字列分割.
+	 */
+	std::vector<std::string>& split(const std::string &s, char delim, std::vector<std::string> &elems);
+	
+	/**
+	 * v/vn/vt用の行分割.
+	 */
+	void scanLine(const std::string &line, std::vector<float> &outupt, int max);
+	
 public:
+	bool rightHanded;						//!< 右手座標フラグ
 
 	/**
 	 * コンストラクタ.
 	 */
-	WFObjLoader(const char *fileName);
+	WFObjLoader();
 
 	/**
 	 * デストラクタ.
 	 */
 	~WFObjLoader();
+	
+	/**
+	 * ファイルから読み込みます.
+	 * @param fileName ファイル名
+	 */
+	Figure* loadFile(const char *fileName);
+	
+	/**
+	 * データから読み込みます.
+	 * @param data データ
+	 */
+	Figure* loadData(std::vector<char>* data);
 
-	std::vector<GLfloat> *vertices;			//!< 頂点
-	std::vector<GLfloat> *normals;			//!< 法線
-	std::vector<GLfloat> *textureCoords;	//!< テクスチャ座標
-	bool rightHanded;						//!< 右手座標フラグ
-
-	GLushort vertexIndex;					//!< 頂点数
 };
 
 #endif // end of GL_WFOBJLOADER_H

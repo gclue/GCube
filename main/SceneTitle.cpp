@@ -32,6 +32,7 @@
 #include "Layer2D.h"
 #include "Layer3D.h"
 #include "PrimitiveObjectBuilder.h"
+#include "WFObjLoader.h"
 
 SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	LOGD("****SceneTitle");
@@ -120,11 +121,18 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	opt.restitution = 0.3;
 	opt.friction = 1.0;
 	
+	// 
+	WFObjLoader loader;
+	Figure *fig3 = loader.loadFile("model/kotoji.model");
+	fig3->build();
+	fig3->transForm->translate(-1.5, 0, 0);
 	
+	//
 	Layer3D *l3 = new Layer3D(controller);
 	l3->addFigure(1, fig, NULL, mtx1);
 	l3->addFigure(2, fig, NULL, mtx2, RigidBodyType_Mesh, opt);
 	l3->addFigure(3, fig2, NULL, NULL, RigidBodyType_Ground, opt2);
+	l3->addFigure(4, fig3, NULL, NULL, RigidBodyType_Mesh, opt);
 	addLayer(0, l3);
 }
 
