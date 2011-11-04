@@ -175,7 +175,8 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
     
 	if (!controller) {
 		controller = ApplicationController::getInstance();
-        controller->resize(self.view.frame.size.width, self.view.frame.size.height);
+		CGRect screenSize = [[UIScreen mainScreen] bounds];
+        controller->resize(screenSize.size.width, screenSize.size.height);
 		controller->resetup();
 		GCInitApplicationController(controller);
 	} else {
