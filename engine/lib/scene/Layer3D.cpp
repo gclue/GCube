@@ -38,7 +38,7 @@
 Layer3D::Layer3D(GCContext *context) : Layer(context) {
 	LOGD("**Layer3D");
 	camera = new Camera();
-	Vector3D eye = Vector3D(5,5,-10);
+	Vector3D eye = Vector3D(5,5,10);
 	Vector3D at = Vector3D(0,0,0);
 	camera->transForm.lookAt(&eye, &at);
 	bullet = NULL;

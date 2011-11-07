@@ -27,6 +27,7 @@
 
 #include "IScene.h"
 #include "GCContext.h"
+#include "Log.h"
 
 class Animation;
 class SimpleShader;

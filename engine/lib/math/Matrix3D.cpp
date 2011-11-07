@@ -166,8 +166,9 @@ void Matrix3D::transformVector3D(Vector3D *outVec, const Vector3D *inVec) {
 
 // 指定の方向を向かせる
 void Matrix3D::lookAt(Vector3D* eye, Vector3D* at, Vector3D* up) {
-
+	
 	Vector3D f = Vector3D(eye);
+	f.z = -f.z;
 	f.subtract(at);
 	f.normalize();
 	
@@ -205,7 +206,7 @@ void Matrix3D::lookAt(Vector3D* eye, Vector3D* at, Vector3D* up) {
 	matrix[14] = 0;
 	matrix[15] = 1;
 
-	this->translate(-eye->x, -eye->y, -eye->z, true);
+	this->translate(-eye->x, -eye->y, eye->z, true);
 }
 
 

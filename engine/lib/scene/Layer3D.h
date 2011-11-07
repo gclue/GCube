@@ -46,13 +46,14 @@ struct RigidBodyOption {
 	float sizeY;
 	float sizeZ;
 	float radius;
-	float mass;
-	float restitution;
-	float friction;
+	float mass; // 質量
+	float restitution; // 反発係数
+	float friction; // 摩擦係数
 	bool isKinematic;
 	
 	RigidBodyOption() {
-		x = y = z = sizeX = sizeY = sizeZ = mass = radius = restitution = friction = isKinematic = 0;
+		x = y = z = restitution = friction = isKinematic = 0;
+		sizeX = sizeY = sizeZ = radius = mass = 1.0;
 	}
 };
 
