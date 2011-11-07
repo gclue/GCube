@@ -1,8 +1,18 @@
+
+struct light {
+	vec3 position;
+	vec3 ambient;
+	vec3 diffuse;
+	vec3 specular;
+};
+
 uniform mat4 u_mvMatrix;
 uniform mat4 u_mvpMatrix;
 uniform mat4 u_skinningMatrix[10];
 uniform mat3 u_nMatrix;
 uniform bool u_useSkinning;
+uniform bool u_useLighting;
+uniform light u_lightState;
 
 attribute vec3 a_position;
 attribute vec3 a_normal;
@@ -11,8 +21,6 @@ attribute vec4 a_joints; // j1,w1,j2,w2
 
 varying vec2 v_texcoord;
 varying vec3 v_color;
-
-const vec3 lightPos = vec3(0.0, 4.0, 5.0);
 
 void main()
 {
@@ -28,8 +36,12 @@ void main()
 	}
 
     // light
-    vec4 pos = u_mvMatrix * vec4(a_position, 1.0);
-    vec3 lightDir = normalize(lightPos - vec3(pos));
-    vec3 normal = normalize(u_nMatrix * a_normal);
-    v_color = vec3(dot(lightDir, normal));
+	if (u_useLighting) {
+		vec4 pos = u_mvMatrix * vec4(a_position, 1.0);
+		vec3 lightDir = normalize(u_lightState.position - vec3(pos));
+		vec3 normal = normalize(u_nMatrix * a_normal);
+		v_color = vec3(dot(lightDir, normal));
+	} else {
+		v_color = vec3(1.0);
+	}
 }

@@ -14,6 +14,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    gl/PackerTexture.cpp \
                    gl/PrimitiveObjectBuilder.cpp \
                    gl/Joint.cpp \
+                   gl/Light.cpp \
                    gl/collada/Accessor.cpp \
                    gl/collada/Collada.cpp \
                    gl/collada/ColladaDataObject.cpp \

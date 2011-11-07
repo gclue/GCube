@@ -33,6 +33,7 @@
 #include "Layer3D.h"
 #include "PrimitiveObjectBuilder.h"
 #include "WFObjLoader.h"
+#include "Light.h"
 
 SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	LOGD("****SceneTitle");
@@ -127,8 +128,14 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	fig3->build();
 	fig3->transForm->translate(-1.5, 0, 0);
 	
+	Light *light = new Light();
+	light->position.x = 0;
+	light->position.y = 4;
+	light->position.z = 5;
+	
 	//
 	Layer3D *l3 = new Layer3D(controller);
+	l3->addLight(1, light);
 	l3->addFigure(1, fig, NULL, mtx1);
 	l3->addFigure(2, fig, NULL, mtx2, RigidBodyType_Mesh, opt);
 	l3->addFigure(3, fig2, NULL, NULL, RigidBodyType_Ground, opt2);

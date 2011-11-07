@@ -28,6 +28,7 @@
 #include "ColladaDataObject.h"
 #include "Joint.h"
 #include "Layer3D.h"
+#include "Light.h"
 
 Scene3D::Scene3D(ApplicationController *controller) : Scene(controller) {
 	LOGD("****Scene3D");
@@ -101,7 +102,17 @@ Scene3D::Scene3D(ApplicationController *controller) : Scene(controller) {
 	Layer3D *layer = new Layer3D(controller);
 	layer->addFigure(1, fig);
 	layer->addFigure(2, fig2, tex);
+	
+	
+	Light *light = new Light();
+	light->position.x = 0;
+	light->position.y = 4;
+	light->position.z = 5;
+	layer->addLight(1, light);
+	
+
 	addLayer(1, layer);
+	
 	
 	rot = 0;
 }

@@ -32,6 +32,8 @@ enum {
 	UNIFORM_NORMAL_MATRIX,					//!< 法線マトリックス
 	UNIFORM_USE_SKINNING,					//!< スキニングを使用するフラグ
 	UNIFORM_SKINNING_MATRIX,				//!< スキニングマトリクスのユニフォーム
+	UNIFORM_USE_LIGHTING,					//!< ライトを使用するフラグ
+	UNIFORM_LIGHT_STATE_POS,				//!< ライトの状態（位置）
 	NUM_UNIFORMS							//!< ユニフォーム数
 };
 static GLint uniforms[NUM_UNIFORMS];
@@ -54,6 +56,16 @@ void BoneShader::useProgram() {
 	glUseProgram(gProgram);
 	this->setAlpha(1.0);
 	this->texname = -1;
+}
+
+void BoneShader::setLight(Light *light) {
+	if (light) {
+		GLfloat lightpos[3] = {light->position.x, light->position.y, light->position.z};
+		glUniform3fv(uniforms[UNIFORM_LIGHT_STATE_POS], 1, lightpos);
+		glUniform1i(uniforms[UNIFORM_USE_LIGHTING], 1);
+	} else {
+		glUniform1i(uniforms[UNIFORM_USE_LIGHTING], 0);
+	}
 }
 
 void BoneShader::bindTexture(int texname) {
@@ -110,6 +122,8 @@ void BoneShader::getUniform(GLuint program, const char *name, int user) {
 	uniforms[UNIFORM_SKINNING_MATRIX] = glGetUniformLocation(program, "u_skinningMatrix");
 	uniforms[UNIFORM_USE_SKINNING] = glGetUniformLocation(program, "u_useSkinning");
 	uniforms[UNIFORM_ALPHA] = glGetUniformLocation(program, "u_alpha");
+	uniforms[UNIFORM_USE_LIGHTING] = glGetUniformLocation(program, "u_useLighting");
+	uniforms[UNIFORM_LIGHT_STATE_POS] = glGetUniformLocation(program, "u_lightState.position");
 }
 
 void BoneShader::setAlpha(float a) {

@@ -37,6 +37,7 @@
 class Camera;
 class Figure;
 class Matrix3D;
+class Light;
 
 struct RigidBodyOption {
 	float x;
@@ -83,6 +84,7 @@ private:
 		}
 	};
 	std::map<int, FigureSet> figures;	//!< 追加したFigureを保持
+	std::map<int, Light*> lights;		//!< 追加したライトを保持
 	BulletWorld *bullet;
 
 	
@@ -133,6 +135,14 @@ public:
 	 */
 	virtual Matrix3D* findMatrixByID(int id);
 
+
+	/**
+	 * ライトを追加します.
+	 * 追加したライトはこのオブジェクトと共に解放されます.
+	 * @param id 識別ID
+	 * @param fig Light
+	 */
+	virtual void addLight(int id, Light *light);
 
 	//////////////////////////////////////////////////////////
 	// Layer の実装

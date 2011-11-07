@@ -27,6 +27,7 @@
 #include "Camera.h"
 #include "Shader.h"
 #include "Figure.h"
+#include "Light.h"
 
 /**
  * ボーンアニメーションシェーダークラス.
@@ -59,6 +60,13 @@ public:
 	 * @param[in] texname テクスチャ名
 	 */
 	void bindTexture(int texname);
+	
+	/**
+	 * ライトを設定します.
+	 * <br>
+	 * @param[in] light ライト
+	 */
+	void setLight(Light *light);
 
 	/**
 	 * 基底の透明度をシェーダに設定します.

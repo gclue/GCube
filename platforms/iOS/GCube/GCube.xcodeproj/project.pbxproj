@@ -241,6 +241,7 @@
 		66E5482F145EA40F0050571F /* BulletWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66E5482D145EA40F0050571F /* BulletWorld.cpp */; };
 		66E54831145EABDE0050571F /* cube.model in Resources */ = {isa = PBXBuildFile; fileRef = 66E54830145EABDE0050571F /* cube.model */; };
 		66E54833145F96A30050571F /* kotoji.model in Resources */ = {isa = PBXBuildFile; fileRef = 66E54832145F96A30050571F /* kotoji.model */; };
+		66F980661467AF9200D85239 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66F980641467AF9200D85239 /* Light.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -833,6 +834,8 @@
 		66E5482E145EA40F0050571F /* BulletWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletWorld.h; sourceTree = "<group>"; };
 		66E54830145EABDE0050571F /* cube.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.model; sourceTree = "<group>"; };
 		66E54832145F96A30050571F /* kotoji.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kotoji.model; sourceTree = "<group>"; };
+		66F980641467AF9200D85239 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
+		66F980651467AF9200D85239 /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1068,6 +1071,8 @@
 				6674759614552F0A0065EDF3 /* SharedTexture.h */,
 				6674759714552F0A0065EDF3 /* Texture.cpp */,
 				6674759814552F0A0065EDF3 /* Texture.h */,
+				66F980641467AF9200D85239 /* Light.cpp */,
+				66F980651467AF9200D85239 /* Light.h */,
 			);
 			path = gl;
 			sourceTree = "<group>";
@@ -2162,6 +2167,7 @@
 				66E54821145E2C900050571F /* btQuickprof.cpp in Sources */,
 				66E54822145E2C900050571F /* btSerializer.cpp in Sources */,
 				66E5482F145EA40F0050571F /* BulletWorld.cpp in Sources */,
+				66F980661467AF9200D85239 /* Light.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

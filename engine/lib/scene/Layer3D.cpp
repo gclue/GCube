@@ -81,6 +81,14 @@ Layer3D::~Layer3D() {
 		}
 		it++;
 	}
+	
+	// 追加したLightを解放
+	std::map<int, Light*>::iterator it2 = lights.begin();
+	while (it2 != lights.end()) {
+		delete (*it2).second;
+		it2++;
+	}
+
 }
 
 // Figure追加
@@ -153,6 +161,12 @@ Matrix3D* Layer3D::findMatrixByID(int id) {
 	}
 }
 
+// ライト追加
+void Layer3D::addLight(int id, Light *light) {
+	lights[id] = light;
+}
+
+
 //////////////////////////////////////////////////////////
 // Layer の実装
 //////////////////////////////////////////////////////////
@@ -203,9 +217,20 @@ void Layer3D::render(double dt) {
 		bullet->step(dt);
 	}
 	
-	// 描画
+	// ライト
 	BoneShader *shader = context->shader3d;
 	shader->useProgram();
+	if (lights.size()>0) {
+		std::map<int, Light*>::iterator itl = lights.begin();
+		while (itl != lights.end()) {
+			shader->setLight((*itl).second);
+			itl++;
+		}
+	} else {
+		shader->setLight(NULL);
+	}
+	
+	// 描画
 	std::map<int, FigureSet>::iterator it = figures.begin();
 	while (it != figures.end()) {
 		FigureSet set = (*it).second;
