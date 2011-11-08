@@ -157,7 +157,7 @@ Texture* Layer3D::findTextureByID(int id) {
 Matrix3D* Layer3D::findMatrixByID(int id) {
 	std::map<int, FigureSet>::iterator it = figures.find(id);
 	if (it!=figures.end()) {
-		return (*it).second.mtx;
+		return (*it).second.getMatrix();
 	} else {
 		return NULL;
 	}
@@ -210,7 +210,7 @@ void Layer3D::render(double dt) {
 				set.getMatrix()->getElements(mat);
 				transform.setFromOpenGLMatrix(mat);
 				set.body->setWorldTransform(transform);
-				set.getMatrix()->dirtyflag = false;
+				set.body->activate(true);
 			}
 			it++;
 		}
@@ -242,8 +242,10 @@ void Layer3D::render(double dt) {
 		if (handler) {
 			if (handler->removeFigure(this, set.fig, set.getMatrix())) {
 				if (set.body) {
-					bullet->dynamicsWorld->removeRigidBody(set.body);
-					delete set.body;
+					if (bullet) {
+						bullet->dynamicsWorld->removeRigidBody(set.body);
+						delete set.body;
+					}
 				}
 				figures.erase(it);
 				set.fig = NULL;
@@ -257,13 +259,9 @@ void Layer3D::render(double dt) {
 		}
 		
 		// マトリックス設定
-		if (set.mtx) {
-			shader->setNormalMatrix(set.mtx);
-			shader->setMVPMatrix(camera, set.mtx);
-		} else {
-			shader->setNormalMatrix(set.fig->transForm);
-			shader->setMVPMatrix(camera, set.fig->transForm);
-		}
+		Matrix3D *mtx = set.getMatrix();
+		shader->setNormalMatrix(mtx);
+		shader->setMVPMatrix(camera, mtx);
 		
 		// テクスチャ設定
 		if (set.tex) {
@@ -351,6 +349,7 @@ void Layer3D::stepBulletObject(BulletWorld *world, btCollisionObject *obj) {
 			obj->getWorldTransform().getOpenGLMatrix(worldMat);
 		}
 		set->getMatrix()->setElements(worldMat);
+		set->getMatrix()->dirtyflag = false;
 	}
 }
 

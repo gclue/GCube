@@ -284,7 +284,7 @@ void GCSoundEvent(const char *fileName, int mode) {
 	JNIEnv* env = jni.env;
 	if (env) {
 		jstring str = env->NewStringUTF(fileName);
-		env->CallObjectMethod(jni.obj, jni.soundEventMethod, mode, str);
+		env->CallVoidMethod(jni.obj, jni.soundEventMethod, mode, str);
 		if (str) {
 			env->DeleteLocalRef(str);
 		}
@@ -308,7 +308,7 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
 		if (param4) {
 			str = env->NewStringUTF(param5);
 		}
-		env->CallObjectMethod(jni.obj, jni.onGameEventMethod, type, param1, param2, param3, param4, str);
+		env->CallVoidMethod(jni.obj, jni.onGameEventMethod, type, param1, param2, param3, param4, str);
 		if (str) {
 			env->DeleteLocalRef(str);
 		}
@@ -457,7 +457,7 @@ std::vector<char>* GCLoadAsset(const char *fileName) {
  * @param width 画面横サイズ
  * @param height 画面縦サイズ
  */
-JNIEXPORT bool JNICALL
+JNIEXPORT jboolean JNICALL
 Java_com_gclue_gl_JNILib_init(
 		JNIEnv * env, jobject obj, jint width, jint height) {
 	LOGD("Java_com_gclue_gl_JNILib_init");
@@ -475,10 +475,10 @@ Java_com_gclue_gl_JNILib_init(
 		controller->resize(width, height);
 		controller->resetup();
 		GCInitApplicationController(controller);
-		return true;
+		return JNI_TRUE;
 	} else {
 		controller->resetup();
-		return true;
+		return JNI_TRUE;
 	}
 }
 
@@ -495,11 +495,11 @@ Java_com_gclue_gl_JNILib_setInterface(
 	LOGD("Java_com_gclue_gl_JNILib_setInterface");
 
 	// インターフェースクラスのロード.
-	jclass clazz = env->FindClass("com.gclue.gl.app.NDKInterface");
+	jclass clazz = env->FindClass("com/gclue/gl/app/NDKInterface");
 
 	// クラスに環境変数を格納します.
 	jni.env = env;
-	jni.obj = ndk;
+	jni.obj = env->NewGlobalRef(ndk);
 
 	// NDKInterfaceクラスのメソッドを登録します.
 	jni.loadFigureMethod = env->GetMethodID(clazz, "loadFigure", "(Ljava/lang/String;)Lcom/gclue/gl/Figure;");

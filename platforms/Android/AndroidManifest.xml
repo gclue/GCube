@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-      package="com.gclue.gl"
+      package="com.gclue.gcube"
       android:versionCode="1"
       android:versionName="1.0">
 
     <application android:icon="@drawable/icon" android:label="@string/app_name">
-        <activity android:name=".app.GCubeActivity"
+        <activity android:name="com.gclue.gl.app.GCubeActivity"
                   android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
+    
+ 	<supports-screens android:resizeable="true"
+                  android:smallScreens="true"
+                  android:normalScreens="true"
+                  android:largeScreens="true"
+                  android:anyDensity="true" />
 </manifest>

@@ -86,8 +86,8 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	animView->setAnimationFrameIndex(1);
 	animView->setUserID(10);
 	
-	animView->setRotate(30);
-	animView->setScale(1.5, 1.5);
+//	animView->setRotate(30);
+	animView->setScale(2.0, 2.0);
 
 	root->addView(animView);
 
@@ -105,7 +105,7 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	fig->build();
 	Matrix3D *mtx2 = new Matrix3D();
 	mtx2->rotate(30, RotateDirX);
-	mtx2->translate(1, 5, 0);
+	mtx2->translate(2, 3, 0);
 	RigidBodyOption opt;
 	opt.sizeX = 0.5;
 	opt.sizeY = 0.5;
@@ -126,18 +126,19 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	WFObjLoader loader;
 	Figure *fig3 = loader.loadFile("model/kotoji.model");
 	fig3->build();
-	fig3->transForm->translate(-1.5, 0, 0);
+	fig3->transForm->translate(-1.5, 5, 0);
 	
 	Light *light = new Light();
 	light->position.x = 0;
 	light->position.y = 4;
 	light->position.z = 5;
 	
+	Texture *tex2 = new Texture("texture/gclue_logo.png");
 	//
 	Layer3D *l3 = new Layer3D(controller);
 	l3->addLight(1, light);
 	l3->addFigure(1, fig, NULL, mtx1);
-	l3->addFigure(2, fig, NULL, mtx2, RigidBodyType_Mesh, opt);
+	l3->addFigure(2, fig, tex2, mtx2, RigidBodyType_Box, opt);
 	l3->addFigure(3, fig2, NULL, NULL, RigidBodyType_Ground, opt2);
 	l3->addFigure(4, fig3, NULL, NULL, RigidBodyType_Mesh, opt);
 	addLayer(0, l3);
@@ -151,8 +152,37 @@ SceneTitle::~SceneTitle() {
 // IScene の実装
 //////////////////////////////////////////////////////////
 
+float ddt = 0;
+
 // ステップ実行します
 void SceneTitle::step(float dt) {
+
+	ddt+=dt;
+	if (ddt>5) {
+		Layer3D *l3 = (Layer3D*)getLayer(0);
+		Matrix3D *mtx = l3->findMatrixByID(2);
+		mtx->loadIdentity();
+		mtx->rotate(rand()%180, RotateDirZ);
+		mtx->translate(2,3,0);
+
+		mtx = l3->findMatrixByID(4);
+		mtx->loadIdentity();
+		mtx->rotate(rand()%50, RotateDirX);
+		mtx->translate(-1.5,5,0);
+
+
+		Layer2D *layer = (Layer2D *) getLayer(1);
+
+		ImageAnimationView *v = (ImageAnimationView *) layer->findViewByID(10);
+		if (v) {
+			index++;
+			index %= 4;
+			v->setAnimationFrameIndex(index + 1);
+		}
+
+		ddt = 0;
+	}
+
 	super::step(dt);
 }
 

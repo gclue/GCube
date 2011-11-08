@@ -157,6 +157,8 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
 {
     NSLog(@"GCViewController:viewDidLoad");
     
+	self.view.contentScaleFactor = [UIScreen mainScreen].scale;
+	
     self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
     
     if (!self.context) {
