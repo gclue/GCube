@@ -38,7 +38,23 @@ class Camera;
 class Figure;
 class Matrix3D;
 class Light;
+class Layer3D;
 
+/**
+ * 剛体の種類.
+ */
+enum RigidBodyType {
+	RigidBodyType_None,
+	RigidBodyType_Ground,
+	RigidBodyType_Box,
+	RigidBodyType_Sphere,
+	RigidBodyType_Cylinder,
+	RigidBodyType_Mesh
+};
+
+/**
+ * 剛体情報構造体.
+ */
 struct RigidBodyOption {
 	float x;
 	float y;
@@ -58,38 +74,63 @@ struct RigidBodyOption {
 	}
 };
 
-enum RigidBodyType {
-	RigidBodyType_None,
-	RigidBodyType_Ground,
-	RigidBodyType_Box,
-	RigidBodyType_Sphere,
-	RigidBodyType_Cylinder,
-	RigidBodyType_Mesh
+/**
+ * 3Dオブジェクト情報構造体.
+ */
+struct FigureSet {
+	Figure *fig;
+	Texture *tex;
+	Matrix3D *mtx;
+	btRigidBody* body;
+	
+	FigureSet() {
+		fig = NULL;
+		tex = NULL;
+		mtx = NULL;
+		body = NULL;
+	}
+	
+	Matrix3D *getMatrix() {
+		if (mtx) {
+			return mtx;
+		} else {
+			return fig->transForm;
+		}
+	}
 };
 
+/**
+ * イベントハンドラインターフェイス.
+ */
+class ILayer3DEventHandler {
+public:
+	/**
+	 * デストラクタ.
+	 */
+	virtual ~ILayer3DEventHandler(){};
+	
+	/**
+	 * 3Dオブジェクトの削除判断処理.
+	 * @return trueでワールドから削除されます.
+	 */
+	virtual bool removeFigure(Layer3D *layer, Figure *fig, Matrix3D *mtx) = 0;
+};
+
+
+/**
+ * 3Dを描画するためのレイヤー.
+ */
 class Layer3D : public Layer, IBulletWorldEventHandler {
 private:
-	struct FigureSet {
-		Figure *fig;
-		Texture *tex;
-		Matrix3D *mtx;
-		btRigidBody* body;
-		
-		Matrix3D *getMatrix() {
-			if (mtx) {
-				return mtx;
-			} else {
-				return fig->transForm;
-			}
-		}
-	};
 	std::map<int, FigureSet> figures;	//!< 追加したFigureを保持
 	std::map<int, Light*> lights;		//!< 追加したライトを保持
-	BulletWorld *bullet;
+	BulletWorld *bullet;				//!< 物理演算ワールド
+	ILayer3DEventHandler *handler;		//!< イベントハンドラ
 
 	
 public:
 	Camera *camera;	//!< カメラ
+	float gravity;
 	
 	/**
 	 * コンストラクタ.
@@ -100,6 +141,12 @@ public:
 	 * デストラクタ.
 	 */
 	virtual ~Layer3D();
+	
+	/**
+	 * イベントリスナー設定.
+	 * @param[in] listener リスナー
+	 */
+	void setEventHandler(ILayer3DEventHandler *handler) {this->handler=handler;};
 	
 	/**
 	 * Figureを追加します.

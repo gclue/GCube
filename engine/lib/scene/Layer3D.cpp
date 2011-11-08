@@ -42,6 +42,8 @@ Layer3D::Layer3D(GCContext *context) : Layer(context) {
 	Vector3D at = Vector3D(0,0,0);
 	camera->transForm.lookAt(&eye, &at);
 	bullet = NULL;
+	handler = NULL;
+	gravity = -9.8;
 }
 
 // デストラクタ
@@ -102,7 +104,7 @@ void Layer3D::addFigure(int id, Figure *fig, Texture *tex, Matrix3D *mtx, RigidB
 
 	if (type != RigidBodyType_None) {
 		if (!bullet) {
-			bullet = new BulletWorld();
+			bullet = new BulletWorld(gravity);
 			bullet->setEventHandler(this);
 		}
 		//
@@ -131,7 +133,7 @@ void Layer3D::addFigure(int id, Figure *fig, Texture *tex, Matrix3D *mtx, RigidB
 	figures[id] = set;
 }
 
-// Furure検索
+// Fugure検索
 Figure* Layer3D::findFigureByID(int id) {
 	std::map<int, FigureSet>::iterator it = figures.find(id);
 	if (it!=figures.end()) {
@@ -232,9 +234,28 @@ void Layer3D::render(double dt) {
 	
 	// 描画
 	std::map<int, FigureSet>::iterator it = figures.begin();
+	Figure *fig = NULL;
 	while (it != figures.end()) {
 		FigureSet set = (*it).second;
-			
+		
+		// 削除処理
+		if (handler) {
+			if (handler->removeFigure(this, set.fig, set.getMatrix())) {
+				if (set.body) {
+					bullet->dynamicsWorld->removeRigidBody(set.body);
+					delete set.body;
+				}
+				figures.erase(it);
+				set.fig = NULL;
+			}
+		}
+
+		// 描画対象がないので無視
+		if (!set.fig) {
+			it++;
+			continue;
+		}
+		
 		// マトリックス設定
 		if (set.mtx) {
 			shader->setNormalMatrix(set.mtx);
@@ -259,7 +280,10 @@ void Layer3D::render(double dt) {
 		}
 		
 		// 描画
-		set.fig->bind();
+		if (fig != set.fig) {
+			set.fig->bind();
+			fig = set.fig;
+		}
 		set.fig->draw();
 		
 		it++;

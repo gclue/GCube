@@ -151,6 +151,11 @@ void Matrix3D::normalMatrix(float *mtxout) {
 
 // 変換行列を適用したVector3Dを返します
 void Matrix3D::transformVector3D(Vector3D *outVec, const Vector3D *inVec) {
+	
+	if (!inVec) {
+		inVec = new Vector3D();
+	}
+	
 	float tmp[4];
 	for (int i=0; i<4; i++) {
 		tmp[i] = (matrix[i   ] * inVec->x) +

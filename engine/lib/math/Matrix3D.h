@@ -135,7 +135,7 @@ public:
 	 * @param[out] outVec 座標を格納するVector3D
 	 * @param[in] inVec 座標を格納するVector3D
 	 */
-	void transformVector3D(Vector3D *outVec, const Vector3D *inVec);
+	void transformVector3D(Vector3D *outVec, const Vector3D *inVec=NULL);
 
 	/**
 	 * 指定の場所(eye)から指定の位置(at)を向かせる変換行列を設定します.
