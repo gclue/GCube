@@ -60,7 +60,9 @@ void WFObjLoader::scanLine(const std::string &line, std::vector<float> &outupt, 
 // ファイルから読み込み
 Figure* WFObjLoader::loadFile(const char *fileName) {
 	std::vector<char>* data = GCLoadAsset(fileName);
-	return this->loadData(data);
+	Figure *out = this->loadData(data);
+	delete data;
+	return out;
 }
 
 // データから読み込み

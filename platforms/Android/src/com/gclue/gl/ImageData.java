@@ -36,7 +36,7 @@ import android.util.Log;
 public class ImageData {
 	
 	static {
-		pixels = new int[1024*1024];
+		pixels = new int[2048*2048];
 	}
 	
 	/**
@@ -192,7 +192,7 @@ public class ImageData {
 			width = bitmap.getWidth();
 			height = bitmap.getHeight();
 			if (pixels == null) {
-				pixels = new int[1024 * 1024];
+				pixels = new int[2048 * 2048];
 			}
 			bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
 		} catch (OutOfMemoryError e) {

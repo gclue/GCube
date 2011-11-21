@@ -23,6 +23,21 @@
 #include "BulletWorld.h"
 #include "Log.h"
 
+/**
+ * Bulletの当たり判定用コールバック関数.
+ */
+static bool ContactCallBack(btManifoldPoint& cp, void* body0, void* body1) {
+	btRigidBody* rbody0 = (btRigidBody*) body0;
+	btRigidBody* rbody1 = (btRigidBody*) body1;
+	
+	UserObj *user = (UserObj*)rbody0->getUserPointer();
+	BulletWorld *world = (BulletWorld*)user->world;
+
+	if (world && world->handler) world->handler->contactBulletObject(world, rbody0, rbody1);
+
+	return true;
+};
+
 // コンストラクタ
 BulletWorld::BulletWorld(float g) {
 	LOGD("*BulletWorld");
@@ -35,6 +50,7 @@ BulletWorld::BulletWorld(float g) {
 	linearDamping = 0.5;
 	angularDamping = 0.5;
 	handler = NULL;
+	gContactProcessedCallback = ContactCallBack;
 }
 
 // デストラクタ
@@ -65,10 +81,10 @@ void BulletWorld::clear() {
 					if (motion) {
 						delete motion;
 					}
-//					CoinType *cointype = (CoinType *) body->getUserPointer();
-//					if (cointype) {
-//						delete cointype;
-//					}
+					UserObj *user = (UserObj*)body->getUserPointer();
+					if (user) {
+						delete user;
+					}
 				}
 				dynamicsWorld->removeCollisionObject(obj);
 				delete obj;
@@ -87,7 +103,7 @@ void BulletWorld::step(double t) {
 		if (handler) {
 			btCollisionObjectArray array = dynamicsWorld->getCollisionObjectArray();
 			for (int i=array.size()-1; i >= 0; i--) {
-				handler->stepBulletObject(this, array[i]);
+				if (handler) handler->stepBulletObject(this, array[i]);
 			}
 		}
 	}
@@ -265,6 +281,11 @@ btRigidBody* BulletWorld::addRigidShape(btCollisionShape *shape, btTransform tra
 		body->setCollisionFlags(body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
 		body->setActivationState(DISABLE_DEACTIVATION);
 	}
+	
+	//
+	UserObj *user = new UserObj();
+	user->world = this;
+	body->setUserPointer(user);
 	
 	return body;
 }

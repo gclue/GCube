@@ -137,10 +137,36 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	//
 	Layer3D *l3 = new Layer3D(controller);
 	l3->addLight(1, light);
-	l3->addFigure(1, fig, NULL, mtx1);
-	l3->addFigure(2, fig, tex2, mtx2, RigidBodyType_Box, opt);
-	l3->addFigure(3, fig2, NULL, NULL, RigidBodyType_Ground, opt2);
-	l3->addFigure(4, fig3, NULL, NULL, RigidBodyType_Mesh, opt);
+	
+	FigureInfo info = {NULL};
+	info.fig = fig;
+	info.mtx = mtx1;
+	l3->addFigure(info);
+	
+	info.tex = tex2;
+	info.mtx = mtx2;
+	opt.type = RigidBodyType_Box;
+	l3->addFigure(info, opt);
+	
+	info.fig = fig2;
+	info.mtx = NULL;
+	info.tex = NULL;
+	opt.type = RigidBodyType_Ground;
+	l3->addFigure(info, opt);
+	
+	info.fig = fig3;
+	info.mtx = NULL;
+	info.tex = NULL;
+	opt.type = RigidBodyType_Mesh;
+	l3->addFigure(info, opt);
+	
+	fig->release();
+	fig2->release();
+	fig3->release();
+	mtx1->release();
+	mtx2->release();
+	tex2->release();
+	
 	addLayer(0, l3);
 }
 
@@ -229,7 +255,7 @@ void SceneTitle::onContextChanged() {
 	LOGD("****SceneTitle::onContextChanged");
 }
 
-void SceneTitle::onTouch(TouchEvent &event) {
+bool SceneTitle::onTouch(TouchEvent &event) {
 	super::onTouch(event);
 	LOGD("****SceneTitle::onTouch");
 	if (event.type == touchDown) {
@@ -242,5 +268,7 @@ void SceneTitle::onTouch(TouchEvent &event) {
 			v->setAnimationFrameIndex(index + 1);
 		}
 		controller->sceneChange(2);
+		return true;
 	}
+	return false;
 }

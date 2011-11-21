@@ -23,7 +23,7 @@
 #include "Texture.h"
 #include "APIGlue.h"
 
-Texture::Texture(const char *fname) {
+Texture::Texture(const char *fname):GCObject() {
 	filename.append(fname);
 	GCLoadTexture(this, fname);
 }

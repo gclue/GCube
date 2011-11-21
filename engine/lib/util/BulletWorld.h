@@ -41,6 +41,25 @@
 class BulletWorld;
 
 /**
+ * Bulletの当たり判定のコールバック関数を定義します.
+ */
+extern ContactProcessedCallback	gContactProcessedCallback;
+
+/**
+ * UserObject構造体.
+ * RigitBodyのUserObjectを使用する場合は
+ * このオブジェクトがセットされているので、こちらを使用してください。
+ */
+struct UserObj {
+	void *user;
+	BulletWorld *world;
+	UserObj() {
+		user = NULL;
+		world = NULL;
+	}
+};
+
+/**
  * イベントハンドラインターフェイス.
  */
 class IBulletWorldEventHandler {
@@ -53,7 +72,12 @@ public:
 	/**
 	 * 各オブキェクトの処理.
 	 */
-	virtual void stepBulletObject(BulletWorld *world, btCollisionObject *obj) = 0;
+	virtual void stepBulletObject(BulletWorld *world, btCollisionObject *obj) {};
+	
+	/**
+	 * 各オブキェクトの衝突処理.
+	 */
+	virtual void contactBulletObject(BulletWorld *world, btRigidBody *obj0, btRigidBody *obj1) {};
 };
 
 /**
@@ -61,7 +85,6 @@ public:
  */
 class BulletWorld {
 private:
-	IBulletWorldEventHandler *handler; //!< イベントハンドラ
 	
 	/**
 	 * 指定されたShapeをBulletに追加します.
@@ -77,6 +100,7 @@ private:
 							   float restitution, float friction, bool isKinematic);
 	
 public:
+	IBulletWorldEventHandler *handler; //!< イベントハンドラ
 	btDiscreteDynamicsWorld *dynamicsWorld;				//!< Bulletの本体
 	btDefaultCollisionConfiguration *collisionConfig;	//!< Bulletの当たり判定の設定
 	btCollisionDispatcher *collisionDispatcher;			//!< Bulletの当たり判定のディスパッチャー

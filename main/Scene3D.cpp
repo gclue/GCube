@@ -100,8 +100,14 @@ Scene3D::Scene3D(ApplicationController *controller) : Scene(controller) {
 	
 	Texture *tex = new Texture("texture/gclue_logo.png");
 	Layer3D *layer = new Layer3D(controller);
-	layer->addFigure(1, fig);
-	layer->addFigure(2, fig2, tex);
+	
+	FigureInfo info = {NULL};
+	info.fig = fig;
+	layer->addFigure(info);
+
+	info.fig = fig2;
+	info.tex = tex;
+	layer->addFigure(info);
 	
 	
 	Light *light = new Light();
@@ -143,12 +149,14 @@ void Scene3D::step(float dt) {
 }
 
 // タッチイベント
-void Scene3D::onTouch(TouchEvent &event) {
+bool Scene3D::onTouch(TouchEvent &event) {
 	super::onTouch(event);
 	LOGD("****Scene3D::onTouch:%.1f-%.1f", event.x, event.y);
 	if (event.type == touchDown) {
 		controller->sceneChange(1);
+		return true;
 	}
+	return false;
 }
 
 // JNIイベント

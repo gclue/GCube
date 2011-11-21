@@ -32,6 +32,7 @@
 #include "BoneShader.h"
 #include "TextureManager.h"
 #include "defines.h"
+#include "GCObject.h"
 
 GCContext::GCContext() {
 	// カメラの初期化
@@ -43,6 +44,7 @@ GCContext::GCContext() {
 	shader = new SimpleShader();
 	shader3d = new BoneShader();
 	texMgr = new TextureManager();
+	userObj = NULL;
 }
 
 GCContext::~GCContext() {
@@ -50,6 +52,7 @@ GCContext::~GCContext() {
 	DELETE(shader);
 	DELETE(camera);
 	DELETE(texMgr);
+	if(userObj) userObj->release();
 }
 
 void GCContext::setupContext() {

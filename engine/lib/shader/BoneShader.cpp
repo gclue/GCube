@@ -40,7 +40,7 @@ static GLint uniforms[NUM_UNIFORMS];
 
 BoneShader::BoneShader() {
 	gProgram = loadShader("shader/boneShader", 0);
-	baseAlpha = 0.5;
+	baseAlpha = 1.0;
 	texname = -1;
 }
 
@@ -76,7 +76,7 @@ void BoneShader::bindTexture(int texname) {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texname);
 	glUniform1i(uniforms[UNIFORM_TEXTURE_BASE], 0);
-	glUniform1i(uniforms[UNIFORM_USE_TEXTURE], texname>0);
+	glUniform1f(uniforms[UNIFORM_USE_TEXTURE], texname>0?0:1.0);
 
 	this->texname = texname;
 }

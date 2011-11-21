@@ -24,6 +24,7 @@
 #define MATH_MATRIX3D_H
 
 #include <stdio.h>
+#include "GCObject.h"
 
 class Vector3D;
 
@@ -41,7 +42,7 @@ typedef enum {
 /**
  * 4x4マトリクスの計算を行うクラス.
  */
-class Matrix3D {
+class Matrix3D : public GCObject {
 public:
 	float matrix[16];	//!< 4x4マトリクス.
 	bool dirtyflag;

@@ -51,6 +51,8 @@ private:
 	int preSceneID;					//!< 一つ前のシーンID
 	Animation *fadeAnimation;		//!< フェードアニメーション
 
+	Animation *defaultFadeAnimation;//!< デフォルトのフェードアニメーション
+	
 	static ApplicationController* singleton; //!< 唯一のインスタンス
 
 	/**
@@ -150,9 +152,16 @@ public:
 	void onGameEvent(int type, int param1, int param2, int param3, int param4, const char *param5);
 
 	/**
+	 * デバッグコマンドを処理します.
+	 * @param[in] command コマンド
+	 * @param[in] param パラメータ
+	 */
+	void onDebugCommand(const char *command, int param);
+	
+	/**
 	 * シーンの切り替えを行います.
 	 */
-	void sceneChange(int sceneid);
+	void sceneChange(int sceneid, IAnimation *animation = NULL);
 
 	/**
 	 * 一つ前のシーンに戻ります.

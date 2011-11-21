@@ -137,7 +137,7 @@ LOCAL_SRC_FILES        := LinearMath/btGeometryUtil.cpp \
                           Extras/Serialize/BulletFileLoader/bDNA.cpp \
                           Extras/Serialize/BulletFileLoader/bFile.cpp \
                           Extras/Serialize/BulletFileLoader/btBulletFile.cpp \
-                          Extras/Serialize/BulletWorldImporter/btBulletWorldImporter.cpp
+                          Extras/Serialize/BulletWorldImporter/btBulletWorldImporter.cpp \
                           #MiniCL/MiniCL.cpp \
                           #MiniCL/MiniCLTask/MiniCLTask.cpp \
                           #MiniCL/MiniCLTaskScheduler.cpp \

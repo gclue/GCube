@@ -116,7 +116,7 @@ void GCSoundEvent(const char *fileName, int mode);
 std::vector<char>* GCLoadAsset(const char *fileName);
 
 /**
- * Java側にイベントを配送します.
+ * イベントを配送します.
  * @param[in] type イベントタイプ
  * @param[in] param1 イベントパラメータ
  * @param[in] param2 イベントパラメータ

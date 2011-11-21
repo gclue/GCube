@@ -104,6 +104,7 @@ void FigureCache::destroyVAO() {
 }
 
 void FigureCache::rebuild() {
+	LOGD("FigureCache::rebuild");
 	for (int i = 0; i < cache.size(); i++) {
 		FigureObj *obj = cache.at(i);
 		if (obj && obj->figure) {

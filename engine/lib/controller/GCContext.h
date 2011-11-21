@@ -33,6 +33,7 @@ class Camera;
 class SimpleShader;
 class TextureManager;
 class BoneShader;
+class GCObject;
 
 /**
  * GCubeで使用されるコンテキスト.
@@ -48,7 +49,7 @@ public:
 	SimpleShader *shader;	//!< シェーダ (UIライブラリなどで使用する)
 	TextureManager *texMgr;	//!< テクスチャ管理クラス
 	BoneShader *shader3d;	//!< 3D用シェーダ
-	void *userObj;			//!< ユーザデータ
+	GCObject *userObj;		//!< ユーザデータ
 
 	/** コンストラクタ. */
 	GCContext();

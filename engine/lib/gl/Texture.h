@@ -24,12 +24,13 @@
 #define GL_TEXTURE_H
 
 #include "glcommon.h"
+#include "GCObject.h"
 #include <string>
 
 /**
  * テクスチャ.
  */
-class Texture {
+class Texture : public GCObject {
 public:
 	std::string filename;	//!< ファイル名
 	GLuint texName;			//!< バインドしたときの名前.

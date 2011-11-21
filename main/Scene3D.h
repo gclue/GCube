@@ -58,7 +58,7 @@ public:
 	 * タッチイベント.
 	 * @param[in] event タッチイベント
 	 */
-	virtual void onTouch(TouchEvent &event);
+	virtual bool onTouch(TouchEvent &event);
     
 	/**
 	 * Java側からのイベントを受け取るメソッド.

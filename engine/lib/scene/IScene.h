@@ -115,7 +115,7 @@ public:
 	 * タッチイベント.
 	 * @param[in] event タッチイベント
 	 */
-	virtual void onTouch(TouchEvent &event) = 0;
+	virtual bool onTouch(TouchEvent &event) = 0;
 
 	/**
 	 * 加速度センサーイベント.
@@ -133,6 +133,13 @@ public:
 	 * @param param5 イベントパラメータ
 	 */
 	virtual void onGameEvent(int type, int param1, int param2, int param3, int param4, const char *param5) = 0;
+	
+	/**
+	 * デバッグコマンドを受け取るメソッド.
+	 * @param command コマンド
+	 * @param param パラメータ
+	 */
+	virtual void onDebugCommand(const char *command, int param) {};
 };
 
 #endif /* ISCENE_H_ */

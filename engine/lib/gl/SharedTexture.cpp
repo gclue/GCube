@@ -47,12 +47,14 @@ void SharedTexture::setTexture(Texture *texture) {
 }
 
 void SharedTexture::reload() {
+	LOGD("SharedTexture::reload");
 	if (texture) {
 		texture->reload();
 	}
 	if (cache) {
 		cache->rebuild();
 	}
+	LOGD("SharedTexture::reload:end");
 }
 
 void SharedTexture::setSize(float w) {

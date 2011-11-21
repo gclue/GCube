@@ -30,6 +30,7 @@
 #include "Texture.h"
 #include "SharedTexture.h"
 #include "PackerTexture.h"
+#include "Log.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////
 /// TextureObj
@@ -116,9 +117,16 @@ void TextureManager::deleteTexture(const char *name) {
 }
 
 void TextureManager::reload() {
+	LOGD("TextureManager::reload");
 	for (int i = 0; i < cache.size(); i++) {
 		TextureObj *obj = cache.at(i);
-		obj->packTex->reload();
+		LOGD("%s",obj->name.c_str());
+		if (obj->packTex) {
+			obj->packTex->reload();
+		}
+		if (obj->texture) {
+			obj->texture->reload();
+		}
 	}
 }
 

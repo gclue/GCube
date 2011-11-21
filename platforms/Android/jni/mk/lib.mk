@@ -46,6 +46,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    shader/PointSpriteShader.cpp \
                    shader/BoneShader.cpp \
                    sound/MusicPlayer.cpp \
+                   sound/OpenALPlayer.cpp \
                    sound/SoundEffect.cpp \
                    ui/View.cpp \
                    ui/ViewGroup.cpp \
@@ -65,13 +66,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    util/Easing.cpp \
                    util/FigureCache.cpp \
                    util/Storage.cpp \
-                   xml/expat/xmlparse.c \
-                   xml/expat/xmlrole.c \
-                   xml/expat/xmltok_impl.c \
-                   xml/expat/xmltok_ns.c \
-                   xml/expat/xmltok.c \
-                   xml/XMLParser.cpp \
-                   yspng/yspng.cpp
+                   xml/XMLParser.cpp
 LOCAL_LDLIBS    := -llog -lGLESv2
 LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/.. \
@@ -84,14 +79,22 @@ LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/sound \
                    $(LOCAL_PATH)/ui \
                    $(LOCAL_PATH)/util \
-                   $(LOCAL_PATH)/xml \
-                   $(LOCAL_PATH)/xml/expat \
+                   $(LOCAL_PATH)/../external/xml \
+                   $(LOCAL_PATH)/../external/xml/expat \
                    $(LOCAL_PATH)/../external/math \
+                   $(LOCAL_PATH)/../external/SmartPtr \
                    $(LOCAL_PATH)/../external/Bullet \
+                   $(LOCAL_PATH)/../external/OpenAL \
+                   $(LOCAL_PATH)/../external/OpenAL/Alc \
+                   $(LOCAL_PATH)/../external/OpenAL/include \
+                   $(LOCAL_PATH)/../external/OpenAL/OpanAL32/include \
+                   $(LOCAL_PATH)/../external/Ogg/libogg-1.3.0/include \
+                   $(LOCAL_PATH)/../external/Ogg/libogg-1.3.0/src \
+                   $(LOCAL_PATH)/../external/Ogg/libvorbis-1.3.2/include \
+                   $(LOCAL_PATH)/../external/Ogg/libvorbis-1.3.2/lib \
                    $(LOCAL_PATH)/../external/Bullet/BulletDynamics/Dynamics \
 				   $(LOCAL_PATH)/../external/Bullet/Extras/Serialize/BulletWorldImporter  \
 				   $(LOCAL_PATH)/../external/Bullet/Extras/Serialize/BulletFileLoader \
-                   $(LOCAL_PATH)/yspng
-LOCAL_STATIC_LIBRARIES := math bullet
+LOCAL_STATIC_LIBRARIES := math bullet xml
 
 include $(BUILD_STATIC_LIBRARY)

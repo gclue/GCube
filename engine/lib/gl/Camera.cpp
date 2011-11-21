@@ -58,20 +58,28 @@ void Camera::loadOrthographic(bool fitWidth) {
 
 void Camera::modelViewMatrix(Matrix3D *modelMtx, float *outMtx) {
 	// カメラは見え方と逆に動く
-	// 逆回転（逆行列=転置行列）
 	float mr[16];
 	transForm.getElements(mr);
-
-	float tmp = mr[1];
-	mr[1] = mr[4];
-	mr[4] = tmp;
-	tmp = mr[2];
-	mr[2] = mr[8];
-	mr[8] = tmp;
-	tmp = mr[6];
-	mr[6] = mr[9];
-	mr[9] = tmp;
-	// 逆移動
+	
+//	// 回転成分
+//	float tmp = mr[1];
+//	mr[1] = mr[4];
+//	mr[4] = tmp;
+//	tmp = mr[2];
+//	mr[2] = mr[8];
+//	mr[8] = tmp;
+//	tmp = mr[6];
+//	mr[6] = mr[9];
+//	mr[9] = tmp;
+//	// w
+//	mr[3] = 0;
+//	mr[7] = 0;
+//	mr[11] = 0;
+//	// 移動成分
+//	mr[12] = -(mr[0]*mr[12]+mr[4]*mr[13]+mr[8]*mr[14]);
+//	mr[13] = -(mr[1]*mr[12]+mr[5]*mr[13]+mr[9]*mr[14]);
+//	mr[14] = -(mr[2]*mr[12]+mr[6]*mr[13]+mr[10]*mr[14]);
+//	mr[15] = 1;
 	mr[12] = -mr[12];
 	mr[13] = -mr[13];
 	mr[14] = -mr[14];

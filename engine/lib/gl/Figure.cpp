@@ -39,6 +39,7 @@ Figure::Figure() {
 	hasTexture = false;
 	hasJoint = false;
 	useIndex = false;
+	visible = true;
 
 	transForm = new Matrix3D();
 }
@@ -91,12 +92,14 @@ void Figure::addJoints(const unsigned short *j1, const float *w1, const unsigned
 
 // 描画
 void Figure::draw() {
+	if (!visible) return;
 	GLshort indexCount = vertexIndexes.size();
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, NULL);
 }
 
 // 描画（線）
 void Figure::drawLines(float width) {
+	if (!visible) return;
 	glLineWidth(width);
 	GLshort indexCount = vertexIndexes.size();
 	glDrawElements(GL_LINE_STRIP, indexCount, GL_UNSIGNED_SHORT, NULL);
@@ -104,11 +107,13 @@ void Figure::drawLines(float width) {
 
 // 描画（点）
 void Figure::drawPoints() {
+	if (!visible) return;
 	glDrawElements(GL_POINTS, 1, GL_UNSIGNED_SHORT, NULL);
 }
 
 // バインド
 void Figure::bind() {
+	if (!visible) return;
 	
 #ifdef USE_VAO
 	// VAOをバインド
@@ -150,6 +155,7 @@ void Figure::bind() {
 
 // ビルド
 void Figure::build() {
+	LOGD("Figure::build");
 	// ビルド済みの場合は無視
 //	if (vaoName) {
 //		return;
@@ -206,6 +212,7 @@ void Figure::build() {
 	vboNames[VBO_ELEMENT] = buildVBO(&vertexIndexes.front(),
 			vertexIndexes.size() * sizeof(unsigned short), GL_ELEMENT_ARRAY_BUFFER);
 
+
 	// サイズ計算
 	int cnt = vertices.size()/3;
 	float maxx = -FLT_MAX, minx = FLT_MAX;
@@ -227,7 +234,8 @@ void Figure::build() {
 	size.y = maxy - miny;
 	size.z = maxz - minz;
 	
-	//LOGD("size:%f,%f,%f", size.x, size.y, size.z);
+	LOGD("size:%f,%f,%f", size.x, size.y, size.z);
+	LOGD("Figure::build:end");
 }
 
 // 内部データをクリア

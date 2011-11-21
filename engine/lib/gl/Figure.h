@@ -25,6 +25,7 @@
 
 #include "glcommon.h"
 #include "defines.h"
+#include "GCObject.h"
 
 #include <vector>
 #include <string>
@@ -59,7 +60,7 @@ enum {
 /**
  * フィギュアクラス.
  */
-class Figure {
+class Figure : public GCObject {
 private:
 	GLuint vaoName;				//!< VAOの名前.
 	GLuint vboNames[NUM_VBO];	//!< VBOの名前リスト.
@@ -90,6 +91,7 @@ public:
 	Joint *joint;			//!< ルートジョイント
 	Point3f size;			//!< フィギュアのサイズ
 	bool useIndex;			//!< インデックスのAttributeを使用する場合はtrue
+	bool visible;			//!< 表示する場合はtrue
 
 	/**
 	 * コンストラクタ.

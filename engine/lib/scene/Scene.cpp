@@ -142,16 +142,21 @@ bool Scene::onPressBackKey() {
 }
 
 // タッチイベント
-void Scene::onTouch(TouchEvent &event) {
+bool Scene::onTouch(TouchEvent &event) {
 	LOGD("****Scene::onTouch");
-	std::map<int, Layer*>::iterator it = layers.begin();
-	while (it != layers.end()) {
+	std::map<int, Layer*>::iterator it = layers.end();
+	it--;
+	while (true) {
 		Layer *layer = (*it).second;
 		if (layer->onTouch(event)) {
-			return;
+			return true;
 		}
-		it++;
+		if(it == layers.begin()) {
+			break;
+		}
+		it--;
 	}
+	return false;
 }
 
 // 加速度センサー

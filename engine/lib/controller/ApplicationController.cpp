@@ -49,10 +49,10 @@ ApplicationController::ApplicationController() {
 	changeFlg = false;
 
 	// fadeアニメーション
-	fadeAnimation = new Animation(EASING_LINEAR);
-	fadeAnimation->setAlpha(0.0, 1.0);
-	fadeAnimation->setDuration(0.3333);
-	fadeAnimation->finish();
+	defaultFadeAnimation = new Animation(EASING_LINEAR);
+	defaultFadeAnimation->setAlpha(0.0, 1.0);
+	defaultFadeAnimation->setDuration(0.3333);
+	defaultFadeAnimation->finish();
 
 	// アスペクト比
 	aspect = 1.0f;
@@ -74,7 +74,13 @@ ApplicationController::~ApplicationController() {
 		delete scene;
 		it++;
 	}
-	delete fadeAnimation;
+	delete defaultFadeAnimation;
+	defaultFadeAnimation = NULL;
+	
+	if(fadeAnimation) {
+		delete fadeAnimation;
+	}
+	fadeAnimation = NULL;
 }
 
 // シーンを追加
@@ -83,8 +89,14 @@ void ApplicationController::addScene(int id, IScene *scene) {
 }
 
 // シーン切り替え
-void ApplicationController::sceneChange(int sceneid) {
+void ApplicationController::sceneChange(int sceneid, IAnimation *animation) {
 	LOGD("***********sceneChange:%d", sceneid);
+	if(animation) {
+		fadeAnimation = (Animation*)animation;
+		fadeAnimation->finish();
+	}else {
+		fadeAnimation = defaultFadeAnimation;
+	}
 	if (nextSceneID != SceneID_None || !fadeAnimation->isFinish()) return;
 	preSceneID = currentSceneID;
 	nextSceneID = sceneid;
@@ -120,6 +132,8 @@ void ApplicationController::resetup() {
 	// コンテキスト再構成
 	this->setupContext();
 
+	LOGD("***********resetup-1");
+
 	// 各シーン
 	std::map<int, IScene*>::iterator it = scenes.begin();
 	while (it != scenes.end()) {
@@ -129,6 +143,8 @@ void ApplicationController::resetup() {
 		}
 		it++;
 	}
+
+	LOGD("***********resetup-2");
 
 	// アクティブになっているシーンのリサイズ処理
 	if (activeScene) {
@@ -199,8 +215,10 @@ void ApplicationController::step(float dt) {
 			fadeAnimation->reset();
 			changeFlg = false;
 		}
-
 		// このやり方だと裏が見えるのでFBOを使うやり方に変更したい
+		if(!fadeAnimation) {
+			fadeAnimation = defaultFadeAnimation;
+		}
 		fadeAnimation->step(dt);
 		shader->setBaseAlpha(1.0-fadeAnimation->alpha);
 		shader3d->setBaseAlpha(1.0-fadeAnimation->alpha);
@@ -276,6 +294,14 @@ void ApplicationController::onGameEvent(int type, int param1, int param2, int pa
 	LOGD("***********onGameEvent:%d,%d,%d,%d,%d,%s",type, param1, param2, param3, param4, param5);
 	if (activeScene) {
 		activeScene->onGameEvent(type, param1, param2, param3, param4, param5);
+	}
+}
+
+// デバッグコマンド
+void ApplicationController::onDebugCommand(const char *command, int param) {
+	LOGD("***********onDebugCommand:%s,%d", command, param);
+	if (activeScene) {
+		activeScene->onDebugCommand(command, param);
 	}
 }
 

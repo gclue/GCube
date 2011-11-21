@@ -34,6 +34,68 @@
 #include "Joint.h"
 #include "BulletWorld.h"
 
+/**
+ * 3Dオブジェクト情報構造体.
+ */
+struct FigureSet {
+	int id;
+	Figure *fig;
+	Texture *tex;
+	Matrix3D *mtx;
+	btRigidBody* body;
+	GCObject *userObj;
+	
+	FigureSet() {
+		fig = NULL;
+		tex = NULL;
+		mtx = NULL;
+		body = NULL;
+		userObj = NULL;
+		id = -1;
+	}
+	
+	FigureSet(const FigureSet& obj) {
+		this->set(obj.id, obj.fig, obj.tex, obj.mtx, obj.userObj);
+		this->body = obj.body;
+	}
+	
+	virtual ~FigureSet() {
+		if (mtx) mtx->release();
+		if (fig) fig->release();
+		if (tex) tex->release();
+		if (userObj) userObj->release();
+	}
+	
+	void set(int id, Figure *fig, Texture *tex, Matrix3D *mtx, GCObject *userObj) {
+		this->id = id;
+		this->fig = fig;
+		this->tex = tex;
+		this->mtx = mtx;
+		this->userObj = userObj;
+		if (mtx) {mtx->retain();}
+		if (fig) {fig->retain();}
+		if (tex) {tex->retain();}
+		if (userObj) {userObj->retain();}
+	}
+	
+	void setInfoData(FigureInfo &info) {
+		info.id = id;
+		info.fig = fig;
+		info.tex = tex;
+		info.mtx = mtx;
+		info.userObj = userObj;
+	}
+
+	Matrix3D *getMatrix() {
+		if (mtx) {
+			return mtx;
+		} else {
+			return fig->transForm;
+		}
+	}
+};
+
+
 // コンストラクタ
 Layer3D::Layer3D(GCContext *context) : Layer(context) {
 	LOGD("**Layer3D");
@@ -44,6 +106,7 @@ Layer3D::Layer3D(GCContext *context) : Layer(context) {
 	bullet = NULL;
 	handler = NULL;
 	gravity = -9.8;
+	objcount = 0;
 }
 
 // デストラクタ
@@ -51,93 +114,68 @@ Layer3D::~Layer3D() {
 	LOGD("**~Layer3D");
 	delete camera;
 	delete bullet;
-	
-	// addしたオブジェクトを解放
-	std::vector<Figure*> figs;
-	std::vector<Texture*> texs;
-	std::vector<Matrix3D*> mtxs;
-	std::map<int, FigureSet>::iterator it = figures.begin();
+	std::map<int, FigureSet*>::iterator it = figures.begin();
 	while (it != figures.end()) {
-		FigureSet set = (*it).second;
-		// 同じオブジェクトを２回処理しないように。。。
-		if (set.fig) {
-			std::vector<Figure*>::iterator itf = std::find(figs.begin(), figs.end(), set.fig);
-			if (itf == figs.end()) {
-				figs.push_back(set.fig);
-				delete set.fig;
-			}
-		}
-		if (set.tex) {
-			std::vector<Texture*>::iterator its = std::find(texs.begin(), texs.end(), set.tex);
-			if (its == texs.end()) {
-				texs.push_back(set.tex);
-				delete set.tex;
-			}
-		}
-		if (set.mtx) {
-			std::vector<Matrix3D*>::iterator itm = std::find(mtxs.begin(), mtxs.end(), set.mtx);
-			if (itm == mtxs.end()) {
-				mtxs.push_back(set.mtx);
-				delete set.mtx;
-			}
-		}
+		FigureSet *set = (*it).second;
+		delete set;
 		it++;
 	}
-	
-	// 追加したLightを解放
-	std::map<int, Light*>::iterator it2 = lights.begin();
-	while (it2 != lights.end()) {
-		delete (*it2).second;
-		it2++;
-	}
-
 }
 
-// Figure追加
-void Layer3D::addFigure(int id, Figure *fig, Texture *tex, Matrix3D *mtx, RigidBodyType type, RigidBodyOption option) {
-	// 
-	FigureSet set;
-	set.fig = fig;
-	set.tex = tex;
-	set.mtx = mtx;
-	set.body = NULL;
 
-	if (type != RigidBodyType_None) {
+// Figure追加
+int Layer3D::addFigure(FigureInfo &info, RigidBodyOption option) {
+	
+	objcount++;
+	FigureSet *set = new FigureSet();
+	if (info.fig || info.mtx) {
+		set->set(objcount, info.fig, info.tex, info.mtx, info.userObj);
+	} else {
+		info.mtx = new Matrix3D();
+		set->set(objcount, info.fig, info.tex, info.mtx, info.userObj);
+		info.mtx->release();
+	}
+
+	if (option.type != RigidBodyType_None) {
 		if (!bullet) {
 			bullet = new BulletWorld(gravity);
 			bullet->setEventHandler(this);
 		}
 		//
-		switch (type) {
+		switch (option.type) {
 			case RigidBodyType_None:
 				break;
 			case RigidBodyType_Box:
-				set.body = bullet->addRigidBoxShape(option.x, option.y, option.z, option.sizeX, option.sizeY, option.sizeZ, option.mass, option.restitution, option.friction, option.isKinematic);
+				set->body = bullet->addRigidBoxShape(option.x, option.y, option.z, option.sizeX, option.sizeY, option.sizeZ, option.mass, option.restitution, option.friction, option.isKinematic);
 				break;
 			case RigidBodyType_Cylinder:
-				set.body = bullet->addRigidCylinderShape(option.x, option.y, option.z, option.sizeX, option.sizeY, option.sizeZ, option.mass, option.restitution, option.friction, option.isKinematic);
+				set->body = bullet->addRigidCylinderShape(option.x, option.y, option.z, option.sizeX, option.sizeY, option.sizeZ, option.mass, option.restitution, option.friction, option.isKinematic);
 				break;
 			case RigidBodyType_Ground:
 				bullet->addGround(option.x, option.y, option.z, option.restitution, option.friction);
 				break;
 			case RigidBodyType_Sphere:
-				set.body = bullet->addRigidSphereShape(option.x, option.y, option.z, option.radius, option.mass, option.restitution, option.friction, option.isKinematic);
+				set->body = bullet->addRigidSphereShape(option.x, option.y, option.z, option.radius, option.mass, option.restitution, option.friction, option.isKinematic);
 				break;
 			case RigidBodyType_Mesh:
-				set.body = bullet->addMeshShape(option.x, option.y, option.z, fig, option.mass, option.restitution, option.friction, option.isKinematic);
+				set->body = bullet->addMeshShape(option.x, option.y, option.z, info.fig, option.mass, option.restitution, option.friction, option.isKinematic);
 				break;
 		}
-		if (set.body) set.body->setUserPointer(&figures[id]);
+		if (set->body) {
+			UserObj *user = (UserObj*)set->body->getUserPointer();
+			user->user = set;
+		}
 	}
 	
-	figures[id] = set;
+	figures[objcount] = set;
+	return objcount;
 }
 
 // Fugure検索
 Figure* Layer3D::findFigureByID(int id) {
-	std::map<int, FigureSet>::iterator it = figures.find(id);
+	std::map<int, FigureSet*>::iterator it = figures.find(id);
 	if (it!=figures.end()) {
-		return (*it).second.fig;
+		return (*it).second->fig;
 	} else {
 		return NULL;
 	}
@@ -145,9 +183,9 @@ Figure* Layer3D::findFigureByID(int id) {
 
 // Texture検索
 Texture* Layer3D::findTextureByID(int id) {
-	std::map<int, FigureSet>::iterator it = figures.find(id);
+	std::map<int, FigureSet*>::iterator it = figures.find(id);
 	if (it!=figures.end()) {
-		return (*it).second.tex;
+		return (*it).second->tex;
 	} else {
 		return NULL;
 	}
@@ -155,9 +193,19 @@ Texture* Layer3D::findTextureByID(int id) {
 
 // Matrix検索
 Matrix3D* Layer3D::findMatrixByID(int id) {
-	std::map<int, FigureSet>::iterator it = figures.find(id);
+	std::map<int, FigureSet*>::iterator it = figures.find(id);
 	if (it!=figures.end()) {
-		return (*it).second.getMatrix();
+		return (*it).second->getMatrix();
+	} else {
+		return NULL;
+	}
+}
+
+// UserObject検索
+GCObject* Layer3D::findUserObjectByID(int id) {
+	std::map<int, FigureSet*>::iterator it = figures.find(id);
+	if (it!=figures.end()) {
+		return (*it).second->userObj;
 	} else {
 		return NULL;
 	}
@@ -202,14 +250,18 @@ void Layer3D::render(double dt) {
 	if (bullet) {
 		// 位置変更があった場合はBulletに反映（TODO:スケーリングの考慮も必要）
 		float mat[16];
-		std::map<int, FigureSet>::iterator it = figures.begin();
+		std::map<int, FigureSet*>::iterator it = figures.begin();
 		while (it != figures.end()) {
-			FigureSet set = (*it).second;
-			if( set.getMatrix()->dirtyflag && set.body && set.body->getMotionState() ){
+			FigureSet set = *(*it).second;
+			if( set.getMatrix()->dirtyflag && set.body ){
 				btTransform transform;
 				set.getMatrix()->getElements(mat);
 				transform.setFromOpenGLMatrix(mat);
-				set.body->setWorldTransform(transform);
+				if (set.body->isStaticOrKinematicObject()) {
+					set.body->getMotionState()->setWorldTransform(transform);
+				} else {
+					set.body->setWorldTransform(transform);
+				}
 				set.body->activate(true);
 			}
 			it++;
@@ -233,56 +285,74 @@ void Layer3D::render(double dt) {
 	}
 	
 	// 描画
-	std::map<int, FigureSet>::iterator it = figures.begin();
+	std::map<int, FigureSet*>::iterator it = figures.begin();
 	Figure *fig = NULL;
 	while (it != figures.end()) {
-		FigureSet set = (*it).second;
+		FigureSet *set = (*it).second;
 		
 		// 削除処理
 		if (handler) {
-			if (handler->removeFigure(this, set.fig, set.getMatrix())) {
-				if (set.body) {
+			FigureInfo info = {NULL};
+			set->setInfoData(info);
+			if (handler->handleFigure(this, info)) {
+				if (set->body) {
 					if (bullet) {
-						bullet->dynamicsWorld->removeRigidBody(set.body);
-						delete set.body;
+						bullet->dynamicsWorld->removeRigidBody(set->body);
+						delete set->body;
 					}
 				}
-				figures.erase(it);
-				set.fig = NULL;
+				delete set;
+				figures.erase(it++);
+				continue;
+			} else {
+				if (set->body) {
+					// 外力がかかっている場合
+					float fx = info.force.x;
+					float fy = info.force.y;
+					float fz = info.force.z;
+					if (fx>0 || fy>0 || fz>0) {
+						// 位置
+						float px = info.rel_pos.x;
+						float py = info.rel_pos.y;
+						float pz = info.rel_pos.z;
+						set->body->applyForce(btVector3(fx,fy,fz), btVector3(px,py,pz));
+						set->body->activate(true);
+					}
+				}
 			}
 		}
 
 		// 描画対象がないので無視
-		if (!set.fig) {
+		if (!set->fig) {
 			it++;
 			continue;
 		}
 		
 		// マトリックス設定
-		Matrix3D *mtx = set.getMatrix();
+		Matrix3D *mtx = set->getMatrix();
 		shader->setNormalMatrix(mtx);
 		shader->setMVPMatrix(camera, mtx);
 		
 		// テクスチャ設定
-		if (set.tex) {
-			shader->bindTexture(set.tex->texName);
+		if (set->tex) {
+			shader->bindTexture(set->tex->texName);
 		} else {
 			shader->bindTexture(0);
 		}
 		
 		// ジョイント設定
-		if (set.fig->joint) {
-			set.fig->joint->setSkinningMatrix(shader);
+		if (set->fig->joint) {
+			set->fig->joint->setSkinningMatrix(shader);
 		} else {
 			shader->setSkinningMatrix(NULL, 0);
 		}
 		
 		// 描画
-		if (fig != set.fig) {
-			set.fig->bind();
-			fig = set.fig;
+		if (fig != set->fig) {
+			set->fig->bind();
+			fig = set->fig;
 		}
-		set.fig->draw();
+		set->fig->draw();
 		
 		it++;
 	}
@@ -306,9 +376,9 @@ void Layer3D::onContextChanged() {
 	// FigureとTextureを再構築
 	std::vector<Figure*> figs;
 	std::vector<Texture*> texs;
-	std::map<int, FigureSet>::iterator it = figures.begin();
+	std::map<int, FigureSet*>::iterator it = figures.begin();
 	while (it != figures.end()) {
-		FigureSet set = (*it).second;
+		FigureSet set = *(*it).second;
 		// 同じオブジェクトを２回処理しないように。。。
 		if (set.fig) {
 			std::vector<Figure*>::iterator itf = std::find(figs.begin(), figs.end(), set.fig);
@@ -338,7 +408,8 @@ void Layer3D::onContextChanged() {
  */
 void Layer3D::stepBulletObject(BulletWorld *world, btCollisionObject *obj) {
 	// オブジェクトに物理演算の結果を設定
-	FigureSet *set = (FigureSet*)obj->getUserPointer();
+	UserObj *user = (UserObj*)obj->getUserPointer();
+	FigureSet *set = (FigureSet*)user->user;
 	if (set) {
 		float worldMat[16];
 		btRigidBody* body = btRigidBody::upcast(obj);
@@ -351,6 +422,32 @@ void Layer3D::stepBulletObject(BulletWorld *world, btCollisionObject *obj) {
 		set->getMatrix()->setElements(worldMat);
 		set->getMatrix()->dirtyflag = false;
 	}
+}
+
+/**
+ * 各オブキェクトの衝突処理.
+ */
+void Layer3D::contactBulletObject(BulletWorld *world, btRigidBody *obj0, btRigidBody *obj1) {
+	if (handler) {
+		UserObj *user0 = (UserObj*)obj0->getUserPointer();
+		UserObj *user1 = (UserObj*)obj1->getUserPointer();
+		FigureSet *set0 = (FigureSet*)user0->user;
+		FigureSet *set1 = (FigureSet*)user1->user;
+		
+		FigureInfo info0 = {NULL};
+		if (set0) {
+			set0->setInfoData(info0);
+		}
+		
+		FigureInfo info1 = {NULL};
+		if (set1) {
+			set1->setInfoData(info1);
+		}
+		
+		handler->contactFigure(this, info0, info1);
+	}
+	
+	
 }
 
 

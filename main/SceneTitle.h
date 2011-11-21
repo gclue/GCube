@@ -100,7 +100,7 @@ public:
 	 * タッチイベント.
 	 * @param[in] event タッチイベント
 	 */
-	virtual void onTouch(TouchEvent &event);
+	virtual bool onTouch(TouchEvent &event);
 };
 
 #endif /* SCENETITLE_H_ */

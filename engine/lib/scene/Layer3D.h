@@ -34,11 +34,15 @@
 #include "Layer.h"
 #include "BulletWorld.h"
 
+#include "dixsmartptr.h"
+
 class Camera;
 class Figure;
 class Matrix3D;
 class Light;
 class Layer3D;
+class FigureSet;
+
 
 /**
  * 剛体の種類.
@@ -67,36 +71,26 @@ struct RigidBodyOption {
 	float restitution; // 反発係数
 	float friction; // 摩擦係数
 	bool isKinematic;
+	RigidBodyType type;
 	
 	RigidBodyOption() {
 		x = y = z = restitution = friction = isKinematic = 0;
 		sizeX = sizeY = sizeZ = radius = mass = 1.0;
+		type = RigidBodyType_None;
 	}
 };
 
 /**
- * 3Dオブジェクト情報構造体.
+ * Figure情報構造体.
  */
-struct FigureSet {
+struct FigureInfo {
+	int id;
 	Figure *fig;
 	Texture *tex;
 	Matrix3D *mtx;
-	btRigidBody* body;
-	
-	FigureSet() {
-		fig = NULL;
-		tex = NULL;
-		mtx = NULL;
-		body = NULL;
-	}
-	
-	Matrix3D *getMatrix() {
-		if (mtx) {
-			return mtx;
-		} else {
-			return fig->transForm;
-		}
-	}
+	GCObject *userObj;
+	Vector3D force; // out
+	Vector3D rel_pos; // out
 };
 
 /**
@@ -110,22 +104,27 @@ public:
 	virtual ~ILayer3DEventHandler(){};
 	
 	/**
-	 * 3Dオブジェクトの削除判断処理.
+	 * 各3Dオブジェクトの処理.
 	 * @return trueでワールドから削除されます.
 	 */
-	virtual bool removeFigure(Layer3D *layer, Figure *fig, Matrix3D *mtx) = 0;
+	virtual bool handleFigure(Layer3D *layer, FigureInfo &info) = 0;
+	
+	/**
+	 * 各オブキェクトの衝突処理.
+	 */
+	virtual void contactFigure(Layer3D *layer, FigureInfo &obj0, FigureInfo &obj1) {};
 };
-
 
 /**
  * 3Dを描画するためのレイヤー.
  */
 class Layer3D : public Layer, IBulletWorldEventHandler {
 private:
-	std::map<int, FigureSet> figures;	//!< 追加したFigureを保持
+	std::map<int, FigureSet*> figures;	//!< FigureSetを保持
 	std::map<int, Light*> lights;		//!< 追加したライトを保持
 	BulletWorld *bullet;				//!< 物理演算ワールド
 	ILayer3DEventHandler *handler;		//!< イベントハンドラ
+	int objcount;						//!< 総オブジェクト数
 
 	
 public:
@@ -151,12 +150,12 @@ public:
 	/**
 	 * Figureを追加します.
 	 * 追加したFigureはこのオブジェクトと共に解放されます.
-	 * @param id 識別ID
 	 * @param fig Figure
 	 * @param tex テクスチャ
 	 * @param mtx 座標変換行列（NULLの場合はFigureのtransformを使用します）
+	 * @return 識別ID
 	 */
-	virtual void addFigure(int id, Figure *fig, Texture *tex=NULL, Matrix3D *mtx=NULL, RigidBodyType type=RigidBodyType_None, RigidBodyOption option=RigidBodyOption());
+	virtual int addFigure(FigureInfo &info, RigidBodyOption option=RigidBodyOption());
 	
 	/**
 	 * 指定したIDに対応するFigureを取得します.
@@ -182,6 +181,13 @@ public:
 	 */
 	virtual Matrix3D* findMatrixByID(int id);
 
+	/**
+	 * 指定したIDに対応するUserObjectを取得します.
+	 * 指定したIDに対応するUserObjectが存在しない場合にはNULLを返却します.
+	 * @param id ID
+	 * @return Matrix3D
+	 */
+	virtual GCObject* findUserObjectByID(int id);
 
 	/**
 	 * ライトを追加します.
@@ -232,6 +238,11 @@ public:
 	 * 各オブキェクトの処理.
 	 */
 	virtual void stepBulletObject(BulletWorld *world, btCollisionObject *obj);
+	
+	/**
+	 * 各オブキェクトの衝突処理.
+	 */
+	virtual void contactBulletObject(BulletWorld *world, btRigidBody *obj0, btRigidBody *obj1);
 };
 
 #endif /* LAYER3D_H_ */
