@@ -111,7 +111,9 @@ void BulletWorld::step(double t) {
 
 // 保存
 bool BulletWorld::save(const char *filename) {
+	LOGD("*BulletWorld::save:%s",filename);
 	bool result = false;
+	if (!filename) return false;
 	const int maxSerializeBufferSize = 1024 * 1024 * 5;
 	btDefaultSerializer* serializer = new btDefaultSerializer(maxSerializeBufferSize);
 	if (serializer) {
@@ -125,12 +127,32 @@ bool BulletWorld::save(const char *filename) {
 		}
 		
 		delete serializer;
+		
+		// UserPointerの処理
+		if (dynamicsWorld) {
+			btCollisionObjectArray array = dynamicsWorld->getCollisionObjectArray();
+			int max = array.size();
+			for (int i = 0; i < max; i++ ) {
+				if (!handler) continue;
+				btCollisionObject* obj = array[i];
+				if (!obj) continue;
+				btRigidBody* body = btRigidBody::upcast(obj);
+				if (!body) continue;
+				UserObj *user = (UserObj*)body->getUserPointer();
+				if (!user) continue;
+				if (handler && !handler->saveBulletObject(this, body, user, i, max-1)) {
+					return false;
+				}
+			}
+		}
+	
 	}
 	return result;
 }
 
 // 読み込み
 bool BulletWorld::load(const char *filename) {
+	if (!filename) return false;
 	FILE *fp;
 	if ((fp = fopen(filename, "rb")) == NULL) {
 		// 保存データの確認を行い、存在しない場合には
@@ -139,10 +161,37 @@ bool BulletWorld::load(const char *filename) {
 	}
 	fclose(fp);
 	
+	this->clear();
+	
 	btBulletWorldImporter* fileLoader = new btBulletWorldImporter(dynamicsWorld);
 	if (fileLoader) {
 		fileLoader->loadFile(filename);
 		delete fileLoader;
+		
+		// UserPointerの処理
+		if (dynamicsWorld) {
+			bool err = false;
+			btCollisionObjectArray array = dynamicsWorld->getCollisionObjectArray();
+			int max = array.size();
+			for (int i = 0; i < max; i++ ) {
+				btCollisionObject *obj = array[i];
+				if (!obj) continue;
+				btRigidBody* body = btRigidBody::upcast(obj);
+				if (!body) continue;
+				// UserPointerを設定
+				UserObj *user = new UserObj();
+				if (handler) err = !handler->loadBulletObject(this, body, user, i, max-1);
+				user->world = this;
+				body->setUserPointer(user);
+				if (err) break;
+			}
+			// エラー処理
+			if (err) {
+				this->clear();
+				return false;
+			}
+		}
+
 		return true;
 	}
 	return false;
@@ -270,7 +319,7 @@ btRigidBody* BulletWorld::addRigidShape(btCollisionShape *shape, btTransform tra
 	body->setRestitution(restitution);
 	// 摩擦係数を設定
 	body->setFriction(friction);
-	// 空気抵抗
+	// 減衰
 	body->setDamping(linearDamping, angularDamping);
 	
 	//add the body to the dynamics world

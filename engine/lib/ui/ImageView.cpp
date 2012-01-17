@@ -37,6 +37,7 @@
 ImageView::ImageView(GCContext *context) : View(context) {
 	figure = NULL;
 	clickable = false;
+	touchListener = NULL;
 }
 
 ImageView::~ImageView() {
@@ -59,6 +60,25 @@ void ImageView::draw(double dt, IAnimation *a) {
 	if (!figure) {
 		return;
 	}
+	
+	//ブレンドタイプに合わせて合成を変える
+	//現在はImageViewにしかつけてません
+	switch(blendType) {
+		case BLEND_TYPE_ADD:
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+			break;
+		case BLEND_TYPE_MULTIPLE:
+			glBlendFunc(GL_ZERO, GL_SRC_COLOR);
+			break;
+		case BLEND_TYPE_REVERSE:
+			glBlendFunc(GL_ONE_MINUS_DST_COLOR, GL_ZERO);
+			break;
+		default:
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			break;
+			
+	}
+	
 
 	float alpha = 1.0;
 	float bright = 1.0;
@@ -71,4 +91,8 @@ void ImageView::draw(double dt, IAnimation *a) {
 
 	figure->bind();
 	figure->draw();
+	
+	//最後にアルファ合成に戻す
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
+

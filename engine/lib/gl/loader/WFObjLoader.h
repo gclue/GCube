@@ -39,37 +39,25 @@ private:
 	/**
 	 * 文字列分割.
 	 */
-	std::vector<std::string>& split(const std::string &s, char delim, std::vector<std::string> &elems);
+	static std::vector<std::string>& split(const std::string &s, char delim, std::vector<std::string> &elems);
 	
 	/**
 	 * v/vn/vt用の行分割.
 	 */
-	void scanLine(const std::string &line, std::vector<float> &outupt, int max);
+	static void scanLine(const std::string &line, std::vector<float> &outupt, int max, bool rightHanded);
 	
 public:
-	bool rightHanded;						//!< 右手座標フラグ
-
-	/**
-	 * コンストラクタ.
-	 */
-	WFObjLoader();
-
-	/**
-	 * デストラクタ.
-	 */
-	~WFObjLoader();
-	
 	/**
 	 * ファイルから読み込みます.
 	 * @param fileName ファイル名
 	 */
-	Figure* loadFile(const char *fileName);
+	static Figure* loadFile(const char *fileName, bool rightHanded=true);
 	
 	/**
 	 * データから読み込みます.
 	 * @param data データ
 	 */
-	Figure* loadData(std::vector<char>* data);
+	static Figure* loadData(std::vector<char>* data, bool rightHanded=true);
 
 };
 

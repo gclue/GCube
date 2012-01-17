@@ -32,6 +32,10 @@
 #include "View.h"
 
 class Figure;
+class ImageView;
+
+
+
 
 /**
  * 画像を表示するためのView.
@@ -56,6 +60,8 @@ public:
 	 * @param[in] figure 表示するフィギュア
 	 */
 	void setFigure(Figure *figure);
+	
+
 
 	/////////////////////////////////////////////////////////////////
 	// Viewからの継承
@@ -67,6 +73,9 @@ public:
 	 * @param[in] animation 反映するアニメーション
 	 */
 	virtual void draw(double dt, IAnimation *animation = NULL);
+	
+	
+	
 };
 
 #endif /* IMAGEVIEW_H_ */

@@ -32,6 +32,7 @@
 #include "defines.h"
 #include "Matrix3D.h"
 #include "GCContext.h"
+#include "GCObject.h"
 
 /**
  * タッチイベントのタイプを定義します.
@@ -41,6 +42,13 @@ enum TouchEventAction {
 	touchUp = 1,		//!< タッチアップ
 	touchMove = 2,		//!< タッチムーブ
 	touchCancel = 3,	//!< タッチキャンセル
+};
+
+enum BlendingType {
+	BLEND_TYPE_ALPHA = 0,
+	BLEND_TYPE_ADD,
+	BLEND_TYPE_MULTIPLE,
+	BLEND_TYPE_REVERSE,
 };
 
 /**
@@ -71,11 +79,20 @@ class IAnimation;
 class SimpleShader;
 class Texture;
 class CommonTexture;
+class View;
+
+
+class IViewTouchListener {
+	
+public:
+	virtual ~IViewTouchListener(){};
+	virtual void onViewTouchEvent(View *view) = 0;
+};
 
 /**
  * 描画するための基底クラス.
  */
-class View {
+class View : public GCObject{
 protected:
 	/**
 	 * 引数に渡されたマトリクスにViewに設定している値をかけていきます.
@@ -114,6 +131,10 @@ public:
 
 	void *userObj;				//!< オブジェクト判別用オブジェクト
 	int userID;					//!< オブジェクト判別用のID
+	
+	int blendType;				//!< アルファブレンド、加算減算合成を識別するタイプ
+	
+	IViewTouchListener *touchListener;	//!< タッチイベントのリスナー.
 
 	/**
 	 * コンストラクタ.
@@ -324,6 +345,13 @@ public:
 	 * @param[in] dt 前回描画からの差分時間
 	 */
 	virtual void render(double dt);
+	
+	
+	virtual void setBlendType(int type);
+	
+	
+	virtual void setOnTouchEventListener(IViewTouchListener *listener);
+	
 
 	/**
 	 * Viewの描画を行います.
@@ -332,6 +360,9 @@ public:
 	 * @param[in] animation アニメーション
 	 */
 	virtual void draw(double dt, IAnimation *animation = NULL) = 0;
+	
+	
+	
 };
 
 #endif /* VIEW_H_ */

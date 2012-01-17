@@ -24,15 +24,6 @@
 #include "APIGlue.h"
 #include "Log.h"
 
-// コンストラクタ
-WFObjLoader::WFObjLoader() {
-	rightHanded = true;
-}
-
-// デストラクタ
-WFObjLoader::~WFObjLoader() {
-}
-
 // 文字列分解
 std::vector<std::string>& WFObjLoader::split(const std::string &s, char delim, std::vector<std::string> &elems) {
     std::stringstream ss(s);
@@ -44,9 +35,9 @@ std::vector<std::string>& WFObjLoader::split(const std::string &s, char delim, s
 }
 
 // v/vn/vt用の行分割
-void WFObjLoader::scanLine(const std::string &line, std::vector<float> &outupt, int max) {
+void WFObjLoader::scanLine(const std::string &line, std::vector<float> &outupt, int max, bool rightHanded) {
 	std::vector<std::string> value;
-	this->split(line, ' ', value);
+	WFObjLoader::split(line, ' ', value);
 	if (value.size() > max) {
 		for (int i=0; i < max; i++) {
 			float f = atof(value[i+1].c_str());
@@ -58,15 +49,16 @@ void WFObjLoader::scanLine(const std::string &line, std::vector<float> &outupt, 
 }
 
 // ファイルから読み込み
-Figure* WFObjLoader::loadFile(const char *fileName) {
+Figure* WFObjLoader::loadFile(const char *fileName, bool rightHanded) {
 	std::vector<char>* data = GCLoadAsset(fileName);
-	Figure *out = this->loadData(data);
+	Figure *out = WFObjLoader::loadData(data);
+	out->name = fileName;
 	delete data;
 	return out;
 }
 
 // データから読み込み
-Figure* WFObjLoader::loadData(std::vector<char>* data) {
+Figure* WFObjLoader::loadData(std::vector<char>* data, bool rightHanded) {
 	
 	std::vector<float> vertices;		//!< 頂点
 	std::vector<float> normals;			//!< 法線
@@ -88,12 +80,12 @@ Figure* WFObjLoader::loadData(std::vector<char>* data) {
 		if (strncmp(line.c_str(), "f ", 2) == 0) {
 			// ' 'で分解
 			std::vector<std::string> value;
-			this->split(line, ' ', value);
+			WFObjLoader::split(line, ' ', value);
 			if (value.size() > 3) {
 				for (int i=0; i < 3; i++) {
 					// '/'で分解
 					std::vector<std::string> face;
-					this->split(value[i+1], '/', face);
+					WFObjLoader::split(value[i+1], '/', face);
 					if (value.size() > 3) {
 						for (int j=0; j < 3; j++) {
 							//LOGD("%s", face[i].c_str());
@@ -126,15 +118,15 @@ Figure* WFObjLoader::loadData(std::vector<char>* data) {
 		} else
 		// 頂点
 		if (strncmp(line.c_str(), "v ", 2) == 0) {
-			this->scanLine(line, vertices, 3);
+			WFObjLoader::scanLine(line, vertices, 3, rightHanded);
 		} else
 		// 法線
 		if (strncmp(line.c_str(), "vn ", 3) == 0) {
-			this->scanLine(line, normals, 3);
+			WFObjLoader::scanLine(line, normals, 3, rightHanded);
 		} else
 		// テクスチャ
 		if (strncmp(line.c_str(), "vt ", 3) == 0) {
-			this->scanLine(line, textureCoords, 2);
+			WFObjLoader::scanLine(line, textureCoords, 2, rightHanded);
 		}
 		
 	}

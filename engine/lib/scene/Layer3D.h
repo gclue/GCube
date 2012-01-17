@@ -42,7 +42,7 @@ class Matrix3D;
 class Light;
 class Layer3D;
 class FigureSet;
-
+class Storage;
 
 /**
  * 剛体の種類.
@@ -90,6 +90,7 @@ struct FigureInfo {
 	Matrix3D *mtx;
 	GCObject *userObj;
 	Vector3D force; // out
+	Vector3D velocity; // out
 	Vector3D rel_pos; // out
 };
 
@@ -113,6 +114,12 @@ public:
 	 * 各オブキェクトの衝突処理.
 	 */
 	virtual void contactFigure(Layer3D *layer, FigureInfo &obj0, FigureInfo &obj1) {};
+	
+	/**
+	 * 各オブキェクトの保存処理.
+	 */
+	virtual void save3DObject(Layer3D *layer, FigureInfo *info, int index, int max) {};
+	
 };
 
 /**
@@ -120,12 +127,17 @@ public:
  */
 class Layer3D : public Layer, IBulletWorldEventHandler {
 private:
-	std::map<int, FigureSet*> figures;	//!< FigureSetを保持
+	std::map<unsigned long, FigureSet*> figures;	//!< FigureSetを保持
 	std::map<int, Light*> lights;		//!< 追加したライトを保持
 	BulletWorld *bullet;				//!< 物理演算ワールド
 	ILayer3DEventHandler *handler;		//!< イベントハンドラ
-	int objcount;						//!< 総オブジェクト数
+	unsigned long objcount;						//!< 総オブジェクト数
+	Storage *tmpStorage;
 
+	/**
+	 * 外力をかける.
+	 */
+	void applyForce(FigureInfo &info, FigureSet *set);
 	
 public:
 	Camera *camera;	//!< カメラ
@@ -142,6 +154,11 @@ public:
 	virtual ~Layer3D();
 	
 	/**
+	 * 内容のクリア.
+	 */
+	void clear();
+	
+	/**
 	 * イベントリスナー設定.
 	 * @param[in] listener リスナー
 	 */
@@ -150,12 +167,19 @@ public:
 	/**
 	 * Figureを追加します.
 	 * 追加したFigureはこのオブジェクトと共に解放されます.
-	 * @param fig Figure
-	 * @param tex テクスチャ
+	 * @param info オブジェクト情報
 	 * @param mtx 座標変換行列（NULLの場合はFigureのtransformを使用します）
 	 * @return 識別ID
 	 */
 	virtual int addFigure(FigureInfo &info, RigidBodyOption option=RigidBodyOption());
+	
+	/**
+	 * オブジェクトの情報を書き換えます.
+	 * @param id 識別ID
+	 * @param info オブジェクト情報
+	 * @return 成功true
+	 */
+	virtual bool replaceObjectByID(unsigned long id, FigureInfo &info);
 	
 	/**
 	 * 指定したIDに対応するFigureを取得します.
@@ -163,7 +187,7 @@ public:
 	 * @param id ID
 	 * @return Figure
 	 */
-	virtual Figure* findFigureByID(int id);
+	virtual Figure* findFigureByID(unsigned long id);
 	
 	/**
 	 * 指定したIDに対応するTextureを取得します.
@@ -171,7 +195,7 @@ public:
 	 * @param id ID
 	 * @return Texture
 	 */
-	virtual Texture* findTextureByID(int id);
+	virtual Texture* findTextureByID(unsigned long id);
 	
 	/**
 	 * 指定したIDに対応するMatrix3Dを取得します.
@@ -179,7 +203,7 @@ public:
 	 * @param id ID
 	 * @return Matrix3D
 	 */
-	virtual Matrix3D* findMatrixByID(int id);
+	virtual Matrix3D* findMatrixByID(unsigned long id);
 
 	/**
 	 * 指定したIDに対応するUserObjectを取得します.
@@ -187,7 +211,7 @@ public:
 	 * @param id ID
 	 * @return Matrix3D
 	 */
-	virtual GCObject* findUserObjectByID(int id);
+	virtual GCObject* findUserObjectByID(unsigned long id);
 
 	/**
 	 * ライトを追加します.
@@ -197,6 +221,18 @@ public:
 	 */
 	virtual void addLight(int id, Light *light);
 
+	/**
+	 * 現在の状態を指定されたファイルに保持します.
+	 * @param[in] filename ファイル名
+	 */
+	virtual bool save(const char *filename);
+	
+	/**
+	 * 指定されたファイルから前回の状態を復帰します.
+	 * @param[in] filename ファイル名
+	 */
+	virtual bool load(const char *filename);
+	
 	//////////////////////////////////////////////////////////
 	// Layer の実装
 	//////////////////////////////////////////////////////////
@@ -243,6 +279,17 @@ public:
 	 * 各オブキェクトの衝突処理.
 	 */
 	virtual void contactBulletObject(BulletWorld *world, btRigidBody *obj0, btRigidBody *obj1);
+	
+	/**
+	 * 各オブキェクトの保存処理.
+	 */
+	virtual bool saveBulletObject(BulletWorld *world, btRigidBody *body, UserObj *obj, int index, int max);
+	
+	/**
+	 * 各オブキェクトの読み込み処理.
+	 */
+	virtual bool loadBulletObject(BulletWorld *world, btRigidBody *body, UserObj *obj, int index, int max);
+	
 };
 
 #endif /* LAYER3D_H_ */

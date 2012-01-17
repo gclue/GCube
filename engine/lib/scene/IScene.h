@@ -57,6 +57,7 @@ public:
 	 */
 	virtual ~IScene() {};
 
+
 	/**
 	 * リサイズ処理を行います.
 	 * @param[in] width 横幅
@@ -95,6 +96,16 @@ public:
 	virtual void onEnd() = 0;
 
 	/**
+	 * アプリ停止を通知します.
+	 */
+	virtual void onPause(){};
+	
+	/**
+	 * アプリ再開を通知します.
+	 */
+	virtual void onResume(){};
+	
+	/**
 	 * コンテキストが切り替わったことを通知します.
 	 */
 	virtual void onContextChanged() = 0;
@@ -132,7 +143,7 @@ public:
 	 * @param param4 イベントパラメータ
 	 * @param param5 イベントパラメータ
 	 */
-	virtual void onGameEvent(int type, int param1, int param2, int param3, int param4, const char *param5) = 0;
+	virtual void onGameEvent(int type, int param1, long param2, double param3, int param4, const char *param5) = 0;
 	
 	/**
 	 * デバッグコマンドを受け取るメソッド.

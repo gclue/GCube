@@ -44,6 +44,12 @@ NumberView::NumberView(GCContext *context) : View(context) {
 	}
 	w = 0;
 	h = 0;
+	
+	for(int i  = 0 ; i < 10 ; i++) {
+		adjustX[i] = 0;
+		adjustY[i] = 0;
+	}
+	space = 0;
 }
 
 NumberView::~NumberView() {
@@ -76,21 +82,26 @@ void NumberView::draw(double dt, IAnimation *animation) {
 	long long v = value;
 	float x = width;
 	float y = 0;
-	float dx = w;
+	float dx = w + space;
 	bool first = false;
 
 	switch (aligned) {
 	case ALIGN_LEFT:
 		x = -width;
-		dx = w;
+		dx = w+space;
+		if(value == 0) {
+			drawFigure(0, x + adjustX[0], y+adjustY[0]);
+			break;
+		}
 		for (int i = digit - 1; i >= 0 ; i--) {
+			
 			v = value;
 			for (int j = 0; j < i; j++) {
 				v /= 10;
 			}
 			int a = v % 10;
 			if (zeroFill || first || v != 0) {
-				drawFigure(a, x, y);
+				drawFigure(a, x + adjustX[a], y + adjustY[a]);
 				x += dx;
 			}
 			if (!zeroFill && v != 0) {
@@ -100,10 +111,10 @@ void NumberView::draw(double dt, IAnimation *animation) {
 		break;
 	case ALIGN_RIGHT:
 		x = width;
-		dx = -w;
+		dx = -w+space;
 		for (int i = 0; i < digit; i++) {
 			int a = v % 10;
-			drawFigure(a, x, y);
+			drawFigure(a, x + adjustX[a], y + adjustY[a]);
 			v /= 10;
 			x += dx;
 			if (!zeroFill && v == 0) {
@@ -159,4 +170,14 @@ void NumberView::setFigure(int index, Figure *f) {
 void NumberView::setFontSize(float w, float h) {
 	this->w = w;
 	this->h = h;
+}
+
+
+void NumberView::setAdjustPositionEachNumbers(int index, float x, float y){
+	adjustX[index] = x;
+	adjustY[index] = y;
+}
+
+void NumberView::setSpace(float space) {
+	this->space = space;
 }

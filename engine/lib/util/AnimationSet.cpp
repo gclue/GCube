@@ -193,6 +193,7 @@ void AnimationSet::step(double dt) {
 			if (repeat) {
 				// リピート
 				reset();
+				startflg = true;
 			} else {
 				// 全部のアニメーションが終了
 				finishflg = true;

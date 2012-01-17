@@ -46,13 +46,16 @@ Figure::Figure() {
 
 // デストラクタ
 Figure::~Figure() {
-	for (int i = 0; i < NUM_VBO; i++) {
-		glDeleteBuffers(1, &vboNames[i]);
-		vboNames[i] = 0;
-	}
+//	for (int i = 0; i < NUM_VBO; i++) {
+//		glDeleteBuffers(1, &vboNames[i]);
+//		vboNames[i] = 0;
+//	}
 
+	destroy();
+	
 	delete transForm;
 	delete joint;
+	
 }
 
 // 頂点追加
@@ -155,7 +158,7 @@ void Figure::bind() {
 
 // ビルド
 void Figure::build() {
-	LOGD("Figure::build");
+//	LOGD("Figure::build");
 	// ビルド済みの場合は無視
 //	if (vaoName) {
 //		return;
@@ -234,8 +237,8 @@ void Figure::build() {
 	size.y = maxy - miny;
 	size.z = maxz - minz;
 	
-	LOGD("size:%f,%f,%f", size.x, size.y, size.z);
-	LOGD("Figure::build:end");
+//	LOGD("size:%f,%f,%f", size.x, size.y, size.z);
+//	LOGD("Figure::build:end");
 }
 
 // 内部データをクリア

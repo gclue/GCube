@@ -40,6 +40,10 @@ ViewGroup::~ViewGroup() {
 void ViewGroup::addView(View *view) {
 	// 親Viewにこのクラスを追加
 	view->parent = this;
+	
+	//参照カウンタをプラス
+	view->retain();
+	
 	// リストにViewを追加
 	views.push_back(view);
 }
@@ -50,7 +54,8 @@ void ViewGroup::removeView(View *view) {
 		View *a = *it;
 		if (a == view) {
 			it = views.erase(it);
-			delete a;
+			a->release();
+//			delete a;
 		} else {
 			it++;
 		}
@@ -72,7 +77,8 @@ void ViewGroup::removeViewByID(int id) {
 void ViewGroup::removeAllView() {
 	int size = views.size();
 	for (int i = 0; i < size; i++) {
-		delete views.at(i);
+		views.at(i)->release();
+//		delete views.at(i);
 	}
 	views.clear();
 }
@@ -159,9 +165,11 @@ bool ViewGroup::onTouch(TouchEvent &event) {
 }
 
 void ViewGroup::draw(double dt, IAnimation *animation) {
+	if(visible) {
 	int size = views.size();
 	for (int i = 0; i < size; i++) {
 		views.at(i)->render(dt);
+	}
 	}
 }
 

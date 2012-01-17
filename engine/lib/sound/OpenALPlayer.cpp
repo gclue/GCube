@@ -107,7 +107,7 @@ static long ogg_tell_func(void *datasource) {
 }
 
 static int ogg_close_func(void *datasource) {
-	LOGE("ogg_close_func");
+//	LOGE("ogg_close_func");
 	return 0;
 }
 

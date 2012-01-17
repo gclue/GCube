@@ -46,7 +46,6 @@ Button::~Button() {
 	// これらは他でdeleteするので、ここでは行わない。
 	listener = NULL;
 }
-
 void Button::setOnButtonClickListener(OnButtonClickListener *l) {
 	this->listener = l;
 }
@@ -61,17 +60,18 @@ void Button::startClickAnimation() {
 
 	Animation *a1 = new Animation();
 	a1->setAlpha(1.0, 1.0);
-	a1->setScale(1.0, 1.0, 1.2, 1.2);
-	a1->setDuration(0.1);
+	a1->setScale(1.0, 1.0, 1.05, 1.05);
+	a1->setDuration(0.10);
 	clickAnim->addAnimation(a1);
 
 	Animation *a2 = new Animation();
 	a2->setAlpha(1.0, 1.0);
-	a2->setScale(1.2, 1.2, 1.0, 1.0);
-	a2->setDuration(0.1);
+	a2->setScale(1.05, 1.05, 1.0, 1.0);
+	a2->setDuration(0.10);
 	clickAnim->addAnimation(a2);
 	clickAnim->setRepeat(false);
 	clickAnim->reset();
+	
 }
 
 void Button::setFigure(Figure *figure) {
@@ -91,6 +91,7 @@ bool Button::onTouch(TouchEvent &event) {
 	if (!clickable || !visible) {
 		return false;
 	}
+	
 	switch (event.type) {
 	case touchDown:
 		if (!isClickAnimation() && isBound(event.x, event.y)) {

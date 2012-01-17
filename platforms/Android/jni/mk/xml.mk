@@ -10,8 +10,8 @@ LOCAL_SRC_FILES :=  xmlparse.c \
                     xmlrole.c \
                     xmltok_impl.c \
                     xmltok_ns.c \
-                    xmltok.c \
+                    xmltok.c
                     
-LOCAL_C_INCLUDES := $(LOCAL_PATH) \
+LOCAL_C_INCLUDES := $(LOCAL_PATH)
                    
 include $(BUILD_STATIC_LIBRARY)

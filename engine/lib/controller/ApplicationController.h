@@ -32,6 +32,7 @@
 class Animation;
 class SimpleShader;
 class Camera;
+class Main;
 
 /**
  * アプリケーションコントローラクラス.
@@ -49,6 +50,7 @@ private:
 	int nextSceneID;				//!< 次のシーンのID
 	int currentSceneID;				//!< 現在のシーンID
 	int preSceneID;					//!< 一つ前のシーンID
+	int prePreSceneID;				//!< ２つ前のシーンID
 	Animation *fadeAnimation;		//!< フェードアニメーション
 
 	Animation *defaultFadeAnimation;//!< デフォルトのフェードアニメーション
@@ -61,6 +63,7 @@ private:
 	ApplicationController();
 	
 public:
+	Main *main; //!< メインクラス
 
 	/**
 	 * デストラクタ.
@@ -84,6 +87,26 @@ public:
 	IScene *getActiveScene() {
 		return activeScene;
 	}
+	
+	/**
+	 * 遷移前のシーンIDを取得します.
+	 * @return 前のシーンID.
+	 */
+	int getPreSceneID();
+	
+	
+	/**
+	 * 遷移前の前のシーンIDを取得します.
+	 * @return 前の前のシーンID.
+	 */
+	int getPrePreSceneID();
+	
+	
+	/**
+	 * 現在のシーンIDを取得します.
+	 * @return 現在のシーンID.
+	 */
+	int getCurrentSceneID();
 
 	/**
 	 * 一時停止中の状態を取得します.
@@ -142,6 +165,16 @@ public:
 	void onMoveSenser(double sensor);
 
 	/**
+	 * ゲームイベントを送信します.
+	 * @param[in] type イベントタイプ
+	 * @param[in] param1 イベントパラメータ
+	 * @param[in] param2 イベントパラメータ
+	 * @param[in] param3 イベントパラメータ
+	 * @param[in] param4 イベントパラメータ
+	 */
+	void sendGameEvent(int type, int param1=0, long param2=0, double param3=0, int param4=0, const char *param5=NULL);
+	
+	/**
 	 * ゲームイベントを処理します.
 	 * @param[in] type イベントタイプ
 	 * @param[in] param1 イベントパラメータ
@@ -149,7 +182,7 @@ public:
 	 * @param[in] param3 イベントパラメータ
 	 * @param[in] param4 イベントパラメータ
 	 */
-	void onGameEvent(int type, int param1, int param2, int param3, int param4, const char *param5);
+	void onGameEvent(int type, int param1=0, long param2=0, double param3=0, int param4=0, const char *param5=NULL);
 
 	/**
 	 * デバッグコマンドを処理します.

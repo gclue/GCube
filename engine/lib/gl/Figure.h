@@ -92,6 +92,7 @@ public:
 	Point3f size;			//!< フィギュアのサイズ
 	bool useIndex;			//!< インデックスのAttributeを使用する場合はtrue
 	bool visible;			//!< 表示する場合はtrue
+	const char* name;
 
 	/**
 	 * コンストラクタ.

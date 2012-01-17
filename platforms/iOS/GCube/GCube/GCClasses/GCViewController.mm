@@ -34,16 +34,19 @@
 #include "APIGlue.h"
 #include "Figure.h"
 #include "Texture.h"
+#include "main.h"
+
+#import "PVRTexture.h"
 
 // コントローラーインスタンス
 static ApplicationController *controller = NULL;
 
 /**
- * Figureを読み込みます.
- * @param[in] name フィギュア名前
+ * インスタンスを返します.
+ * @return インスタンス
  */
-Figure* GCLoadFigure(const char *fname) {
-	return NULL;
+ApplicationController* CGControllerInstance() {
+	return controller;
 }
 
 /**
@@ -52,33 +55,21 @@ Figure* GCLoadFigure(const char *fname) {
  * @return charのvectorオブジェクト
  */
 std::vector<char>* GCLoadAsset(const char *fileName) {
-	LOGD("AELoadAsset: %s", fileName);
+	LOGD("GCLoadAsset: %s", fileName);
     NSString *fname = [NSString stringWithCString:fileName encoding:NSUTF8StringEncoding];
-    NSString *path = [[NSBundle mainBundle] pathForResource:[fname lastPathComponent] ofType:nil];
-    const char *source;
-    NSString *fnet = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
-    source = [fnet UTF8String];
-    
-    std::vector<char> *buff = new std::vector<char>();
-    int max = [fnet lengthOfBytesUsingEncoding:NSUTF8StringEncoding];
-    for (int i = 0; i < max; ++i) {
-        buff->push_back(source[i]);
-    }
-    return buff;
+	NSString *path;
+	if ([[NSFileManager defaultManager] fileExistsAtPath:fname]){
+		// ファイルが存在したら絶対パス
+		path = fname;
+	} else {
+		// 相対パスの場合はリソースから
+		path = [[NSBundle mainBundle] pathForResource:[fname lastPathComponent] ofType:nil];
+	}
+	NSData *data = [NSData dataWithContentsOfFile:path];
+	const char *buffer = (const char*)[data bytes];
+	std::vector<char> *outbuf = new std::vector<char>(buffer, buffer + [data length]);
+    return outbuf;
 }
-
-/**
- * SE,BGM再生
- * mode: 0:BGM再生
- *       1:BGM停止
- *       2:SE登録
- *       3:SE再生
- * @param[in] fname ファイル名
- * @param[in] mode モード
- */
-void GCSoundEvent(const char *fileName, int mode) {
-}
-
 
 /**
  * テクスチャを読み込みます.
@@ -86,11 +77,38 @@ void GCSoundEvent(const char *fileName, int mode) {
  * @return テクスチャオブジェクト
  */
 bool GCLoadTexture(Texture *texture, const char *fileName) {
-	LOGD("AELoadTexture: %s", fileName);
+	LOGD("GCLoadTexture: %s", fileName);
     
     // 画像読み込み
     NSString *fname = [NSString stringWithCString:fileName encoding:NSUTF8StringEncoding];
-	CGImageRef img = [[UIImage imageNamed:[fname lastPathComponent]] CGImage];
+	UIImage *uimg = nil;
+	if ([[NSFileManager defaultManager] fileExistsAtPath:fname]){
+		// ファイルが存在したら絶対パス
+		uimg = [[UIImage alloc] initWithContentsOfFile:fname];
+	} else {
+		// pvrが存在する時はそちらが優先
+		NSString *pvrname = [[fname stringByDeletingPathExtension] stringByAppendingPathExtension:@"pvr"];
+		NSString *pvrpath = [[NSBundle mainBundle] pathForResource:[pvrname lastPathComponent] ofType:nil];
+		if ([[NSFileManager defaultManager] fileExistsAtPath:pvrpath]){
+			PVRTexture *pvr = [[PVRTexture alloc] initWithContentsOfFile:pvrpath];
+			if (pvr) {
+				LOGD("*use pvr*");
+				texture->texName = [pvr name];
+				texture->width = [pvr width];
+				texture->height = [pvr height];
+				[pvr release];
+				return true;
+			}
+		}
+		// 相対パスの場合はリソースから
+		NSString *fpath = [[NSBundle mainBundle] pathForResource:[fname lastPathComponent] ofType:nil];
+		uimg = [[UIImage alloc] initWithContentsOfFile:fpath];
+	}
+	if (!uimg) {
+		LOGE("**********ERROR(GCLoadTexture)**************");
+		exit(1);
+	}
+	CGImageRef img = [uimg CGImage];
     
     CGContextRef	texContext;
     GLubyte			*texData;
@@ -109,27 +127,29 @@ bool GCLoadTexture(Texture *texture, const char *fileName) {
     CGContextDrawImage(texContext, rect, img);
     // Contextはもう要らないので解放
     CGContextRelease(texContext);
-
+	
 	// テクスチャ作成
 	texture->setImageData(texData, width, height);
     
     // 解放
     free(texData);
+	[uimg release];
     
 	return true;
 }
 
 /**
- * イベントを配送します.
- * @param[in] type イベントタイプ
- * @param[in] param1 イベントパラメータ
- * @param[in] param2 イベントパラメータ
- * @param[in] param3 イベントパラメータ
- * @param[in] param4 イベントパラメータ
- * @param[in] param5 イベントパラメータ
+ * 保存領域へのパスを取得します.
+ * @return パス
  */
-void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, const char *param5) {
-    LOGD( "**AESendGameEvent**:%d, %d, %d, %d, %d, %s", type, param1, param2, param3, param4, param5);
+const char* GCGetStoragePath(const char *fileName) {
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *documentsDirectory = [paths objectAtIndex:0];
+	if (fileName) {
+		return [[documentsDirectory stringByAppendingPathComponent:[NSString stringWithCString:fileName encoding:NSUTF8StringEncoding]] UTF8String];
+	} else {
+		return [documentsDirectory UTF8String];
+	}
 }
 
 
@@ -159,7 +179,7 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
     
 	self.view.contentScaleFactor = [UIScreen mainScreen].scale;
 	
-    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    self.context = [[[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2] autorelease];
     
     if (!self.context) {
         NSLog(@"Failed to create ES context");
@@ -178,9 +198,10 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
 	if (!controller) {
 		controller = ApplicationController::getInstance();
 		CGRect screenSize = [[UIScreen mainScreen] bounds];
-        controller->resize(screenSize.size.width, screenSize.size.height);
+		float scale = [UIScreen mainScreen].scale;
+        controller->resize(screenSize.size.width * scale, screenSize.size.height * scale);
 		controller->resetup();
-		GCInitApplicationController(controller);
+		controller->main->initApplicationController();
 	} else {
 		controller->resetup();
 	}
@@ -192,6 +213,8 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
 {
     NSLog(@"GCViewController:viewDidUnload");
     
+	[debugButton release];
+	debugButton = nil;
 	[super viewDidUnload];
 	
     // Tear down context.
@@ -219,10 +242,11 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
 
 // タッチイベント
 - (void)toucheEvent:(NSSet *)touches withEvent:(UIEvent *)event withType:(int)type {
+	float scale = [UIScreen mainScreen].scale;
 	UITouch *touch = [touches anyObject];
 	CGPoint location = [touch locationInView:self.view];
 	if (controller) {
-		controller->onTouch(type, location.x, location.y, touch.timestamp);
+		controller->onTouch(type, location.x*scale, location.y*scale, touch.timestamp);
 	}
 }
 
@@ -245,12 +269,41 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
 //- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
 //}
 
+// デバッグボタンイベント
+- (IBAction)pressDebugButton:(id)sender {
+	[self stopAnimation];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"debug" ofType:@"txt"];
+	NSString *msg = [NSString stringWithContentsOfFile:path encoding:NSUTF8StringEncoding error:nil];
+	UIAlertView *alert = [[UIAlertView alloc]initWithTitle:nil message:msg delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    [alert show];
+	[alert release];
+}
+
+// デバッグアラートイベント
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	[self startAnimation];
+	if (buttonIndex==1 && controller) {
+		UITextField *txt = [alertView textFieldAtIndex:0];
+		NSArray *cmds = [[txt text] componentsSeparatedByString:@" "];
+		if ([cmds count]>0) {
+			NSString *str = [cmds objectAtIndex:0];
+			int p = 0;
+			if ([cmds count]>1) {
+				p = [[cmds objectAtIndex:1] intValue];
+			}
+			const char* c = [str cStringUsingEncoding:NSUTF8StringEncoding];
+			controller->onDebugCommand(c, p);
+		}
+	}
+}
 
 #pragma mark - DisplayLink
 
 - (void)drawFrame
 {
     CFTimeInterval interval = CFAbsoluteTimeGetCurrent() - lastTime;
+    lastTime = CFAbsoluteTimeGetCurrent();
     [(EAGLView *)self.view setFramebuffer];
     
 	if (controller) {
@@ -261,7 +314,6 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
     }
     
     [(EAGLView *)self.view presentFramebuffer];
-    lastTime = CFAbsoluteTimeGetCurrent();
 }
 
 
@@ -295,6 +347,7 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
 {
     NSLog(@"startAnimation");
     if (!animating) {
+		lastTime = CFAbsoluteTimeGetCurrent();
         CADisplayLink *aDisplayLink = [[UIScreen mainScreen] displayLinkWithTarget:self selector:@selector(drawFrame)];
         [aDisplayLink setFrameInterval:animationFrameInterval];
         [aDisplayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
@@ -328,4 +381,8 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
 }
 
 
+- (void)dealloc {
+	[debugButton release];
+	[super dealloc];
+}
 @end

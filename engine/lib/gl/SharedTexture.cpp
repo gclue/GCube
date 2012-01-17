@@ -29,10 +29,11 @@
 SharedTexture::SharedTexture() {
 	cache = new FigureCache();
 	texture = NULL;
-	dispW = 480.0;
+	dispW = 640.0;
 }
 
 SharedTexture::~SharedTexture() {
+	LOGD("SharedTexture destructor");
 	DELETE(cache);
 	DELETE(texture);
 }
@@ -144,6 +145,8 @@ Figure* SharedTexture::makePlateWithSize(int ID, int sub, float w, float h) {
 }
 
 Figure* SharedTexture::makePlate(const char *name) {
+	
+//	return fig;
 	// キャッシュにFigureが存在しないか検索
 	Figure *figure = cache->searchFigure(name, 0, 0);
 	if (figure) {
@@ -158,6 +161,9 @@ Figure* SharedTexture::makePlate(const char *name) {
 
 	// キャッシュに登録
 	cache->putFigure(name, 0, 0, figure);
+	
+	
+	
 	return figure;
 }
 

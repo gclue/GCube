@@ -47,6 +47,9 @@ Scene::~Scene() {
 
 // レイヤーを追加
 void Scene::addLayer(int id, Layer *layer) {
+	if(layers[id]) {
+		delete layers[id];
+	}
 	layers[id] = layer;
 }
 
@@ -59,6 +62,33 @@ Layer *Scene::getLayer(int id) {
 		return NULL;
 	}
 }
+
+//レイヤの削除
+bool Scene::removeLayer(int id) {
+	std::map<int, Layer*>::iterator it = layers.find(id);
+	if (it != layers.end() ) {
+		Layer *layer = (*it).second;
+		delete layer;
+		layers.erase(it);
+		return true;
+	}
+	
+	return false;
+}
+
+
+void Scene::removeAllLayers() {
+	std::map<int, Layer*>::iterator it = layers.begin();
+	while (it != layers.end()) {
+		LOGD("remove");
+		Layer *layer = (*it).second;
+		delete layer;
+		it++;
+	}
+	layers.clear();
+}
+
+
 
 /////////////////////////////////////////////////////////////
 // IScene の実装
@@ -97,7 +127,9 @@ void Scene::step(float dt) {
 	std::map<int, Layer*>::iterator it = layers.begin();
 	while (it != layers.end()) {
 		Layer *layer = (*it).second;
-		layer->render(dt);
+		float t = dt;
+		if (layer->pause) t = 0;
+		layer->render(t);
 		it++;
 	}
 }
@@ -157,12 +189,4 @@ bool Scene::onTouch(TouchEvent &event) {
 		it--;
 	}
 	return false;
-}
-
-// 加速度センサー
-void Scene::onMoveSensor(double sensor) {
-}
-
-// JNIイベント
-void Scene::onGameEvent(int type, int param1, int param2, int param3, int param4, const char *param5) {
 }

@@ -50,6 +50,9 @@
 		665EB570147A1930006900C1 /* xmltok_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = 665EB534147A1930006900C1 /* xmltok_impl.c */; };
 		665EB571147A1930006900C1 /* xmltok_ns.c in Sources */ = {isa = PBXBuildFile; fileRef = 665EB536147A1930006900C1 /* xmltok_ns.c */; };
 		665EB574147A19EA006900C1 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 665EB573147A19EA006900C1 /* OpenAL.framework */; };
+		666DF21114C5034E00FE1ADF /* OggLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 666DF20C14C5034E00FE1ADF /* OggLoader.cpp */; };
+		666DF21214C5034E00FE1ADF /* SoundPlayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 666DF20F14C5034E00FE1ADF /* SoundPlayer.cpp */; };
+		666DF21614C504CB00FE1ADF /* PVRTexture.m in Sources */ = {isa = PBXBuildFile; fileRef = 666DF21514C504CB00FE1ADF /* PVRTexture.m */; };
 		667474F0145528DE0065EDF3 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667474EF145528DE0065EDF3 /* UIKit.framework */; };
 		667474F2145528DE0065EDF3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667474F1145528DE0065EDF3 /* Foundation.framework */; };
 		667474F4145528DE0065EDF3 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 667474F3145528DE0065EDF3 /* CoreGraphics.framework */; };
@@ -375,6 +378,15 @@
 		665EB535147A1930006900C1 /* xmltok_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xmltok_impl.h; sourceTree = "<group>"; };
 		665EB536147A1930006900C1 /* xmltok_ns.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = xmltok_ns.c; sourceTree = "<group>"; };
 		665EB573147A19EA006900C1 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		666DF20B14C5021300FE1ADF /* picojson.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = picojson.h; sourceTree = "<group>"; };
+		666DF20C14C5034E00FE1ADF /* OggLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OggLoader.cpp; sourceTree = "<group>"; };
+		666DF20D14C5034E00FE1ADF /* OggLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OggLoader.h; sourceTree = "<group>"; };
+		666DF20E14C5034E00FE1ADF /* SoundData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundData.h; sourceTree = "<group>"; };
+		666DF20F14C5034E00FE1ADF /* SoundPlayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundPlayer.cpp; sourceTree = "<group>"; };
+		666DF21014C5034E00FE1ADF /* SoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundPlayer.h; sourceTree = "<group>"; };
+		666DF21314C503A800FE1ADF /* main.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main.h; sourceTree = "<group>"; };
+		666DF21414C504CB00FE1ADF /* PVRTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PVRTexture.h; sourceTree = "<group>"; };
+		666DF21514C504CB00FE1ADF /* PVRTexture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PVRTexture.m; sourceTree = "<group>"; };
 		667474EB145528DE0065EDF3 /* GCube.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GCube.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		667474EF145528DE0065EDF3 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		667474F1145528DE0065EDF3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -950,7 +962,7 @@
 				6644323214568A55001847A0 /* texture */,
 			);
 			name = assets;
-			path = ../../../../assets;
+			path = ../../../assets;
 			sourceTree = "<group>";
 		};
 		6644322714568A55001847A0 /* model */ = {
@@ -995,6 +1007,7 @@
 		664432471456A229001847A0 /* main */ = {
 			isa = PBXGroup;
 			children = (
+				666DF21314C503A800FE1ADF /* main.h */,
 				664432481456A22C001847A0 /* main.cpp */,
 				664432491456A22C001847A0 /* Scene3D.cpp */,
 				6644324A1456A22C001847A0 /* Scene3D.h */,
@@ -1002,7 +1015,7 @@
 				6644324C1456A22C001847A0 /* SceneTitle.h */,
 			);
 			name = main;
-			path = ../../../../main;
+			path = ../../../main;
 			sourceTree = "<group>";
 		};
 		665EB491147A192F006900C1 /* Ogg */ = {
@@ -1232,9 +1245,19 @@
 			path = expat;
 			sourceTree = "<group>";
 		};
+		666DF20A14C5021300FE1ADF /* json */ = {
+			isa = PBXGroup;
+			children = (
+				666DF20B14C5021300FE1ADF /* picojson.h */,
+			);
+			path = json;
+			sourceTree = "<group>";
+		};
 		667474E0145528DE0065EDF3 = {
 			isa = PBXGroup;
 			children = (
+				664432471456A229001847A0 /* main */,
+				6644322614568A4F001847A0 /* assets */,
 				667474F5145528DE0065EDF3 /* GCube */,
 				667474EE145528DE0065EDF3 /* Frameworks */,
 				667474EC145528DE0065EDF3 /* Products */,
@@ -1267,9 +1290,7 @@
 			children = (
 				667474FE145528DE0065EDF3 /* GCAppDelegate.h */,
 				667474FF145528DE0065EDF3 /* GCAppDelegate.m */,
-				664432471456A229001847A0 /* main */,
 				6674753314552B2A0065EDF3 /* GCClasses */,
-				6644322614568A4F001847A0 /* assets */,
 				667474F6145528DE0065EDF3 /* Supporting Files */,
 			);
 			path = GCube;
@@ -1294,6 +1315,8 @@
 				6674753514552B2A0065EDF3 /* EAGLView.m */,
 				6674753614552B2A0065EDF3 /* GCViewController.h */,
 				6674753714552B2A0065EDF3 /* GCViewController.mm */,
+				666DF21414C504CB00FE1ADF /* PVRTexture.h */,
+				666DF21514C504CB00FE1ADF /* PVRTexture.m */,
 				6674753814552B2A0065EDF3 /* GCViewController.xib */,
 			);
 			path = GCClasses;
@@ -1313,6 +1336,7 @@
 		6674754F14552F0A0065EDF3 /* external */ = {
 			isa = PBXGroup;
 			children = (
+				666DF20A14C5021300FE1ADF /* json */,
 				66E545E9145E2C8F0050571F /* Bullet */,
 				6674755014552F0A0065EDF3 /* math */,
 				665EB491147A192F006900C1 /* Ogg */,
@@ -1501,6 +1525,11 @@
 		667475B614552F0A0065EDF3 /* sound */ = {
 			isa = PBXGroup;
 			children = (
+				666DF20C14C5034E00FE1ADF /* OggLoader.cpp */,
+				666DF20D14C5034E00FE1ADF /* OggLoader.h */,
+				666DF20E14C5034E00FE1ADF /* SoundData.h */,
+				666DF20F14C5034E00FE1ADF /* SoundPlayer.cpp */,
+				666DF21014C5034E00FE1ADF /* SoundPlayer.h */,
 				667475B714552F0A0065EDF3 /* MusicPlayer.cpp */,
 				667475B814552F0A0065EDF3 /* MusicPlayer.h */,
 				667475B914552F0A0065EDF3 /* SoundEffect.cpp */,
@@ -2460,6 +2489,9 @@
 				665EB56F147A1930006900C1 /* xmltok.c in Sources */,
 				665EB570147A1930006900C1 /* xmltok_impl.c in Sources */,
 				665EB571147A1930006900C1 /* xmltok_ns.c in Sources */,
+				666DF21114C5034E00FE1ADF /* OggLoader.cpp in Sources */,
+				666DF21214C5034E00FE1ADF /* SoundPlayer.cpp in Sources */,
+				666DF21614C504CB00FE1ADF /* PVRTexture.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2492,7 +2524,6 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -2511,7 +2542,6 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -2530,6 +2560,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GCube/GCube-Prefix.pch";
 				INFOPLIST_FILE = "GCube/GCube-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2541,6 +2575,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GCube/GCube-Prefix.pch";
 				INFOPLIST_FILE = "GCube/GCube-Info.plist";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-all_load",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

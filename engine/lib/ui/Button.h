@@ -31,6 +31,7 @@
 
 #include "defines.h"
 #include "View.h"
+#include "Animation.h"
 
 class Animation;
 class AnimationSet;
@@ -38,6 +39,7 @@ class Button;
 class Camera;
 class Figure;
 class SimpleShader;
+
 
 /**
  * ボタンがクリックされたときのイベントを通知するリスナー.
@@ -57,11 +59,10 @@ public:
 	virtual void onButtonTouchStart(Button *btn) = 0;
 };
 
-
 /**
  * ボタンを表示するためのクラス.
  */
-class Button : public View {
+class Button : public View{
 protected:
 	OnButtonClickListener *listener;	//!< リスナー
 	AnimationSet *clickAnim;			//!< クリックアニメーション
@@ -78,6 +79,8 @@ public:
 	 * デストラクタ.
 	 */
 	virtual ~Button();
+	
+	
 
 	/////////////////////////////////////////////////////////////////
 	// public関数
@@ -131,6 +134,8 @@ public:
 	 * @param[in] animation 反映するアニメーション
 	 */
 	virtual void draw(double dt, IAnimation *animation = NULL);
+	
+
 };
 
 #endif /* BUTTON_H_ */

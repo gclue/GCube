@@ -70,8 +70,6 @@ class ApplicationController;
 
 extern "C" {
 
-int GCInitApplicationController(ApplicationController *controller);
-
 /**
  * 文字列を描画したテクスチャを取得します.
  * もし文字列の描画が行われていなかった場合にはNULLを返却します.
@@ -124,7 +122,7 @@ std::vector<char>* GCLoadAsset(const char *fileName);
  * @param[in] param4 イベントパラメータ
  * @param[in] param5 イベントパラメータ
  */
-void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, const char *param5);
+void GCSendGameEvent(int type, int param1, long param2, double param3, int param4, const char *param5);
 
 /**
  * テクスチャを読み込みます.
@@ -134,11 +132,11 @@ void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, c
 bool GCLoadTexture(Texture *texture, const char *fname);
 
 /**
- * フィギュアを読み込みます.
- * @param[in] name ファイル名
- * @return フィギュアオブジェクト
+ * 保存領域へのパスを取得します.
+ * @return パス
  */
-Figure* GCLoadFigure(const char *name);
+const char* GCGetStoragePath(const char* fileName=NULL);
+
 }
 
 #endif /* APIGLUE_H_ */

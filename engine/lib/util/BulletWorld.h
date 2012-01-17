@@ -24,9 +24,6 @@
 //  BulletWorld.h
 //  GCube
 //
-//  Created by Takashi Tsuchiya on 11/10/28.
-//  Copyright (c) 2011年 GClue, inc. All rights reserved.
-//
 
 #ifndef GCube_BulletWorld_h
 #define GCube_BulletWorld_h
@@ -51,11 +48,13 @@ extern ContactProcessedCallback	gContactProcessedCallback;
  * このオブジェクトがセットされているので、こちらを使用してください。
  */
 struct UserObj {
+	unsigned long id;
 	void *user;
 	BulletWorld *world;
 	UserObj() {
 		user = NULL;
 		world = NULL;
+		id = 0;
 	}
 };
 
@@ -78,6 +77,16 @@ public:
 	 * 各オブキェクトの衝突処理.
 	 */
 	virtual void contactBulletObject(BulletWorld *world, btRigidBody *obj0, btRigidBody *obj1) {};
+	
+	/**
+	 * 各オブキェクトの保存処理.
+	 */
+	virtual bool saveBulletObject(BulletWorld *world, btRigidBody *body, UserObj *obj, int index, int max) {return true;};
+	
+	/**
+	 * 各オブキェクトの読み込み処理.
+	 */
+	virtual bool loadBulletObject(BulletWorld *world, btRigidBody *body, UserObj *obj, int index, int max) {return true;};
 };
 
 /**

@@ -146,6 +146,7 @@ bool TextureManager::addTexture(const char *name, Texture *tex) {
 }
 
 bool TextureManager::addTexture(const char *name, SharedTexture *tex) {
+	LOGD("add texture %s", name);
 	TextureObj *obj = new TextureObj();
 	if (!obj) {
 		return false;
@@ -162,6 +163,7 @@ bool TextureManager::removeTexture(const char *name) {
 		TextureObj *a = *it;
 		if (a->name.compare(name) == 0) {
 			it = cache.erase(it);
+			LOGD("delete texture: %s", name);
 			delete a;
 		} else {
 			it++;

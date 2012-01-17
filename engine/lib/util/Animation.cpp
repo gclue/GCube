@@ -328,6 +328,7 @@ void Animation::step(double dt) {
 		if (repeat) {
 			// リピート
 			reset();
+			startflg = true;
 		} else {
 			finishflg = true;
 		}

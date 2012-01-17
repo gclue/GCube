@@ -48,6 +48,8 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    sound/MusicPlayer.cpp \
                    sound/OpenALPlayer.cpp \
                    sound/SoundEffect.cpp \
+                   sound/SoundPlayer.cpp \
+                   sound/OggLoader.cpp \
                    ui/View.cpp \
                    ui/ViewGroup.cpp \
                    ui/Button.cpp \
@@ -95,6 +97,7 @@ LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/../external/Bullet/BulletDynamics/Dynamics \
 				   $(LOCAL_PATH)/../external/Bullet/Extras/Serialize/BulletWorldImporter  \
 				   $(LOCAL_PATH)/../external/Bullet/Extras/Serialize/BulletFileLoader \
+				   $(LOCAL_PATH)/../../main/ \
 LOCAL_STATIC_LIBRARIES := math bullet xml
 
 include $(BUILD_STATIC_LIBRARY)

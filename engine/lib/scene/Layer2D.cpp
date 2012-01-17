@@ -37,8 +37,14 @@ Layer2D::Layer2D(GCContext *context) : Layer(context){
 }
 
 Layer2D::~Layer2D() {
-	DELETE(root);
-	DELETE(dialog);
+//	DELETE(root);
+	if(root) {
+		root->release();
+	}
+//	DELETE(dialog);
+	if(dialog) {
+		dialog->release();
+	}
 }
 
 View *Layer2D::findViewByID(int id) {
@@ -49,8 +55,12 @@ View *Layer2D::findViewByID(int id) {
 }
 
 void Layer2D::setContentView(View *view) {
-	DELETE(root);
+//	DELETE(root);
+	if(root) {
+		root->release();
+	}
 	root = view;
+	root->retain();
 }
 
 View *Layer2D::getContentView() {
@@ -60,10 +70,14 @@ View *Layer2D::getContentView() {
 void Layer2D::openDialog(View *view) {
 	closeDialog();
 	dialog = view;
+	dialog->retain();
 }
 
 void Layer2D::closeDialog() {
-	DELETE(dialog);
+//	DELETE(dialog);
+	if(dialog) {
+		dialog->release();
+	}
 }
 
 bool Layer2D::isDialog() {
@@ -95,7 +109,6 @@ void Layer2D::resize(float aspect) {
 void Layer2D::render(double dt) {
 	glDisable(GL_DEPTH_TEST);
 	glDisable(GL_CULL_FACE);
-	
 	if (root) {
 		if (context->shader) {
 			context->shader->useProgram();

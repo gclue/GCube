@@ -26,6 +26,8 @@
 #include "Log.h"
 #include "SimpleShader.h"
 #include "BoneShader.h"
+#include "APIGlue.h"
+#include "main.h"
 
 // シーンなし
 #define SceneID_None 0
@@ -41,7 +43,9 @@ ApplicationController::ApplicationController() {
 	activeScene = NULL;
 	nextSceneID = SceneID_None;
 	preSceneID = SceneID_None;
+	prePreSceneID = SceneID_None;
 	currentSceneID = SceneID_None;
+	main = new Main(this);
 
 	// ポーズを解除
 	pause = false;
@@ -81,6 +85,7 @@ ApplicationController::~ApplicationController() {
 		delete fadeAnimation;
 	}
 	fadeAnimation = NULL;
+	delete main;
 }
 
 // シーンを追加
@@ -98,6 +103,7 @@ void ApplicationController::sceneChange(int sceneid, IAnimation *animation) {
 		fadeAnimation = defaultFadeAnimation;
 	}
 	if (nextSceneID != SceneID_None || !fadeAnimation->isFinish()) return;
+	prePreSceneID = preSceneID;
 	preSceneID = currentSceneID;
 	nextSceneID = sceneid;
 	changeFlg = true;
@@ -123,6 +129,21 @@ void ApplicationController::setBackgroundColor(float r, float g, float b) {
 	red = r;
 	green = g;
 	blue = b;
+}
+
+//前のシーンIDを取得.
+int ApplicationController::getPreSceneID() {
+	return preSceneID;
+}
+
+//前の前のシーンIDを取得
+int ApplicationController::getPrePreSceneID() {
+	return prePreSceneID;
+}
+
+//現在のシーンIDを取得.
+int ApplicationController::getCurrentSceneID() {
+	return currentSceneID;
 }
 
 // 再セットアップ
@@ -179,21 +200,43 @@ void ApplicationController::resize(int width, int height) {
 void ApplicationController::onPause() {
 	LOGD("***********onPause");
 	pause = true;
+	// メインに通知
+	main->onPause();
+	// 各シーンに通知
+	std::map<int, IScene*>::iterator it = scenes.begin();
+	while (it != scenes.end()) {
+		IScene *scene = (*it).second;
+		if (scene) {
+			scene->onPause();
+		}
+		it++;
+	}
 }
 
 // 一時停止から復帰します.
 void ApplicationController::onResume() {
 	LOGD("***********onResume");
 	pause = false;
+	// メインに通知
+	main->onResume();
+	// 各シーンに通知
+	std::map<int, IScene*>::iterator it = scenes.begin();
+	while (it != scenes.end()) {
+		IScene *scene = (*it).second;
+		if (scene) {
+			scene->onResume();
+		}
+		it++;
+	}
 }
 
 // ゲームをステップ実行します
 void ApplicationController::step(float dt) {
+	if (pause) return;
 	// 画面クリア
 	glClearColor(red, green, blue, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	if (pause) return;
 	if (dt > 0.07) dt = 0.07;
 
 	// アルファブレンド
@@ -253,7 +296,7 @@ void ApplicationController::step(float dt) {
 	int e = glGetError();
 	if (e > 0) {
 		LOGE("glGetError:%d", e);
-		exit(1);
+//		exit(1);
 	}
 }
 
@@ -268,7 +311,7 @@ bool ApplicationController::onPressBackKey() {
 
 // タッチイベント
 void ApplicationController::onTouch(int action, float x, float y, long time) {
-	LOGD("***********onTouch[%d](%f,%f) %d", action, x, y, time);
+//	LOGD("***********onTouch[%d](%f,%f) %d", action, x, y, time);
 	if (activeScene) {
 		TouchEvent event;
 		event.type = action;
@@ -289,10 +332,18 @@ void ApplicationController::onMoveSenser(double sensor) {
 	}
 }
 
-// ゲームイベント
-void ApplicationController::onGameEvent(int type, int param1, int param2, int param3, int param4, const char *param5) {
-	LOGD("***********onGameEvent:%d,%d,%d,%d,%d,%s",type, param1, param2, param3, param4, param5);
-	if (activeScene) {
+// ゲームイベントを送信します.
+void ApplicationController::sendGameEvent(int type, int param1, long param2, double param3, int param4, const char *param5) {
+	GCSendGameEvent(type, param1, param2, param3, param4, param5);
+}
+
+// ゲームイベントを処理します.
+void ApplicationController::onGameEvent(int type, int param1, long param2, double param3, int param4, const char *param5) {
+	LOGD("***********onGameEvent:%d,%d,%ld,%f,%d,%s",type, param1, param2, param3, param4, param5);
+	// メインに通知
+	bool flg = main->onGameEvent(type, param1, param2, param3, param4, param5);
+	// アクティブシーンに通知
+	if (activeScene && !flg) {
 		activeScene->onGameEvent(type, param1, param2, param3, param4, param5);
 	}
 }
@@ -300,7 +351,10 @@ void ApplicationController::onGameEvent(int type, int param1, int param2, int pa
 // デバッグコマンド
 void ApplicationController::onDebugCommand(const char *command, int param) {
 	LOGD("***********onDebugCommand:%s,%d", command, param);
-	if (activeScene) {
+	// メインに通知
+	bool flg = main->onDebugCommand(command, param);
+	// アクティブシーンに通知
+	if (activeScene && !flg) {
 		activeScene->onDebugCommand(command, param);
 	}
 }

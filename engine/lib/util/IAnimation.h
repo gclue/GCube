@@ -31,6 +31,10 @@ class Matrix3D;
  */
 class IAnimationListener {
 public:
+	
+	
+	virtual ~IAnimationListener(){};
+	
 	/**
 	 * アニメーションが開始されたときのイベント.
 	 * @param animation 開始したアニメーション
@@ -57,6 +61,9 @@ public:
 class IAnimation {
 public:
 	int tag;
+	
+	
+	virtual ~IAnimation(){};
 
 	/**
 	 * 指定されたmtxに対してアニメーションのマトリクスを計算します.

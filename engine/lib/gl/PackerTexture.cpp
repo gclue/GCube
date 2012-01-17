@@ -47,6 +47,7 @@ PackerTexture::PackerTexture(const char *texname, const char *packername) {
 }
 
 PackerTexture::~PackerTexture() {
+	LOGD("PackerTextuer destructor");
 	DELETE(texture);
 	list.clear();
 }
@@ -157,8 +158,8 @@ int PackerTexture::parseLine(const char *data) {
 		cnt++;
 	}
 	list.push_back(tex);
-	LOGI("-- %s -------", tex.name.c_str());
-	LOGI("Rect (%f, %f, %f, %f)", tex.rect.left, tex.rect.top, tex.rect.right, tex.rect.bottom);
-	LOGI("Padding (%f, %f, %f, %f)", tex.padding.left, tex.padding.top, tex.padding.right, tex.padding.bottom);
+//	LOGI("-- %s -------", tex.name.c_str());
+//	LOGI("Rect (%f, %f, %f, %f)", tex.rect.left, tex.rect.top, tex.rect.right, tex.rect.bottom);
+//	LOGI("Padding (%f, %f, %f, %f)", tex.padding.left, tex.padding.top, tex.padding.right, tex.padding.bottom);
 	return cnt + 1;
 }

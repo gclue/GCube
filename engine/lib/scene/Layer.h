@@ -39,7 +39,8 @@ protected:
 	GCContext *context;
 
 public:
-	Layer(GCContext *context) { this->context = context; }
+	bool pause;
+	Layer(GCContext *context) { this->context = context; pause=false; }
 	virtual ~Layer() {};
 
 	/**

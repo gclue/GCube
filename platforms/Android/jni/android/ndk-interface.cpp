@@ -28,14 +28,14 @@
  *  Created on: 2011/04/25
  *      Author: haga
  */
-#include "APIGlue.h"
+//#include "APIGlue.h"
 
 #include "ApplicationController.h"
 #include "Figure.h"
 #include "Texture.h"
 #include "PackerTexture.h"
 #include "defines.h"
-
+#include "main.h"
 #include <jni.h>
 
 /**
@@ -450,6 +450,14 @@ std::vector<char>* GCLoadAsset(const char *fileName) {
 }
 
 /**
+ * 保存領域へのパスを取得します.
+ * @return パス
+ */
+const char* GCGetStoragePath(const char* fileName=NULL) {
+	return "";
+}
+
+/**
  * 初期化関数.
  *
  * @param env 環境変数
@@ -474,7 +482,7 @@ Java_com_gclue_gl_JNILib_init(
 		controller = ApplicationController::getInstance();
 		controller->resize(width, height);
 		controller->resetup();
-		GCInitApplicationController(controller);
+		controller->main->initApplicationController();
 		return JNI_TRUE;
 	} else {
 		controller->resetup();

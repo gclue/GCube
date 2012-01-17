@@ -152,8 +152,10 @@ void Matrix3D::normalMatrix(float *mtxout) {
 // 変換行列を適用したVector3Dを返します
 void Matrix3D::transformVector3D(Vector3D *outVec, const Vector3D *inVec) {
 	
+	bool flg = false;
 	if (!inVec) {
 		inVec = new Vector3D();
+		flg = true;
 	}
 	
 	float tmp[4];
@@ -167,6 +169,10 @@ void Matrix3D::transformVector3D(Vector3D *outVec, const Vector3D *inVec) {
 	outVec->y = tmp[1];
 	outVec->z = tmp[2];
 	outVec->w = tmp[3];
+	
+	if (flg) {
+		delete inVec;
+	}
 }
 
 // 指定の方向を向かせる

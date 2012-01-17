@@ -33,6 +33,11 @@
 #include "BoneShader.h"
 #include "Joint.h"
 #include "BulletWorld.h"
+#include "Storage.h"
+
+// ファイルのバージョン
+#define kFileVersion 1
+
 
 /**
  * 3Dオブジェクト情報構造体.
@@ -67,15 +72,15 @@ struct FigureSet {
 	}
 	
 	void set(int id, Figure *fig, Texture *tex, Matrix3D *mtx, GCObject *userObj) {
+		if (mtx) {mtx->retain();}
+		if (fig) {fig->retain();}
+		if (tex) {tex->retain();}
+		if (userObj) {userObj->retain();}
 		this->id = id;
 		this->fig = fig;
 		this->tex = tex;
 		this->mtx = mtx;
 		this->userObj = userObj;
-		if (mtx) {mtx->retain();}
-		if (fig) {fig->retain();}
-		if (tex) {tex->retain();}
-		if (userObj) {userObj->retain();}
 	}
 	
 	void setInfoData(FigureInfo &info) {
@@ -105,6 +110,7 @@ Layer3D::Layer3D(GCContext *context) : Layer(context) {
 	camera->transForm.lookAt(&eye, &at);
 	bullet = NULL;
 	handler = NULL;
+	tmpStorage = NULL;
 	gravity = -9.8;
 	objcount = 0;
 }
@@ -114,7 +120,7 @@ Layer3D::~Layer3D() {
 	LOGD("**~Layer3D");
 	delete camera;
 	delete bullet;
-	std::map<int, FigureSet*>::iterator it = figures.begin();
+	std::map<unsigned long, FigureSet*>::iterator it = figures.begin();
 	while (it != figures.end()) {
 		FigureSet *set = (*it).second;
 		delete set;
@@ -122,17 +128,48 @@ Layer3D::~Layer3D() {
 	}
 }
 
+// 内容のクリア.
+void Layer3D::clear() {
+	LOGD("**Layer3D::clear");
+	std::map<unsigned long, FigureSet*>::iterator it = figures.begin();
+	while (it != figures.end()) {
+		FigureSet *set = (*it).second;
+		if (bullet && set->body) {
+			bullet->dynamicsWorld->removeRigidBody(set->body);
+			delete set->body;
+			delete set;
+			figures.erase(it++);
+			continue;
+		}
+		it++;
+	}
+	figures.clear();
+}
 
 // Figure追加
 int Layer3D::addFigure(FigureInfo &info, RigidBodyOption option) {
+
+	int id;
+	if (info.id>0) {
+		// ID指定の場合はそのまま使用
+		id = info.id;
+	} else {
+		// 開いてるIDを検索
+		while (true) {
+			std::map<unsigned long, FigureSet*>::iterator it = figures.find(++objcount);
+			if (it==figures.end()) {
+				break;
+			}
+		}
+		id = objcount;
+	}
 	
-	objcount++;
 	FigureSet *set = new FigureSet();
 	if (info.fig || info.mtx) {
-		set->set(objcount, info.fig, info.tex, info.mtx, info.userObj);
+		set->set(id, info.fig, info.tex, info.mtx, info.userObj);
 	} else {
 		info.mtx = new Matrix3D();
-		set->set(objcount, info.fig, info.tex, info.mtx, info.userObj);
+		set->set(id, info.fig, info.tex, info.mtx, info.userObj);
 		info.mtx->release();
 	}
 
@@ -164,16 +201,30 @@ int Layer3D::addFigure(FigureInfo &info, RigidBodyOption option) {
 		if (set->body) {
 			UserObj *user = (UserObj*)set->body->getUserPointer();
 			user->user = set;
+			user->id = objcount;
 		}
 	}
 	
-	figures[objcount] = set;
-	return objcount;
+	figures[id] = set;
+	return id;
+}
+
+// Object置き換え
+bool Layer3D::replaceObjectByID(unsigned long id, FigureInfo &info) {
+	std::map<unsigned long, FigureSet*>::iterator it = figures.find(id);
+	if (it!=figures.end()) {
+		FigureSet *set = (*it).second;
+		// TODO: リークあり
+		set->set(set->id, info.fig, info.tex, info.mtx, info.userObj);
+		return true;
+	} else {
+		return false;
+	}
 }
 
 // Fugure検索
-Figure* Layer3D::findFigureByID(int id) {
-	std::map<int, FigureSet*>::iterator it = figures.find(id);
+Figure* Layer3D::findFigureByID(unsigned long id) {
+	std::map<unsigned long, FigureSet*>::iterator it = figures.find(id);
 	if (it!=figures.end()) {
 		return (*it).second->fig;
 	} else {
@@ -182,8 +233,8 @@ Figure* Layer3D::findFigureByID(int id) {
 }
 
 // Texture検索
-Texture* Layer3D::findTextureByID(int id) {
-	std::map<int, FigureSet*>::iterator it = figures.find(id);
+Texture* Layer3D::findTextureByID(unsigned long id) {
+	std::map<unsigned long, FigureSet*>::iterator it = figures.find(id);
 	if (it!=figures.end()) {
 		return (*it).second->tex;
 	} else {
@@ -192,8 +243,8 @@ Texture* Layer3D::findTextureByID(int id) {
 }
 
 // Matrix検索
-Matrix3D* Layer3D::findMatrixByID(int id) {
-	std::map<int, FigureSet*>::iterator it = figures.find(id);
+Matrix3D* Layer3D::findMatrixByID(unsigned long id) {
+	std::map<unsigned long, FigureSet*>::iterator it = figures.find(id);
 	if (it!=figures.end()) {
 		return (*it).second->getMatrix();
 	} else {
@@ -202,8 +253,8 @@ Matrix3D* Layer3D::findMatrixByID(int id) {
 }
 
 // UserObject検索
-GCObject* Layer3D::findUserObjectByID(int id) {
-	std::map<int, FigureSet*>::iterator it = figures.find(id);
+GCObject* Layer3D::findUserObjectByID(unsigned long id) {
+	std::map<unsigned long, FigureSet*>::iterator it = figures.find(id);
 	if (it!=figures.end()) {
 		return (*it).second->userObj;
 	} else {
@@ -216,6 +267,65 @@ void Layer3D::addLight(int id, Light *light) {
 	lights[id] = light;
 }
 
+// 現在の状態を指定されたファイルに保持します.
+bool Layer3D::save(const char *filename) {
+	if (!filename) return false;
+	// 全オブジェクトの保存処理
+	std::map<unsigned long, FigureSet*>::iterator it = figures.begin();
+	int max = figures.size()-1;
+	int count = 0;
+	while (it != figures.end()) {
+		FigureSet *set = (*it).second;
+		FigureInfo info = {0};
+		set->setInfoData(info);
+		if (handler) handler->save3DObject(this, &info, count++, max);
+		it++;
+	}
+	// 剛体データの保存処理
+	if (!bullet) return true;
+	return bullet->save(filename);
+}
+
+// 指定されたファイルから前回の状態を復帰します.
+bool Layer3D::load(const char *filename) {
+	if (!filename) return false;
+	if (!bullet) {
+		bullet = new BulletWorld(gravity);
+		bullet->setEventHandler(this);
+	}
+	return bullet->load(filename);
+}
+
+
+// 外力をかける
+void Layer3D::applyForce(FigureInfo &info, FigureSet *set) {
+	if (set->body) {
+		// 外力
+		float fx = info.force.x;
+		float fy = info.force.y;
+		float fz = info.force.z;
+		if (fx>0 || fy>0 || fz>0) {
+			// 位置
+			float px = info.rel_pos.x;
+			float py = info.rel_pos.y;
+			float pz = info.rel_pos.z;
+			set->body->applyForce(btVector3(fx,fy,fz), btVector3(px,py,pz));
+			set->body->activate(true);
+		}
+		// 初速
+		fx = info.velocity.x;
+		fy = info.velocity.y;
+		fz = info.velocity.z;
+		if (fx>0 || fy>0 || fz>0) {
+			float px = info.rel_pos.x;
+			float py = info.rel_pos.y;
+			float pz = info.rel_pos.z;
+			set->body->setLinearVelocity(btVector3(fx,fy,fz));
+			set->body->setAngularVelocity(btVector3(px,py,pz));
+			set->body->activate(true);
+		}
+	}
+}
 
 //////////////////////////////////////////////////////////
 // Layer の実装
@@ -250,19 +360,25 @@ void Layer3D::render(double dt) {
 	if (bullet) {
 		// 位置変更があった場合はBulletに反映（TODO:スケーリングの考慮も必要）
 		float mat[16];
-		std::map<int, FigureSet*>::iterator it = figures.begin();
+		std::map<unsigned long, FigureSet*>::iterator it = figures.begin();
 		while (it != figures.end()) {
-			FigureSet set = *(*it).second;
-			if( set.getMatrix()->dirtyflag && set.body ){
-				btTransform transform;
-				set.getMatrix()->getElements(mat);
-				transform.setFromOpenGLMatrix(mat);
-				if (set.body->isStaticOrKinematicObject()) {
-					set.body->getMotionState()->setWorldTransform(transform);
-				} else {
-					set.body->setWorldTransform(transform);
+			FigureSet *set = (*it).second;
+			if( set->getMatrix()->dirtyflag && set->body ){
+				// kinematic
+				if (set->body->isStaticOrKinematicObject()) {
+					set->body->setCollisionFlags(set->body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+					set->body->setActivationState(DISABLE_DEACTIVATION);
 				}
-				set.body->activate(true);
+				// 移動
+				btTransform transform;
+				set->getMatrix()->getElements(mat);
+				transform.setFromOpenGLMatrix(mat);
+				if (set->body->getMotionState()) {
+					set->body->getMotionState()->setWorldTransform(transform);
+				} else {
+					set->body->setWorldTransform(transform);
+				}
+				set->body->activate(true);
 			}
 			it++;
 		}
@@ -285,7 +401,7 @@ void Layer3D::render(double dt) {
 	}
 	
 	// 描画
-	std::map<int, FigureSet*>::iterator it = figures.begin();
+	std::map<unsigned long, FigureSet*>::iterator it = figures.begin();
 	Figure *fig = NULL;
 	while (it != figures.end()) {
 		FigureSet *set = (*it).second;
@@ -305,20 +421,8 @@ void Layer3D::render(double dt) {
 				figures.erase(it++);
 				continue;
 			} else {
-				if (set->body) {
-					// 外力がかかっている場合
-					float fx = info.force.x;
-					float fy = info.force.y;
-					float fz = info.force.z;
-					if (fx>0 || fy>0 || fz>0) {
-						// 位置
-						float px = info.rel_pos.x;
-						float py = info.rel_pos.y;
-						float pz = info.rel_pos.z;
-						set->body->applyForce(btVector3(fx,fy,fz), btVector3(px,py,pz));
-						set->body->activate(true);
-					}
-				}
+				// 外力がかかっている場合
+				this->applyForce(info, set);
 			}
 		}
 
@@ -363,7 +467,7 @@ void Layer3D::render(double dt) {
  * @param event タッチイベント
  */
 bool Layer3D::onTouch(TouchEvent &event) {
-	LOGD("**Layer3D::onTouch:(%f,%f)", event.x, event.y);
+//	LOGD("**Layer3D::onTouch:(%f,%f)", event.x, event.y);
 	return false;
 }
 
@@ -376,7 +480,7 @@ void Layer3D::onContextChanged() {
 	// FigureとTextureを再構築
 	std::vector<Figure*> figs;
 	std::vector<Texture*> texs;
-	std::map<int, FigureSet*>::iterator it = figures.begin();
+	std::map<unsigned long, FigureSet*>::iterator it = figures.begin();
 	while (it != figures.end()) {
 		FigureSet set = *(*it).second;
 		// 同じオブジェクトを２回処理しないように。。。
@@ -445,9 +549,110 @@ void Layer3D::contactBulletObject(BulletWorld *world, btRigidBody *obj0, btRigid
 		}
 		
 		handler->contactFigure(this, info0, info1);
+		
+		this->applyForce(info0, set0);
+		this->applyForce(info1, set1);
+	}
+}
+
+/**
+ * 各オブキェクトの保存処理.
+ */
+bool Layer3D::saveBulletObject(BulletWorld *world, btRigidBody *body, UserObj *obj, int index, int max) {
+	// 初期化
+	if (index==0) {
+		delete tmpStorage;
+		tmpStorage = new Storage();
+		// file version
+		int ver = kFileVersion;
+		tmpStorage->addData((const char*)&(ver), sizeof(int));
+		LOGD("Layer3D::saveBulletObject:v:%d", ver);
 	}
 	
+	// IDを保存
+	tmpStorage->addData((const char*)&(obj->id), sizeof(int));
+//	LOGD("*obj:[%d]:id:%d",index,obj->id);
+	// 摩擦係数を保存
+	float f = body->getFriction();
+	tmpStorage->addData((const char*)&f, sizeof(float));
+	// 反発係数を保存
+	f = body->getRestitution();
+	tmpStorage->addData((const char*)&f, sizeof(float));
+	// 減衰係数を保存
+	f = body->getLinearDamping();
+	tmpStorage->addData((const char*)&f, sizeof(float));
+	f = body->getAngularDamping();
+	tmpStorage->addData((const char*)&f, sizeof(float));
 	
+//	LOGD("%f",body->getFriction());
+//	LOGD("%f",body->getRestitution());
+//	LOGD("%f",body->getLinearDamping());
+//	LOGD("%f",body->getAngularDamping());
+	
+	// 最後にファイルに書き込み TODO ファイル名
+	if (index==max) {
+		tmpStorage->writeFile(Storage::getStoragePath("_lyaer3d.dat"));
+		delete tmpStorage;
+		tmpStorage = NULL;
+		LOGD("*end*");
+	}
+	
+	return true;
+}
+
+/**
+ * 各オブキェクトの読み込み処理.
+ */
+bool Layer3D::loadBulletObject(BulletWorld *world, btRigidBody *body, UserObj *obj, int index, int max) {
+	// 初期化 TODO ファイル名 version
+	if (index==0) {
+		delete tmpStorage;
+		tmpStorage = new Storage();
+		tmpStorage->readFile(Storage::getStoragePath("_lyaer3d.dat"));
+		int ver = 0;
+		tmpStorage->nextData(&ver, sizeof(int));
+		LOGD("Layer3D::loadBulletObject:v:%d", ver);
+		// バージョンが違う場合は読み込み失敗
+		if (ver!=kFileVersion) return false;
+	}
+	
+	// IDを取得
+	int id;
+	tmpStorage->nextData(&id, sizeof(int));
+	FigureSet *set = figures[id];
+//	LOGD("*obj:[%d]:id:%d",index,id);
+	// 摩擦係数を取得
+	float f,f2;
+	tmpStorage->nextData(&f, sizeof(float));
+	body->setFriction(f);
+	// 反発係数を取得
+	tmpStorage->nextData(&f, sizeof(float));
+	body->setRestitution(f);
+	// 減衰係数を取得
+	tmpStorage->nextData(&f, sizeof(float));
+	tmpStorage->nextData(&f2, sizeof(float));
+	body->setDamping(f, f2);
+	
+//	LOGD("%f",body->getFriction());
+//	LOGD("%f",body->getRestitution());
+//	LOGD("%f",body->getLinearDamping());
+//	LOGD("%f",body->getAngularDamping());
+	
+	obj->id = id;
+	if (set) {
+		set->body = body;
+		body->setUserPointer(obj);
+		obj->user = set;
+	}
+	
+	// 最後に後始末
+	if (index==max) {
+		delete tmpStorage;
+		tmpStorage = NULL;
+		LOGD("*end*");
+	}
+	
+	return true;
 }
 
 

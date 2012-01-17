@@ -33,7 +33,7 @@
 
 #include <math.h>
 
-View::View(GCContext *context) {
+View::View(GCContext *context):GCObject() {
 	this->context = context;
 	animation = NULL;
 	parent = NULL;
@@ -51,6 +51,9 @@ View::View(GCContext *context) {
 	point.y = 0.0;
 	userObj = NULL;
 	userID = -1;
+	
+	blendType = BLEND_TYPE_ALPHA;
+	touchListener = NULL;
 }
 
 View::~View() {
@@ -58,6 +61,7 @@ View::~View() {
 	parent = NULL;
 	texture = NULL;
 	DELETE(animation);
+	
 }
 
 void View::setPosition(Pointf point) {
@@ -119,6 +123,25 @@ void View::setClickable(bool c) {
 }
 
 bool View::onTouch(TouchEvent &event) {
+	if(!clickable || !visible) {
+		return false;
+	}
+	
+	switch(event.type) {
+		case touchDown:
+			if(isBound(event.x, event.y)) {
+				if(touchListener) {
+					touchListener->onViewTouchEvent(this);
+				}
+				return true;
+			}
+			
+			break;
+			
+	}
+	
+	
+	
 	return false;
 }
 
@@ -239,4 +262,13 @@ void View::testMatrix2D(Pointf *p) {
 	if (!absolute && parent) {
 		parent->testMatrix2D(p);
 	}
+}
+
+void View::setBlendType(int type) {
+	this->blendType = type;
+}
+
+
+void View::setOnTouchEventListener(IViewTouchListener *listener){
+	this->touchListener = listener;
 }

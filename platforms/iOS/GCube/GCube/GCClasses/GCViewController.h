@@ -30,9 +30,18 @@
 
 #import <UIKit/UIKit.h>
 
+#ifdef __cplusplus
+/**
+ * インスタンスを返します.
+ * @return インスタンス
+ */
+ApplicationController* CGControllerInstance();
+#endif
+
 @interface GCViewController : UIViewController {
     EAGLContext *context;
     
+	IBOutlet UIButton *debugButton;
     BOOL animating;
     NSInteger animationFrameInterval;
     CADisplayLink *displayLink;
@@ -41,6 +50,7 @@
 
 @property (readonly, nonatomic, getter=isAnimating) BOOL animating;
 @property (nonatomic) NSInteger animationFrameInterval;
+- (IBAction)pressDebugButton:(id)sender;
 
 - (void)startAnimation;
 - (void)stopAnimation;

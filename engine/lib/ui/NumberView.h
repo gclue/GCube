@@ -51,6 +51,11 @@ private:
 	bool zeroFill;			//!< ゼロ埋めフラグ(true: ゼロで埋める
 	float w;
 	float h;
+	
+	
+	float adjustX[10];
+	float adjustY[10];
+	float space;
 
 	void drawFigure(int index, float x, float y);
 
@@ -128,6 +133,11 @@ public:
 	 * @param h 縦幅
 	 */
 	void setFontSize(float w, float h);
+	
+	
+	void setSpace(float space);
+	
+	void setAdjustPositionEachNumbers(int index, float x, float y);
 
 	//////////////////////////////////////////////////////////////
 	// Viewからの継承

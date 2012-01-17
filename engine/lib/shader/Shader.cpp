@@ -55,11 +55,9 @@ GLuint Shader::loadShader(const char* vertexShader, const char* fragmentShader, 
 ERROR:	// エラー時の処理
 	if (vertShader) {
 		glDeleteShader(vertShader);
-		vertShader = NULL;
 	}
 	if (fragShader) {
 		glDeleteShader(fragShader);
-		fragShader = NULL;
 	}
 	return NULL;
 }
@@ -92,11 +90,9 @@ GLuint Shader::loadShader(const char* name, int user) {
 ERROR:	// エラー時の処理
 	if (vertShader) {
 		glDeleteShader(vertShader);
-		vertShader = NULL;
 	}
 	if (fragShader) {
 		glDeleteShader(fragShader);
-		fragShader = NULL;
 	}
 	return NULL;
 }
@@ -145,15 +141,12 @@ GLuint Shader::createProgram(GLuint vertShader, GLuint fragShader, const char* n
 ERROR:	// エラー時の処理
 	if (vertShader) {
 		glDeleteShader(vertShader);
-		vertShader = NULL;
 	}
 	if (fragShader) {
 		glDeleteShader(fragShader);
-		fragShader = NULL;
 	}
 	if (program) {
 		glDeleteProgram(program);
-		program = NULL;
 	}
 	return NULL;
 }
@@ -184,7 +177,6 @@ GLuint Shader::compileShaderFromFile(GLenum shaderType, const char* fileName) {
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 	if (status == 0) {
 		glDeleteShader(shader);
-		shader = 0;
 		LOGE("%s compile error.", fileName);
 		return NULL;
 	}
@@ -203,7 +195,6 @@ GLuint Shader::compileShader(GLenum shaderType, const char* source) {
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 	if (status == 0) {
 		glDeleteShader(shader);
-		shader = 0;
 		LOGE("%s compile error.", source);
 		return NULL;
 	}

@@ -54,6 +54,7 @@ public:
 	 * デストラクタ.
 	 */
 	virtual ~Scene();
+	
 
 	/**
 	 * レイヤーを追加します.
@@ -69,6 +70,16 @@ public:
 	 * @return レイヤー
 	 */
 	Layer *getLayer(int id);
+	
+	/**
+	 * 指定したIDのレイヤを削除します.
+	 * @param[in] id レイヤーID
+	 * @return 削除できたかどうか.
+	 */
+	bool removeLayer(int id);
+	
+	
+	void removeAllLayers();
 
 	//////////////////////////////////////////////////////////
 	// IScene の実装
@@ -131,7 +142,7 @@ public:
 	 * 加速度センサーイベント.
 	 * @param senser 加速度の値
 	 */
-	virtual void onMoveSensor(double sensor);
+	virtual void onMoveSensor(double sensor){};
 
 	/**
 	 * ゲームイベントを受け取るメソッド.
@@ -142,7 +153,9 @@ public:
 	 * @param param4 イベントパラメータ
 	 * @param param5 イベントパラメータ
 	 */
-	virtual void onGameEvent(int type, int param1, int param2, int param3, int param4, const char *param5);
+	virtual void onGameEvent(int type, int param1, long param2, double param3, int param4, const char *param5){};
+	
+	
 };
 
 #endif /* SCENE_H_ */
