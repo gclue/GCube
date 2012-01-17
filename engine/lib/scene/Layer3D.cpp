@@ -364,17 +364,19 @@ void Layer3D::render(double dt) {
 		while (it != figures.end()) {
 			FigureSet *set = (*it).second;
 			if( set->getMatrix()->dirtyflag && set->body ){
-				// kinematic
-				if (set->body->isStaticOrKinematicObject()) {
-					set->body->setCollisionFlags(set->body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
-					set->body->setActivationState(DISABLE_DEACTIVATION);
-				}
 				// 移動
 				btTransform transform;
 				set->getMatrix()->getElements(mat);
 				transform.setFromOpenGLMatrix(mat);
-				if (set->body->getMotionState()) {
-					set->body->getMotionState()->setWorldTransform(transform);
+				// kinematic
+				if (set->body->isStaticOrKinematicObject()) {
+					set->body->setCollisionFlags(set->body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+					set->body->setActivationState(DISABLE_DEACTIVATION);
+					if (set->body->getMotionState()) {
+						set->body->getMotionState()->setWorldTransform(transform);
+					} else {
+						set->body->setWorldTransform(transform);
+					}
 				} else {
 					set->body->setWorldTransform(transform);
 				}
