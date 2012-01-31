@@ -24,7 +24,6 @@
 		662CB2F914D7CBBD003AA995 /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB23214D7CBBD003AA995 /* pngwrite.c */; };
 		662CB2FA14D7CBBD003AA995 /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB23314D7CBBD003AA995 /* pngwtran.c */; };
 		662CB2FB14D7CBBD003AA995 /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB23414D7CBBD003AA995 /* pngwutil.c */; };
-		662CB35914D7CE12003AA995 /* simpleShader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 6644322F14568A55001847A0 /* simpleShader.vsh */; };
 		6644322414566C04001847A0 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6644322314566C03001847A0 /* Shader.cpp */; };
 		6644323A14568A55001847A0 /* boneShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322A14568A55001847A0 /* boneShader.fsh */; };
 		6644323B14568A55001847A0 /* boneShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322B14568A55001847A0 /* boneShader.vsh */; };
@@ -3091,7 +3090,6 @@
 				662CB2F914D7CBBD003AA995 /* pngwrite.c in Sources */,
 				662CB2FA14D7CBBD003AA995 /* pngwtran.c in Sources */,
 				662CB2FB14D7CBBD003AA995 /* pngwutil.c in Sources */,
-				662CB35914D7CE12003AA995 /* simpleShader.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
