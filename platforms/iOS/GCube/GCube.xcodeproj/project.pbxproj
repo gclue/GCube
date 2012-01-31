@@ -7,13 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		662CB2E614D7CBBD003AA995 /* png.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB21D14D7CBBD003AA995 /* png.c */; };
+		662CB2E914D7CBBD003AA995 /* pngerror.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22214D7CBBD003AA995 /* pngerror.c */; };
+		662CB2EA14D7CBBD003AA995 /* pnggccrd.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22314D7CBBD003AA995 /* pnggccrd.c */; };
+		662CB2EB14D7CBBD003AA995 /* pngget.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22414D7CBBD003AA995 /* pngget.c */; };
+		662CB2EC14D7CBBD003AA995 /* pngmem.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22514D7CBBD003AA995 /* pngmem.c */; };
+		662CB2EE14D7CBBD003AA995 /* pngpread.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22714D7CBBD003AA995 /* pngpread.c */; };
+		662CB2EF14D7CBBD003AA995 /* pngread.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22814D7CBBD003AA995 /* pngread.c */; };
+		662CB2F014D7CBBD003AA995 /* pngrio.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22914D7CBBD003AA995 /* pngrio.c */; };
+		662CB2F114D7CBBD003AA995 /* pngrtran.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22A14D7CBBD003AA995 /* pngrtran.c */; };
+		662CB2F214D7CBBD003AA995 /* pngrutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22B14D7CBBD003AA995 /* pngrutil.c */; };
+		662CB2F314D7CBBD003AA995 /* pngset.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22C14D7CBBD003AA995 /* pngset.c */; };
+		662CB2F614D7CBBD003AA995 /* pngtrans.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22F14D7CBBD003AA995 /* pngtrans.c */; };
+		662CB2F714D7CBBD003AA995 /* pngvcrd.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB23014D7CBBD003AA995 /* pngvcrd.c */; };
+		662CB2F814D7CBBD003AA995 /* pngwio.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB23114D7CBBD003AA995 /* pngwio.c */; };
+		662CB2F914D7CBBD003AA995 /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB23214D7CBBD003AA995 /* pngwrite.c */; };
+		662CB2FA14D7CBBD003AA995 /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB23314D7CBBD003AA995 /* pngwtran.c */; };
+		662CB2FB14D7CBBD003AA995 /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB23414D7CBBD003AA995 /* pngwutil.c */; };
+		662CB35914D7CE12003AA995 /* simpleShader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = 6644322F14568A55001847A0 /* simpleShader.vsh */; };
 		6644322414566C04001847A0 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6644322314566C03001847A0 /* Shader.cpp */; };
 		6644323A14568A55001847A0 /* boneShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322A14568A55001847A0 /* boneShader.fsh */; };
 		6644323B14568A55001847A0 /* boneShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322B14568A55001847A0 /* boneShader.vsh */; };
 		6644323C14568A55001847A0 /* pointShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322C14568A55001847A0 /* pointShader.fsh */; };
 		6644323D14568A55001847A0 /* pointShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322D14568A55001847A0 /* pointShader.vsh */; };
 		6644323E14568A55001847A0 /* simpleShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322E14568A55001847A0 /* simpleShader.fsh */; };
-		6644323F14568A55001847A0 /* simpleShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322F14568A55001847A0 /* simpleShader.vsh */; };
 		6644324114568A55001847A0 /* chara_texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 6644323314568A55001847A0 /* chara_texture.png */; };
 		6644324214568A55001847A0 /* chara_texture.txt in Resources */ = {isa = PBXBuildFile; fileRef = 6644323414568A55001847A0 /* chara_texture.txt */; };
 		6644324314568A55001847A0 /* gclue_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6644323514568A55001847A0 /* gclue_logo.png */; };
@@ -266,7 +283,215 @@
 		66F980661467AF9200D85239 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66F980641467AF9200D85239 /* Light.cpp */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		662CB35614D7CBBD003AA995 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 662CB25514D7CBBD003AA995 /* libpng.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D07F2C80486CC7A007CD1D0;
+			remoteInfo = libpng;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		662CB1C014D7CBBD003AA995 /* ANNOUNCE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ANNOUNCE; sourceTree = "<group>"; };
+		662CB1C114D7CBBD003AA995 /* CHANGES */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGES; sourceTree = "<group>"; };
+		662CB1C214D7CBBD003AA995 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		662CB1C314D7CBBD003AA995 /* configure */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = configure; sourceTree = "<group>"; };
+		662CB1C614D7CBBD003AA995 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		662CB1C714D7CBBD003AA995 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		662CB1C814D7CBBD003AA995 /* Makefile.mingw32 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.mingw32; sourceTree = "<group>"; };
+		662CB1C914D7CBBD003AA995 /* Makefile.sgi */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.sgi; sourceTree = "<group>"; };
+		662CB1CA14D7CBBD003AA995 /* Makefile.unx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.unx; sourceTree = "<group>"; };
+		662CB1CB14D7CBBD003AA995 /* Makefile.w32 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.w32; sourceTree = "<group>"; };
+		662CB1CC14D7CBBD003AA995 /* makevms.com */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makevms.com; sourceTree = "<group>"; };
+		662CB1CD14D7CBBD003AA995 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		662CB1CE14D7CBBD003AA995 /* readpng.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = readpng.c; sourceTree = "<group>"; };
+		662CB1CF14D7CBBD003AA995 /* readpng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = readpng.h; sourceTree = "<group>"; };
+		662CB1D014D7CBBD003AA995 /* readpng2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = readpng2.c; sourceTree = "<group>"; };
+		662CB1D114D7CBBD003AA995 /* readpng2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = readpng2.h; sourceTree = "<group>"; };
+		662CB1D214D7CBBD003AA995 /* readppm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = readppm.c; sourceTree = "<group>"; };
+		662CB1D314D7CBBD003AA995 /* rpng-win.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "rpng-win.c"; sourceTree = "<group>"; };
+		662CB1D414D7CBBD003AA995 /* rpng-x.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "rpng-x.c"; sourceTree = "<group>"; };
+		662CB1D514D7CBBD003AA995 /* rpng2-win.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "rpng2-win.c"; sourceTree = "<group>"; };
+		662CB1D614D7CBBD003AA995 /* rpng2-x.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "rpng2-x.c"; sourceTree = "<group>"; };
+		662CB1D714D7CBBD003AA995 /* toucan.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = toucan.png; sourceTree = "<group>"; };
+		662CB1D814D7CBBD003AA995 /* wpng.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wpng.c; sourceTree = "<group>"; };
+		662CB1D914D7CBBD003AA995 /* writepng.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = writepng.c; sourceTree = "<group>"; };
+		662CB1DA14D7CBBD003AA995 /* writepng.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = writepng.h; sourceTree = "<group>"; };
+		662CB1DD14D7CBBD003AA995 /* gather.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = gather.sh; sourceTree = "<group>"; };
+		662CB1DE14D7CBBD003AA995 /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; };
+		662CB1DF14D7CBBD003AA995 /* pngusr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngusr.h; sourceTree = "<group>"; };
+		662CB1E014D7CBBD003AA995 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		662CB1E214D7CBBD003AA995 /* dummy_inflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dummy_inflate.c; sourceTree = "<group>"; };
+		662CB1E314D7CBBD003AA995 /* gather.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = gather.sh; sourceTree = "<group>"; };
+		662CB1E414D7CBBD003AA995 /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; };
+		662CB1E514D7CBBD003AA995 /* pngusr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngusr.h; sourceTree = "<group>"; };
+		662CB1E614D7CBBD003AA995 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		662CB1E814D7CBBD003AA995 /* gather.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = gather.sh; sourceTree = "<group>"; };
+		662CB1E914D7CBBD003AA995 /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = makefile; sourceTree = "<group>"; };
+		662CB1EA14D7CBBD003AA995 /* pngusr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngusr.h; sourceTree = "<group>"; };
+		662CB1EB14D7CBBD003AA995 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		662CB1ED14D7CBBD003AA995 /* makefile.std */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.std; sourceTree = "<group>"; };
+		662CB1EE14D7CBBD003AA995 /* makefile.tc3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.tc3; sourceTree = "<group>"; };
+		662CB1EF14D7CBBD003AA995 /* makevms.com */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makevms.com; sourceTree = "<group>"; };
+		662CB1F014D7CBBD003AA995 /* png2pnm.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = png2pnm.bat; sourceTree = "<group>"; };
+		662CB1F114D7CBBD003AA995 /* png2pnm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = png2pnm.c; sourceTree = "<group>"; };
+		662CB1F214D7CBBD003AA995 /* png2pnm.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = png2pnm.sh; sourceTree = "<group>"; };
+		662CB1F314D7CBBD003AA995 /* pngminus.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pngminus.bat; sourceTree = "<group>"; };
+		662CB1F414D7CBBD003AA995 /* pngminus.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = pngminus.sh; sourceTree = "<group>"; };
+		662CB1F514D7CBBD003AA995 /* pnm2png.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pnm2png.bat; sourceTree = "<group>"; };
+		662CB1F614D7CBBD003AA995 /* pnm2png.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pnm2png.c; sourceTree = "<group>"; };
+		662CB1F714D7CBBD003AA995 /* pnm2png.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = pnm2png.sh; sourceTree = "<group>"; };
+		662CB1F814D7CBBD003AA995 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		662CB1FA14D7CBBD003AA995 /* basn0g01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn0g01.png; sourceTree = "<group>"; };
+		662CB1FB14D7CBBD003AA995 /* basn0g02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn0g02.png; sourceTree = "<group>"; };
+		662CB1FC14D7CBBD003AA995 /* basn0g04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn0g04.png; sourceTree = "<group>"; };
+		662CB1FD14D7CBBD003AA995 /* basn0g08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn0g08.png; sourceTree = "<group>"; };
+		662CB1FE14D7CBBD003AA995 /* basn0g16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn0g16.png; sourceTree = "<group>"; };
+		662CB1FF14D7CBBD003AA995 /* basn2c08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn2c08.png; sourceTree = "<group>"; };
+		662CB20014D7CBBD003AA995 /* basn2c16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn2c16.png; sourceTree = "<group>"; };
+		662CB20114D7CBBD003AA995 /* basn3p01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn3p01.png; sourceTree = "<group>"; };
+		662CB20214D7CBBD003AA995 /* basn3p02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn3p02.png; sourceTree = "<group>"; };
+		662CB20314D7CBBD003AA995 /* basn3p04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn3p04.png; sourceTree = "<group>"; };
+		662CB20414D7CBBD003AA995 /* basn3p08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn3p08.png; sourceTree = "<group>"; };
+		662CB20514D7CBBD003AA995 /* basn4a08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn4a08.png; sourceTree = "<group>"; };
+		662CB20614D7CBBD003AA995 /* basn4a16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn4a16.png; sourceTree = "<group>"; };
+		662CB20714D7CBBD003AA995 /* basn6a08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn6a08.png; sourceTree = "<group>"; };
+		662CB20814D7CBBD003AA995 /* basn6a16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = basn6a16.png; sourceTree = "<group>"; };
+		662CB20A14D7CBBD003AA995 /* cexcept.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cexcept.h; sourceTree = "<group>"; };
+		662CB20B14D7CBBD003AA995 /* PngFile.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = PngFile.c; sourceTree = "<group>"; };
+		662CB20C14D7CBBD003AA995 /* PngFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PngFile.h; sourceTree = "<group>"; };
+		662CB20D14D7CBBD003AA995 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		662CB20E14D7CBBD003AA995 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = resource.h; sourceTree = "<group>"; };
+		662CB20F14D7CBBD003AA995 /* VisualPng.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = VisualPng.c; sourceTree = "<group>"; };
+		662CB21014D7CBBD003AA995 /* VisualPng.dsp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VisualPng.dsp; sourceTree = "<group>"; };
+		662CB21114D7CBBD003AA995 /* VisualPng.dsw */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VisualPng.dsw; sourceTree = "<group>"; };
+		662CB21214D7CBBD003AA995 /* VisualPng.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; path = VisualPng.ico; sourceTree = "<group>"; };
+		662CB21314D7CBBD003AA995 /* VisualPng.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = VisualPng.png; sourceTree = "<group>"; };
+		662CB21414D7CBBD003AA995 /* VisualPng.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VisualPng.rc; sourceTree = "<group>"; };
+		662CB21514D7CBBD003AA995 /* example.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = example.c; sourceTree = "<group>"; };
+		662CB21614D7CBBD003AA995 /* INSTALL */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = INSTALL; sourceTree = "<group>"; };
+		662CB21714D7CBBD003AA995 /* KNOWNBUG */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = KNOWNBUG; sourceTree = "<group>"; };
+		662CB21814D7CBBD003AA995 /* libpng-1.2.46.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "libpng-1.2.46.txt"; sourceTree = "<group>"; };
+		662CB21914D7CBBD003AA995 /* libpng.3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libpng.3; sourceTree = "<group>"; };
+		662CB21A14D7CBBD003AA995 /* libpngpf.3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libpngpf.3; sourceTree = "<group>"; };
+		662CB21B14D7CBBD003AA995 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		662CB21C14D7CBBD003AA995 /* png.5 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = png.5; sourceTree = "<group>"; };
+		662CB21D14D7CBBD003AA995 /* png.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = png.c; sourceTree = "<group>"; };
+		662CB21E14D7CBBD003AA995 /* png.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = png.h; sourceTree = "<group>"; };
+		662CB21F14D7CBBD003AA995 /* pngbar.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pngbar.jpg; sourceTree = "<group>"; };
+		662CB22014D7CBBD003AA995 /* pngbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pngbar.png; sourceTree = "<group>"; };
+		662CB22114D7CBBD003AA995 /* pngconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pngconf.h; sourceTree = "<group>"; };
+		662CB22214D7CBBD003AA995 /* pngerror.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngerror.c; sourceTree = "<group>"; };
+		662CB22314D7CBBD003AA995 /* pnggccrd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pnggccrd.c; sourceTree = "<group>"; };
+		662CB22414D7CBBD003AA995 /* pngget.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngget.c; sourceTree = "<group>"; };
+		662CB22514D7CBBD003AA995 /* pngmem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngmem.c; sourceTree = "<group>"; };
+		662CB22614D7CBBD003AA995 /* pngnow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pngnow.png; sourceTree = "<group>"; };
+		662CB22714D7CBBD003AA995 /* pngpread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngpread.c; sourceTree = "<group>"; };
+		662CB22814D7CBBD003AA995 /* pngread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngread.c; sourceTree = "<group>"; };
+		662CB22914D7CBBD003AA995 /* pngrio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngrio.c; sourceTree = "<group>"; };
+		662CB22A14D7CBBD003AA995 /* pngrtran.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngrtran.c; sourceTree = "<group>"; };
+		662CB22B14D7CBBD003AA995 /* pngrutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngrutil.c; sourceTree = "<group>"; };
+		662CB22C14D7CBBD003AA995 /* pngset.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngset.c; sourceTree = "<group>"; };
+		662CB22D14D7CBBD003AA995 /* pngtest.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngtest.c; sourceTree = "<group>"; };
+		662CB22E14D7CBBD003AA995 /* pngtest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pngtest.png; sourceTree = "<group>"; };
+		662CB22F14D7CBBD003AA995 /* pngtrans.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngtrans.c; sourceTree = "<group>"; };
+		662CB23014D7CBBD003AA995 /* pngvcrd.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngvcrd.c; sourceTree = "<group>"; };
+		662CB23114D7CBBD003AA995 /* pngwio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngwio.c; sourceTree = "<group>"; };
+		662CB23214D7CBBD003AA995 /* pngwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngwrite.c; sourceTree = "<group>"; };
+		662CB23314D7CBBD003AA995 /* pngwtran.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngwtran.c; sourceTree = "<group>"; };
+		662CB23414D7CBBD003AA995 /* pngwutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pngwutil.c; sourceTree = "<group>"; };
+		662CB23714D7CBBD003AA995 /* x86-shared.proj */ = {isa = PBXFileReference; lastKnownFileType = file; path = "x86-shared.proj"; sourceTree = "<group>"; };
+		662CB23814D7CBBD003AA995 /* x86-shared.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "x86-shared.txt"; sourceTree = "<group>"; };
+		662CB23914D7CBBD003AA995 /* x86-static.proj */ = {isa = PBXFileReference; lastKnownFileType = file; path = "x86-static.proj"; sourceTree = "<group>"; };
+		662CB23A14D7CBBD003AA995 /* x86-static.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "x86-static.txt"; sourceTree = "<group>"; };
+		662CB23C14D7CBBD003AA995 /* libpng.bpf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libpng.bpf; sourceTree = "<group>"; };
+		662CB23D14D7CBBD003AA995 /* libpng.bpg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libpng.bpg; sourceTree = "<group>"; };
+		662CB23E14D7CBBD003AA995 /* libpng.bpr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = libpng.bpr; sourceTree = "<group>"; };
+		662CB23F14D7CBBD003AA995 /* libpng.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = libpng.cpp; sourceTree = "<group>"; };
+		662CB24014D7CBBD003AA995 /* libpng.readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libpng.readme.txt; sourceTree = "<group>"; };
+		662CB24114D7CBBD003AA995 /* libpngstat.bpf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libpngstat.bpf; sourceTree = "<group>"; };
+		662CB24214D7CBBD003AA995 /* libpngstat.bpr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = libpngstat.bpr; sourceTree = "<group>"; };
+		662CB24314D7CBBD003AA995 /* zlib.readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zlib.readme.txt; sourceTree = "<group>"; };
+		662CB24414D7CBBD003AA995 /* netware.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = netware.txt; sourceTree = "<group>"; };
+		662CB24614D7CBBD003AA995 /* libpng.dsp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libpng.dsp; sourceTree = "<group>"; };
+		662CB24714D7CBBD003AA995 /* libpng.dsw */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libpng.dsw; sourceTree = "<group>"; };
+		662CB24814D7CBBD003AA995 /* pngtest.dsp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pngtest.dsp; sourceTree = "<group>"; };
+		662CB24914D7CBBD003AA995 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		662CB24B14D7CBBD003AA995 /* libpng.sln */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libpng.sln; sourceTree = "<group>"; };
+		662CB24C14D7CBBD003AA995 /* libpng.vcproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = libpng.vcproj; sourceTree = "<group>"; };
+		662CB24D14D7CBBD003AA995 /* pngtest.vcproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = pngtest.vcproj; sourceTree = "<group>"; };
+		662CB24E14D7CBBD003AA995 /* PRJ0041.mak */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = PRJ0041.mak; sourceTree = "<group>"; };
+		662CB24F14D7CBBD003AA995 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		662CB25014D7CBBD003AA995 /* README_zlib.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README_zlib.txt; sourceTree = "<group>"; };
+		662CB25114D7CBBD003AA995 /* zlib.vcproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = zlib.vcproj; sourceTree = "<group>"; };
+		662CB25214D7CBBD003AA995 /* wince.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = wince.txt; sourceTree = "<group>"; };
+		662CB25414D7CBBD003AA995 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		662CB25514D7CBBD003AA995 /* libpng.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = libpng.xcodeproj; sourceTree = "<group>"; };
+		662CB25814D7CBBD003AA995 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		662CB25A14D7CBBD003AA995 /* descrip.mms */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = descrip.mms; sourceTree = "<group>"; };
+		662CB25B14D7CBBD003AA995 /* libpng-config-body.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "libpng-config-body.in"; sourceTree = "<group>"; };
+		662CB25C14D7CBBD003AA995 /* libpng-config-head.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "libpng-config-head.in"; sourceTree = "<group>"; };
+		662CB25D14D7CBBD003AA995 /* libpng-config.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "libpng-config.in"; sourceTree = "<group>"; };
+		662CB25E14D7CBBD003AA995 /* libpng.icc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libpng.icc; sourceTree = "<group>"; };
+		662CB25F14D7CBBD003AA995 /* libpng.pc-configure.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "libpng.pc-configure.in"; sourceTree = "<group>"; };
+		662CB26014D7CBBD003AA995 /* libpng.pc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libpng.pc.in; sourceTree = "<group>"; };
+		662CB26114D7CBBD003AA995 /* makefile.32sunu */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.32sunu; sourceTree = "<group>"; };
+		662CB26214D7CBBD003AA995 /* makefile.64sunu */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.64sunu; sourceTree = "<group>"; };
+		662CB26314D7CBBD003AA995 /* makefile.acorn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.acorn; sourceTree = "<group>"; };
+		662CB26414D7CBBD003AA995 /* makefile.aix */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.aix; sourceTree = "<group>"; };
+		662CB26514D7CBBD003AA995 /* makefile.amiga */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.amiga; sourceTree = "<group>"; };
+		662CB26614D7CBBD003AA995 /* makefile.atari */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.atari; sourceTree = "<group>"; };
+		662CB26714D7CBBD003AA995 /* makefile.bc32 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.bc32; sourceTree = "<group>"; };
+		662CB26814D7CBBD003AA995 /* makefile.beos */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.beos; sourceTree = "<group>"; };
+		662CB26914D7CBBD003AA995 /* makefile.bor */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.bor; sourceTree = "<group>"; };
+		662CB26A14D7CBBD003AA995 /* makefile.cegcc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.cegcc; sourceTree = "<group>"; };
+		662CB26B14D7CBBD003AA995 /* makefile.cygwin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.cygwin; sourceTree = "<group>"; };
+		662CB26C14D7CBBD003AA995 /* makefile.darwin */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.darwin; sourceTree = "<group>"; };
+		662CB26D14D7CBBD003AA995 /* makefile.dec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.dec; sourceTree = "<group>"; };
+		662CB26E14D7CBBD003AA995 /* makefile.dj2 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.dj2; sourceTree = "<group>"; };
+		662CB26F14D7CBBD003AA995 /* makefile.elf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.elf; sourceTree = "<group>"; };
+		662CB27014D7CBBD003AA995 /* makefile.freebsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.freebsd; sourceTree = "<group>"; };
+		662CB27114D7CBBD003AA995 /* makefile.gcc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.gcc; sourceTree = "<group>"; };
+		662CB27214D7CBBD003AA995 /* makefile.gcmmx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.gcmmx; sourceTree = "<group>"; };
+		662CB27314D7CBBD003AA995 /* makefile.hp64 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.hp64; sourceTree = "<group>"; };
+		662CB27414D7CBBD003AA995 /* makefile.hpgcc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.hpgcc; sourceTree = "<group>"; };
+		662CB27514D7CBBD003AA995 /* makefile.hpux */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.hpux; sourceTree = "<group>"; };
+		662CB27614D7CBBD003AA995 /* makefile.ibmc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.ibmc; sourceTree = "<group>"; };
+		662CB27714D7CBBD003AA995 /* makefile.intel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.intel; sourceTree = "<group>"; };
+		662CB27814D7CBBD003AA995 /* makefile.knr */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.knr; sourceTree = "<group>"; };
+		662CB27914D7CBBD003AA995 /* makefile.linux */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.linux; sourceTree = "<group>"; };
+		662CB27A14D7CBBD003AA995 /* makefile.mingw */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.mingw; sourceTree = "<group>"; };
+		662CB27B14D7CBBD003AA995 /* makefile.mips */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.mips; sourceTree = "<group>"; };
+		662CB27C14D7CBBD003AA995 /* makefile.msc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.msc; sourceTree = "<group>"; };
+		662CB27D14D7CBBD003AA995 /* makefile.ne12bsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.ne12bsd; sourceTree = "<group>"; };
+		662CB27E14D7CBBD003AA995 /* makefile.netbsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.netbsd; sourceTree = "<group>"; };
+		662CB27F14D7CBBD003AA995 /* makefile.nommx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.nommx; sourceTree = "<group>"; };
+		662CB28014D7CBBD003AA995 /* makefile.openbsd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.openbsd; sourceTree = "<group>"; };
+		662CB28114D7CBBD003AA995 /* makefile.os2 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.os2; sourceTree = "<group>"; };
+		662CB28214D7CBBD003AA995 /* makefile.sco */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.sco; sourceTree = "<group>"; };
+		662CB28314D7CBBD003AA995 /* makefile.sggcc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.sggcc; sourceTree = "<group>"; };
+		662CB28414D7CBBD003AA995 /* makefile.sgi */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.sgi; sourceTree = "<group>"; };
+		662CB28514D7CBBD003AA995 /* makefile.so9 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.so9; sourceTree = "<group>"; };
+		662CB28614D7CBBD003AA995 /* makefile.solaris */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.solaris; sourceTree = "<group>"; };
+		662CB28714D7CBBD003AA995 /* makefile.solaris-x86 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "makefile.solaris-x86"; sourceTree = "<group>"; };
+		662CB28814D7CBBD003AA995 /* makefile.std */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.std; sourceTree = "<group>"; };
+		662CB28914D7CBBD003AA995 /* makefile.sunos */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.sunos; sourceTree = "<group>"; };
+		662CB28A14D7CBBD003AA995 /* makefile.tc3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.tc3; sourceTree = "<group>"; };
+		662CB28B14D7CBBD003AA995 /* makefile.vcawin32 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.vcawin32; sourceTree = "<group>"; };
+		662CB28C14D7CBBD003AA995 /* makefile.vcwin32 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.vcwin32; sourceTree = "<group>"; };
+		662CB28D14D7CBBD003AA995 /* makefile.watcom */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makefile.watcom; sourceTree = "<group>"; };
+		662CB28E14D7CBBD003AA995 /* makevms.com */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = makevms.com; sourceTree = "<group>"; };
+		662CB28F14D7CBBD003AA995 /* png32ce.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = png32ce.def; sourceTree = "<group>"; };
+		662CB29014D7CBBD003AA995 /* pngos2.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pngos2.def; sourceTree = "<group>"; };
+		662CB29114D7CBBD003AA995 /* pngw32.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pngw32.def; sourceTree = "<group>"; };
+		662CB29214D7CBBD003AA995 /* pngw32.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pngw32.rc; sourceTree = "<group>"; };
+		662CB29314D7CBBD003AA995 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
+		662CB29414D7CBBD003AA995 /* SCOPTIONS.ppc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SCOPTIONS.ppc; sourceTree = "<group>"; };
+		662CB29514D7CBBD003AA995 /* smakefile.ppc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = smakefile.ppc; sourceTree = "<group>"; };
+		662CB29614D7CBBD003AA995 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
+		662CB29714D7CBBD003AA995 /* Y2KINFO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Y2KINFO; sourceTree = "<group>"; };
 		6644322314566C03001847A0 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		6644322514566C1B001847A0 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		6644322A14568A55001847A0 /* boneShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = boneShader.fsh; sourceTree = "<group>"; };
@@ -953,6 +1178,347 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		662CB1BF14D7CBBD003AA995 /* lpng1246 */ = {
+			isa = PBXGroup;
+			children = (
+				662CB1C014D7CBBD003AA995 /* ANNOUNCE */,
+				662CB1C114D7CBBD003AA995 /* CHANGES */,
+				662CB1C214D7CBBD003AA995 /* CMakeLists.txt */,
+				662CB1C314D7CBBD003AA995 /* configure */,
+				662CB1C414D7CBBD003AA995 /* contrib */,
+				662CB21514D7CBBD003AA995 /* example.c */,
+				662CB21614D7CBBD003AA995 /* INSTALL */,
+				662CB21714D7CBBD003AA995 /* KNOWNBUG */,
+				662CB21814D7CBBD003AA995 /* libpng-1.2.46.txt */,
+				662CB21914D7CBBD003AA995 /* libpng.3 */,
+				662CB21A14D7CBBD003AA995 /* libpngpf.3 */,
+				662CB21B14D7CBBD003AA995 /* LICENSE */,
+				662CB21C14D7CBBD003AA995 /* png.5 */,
+				662CB21D14D7CBBD003AA995 /* png.c */,
+				662CB21E14D7CBBD003AA995 /* png.h */,
+				662CB21F14D7CBBD003AA995 /* pngbar.jpg */,
+				662CB22014D7CBBD003AA995 /* pngbar.png */,
+				662CB22114D7CBBD003AA995 /* pngconf.h */,
+				662CB22214D7CBBD003AA995 /* pngerror.c */,
+				662CB22314D7CBBD003AA995 /* pnggccrd.c */,
+				662CB22414D7CBBD003AA995 /* pngget.c */,
+				662CB22514D7CBBD003AA995 /* pngmem.c */,
+				662CB22614D7CBBD003AA995 /* pngnow.png */,
+				662CB22714D7CBBD003AA995 /* pngpread.c */,
+				662CB22814D7CBBD003AA995 /* pngread.c */,
+				662CB22914D7CBBD003AA995 /* pngrio.c */,
+				662CB22A14D7CBBD003AA995 /* pngrtran.c */,
+				662CB22B14D7CBBD003AA995 /* pngrutil.c */,
+				662CB22C14D7CBBD003AA995 /* pngset.c */,
+				662CB22D14D7CBBD003AA995 /* pngtest.c */,
+				662CB22E14D7CBBD003AA995 /* pngtest.png */,
+				662CB22F14D7CBBD003AA995 /* pngtrans.c */,
+				662CB23014D7CBBD003AA995 /* pngvcrd.c */,
+				662CB23114D7CBBD003AA995 /* pngwio.c */,
+				662CB23214D7CBBD003AA995 /* pngwrite.c */,
+				662CB23314D7CBBD003AA995 /* pngwtran.c */,
+				662CB23414D7CBBD003AA995 /* pngwutil.c */,
+				662CB23514D7CBBD003AA995 /* projects */,
+				662CB25814D7CBBD003AA995 /* README */,
+				662CB25914D7CBBD003AA995 /* scripts */,
+				662CB29614D7CBBD003AA995 /* TODO */,
+				662CB29714D7CBBD003AA995 /* Y2KINFO */,
+			);
+			path = lpng1246;
+			sourceTree = "<group>";
+		};
+		662CB1C414D7CBBD003AA995 /* contrib */ = {
+			isa = PBXGroup;
+			children = (
+				662CB1C514D7CBBD003AA995 /* gregbook */,
+				662CB1DB14D7CBBD003AA995 /* pngminim */,
+				662CB1EC14D7CBBD003AA995 /* pngminus */,
+				662CB1F914D7CBBD003AA995 /* pngsuite */,
+				662CB20914D7CBBD003AA995 /* visupng */,
+			);
+			path = contrib;
+			sourceTree = "<group>";
+		};
+		662CB1C514D7CBBD003AA995 /* gregbook */ = {
+			isa = PBXGroup;
+			children = (
+				662CB1C614D7CBBD003AA995 /* COPYING */,
+				662CB1C714D7CBBD003AA995 /* LICENSE */,
+				662CB1C814D7CBBD003AA995 /* Makefile.mingw32 */,
+				662CB1C914D7CBBD003AA995 /* Makefile.sgi */,
+				662CB1CA14D7CBBD003AA995 /* Makefile.unx */,
+				662CB1CB14D7CBBD003AA995 /* Makefile.w32 */,
+				662CB1CC14D7CBBD003AA995 /* makevms.com */,
+				662CB1CD14D7CBBD003AA995 /* README */,
+				662CB1CE14D7CBBD003AA995 /* readpng.c */,
+				662CB1CF14D7CBBD003AA995 /* readpng.h */,
+				662CB1D014D7CBBD003AA995 /* readpng2.c */,
+				662CB1D114D7CBBD003AA995 /* readpng2.h */,
+				662CB1D214D7CBBD003AA995 /* readppm.c */,
+				662CB1D314D7CBBD003AA995 /* rpng-win.c */,
+				662CB1D414D7CBBD003AA995 /* rpng-x.c */,
+				662CB1D514D7CBBD003AA995 /* rpng2-win.c */,
+				662CB1D614D7CBBD003AA995 /* rpng2-x.c */,
+				662CB1D714D7CBBD003AA995 /* toucan.png */,
+				662CB1D814D7CBBD003AA995 /* wpng.c */,
+				662CB1D914D7CBBD003AA995 /* writepng.c */,
+				662CB1DA14D7CBBD003AA995 /* writepng.h */,
+			);
+			path = gregbook;
+			sourceTree = "<group>";
+		};
+		662CB1DB14D7CBBD003AA995 /* pngminim */ = {
+			isa = PBXGroup;
+			children = (
+				662CB1DC14D7CBBD003AA995 /* decoder */,
+				662CB1E114D7CBBD003AA995 /* encoder */,
+				662CB1E714D7CBBD003AA995 /* preader */,
+			);
+			path = pngminim;
+			sourceTree = "<group>";
+		};
+		662CB1DC14D7CBBD003AA995 /* decoder */ = {
+			isa = PBXGroup;
+			children = (
+				662CB1DD14D7CBBD003AA995 /* gather.sh */,
+				662CB1DE14D7CBBD003AA995 /* makefile */,
+				662CB1DF14D7CBBD003AA995 /* pngusr.h */,
+				662CB1E014D7CBBD003AA995 /* README */,
+			);
+			path = decoder;
+			sourceTree = "<group>";
+		};
+		662CB1E114D7CBBD003AA995 /* encoder */ = {
+			isa = PBXGroup;
+			children = (
+				662CB1E214D7CBBD003AA995 /* dummy_inflate.c */,
+				662CB1E314D7CBBD003AA995 /* gather.sh */,
+				662CB1E414D7CBBD003AA995 /* makefile */,
+				662CB1E514D7CBBD003AA995 /* pngusr.h */,
+				662CB1E614D7CBBD003AA995 /* README */,
+			);
+			path = encoder;
+			sourceTree = "<group>";
+		};
+		662CB1E714D7CBBD003AA995 /* preader */ = {
+			isa = PBXGroup;
+			children = (
+				662CB1E814D7CBBD003AA995 /* gather.sh */,
+				662CB1E914D7CBBD003AA995 /* makefile */,
+				662CB1EA14D7CBBD003AA995 /* pngusr.h */,
+				662CB1EB14D7CBBD003AA995 /* README */,
+			);
+			path = preader;
+			sourceTree = "<group>";
+		};
+		662CB1EC14D7CBBD003AA995 /* pngminus */ = {
+			isa = PBXGroup;
+			children = (
+				662CB1ED14D7CBBD003AA995 /* makefile.std */,
+				662CB1EE14D7CBBD003AA995 /* makefile.tc3 */,
+				662CB1EF14D7CBBD003AA995 /* makevms.com */,
+				662CB1F014D7CBBD003AA995 /* png2pnm.bat */,
+				662CB1F114D7CBBD003AA995 /* png2pnm.c */,
+				662CB1F214D7CBBD003AA995 /* png2pnm.sh */,
+				662CB1F314D7CBBD003AA995 /* pngminus.bat */,
+				662CB1F414D7CBBD003AA995 /* pngminus.sh */,
+				662CB1F514D7CBBD003AA995 /* pnm2png.bat */,
+				662CB1F614D7CBBD003AA995 /* pnm2png.c */,
+				662CB1F714D7CBBD003AA995 /* pnm2png.sh */,
+				662CB1F814D7CBBD003AA995 /* README */,
+			);
+			path = pngminus;
+			sourceTree = "<group>";
+		};
+		662CB1F914D7CBBD003AA995 /* pngsuite */ = {
+			isa = PBXGroup;
+			children = (
+				662CB1FA14D7CBBD003AA995 /* basn0g01.png */,
+				662CB1FB14D7CBBD003AA995 /* basn0g02.png */,
+				662CB1FC14D7CBBD003AA995 /* basn0g04.png */,
+				662CB1FD14D7CBBD003AA995 /* basn0g08.png */,
+				662CB1FE14D7CBBD003AA995 /* basn0g16.png */,
+				662CB1FF14D7CBBD003AA995 /* basn2c08.png */,
+				662CB20014D7CBBD003AA995 /* basn2c16.png */,
+				662CB20114D7CBBD003AA995 /* basn3p01.png */,
+				662CB20214D7CBBD003AA995 /* basn3p02.png */,
+				662CB20314D7CBBD003AA995 /* basn3p04.png */,
+				662CB20414D7CBBD003AA995 /* basn3p08.png */,
+				662CB20514D7CBBD003AA995 /* basn4a08.png */,
+				662CB20614D7CBBD003AA995 /* basn4a16.png */,
+				662CB20714D7CBBD003AA995 /* basn6a08.png */,
+				662CB20814D7CBBD003AA995 /* basn6a16.png */,
+			);
+			path = pngsuite;
+			sourceTree = "<group>";
+		};
+		662CB20914D7CBBD003AA995 /* visupng */ = {
+			isa = PBXGroup;
+			children = (
+				662CB20A14D7CBBD003AA995 /* cexcept.h */,
+				662CB20B14D7CBBD003AA995 /* PngFile.c */,
+				662CB20C14D7CBBD003AA995 /* PngFile.h */,
+				662CB20D14D7CBBD003AA995 /* README.txt */,
+				662CB20E14D7CBBD003AA995 /* resource.h */,
+				662CB20F14D7CBBD003AA995 /* VisualPng.c */,
+				662CB21014D7CBBD003AA995 /* VisualPng.dsp */,
+				662CB21114D7CBBD003AA995 /* VisualPng.dsw */,
+				662CB21214D7CBBD003AA995 /* VisualPng.ico */,
+				662CB21314D7CBBD003AA995 /* VisualPng.png */,
+				662CB21414D7CBBD003AA995 /* VisualPng.rc */,
+			);
+			path = visupng;
+			sourceTree = "<group>";
+		};
+		662CB23514D7CBBD003AA995 /* projects */ = {
+			isa = PBXGroup;
+			children = (
+				662CB23614D7CBBD003AA995 /* beos */,
+				662CB23B14D7CBBD003AA995 /* cbuilder5 */,
+				662CB24414D7CBBD003AA995 /* netware.txt */,
+				662CB24514D7CBBD003AA995 /* visualc6 */,
+				662CB24A14D7CBBD003AA995 /* visualc71 */,
+				662CB25214D7CBBD003AA995 /* wince.txt */,
+				662CB25314D7CBBD003AA995 /* xcode */,
+			);
+			path = projects;
+			sourceTree = "<group>";
+		};
+		662CB23614D7CBBD003AA995 /* beos */ = {
+			isa = PBXGroup;
+			children = (
+				662CB23714D7CBBD003AA995 /* x86-shared.proj */,
+				662CB23814D7CBBD003AA995 /* x86-shared.txt */,
+				662CB23914D7CBBD003AA995 /* x86-static.proj */,
+				662CB23A14D7CBBD003AA995 /* x86-static.txt */,
+			);
+			path = beos;
+			sourceTree = "<group>";
+		};
+		662CB23B14D7CBBD003AA995 /* cbuilder5 */ = {
+			isa = PBXGroup;
+			children = (
+				662CB23C14D7CBBD003AA995 /* libpng.bpf */,
+				662CB23D14D7CBBD003AA995 /* libpng.bpg */,
+				662CB23E14D7CBBD003AA995 /* libpng.bpr */,
+				662CB23F14D7CBBD003AA995 /* libpng.cpp */,
+				662CB24014D7CBBD003AA995 /* libpng.readme.txt */,
+				662CB24114D7CBBD003AA995 /* libpngstat.bpf */,
+				662CB24214D7CBBD003AA995 /* libpngstat.bpr */,
+				662CB24314D7CBBD003AA995 /* zlib.readme.txt */,
+			);
+			path = cbuilder5;
+			sourceTree = "<group>";
+		};
+		662CB24514D7CBBD003AA995 /* visualc6 */ = {
+			isa = PBXGroup;
+			children = (
+				662CB24614D7CBBD003AA995 /* libpng.dsp */,
+				662CB24714D7CBBD003AA995 /* libpng.dsw */,
+				662CB24814D7CBBD003AA995 /* pngtest.dsp */,
+				662CB24914D7CBBD003AA995 /* README.txt */,
+			);
+			path = visualc6;
+			sourceTree = "<group>";
+		};
+		662CB24A14D7CBBD003AA995 /* visualc71 */ = {
+			isa = PBXGroup;
+			children = (
+				662CB24B14D7CBBD003AA995 /* libpng.sln */,
+				662CB24C14D7CBBD003AA995 /* libpng.vcproj */,
+				662CB24D14D7CBBD003AA995 /* pngtest.vcproj */,
+				662CB24E14D7CBBD003AA995 /* PRJ0041.mak */,
+				662CB24F14D7CBBD003AA995 /* README.txt */,
+				662CB25014D7CBBD003AA995 /* README_zlib.txt */,
+				662CB25114D7CBBD003AA995 /* zlib.vcproj */,
+			);
+			path = visualc71;
+			sourceTree = "<group>";
+		};
+		662CB25314D7CBBD003AA995 /* xcode */ = {
+			isa = PBXGroup;
+			children = (
+				662CB25414D7CBBD003AA995 /* Info.plist */,
+				662CB25514D7CBBD003AA995 /* libpng.xcodeproj */,
+			);
+			path = xcode;
+			sourceTree = "<group>";
+		};
+		662CB25614D7CBBD003AA995 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				662CB35714D7CBBD003AA995 /* libpng.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		662CB25914D7CBBD003AA995 /* scripts */ = {
+			isa = PBXGroup;
+			children = (
+				662CB25A14D7CBBD003AA995 /* descrip.mms */,
+				662CB25B14D7CBBD003AA995 /* libpng-config-body.in */,
+				662CB25C14D7CBBD003AA995 /* libpng-config-head.in */,
+				662CB25D14D7CBBD003AA995 /* libpng-config.in */,
+				662CB25E14D7CBBD003AA995 /* libpng.icc */,
+				662CB25F14D7CBBD003AA995 /* libpng.pc-configure.in */,
+				662CB26014D7CBBD003AA995 /* libpng.pc.in */,
+				662CB26114D7CBBD003AA995 /* makefile.32sunu */,
+				662CB26214D7CBBD003AA995 /* makefile.64sunu */,
+				662CB26314D7CBBD003AA995 /* makefile.acorn */,
+				662CB26414D7CBBD003AA995 /* makefile.aix */,
+				662CB26514D7CBBD003AA995 /* makefile.amiga */,
+				662CB26614D7CBBD003AA995 /* makefile.atari */,
+				662CB26714D7CBBD003AA995 /* makefile.bc32 */,
+				662CB26814D7CBBD003AA995 /* makefile.beos */,
+				662CB26914D7CBBD003AA995 /* makefile.bor */,
+				662CB26A14D7CBBD003AA995 /* makefile.cegcc */,
+				662CB26B14D7CBBD003AA995 /* makefile.cygwin */,
+				662CB26C14D7CBBD003AA995 /* makefile.darwin */,
+				662CB26D14D7CBBD003AA995 /* makefile.dec */,
+				662CB26E14D7CBBD003AA995 /* makefile.dj2 */,
+				662CB26F14D7CBBD003AA995 /* makefile.elf */,
+				662CB27014D7CBBD003AA995 /* makefile.freebsd */,
+				662CB27114D7CBBD003AA995 /* makefile.gcc */,
+				662CB27214D7CBBD003AA995 /* makefile.gcmmx */,
+				662CB27314D7CBBD003AA995 /* makefile.hp64 */,
+				662CB27414D7CBBD003AA995 /* makefile.hpgcc */,
+				662CB27514D7CBBD003AA995 /* makefile.hpux */,
+				662CB27614D7CBBD003AA995 /* makefile.ibmc */,
+				662CB27714D7CBBD003AA995 /* makefile.intel */,
+				662CB27814D7CBBD003AA995 /* makefile.knr */,
+				662CB27914D7CBBD003AA995 /* makefile.linux */,
+				662CB27A14D7CBBD003AA995 /* makefile.mingw */,
+				662CB27B14D7CBBD003AA995 /* makefile.mips */,
+				662CB27C14D7CBBD003AA995 /* makefile.msc */,
+				662CB27D14D7CBBD003AA995 /* makefile.ne12bsd */,
+				662CB27E14D7CBBD003AA995 /* makefile.netbsd */,
+				662CB27F14D7CBBD003AA995 /* makefile.nommx */,
+				662CB28014D7CBBD003AA995 /* makefile.openbsd */,
+				662CB28114D7CBBD003AA995 /* makefile.os2 */,
+				662CB28214D7CBBD003AA995 /* makefile.sco */,
+				662CB28314D7CBBD003AA995 /* makefile.sggcc */,
+				662CB28414D7CBBD003AA995 /* makefile.sgi */,
+				662CB28514D7CBBD003AA995 /* makefile.so9 */,
+				662CB28614D7CBBD003AA995 /* makefile.solaris */,
+				662CB28714D7CBBD003AA995 /* makefile.solaris-x86 */,
+				662CB28814D7CBBD003AA995 /* makefile.std */,
+				662CB28914D7CBBD003AA995 /* makefile.sunos */,
+				662CB28A14D7CBBD003AA995 /* makefile.tc3 */,
+				662CB28B14D7CBBD003AA995 /* makefile.vcawin32 */,
+				662CB28C14D7CBBD003AA995 /* makefile.vcwin32 */,
+				662CB28D14D7CBBD003AA995 /* makefile.watcom */,
+				662CB28E14D7CBBD003AA995 /* makevms.com */,
+				662CB28F14D7CBBD003AA995 /* png32ce.def */,
+				662CB29014D7CBBD003AA995 /* pngos2.def */,
+				662CB29114D7CBBD003AA995 /* pngw32.def */,
+				662CB29214D7CBBD003AA995 /* pngw32.rc */,
+				662CB29314D7CBBD003AA995 /* README.txt */,
+				662CB29414D7CBBD003AA995 /* SCOPTIONS.ppc */,
+				662CB29514D7CBBD003AA995 /* smakefile.ppc */,
+			);
+			path = scripts;
+			sourceTree = "<group>";
+		};
 		6644322614568A4F001847A0 /* assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -1336,6 +1902,7 @@
 		6674754F14552F0A0065EDF3 /* external */ = {
 			isa = PBXGroup;
 			children = (
+				662CB1BF14D7CBBD003AA995 /* lpng1246 */,
 				666DF20A14C5021300FE1ADF /* json */,
 				66E545E9145E2C8F0050571F /* Bullet */,
 				6674755014552F0A0065EDF3 /* math */,
@@ -2219,12 +2786,28 @@
 			mainGroup = 667474E0145528DE0065EDF3;
 			productRefGroup = 667474EC145528DE0065EDF3 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 662CB25614D7CBBD003AA995 /* Products */;
+					ProjectRef = 662CB25514D7CBBD003AA995 /* libpng.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				667474EA145528DE0065EDF3 /* GCube */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		662CB35714D7CBBD003AA995 /* libpng.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = libpng.framework;
+			remoteRef = 662CB35614D7CBBD003AA995 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		667474E9145528DE0065EDF3 /* Resources */ = {
@@ -2236,7 +2819,6 @@
 				6644323C14568A55001847A0 /* pointShader.fsh in Resources */,
 				6644323D14568A55001847A0 /* pointShader.vsh in Resources */,
 				6644323E14568A55001847A0 /* simpleShader.fsh in Resources */,
-				6644323F14568A55001847A0 /* simpleShader.vsh in Resources */,
 				667474FA145528DE0065EDF3 /* InfoPlist.strings in Resources */,
 				6674753B14552B2A0065EDF3 /* GCViewController.xib in Resources */,
 				6644324114568A55001847A0 /* chara_texture.png in Resources */,
@@ -2492,6 +3074,24 @@
 				666DF21114C5034E00FE1ADF /* OggLoader.cpp in Sources */,
 				666DF21214C5034E00FE1ADF /* SoundPlayer.cpp in Sources */,
 				666DF21614C504CB00FE1ADF /* PVRTexture.m in Sources */,
+				662CB2E614D7CBBD003AA995 /* png.c in Sources */,
+				662CB2E914D7CBBD003AA995 /* pngerror.c in Sources */,
+				662CB2EA14D7CBBD003AA995 /* pnggccrd.c in Sources */,
+				662CB2EB14D7CBBD003AA995 /* pngget.c in Sources */,
+				662CB2EC14D7CBBD003AA995 /* pngmem.c in Sources */,
+				662CB2EE14D7CBBD003AA995 /* pngpread.c in Sources */,
+				662CB2EF14D7CBBD003AA995 /* pngread.c in Sources */,
+				662CB2F014D7CBBD003AA995 /* pngrio.c in Sources */,
+				662CB2F114D7CBBD003AA995 /* pngrtran.c in Sources */,
+				662CB2F214D7CBBD003AA995 /* pngrutil.c in Sources */,
+				662CB2F314D7CBBD003AA995 /* pngset.c in Sources */,
+				662CB2F614D7CBBD003AA995 /* pngtrans.c in Sources */,
+				662CB2F714D7CBBD003AA995 /* pngvcrd.c in Sources */,
+				662CB2F814D7CBBD003AA995 /* pngwio.c in Sources */,
+				662CB2F914D7CBBD003AA995 /* pngwrite.c in Sources */,
+				662CB2FA14D7CBBD003AA995 /* pngwtran.c in Sources */,
+				662CB2FB14D7CBBD003AA995 /* pngwutil.c in Sources */,
+				662CB35914D7CE12003AA995 /* simpleShader.vsh in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

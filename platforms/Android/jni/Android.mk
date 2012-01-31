@@ -1,31 +1,9 @@
-MY_PATH := $(call my-dir)/../../..
-LOCAL_PATH := $(MY_PATH)
-JNI_PATH := $(LOCAL_PATH)/platforms/Android/jni
+MY_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
-include $(JNI_PATH)/mk/openal.mk
+include $(MY_PATH)/mk/all.mk
 
-LOCAL_PATH := $(MY_PATH)
-include $(CLEAR_VARS)
-
-include $(JNI_PATH)/mk/ogg.mk
-
-LOCAL_PATH := $(MY_PATH)
-include $(CLEAR_VARS)
-
-include $(JNI_PATH)/mk/math.mk
-
-LOCAL_PATH := $(MY_PATH)
-include $(CLEAR_VARS)
-
-include $(JNI_PATH)/mk/bullet.mk
-
-LOCAL_PATH := $(MY_PATH)
-include $(CLEAR_VARS)
-
-include $(JNI_PATH)/mk/lib.mk
-
-LOCAL_PATH := $(MY_PATH)
+LOCAL_PATH := $(MY_PATH)/../../..
 include $(CLEAR_VARS)
 
 MAIN_PATH := main
@@ -43,8 +21,8 @@ LOCAL_SRC_FILES := platforms/Android/jni/android/ndk-interface.cpp \
                    $(MAIN_PATH)/SceneTitle.cpp \
                    $(MAIN_PATH)/Scene3D.cpp
 LOCAL_LDLIBS    := -llog -lGLESv2
-LOCAL_C_INCLUDES:= $(JNI_PATH)/ \
-                   $(JNI_PATH)/android/ \
+LOCAL_C_INCLUDES:= $(MY_PATH)/ \
+                   $(MY_PATH)/android/ \
                    $(ENGINE_PATH)/lib \
                    $(ENGINE_PATH)/lib/porting \
                    $(ENGINE_PATH)/lib/controller \
@@ -73,6 +51,6 @@ LOCAL_C_INCLUDES:= $(JNI_PATH)/ \
                    $(ENGINE_PATH)/external/Ogg/libvorbis-1.3.2/include \
                    $(ENGINE_PATH)/external/Ogg/libvorbis-1.3.2/lib \
                    $(INC_PATH)
-LOCAL_STATIC_LIBRARIES := common math bullet ogg openal
+LOCAL_STATIC_LIBRARIES := common math bullet ogg openal png
 
 include $(BUILD_SHARED_LIBRARY)
