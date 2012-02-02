@@ -24,7 +24,7 @@
 #include "ApplicationController.h"
 #include "APIGlue.h"
 #include "SceneTitle.h"
-#include "Scene3D.h"
+//#include "Scene3D.h"
 #include <time.h>
 
 // 初期化処理.
@@ -35,10 +35,10 @@ void Main::initApplicationController() {
 	srand((unsigned) time(NULL));
 
 	SceneTitle *scene1 = new SceneTitle(controller);
-	Scene3D *scene2 = new Scene3D(controller);
+//	Scene3D *scene2 = new Scene3D(controller);
 	
 	controller->addScene(1, scene1);
-	controller->addScene(2, scene2);
+//	controller->addScene(2, scene2);
 	controller->sceneChange(1);
 }
 

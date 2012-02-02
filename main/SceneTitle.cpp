@@ -30,15 +30,32 @@
 #include "ImageAnimationView.h"
 #include "ViewGroup.h"
 #include "Layer2D.h"
-#include "Layer3D.h"
+//#include "Layer3D.h"
 #include "PrimitiveObjectBuilder.h"
 #include "WFObjLoader.h"
 #include "Light.h"
+#include "HttpClient.h"
+#include "XMLParser.h"
+#include "PngData.h"
 
 SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	LOGD("****SceneTitle");
 	index = 0;
 	
+//	HttpClient client;
+//	PngData png;
+//	Scene sn(controller);
+//
+//	class ps : public XMLParser {
+//		virtual void startElement(const XML_Char *name, const XML_Char *atts[]) {};
+//		virtual void endElement(const XML_Char *name) {};
+//		virtual void bodyElement(const XML_Char *s, int len) {};
+//	};
+//
+//	ps a;
+
+
+
 	TextureManager *mgr = controller->texMgr;
 
 	SharedTexture *tex = mgr->getSharedTexture(
@@ -96,7 +113,7 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 
 	addLayer(1, layer);
 	
-
+/*
 	Matrix3D *mtx1 = new Matrix3D();
 	mtx1->translate(1.5, 1, -1);
 	
@@ -168,6 +185,7 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	tex2->release();
 	
 	addLayer(0, l3);
+	*/
 }
 
 SceneTitle::~SceneTitle() {
@@ -185,6 +203,7 @@ void SceneTitle::step(float dt) {
 
 	ddt+=dt;
 	if (ddt>5) {
+		/*
 		Layer3D *l3 = (Layer3D*)getLayer(0);
 		Matrix3D *mtx = l3->findMatrixByID(2);
 		mtx->loadIdentity();
@@ -195,6 +214,7 @@ void SceneTitle::step(float dt) {
 		mtx->loadIdentity();
 		mtx->rotate(rand()%50, RotateDirX);
 		mtx->translate(-1.5,5,0);
+		*/
 
 
 		Layer2D *layer = (Layer2D *) getLayer(1);

@@ -26,21 +26,28 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
+
 
 import android.content.Context;
 import android.util.Log;
 
 import com.gclue.gl.Figure;
 import com.gclue.gl.GLView;
+import com.gclue.gl.HttpResponse;
 import com.gclue.gl.ImageData;
 import com.gclue.gl.JNILib;
 import com.gclue.gl.WFObjLoader;
 import com.gclue.gl.texture.Sprite;
 import com.gclue.gl.texture.Texture;
+import com.gclue.util.HttpRequestManager;
+import com.gclue.util.HttpRequestManager.HttpRequestListener;
 import com.gclue.util.MusicPlayer;
 import com.gclue.util.SoundManager;
+import com.gclue.util.StringUtils;
 
 /**
  * Cから呼び出されるメソッドのインターフェースとなるクラスです.
@@ -402,6 +409,111 @@ public class NDKInterface {
 		} finally {
 			texture = null;
 		}
+	}
+	
+	/**
+	 * HTTP通信のリクエストを行います.
+	 * <br><br>
+	 * このメソッドは JNI 側から呼び出されることがあります。
+	 * @param url URL
+	 * @param post 送信するデータ
+	 */
+	public HttpResponse requestHttp(String url, String[] headers, String post) {
+		final HttpResponse[] response = new HttpResponse[1];
+		
+		// ヘッダーの作成
+		Map<String, String> h = null;
+		if (headers != null && headers.length > 1) {
+			h = new HashMap<String, String>();
+			for (int i = 0; i < headers.length / 2; i++) {
+				h.put(headers[i * 2], headers[i * 2 + 1]);
+			}
+		}
+		
+		HttpRequestManager mgr = HttpRequestManager.getInstance();
+		if (post == null || post.equals("")) {
+			mgr.get(StringUtils.alterURL(url), h, new HttpRequestListener() {
+				@Override
+				public void onLoad(int status, byte[] buf) {
+					response[0] = new HttpResponse();
+					response[0].setStatusCode(status);
+					response[0].setBody(buf);
+				}
+			});
+		} else {
+			mgr.post(StringUtils.alterURL(url), post, h, new HttpRequestListener() {
+				@Override
+				public void onLoad(int status, byte[] buf) {
+					response[0] = new HttpResponse();
+					response[0].setStatusCode(status);
+					response[0].setBody(buf);
+				}
+			});
+		}
+		return response[0];
+	}
+	
+	/**
+	 * HTTP通信のリクエストを行います.
+	 * <br><br>
+	 * このメソッドは JNI 側から呼び出されることがあります。
+	 * @param url URL
+	 * @param post 送信するデータ
+	 * @param id リクエストID
+	 * @param async 同期処理フラグ
+	 */
+	public int requestHttpAsync(final String url, final String[] headers, final String post, final int id) {
+		// ヘッダーの作成
+		Map<String, String> h = null;
+		if (headers != null && headers.length > 1) {
+			h = new HashMap<String, String>();
+			for (int i = 0; i < headers.length / 2; i++) {
+				h.put(headers[i * 2], headers[i * 2 + 1]);
+			}
+		}
+		
+		HttpRequestManager mgr = HttpRequestManager.getInstance();
+		if (post == null || post.equals("")) {
+			mgr.runGet(StringUtils.alterURL(url), h, new HttpRequestListener() {
+				@Override
+				public void onLoad(int status, byte[] buf) {
+					final HttpResponse response = new HttpResponse();
+					response.setStatusCode(status);
+					response.setBody(buf);
+					if (view == null) {
+						// まだ、起動していない
+					} else {
+						view.queueEvent(new Runnable() {
+							@Override
+							public void run() {
+								Log.e(TAG, "sendHttpEvent");
+								JNILib.sendHttpEvent(id, response);
+							}
+						});
+					}
+				}
+			});
+		} else {
+			mgr.runPost(StringUtils.alterURL(url), post, h, new HttpRequestListener() {
+				@Override
+				public void onLoad(int status, byte[] buf) {
+					final HttpResponse response = new HttpResponse();
+					response.setStatusCode(status);
+					response.setBody(buf);
+					if (view == null) {
+						// まだ、起動していない
+					} else {
+						view.queueEvent(new Runnable() {
+							@Override
+							public void run() {
+								JNILib.sendHttpEvent(id, response);
+							}
+						});
+					}
+				}
+			});
+		}
+		return -1;
 	}
 	
 	/**

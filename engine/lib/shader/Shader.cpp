@@ -148,6 +148,7 @@ ERROR:	// エラー時の処理
 	if (program) {
 		glDeleteProgram(program);
 	}
+	LOGE("Failed to createProgram");
 	return NULL;
 }
 

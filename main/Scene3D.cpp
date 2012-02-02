@@ -29,6 +29,7 @@
 #include "Joint.h"
 #include "Layer3D.h"
 #include "Light.h"
+#include <string>
 
 Scene3D::Scene3D(ApplicationController *controller) : Scene(controller) {
 	LOGD("****Scene3D");

@@ -60,7 +60,7 @@ void SimpleShader::bindTexture(int texname) {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texname);
 	glUniform1i(uniforms[UNIFORM_TEXTURE_BASE], 0);
-
+	
 	this->texname = texname;
 }
 

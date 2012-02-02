@@ -6,7 +6,6 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE    := xml
 LOCAL_SRC_FILES :=  xmlparse.c \
-                    xmlparse.c \
                     xmlrole.c \
                     xmltok_impl.c \
                     xmltok_ns.c \

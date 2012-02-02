@@ -18,9 +18,9 @@ LOCAL_SRC_FILES := platforms/Android/jni/android/ndk-interface.cpp \
                    platforms/Android/jni/android/ui-interface.cpp \
                    platforms/Android/jni/android/UIController.cpp \
                    $(MAIN_PATH)/main.cpp \
-                   $(MAIN_PATH)/SceneTitle.cpp \
-                   $(MAIN_PATH)/Scene3D.cpp
-LOCAL_LDLIBS    := -llog -lGLESv2
+                   $(MAIN_PATH)/SceneTitle.cpp
+#                   $(MAIN_PATH)/Scene3D.cpp
+LOCAL_LDLIBS    := -llog -lGLESv2 -lz
 LOCAL_C_INCLUDES:= $(MY_PATH)/ \
                    $(MY_PATH)/android/ \
                    $(ENGINE_PATH)/lib \
@@ -36,6 +36,8 @@ LOCAL_C_INCLUDES:= $(MY_PATH)/ \
                    $(ENGINE_PATH)/lib/shader \
                    $(ENGINE_PATH)/lib/ui \
                    $(ENGINE_PATH)/lib/util \
+                   $(ENGINE_PATH)/lib/xml \
+                   $(ENGINE_PATH)/external/lpng1246 \
                    $(ENGINE_PATH)/external/xml \
                    $(ENGINE_PATH)/external/xml/expat \
                    $(ENGINE_PATH)/external/math \
@@ -51,6 +53,6 @@ LOCAL_C_INCLUDES:= $(MY_PATH)/ \
                    $(ENGINE_PATH)/external/Ogg/libvorbis-1.3.2/include \
                    $(ENGINE_PATH)/external/Ogg/libvorbis-1.3.2/lib \
                    $(INC_PATH)
-LOCAL_STATIC_LIBRARIES := common math bullet ogg openal png
+LOCAL_STATIC_LIBRARIES := common xml math bullet ogg openal png
 
 include $(BUILD_SHARED_LIBRARY)

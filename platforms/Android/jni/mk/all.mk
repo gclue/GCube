@@ -1,26 +1,30 @@
-LOCAL_PATH := $(call my-dir)/../../../..
-JNI_PATH := $(LOCAL_PATH)/platforms/Android/jni
+LOCAL_PATH := $(call my-dir)
+MK_PATH := $(LOCAL_PATH)
 include $(CLEAR_VARS)
 
-include $(JNI_PATH)/mk/openal.mk
-
-include $(CLEAR_VARS)
-
-include $(JNI_PATH)/mk/libpng.mk
+include $(MK_PATH)/openal.mk
 
 include $(CLEAR_VARS)
 
-include $(JNI_PATH)/mk/ogg.mk
+include $(MK_PATH)/libpng.mk
 
 include $(CLEAR_VARS)
 
-include $(JNI_PATH)/mk/math.mk
+include $(MK_PATH)/ogg.mk
 
 include $(CLEAR_VARS)
 
-include $(JNI_PATH)/mk/bullet.mk
+include $(MK_PATH)/math.mk
 
 include $(CLEAR_VARS)
 
-include $(JNI_PATH)/mk/lib.mk
+include $(MK_PATH)/xml.mk
+
+include $(CLEAR_VARS)
+
+#include $(MK_PATH)/bullet.mk
+
+include $(CLEAR_VARS)
+
+include $(MK_PATH)/lib.mk
 

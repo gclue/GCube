@@ -22,6 +22,7 @@
 
 package com.gclue.gl;
 
+
 import com.gclue.gl.app.NDKInterface;
 
 /**
@@ -94,4 +95,10 @@ public final class JNILib {
 	 * @param param5 イベントパラメータ
 	 */
 	public synchronized static native void sendGameEvent(int type, int param1, int param2, int param3, int param4, String param5);
+	
+	/**
+	 * JNIにHttpリクエストのレスポンスを返却します.
+	 * @param response レスポンス
+	 */
+	public synchronized static native void sendHttpEvent(int id, HttpResponse response);
 }

@@ -40,7 +40,6 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    controller/TextureManager.cpp \
                    scene/Scene.cpp \
                    scene/Layer2D.cpp \
-                   scene/Layer3D.cpp \
                    shader/Shader.cpp \
                    shader/SimpleShader.cpp \
                    shader/PointSpriteShader.cpp \
@@ -64,11 +63,14 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    util/Animation.cpp \
                    util/AnimationSet.cpp \
                    util/AssetManager.cpp \
-                   util/BulletWorld.cpp \
                    util/Easing.cpp \
+                   util/PngData.cpp \
                    util/FigureCache.cpp \
+                   util/HttpClient.cpp \
                    util/Storage.cpp \
                    xml/XMLParser.cpp
+                   #util/BulletWorld.cpp
+                   #scene/Layer3D.cpp
 LOCAL_LDLIBS    := -llog -lGLESv2
 LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/.. \
@@ -81,6 +83,8 @@ LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/sound \
                    $(LOCAL_PATH)/ui \
                    $(LOCAL_PATH)/util \
+                   $(LOCAL_PATH)/xml \
+                   $(LOCAL_PATH)/../external/lpng1246 \
                    $(LOCAL_PATH)/../external/xml \
                    $(LOCAL_PATH)/../external/xml/expat \
                    $(LOCAL_PATH)/../external/math \
@@ -98,6 +102,6 @@ LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
 				   $(LOCAL_PATH)/../external/Bullet/Extras/Serialize/BulletWorldImporter  \
 				   $(LOCAL_PATH)/../external/Bullet/Extras/Serialize/BulletFileLoader \
 				   $(LOCAL_PATH)/../../main/ \
-LOCAL_STATIC_LIBRARIES := math bullet xml
+LOCAL_STATIC_LIBRARIES := math bullet xml png
 
 include $(BUILD_STATIC_LIBRARY)

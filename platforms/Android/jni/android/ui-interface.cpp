@@ -667,12 +667,12 @@ JNIEXPORT jint JNICALL
 Java_com_gclue_gl_ui_GCViewGroup_nativeCreate(
 		JNIEnv * env, jobject thiz) {
 	if (uiController) {
-		ApplicationController *ctr = ApplicationController::getInstance();
-		UIContainer *ui = new UIContainer();
-		ui->type = UIType_ViewGroup;
-		ui->ui = new ViewGroup(ctr);
-		uiController->add(ui);
-		return (int) ui;
+//		ApplicationController *ctr = ApplicationController::getInstance();
+//		UIContainer *ui = new UIContainer();
+//		ui->type = UIType_ViewGroup;
+//		ui->ui = new ViewGroup(ctr);
+//		uiController->add(ui);
+//		return (int) ui;
 	}
 	return NULL;
 }
@@ -690,11 +690,11 @@ Java_com_gclue_gl_ui_GCViewGroup_nativeAddView(
 	UIContainer *container1 = (UIContainer *) pear;
 	UIContainer *container2 = (UIContainer *) pearView;
 	if (container1 && container2) {
-		ViewGroup* vg = (ViewGroup *) container1->ui;
-		View* view = (View *) container2->ui;
-		if (vg && view) {
-			vg->addView(view);
-		}
+//		ViewGroup* vg = (ViewGroup *) container1->ui;
+//		View* view = (View *) container2->ui;
+//		if (vg && view) {
+//			vg->addView(view);
+//		}
 	}
 }
 
@@ -712,12 +712,12 @@ JNIEXPORT jint JNICALL
 Java_com_gclue_gl_ui_GCImageView_nativeCreate(
 		JNIEnv *env, jobject thiz) {
 	if (uiController) {
-		ApplicationController *ctr = ApplicationController::getInstance();
-		UIContainer *ui = new UIContainer();
-		ui->type = UIType_ImageView;
-		ui->ui = new ImageView(ctr);
-		uiController->add(ui);
-		return (int) ui;
+//		ApplicationController *ctr = ApplicationController::getInstance();
+//		UIContainer *ui = new UIContainer();
+//		ui->type = UIType_ImageView;
+//		ui->ui = new ImageView(ctr);
+//		uiController->add(ui);
+//		return (int) ui;
 	}
 	return NULL;
 }
@@ -761,12 +761,12 @@ JNIEXPORT jint JNICALL
 Java_com_gclue_gl_ui_GCGridView_nativeCreate(
 		JNIEnv *env, jobject thiz, jint row, jint column) {
 	if (uiController) {
-		ApplicationController *ctr = ApplicationController::getInstance();
-		UIContainer *ui = new UIContainer();
-		ui->type = UIType_GridView;
-		ui->ui = new GridView(ctr, row, column);
-		uiController->add(ui);
-		return (int) ui;
+//		ApplicationController *ctr = ApplicationController::getInstance();
+//		UIContainer *ui = new UIContainer();
+//		ui->type = UIType_GridView;
+//		ui->ui = new GridView(ctr, row, column);
+//		uiController->add(ui);
+//		return (int) ui;
 	}
 	return NULL;
 }

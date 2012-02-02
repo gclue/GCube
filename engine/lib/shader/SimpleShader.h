@@ -35,30 +35,30 @@ private:
 	GLuint gProgram;	//!< プログラム
 	float baseAlpha;	//!< 基準透明度
 	int texname;		//!< 使用しているtextureのID
-
+	
 public:
 	/**
 	 * コンストラクタ.
 	 */
 	SimpleShader();
-
+	
 	/**
 	 * デストラクタ.
 	 */
 	virtual ~SimpleShader();
-
+	
 	/**
 	 * シェーダの使用を開始します.
 	 */
 	void useProgram();
-
+	
 	/**
 	 * テクスチャをバインドします.
 	 * <br>
 	 * @param[in] texname テクスチャ名
 	 */
 	void bindTexture(int texname);
-
+	
 	/**
 	 * カメラと変換行列からMVPをシェーダに設定します.
 	 * <br>
@@ -89,7 +89,7 @@ public:
 	 * @param[in] b 明るさ
 	 */
 	void setBright(float b);
-
+	
 	/**
 	 * シェーダのAttributeへのバインド処理を行います.
 	 * <br><br>
@@ -101,7 +101,7 @@ public:
 	 * @param[in] user ユーザ識別ID
 	 */
 	void bindAttribute(GLuint program, const char *name, int user);
-
+	
 	/**
 	 * シェーダのUniformを取得します.
 	 * <br><br>
@@ -113,7 +113,7 @@ public:
 	 * @param[in] user ユーザ識別ID
 	 */
 	void getUniform(GLuint program, const char *name, int user);
-
+	
 };
 
 #endif /* SIMPLESHADER_H_ */

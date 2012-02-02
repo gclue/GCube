@@ -30,6 +30,8 @@
 #define APIGLUE_H_
 
 #include <vector>
+#include <string>
+#include <map>
 
 /**
  * サウンドモード.
@@ -67,6 +69,14 @@ class Figure;
 class Texture;
 class PackerTexture;
 class ApplicationController;
+class HttpResponse;
+
+class IHttpRquestListener {
+public:
+	virtual ~IHttpRquestListener() {}
+	virtual void onResponse(HttpResponse *response) = 0;
+};
+
 
 extern "C" {
 
@@ -136,6 +146,25 @@ bool GCLoadTexture(Texture *texture, const char *fname);
  * @return パス
  */
 const char* GCGetStoragePath(const char* fileName=NULL);
+
+/**
+ * 非同期にHTTP通信を行います.
+ * @param url 通信先のURL
+ * @param headers ヘッダー
+ * @param body ボディ
+ * @param callback HTTP通信を行った結果を返すリスナー
+ * @return 0以下の場合には通信失敗
+ */
+int GCHttpRequestAsync(std::string url, std::map<std::string, std::string> headers, std::string body, IHttpRquestListener *callback);
+
+/**
+ * HTTP通信を行います.
+ * @param url 通信先のURL
+ * @param headers ヘッダー
+ * @param body ボディ
+ * @return HTTP通信の結果
+ */
+HttpResponse* GCHttpRequest(std::string url, std::map<std::string, std::string> headers, std::string body);
 
 }
 

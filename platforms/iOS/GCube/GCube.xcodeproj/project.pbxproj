@@ -24,6 +24,7 @@
 		662CB2F914D7CBBD003AA995 /* pngwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB23214D7CBBD003AA995 /* pngwrite.c */; };
 		662CB2FA14D7CBBD003AA995 /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB23314D7CBBD003AA995 /* pngwtran.c */; };
 		662CB2FB14D7CBBD003AA995 /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB23414D7CBBD003AA995 /* pngwutil.c */; };
+		6633F54A14D7D73C00E16FC6 /* HttpClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6633F54814D7D73C00E16FC6 /* HttpClient.cpp */; };
 		6644322414566C04001847A0 /* Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6644322314566C03001847A0 /* Shader.cpp */; };
 		6644323A14568A55001847A0 /* boneShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322A14568A55001847A0 /* boneShader.fsh */; };
 		6644323B14568A55001847A0 /* boneShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322B14568A55001847A0 /* boneShader.vsh */; };
@@ -279,6 +280,8 @@
 		66E5482F145EA40F0050571F /* BulletWorld.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66E5482D145EA40F0050571F /* BulletWorld.cpp */; };
 		66E54831145EABDE0050571F /* cube.model in Resources */ = {isa = PBXBuildFile; fileRef = 66E54830145EABDE0050571F /* cube.model */; };
 		66E54833145F96A30050571F /* kotoji.model in Resources */ = {isa = PBXBuildFile; fileRef = 66E54832145F96A30050571F /* kotoji.model */; };
+		66EFF67314DA696B00A7CB94 /* PngData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66EFF67114DA696B00A7CB94 /* PngData.cpp */; };
+		66EFF67914DA6E4F00A7CB94 /* simpleShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322F14568A55001847A0 /* simpleShader.vsh */; };
 		66F980661467AF9200D85239 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66F980641467AF9200D85239 /* Light.cpp */; };
 /* End PBXBuildFile section */
 
@@ -491,6 +494,8 @@
 		662CB29514D7CBBD003AA995 /* smakefile.ppc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = smakefile.ppc; sourceTree = "<group>"; };
 		662CB29614D7CBBD003AA995 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		662CB29714D7CBBD003AA995 /* Y2KINFO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Y2KINFO; sourceTree = "<group>"; };
+		6633F54814D7D73C00E16FC6 /* HttpClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HttpClient.cpp; sourceTree = "<group>"; };
+		6633F54914D7D73C00E16FC6 /* HttpClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpClient.h; sourceTree = "<group>"; };
 		6644322314566C03001847A0 /* Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Shader.cpp; sourceTree = "<group>"; };
 		6644322514566C1B001847A0 /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		6644322A14568A55001847A0 /* boneShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = boneShader.fsh; sourceTree = "<group>"; };
@@ -1156,6 +1161,8 @@
 		66E5482E145EA40F0050571F /* BulletWorld.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BulletWorld.h; sourceTree = "<group>"; };
 		66E54830145EABDE0050571F /* cube.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = cube.model; sourceTree = "<group>"; };
 		66E54832145F96A30050571F /* kotoji.model */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = kotoji.model; sourceTree = "<group>"; };
+		66EFF67114DA696B00A7CB94 /* PngData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PngData.cpp; sourceTree = "<group>"; };
+		66EFF67214DA696B00A7CB94 /* PngData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PngData.h; sourceTree = "<group>"; };
 		66F980641467AF9200D85239 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
 		66F980651467AF9200D85239 /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -2138,6 +2145,10 @@
 		667475D414552F0A0065EDF3 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				6633F54814D7D73C00E16FC6 /* HttpClient.cpp */,
+				6633F54914D7D73C00E16FC6 /* HttpClient.h */,
+				66EFF67114DA696B00A7CB94 /* PngData.cpp */,
+				66EFF67214DA696B00A7CB94 /* PngData.h */,
 				667475D514552F0A0065EDF3 /* Animation.cpp */,
 				667475D614552F0A0065EDF3 /* Animation.h */,
 				667475D714552F0A0065EDF3 /* AnimationSet.cpp */,
@@ -2813,6 +2824,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66EFF67914DA6E4F00A7CB94 /* simpleShader.vsh in Resources */,
 				6644323A14568A55001847A0 /* boneShader.fsh in Resources */,
 				6644323B14568A55001847A0 /* boneShader.vsh in Resources */,
 				6644323C14568A55001847A0 /* pointShader.fsh in Resources */,
@@ -3090,6 +3102,8 @@
 				662CB2F914D7CBBD003AA995 /* pngwrite.c in Sources */,
 				662CB2FA14D7CBBD003AA995 /* pngwtran.c in Sources */,
 				662CB2FB14D7CBBD003AA995 /* pngwutil.c in Sources */,
+				6633F54A14D7D73C00E16FC6 /* HttpClient.cpp in Sources */,
+				66EFF67314DA696B00A7CB94 /* PngData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

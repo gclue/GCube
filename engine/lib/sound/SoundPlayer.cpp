@@ -33,7 +33,7 @@ SoundPlayer::SoundPlayer() {
 	// エラーチェック
 	if (alGetError() != AL_NO_ERROR) {
 		LOGE("*****ERROR(SoundPlayer::SoundPlayer)**********");
-		exit(1);
+//		exit(1);
 	}
 }
 
@@ -79,7 +79,7 @@ int SoundPlayer::loadSound(SoundData *data) {
 	// エラーチェック
 	if (alGetError() != AL_NO_ERROR) {
 		LOGE("*****ERROR(SoundPlayer::loadSound)");
-		exit(1);
+//		exit(1);
 	}
 	
 	return source;

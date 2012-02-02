@@ -176,6 +176,7 @@ bool Scene::onPressBackKey() {
 // タッチイベント
 bool Scene::onTouch(TouchEvent &event) {
 	LOGD("****Scene::onTouch");
+	if (layers.size()==0) return false;
 	std::map<int, Layer*>::iterator it = layers.end();
 	it--;
 	while (true) {

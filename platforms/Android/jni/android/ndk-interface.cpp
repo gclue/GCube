@@ -28,15 +28,21 @@
  *  Created on: 2011/04/25
  *      Author: haga
  */
-//#include "APIGlue.h"
+#include "APIGlue.h"
+//#include "lib/porting/APIGlue.h"
 
 #include "ApplicationController.h"
 #include "Figure.h"
 #include "Texture.h"
 #include "PackerTexture.h"
+#include "HttpClient.h"
 #include "defines.h"
 #include "main.h"
+
 #include <jni.h>
+#include <string>
+#include <map>
+#include <vector>
 
 /**
  * JNIを操作する為のデータを保持する構造体.
@@ -52,12 +58,25 @@ struct JNIInterface {
 	jmethodID onGameEventMethod;	//!< NDKInterfae#onGameEvent()のID
 	jmethodID drawTextMethod;		//!< NDKInterfae#drawTextMethod()のID
 	jmethodID getTextureMethod;		//!< NDKInterfae#getTextureMethod()のID
+	jmethodID requestHttpMethod;	//!< NDKInterface#requestHttp()のID
+	jmethodID requestHttpAsyncMethod;	//!< NDKInterface#requestHttp()のID
 };
 
 /**
  * シーンを管理するクラス.
  */
 ApplicationController *controller = NULL;
+
+/**
+ * HttpRequestの要求を保持するマップ.
+ */
+static std::map<int, IHttpRquestListener*> httpRequestMap;
+
+/**
+ * HttpRequestの要求のIDを作成するためのカウンター.
+ * 要求がある度にインクリメントしてIDがかぶらないようにする。
+ */
+static int httpRequestId = 0;
 
 /**
  * JNIインターフェイス.
@@ -178,6 +197,49 @@ static TexData createTexData(jobject data) {
 	TexData t;
 	return t;
 }
+
+static HttpResponse* createHttpResponse(jobject res) {
+	JNIEnv* env = jni.env;
+	if (env) {
+		jclass clazz = env->FindClass("com/gclue/gl/HttpResponse");
+		if (clazz) {
+			jmethodID getStatusCodeID = env->GetMethodID(clazz, "getStatusCode", "()I");
+			if (getStatusCodeID == 0) {
+				LOGE( "getStatusCodeID is Zero");
+			}
+			jmethodID getLengthID = env->GetMethodID(clazz, "getLength", "()I");
+			if (getLengthID == 0) {
+				LOGE( "getLengthID is Zero");
+			}
+			jmethodID getBodyID = env->GetMethodID(clazz, "getBody", "()[B");
+			if (getBodyID == 0) {
+				LOGE( "getBodyID is Zero");
+			}
+
+			int statusCode = env->CallIntMethod(res, getStatusCodeID);
+			int length = env->CallIntMethod(res, getLengthID);
+			if (length > 0) {
+
+			}
+
+			HttpResponse *response = new HttpResponse();
+			response->setStatusCode(statusCode);
+			if (length > 0) {
+				jbyteArray ja = (jbyteArray) env->CallObjectMethod(res, getBodyID);
+				int jasize = env->GetArrayLength(ja);
+				jbyte *arr1 = env->GetByteArrayElements(ja, 0);
+				response->setData((const char *) arr1, jasize);
+				env->ReleaseByteArrayElements(ja, arr1, 0);
+			}
+
+			env->DeleteLocalRef(clazz);
+
+			return response;
+		}
+	}
+	return NULL;
+}
+
 
 /**
  * 文字列を描画したテクスチャを取得します.
@@ -300,7 +362,7 @@ void GCSoundEvent(const char *fileName, int mode) {
  * @param[in] param4 イベントパラメータ
  * @param[in] param5 イベントパラメータ
  */
-void GCSendGameEvent(int type, int param1, int param2, int param3, int param4, const char *param5) {
+void GCSendGameEvent(int type, int param1, long param2, double param3, int param4, const char *param5) {
 	JNIEnv* env = jni.env;
 	if (env) {
 		LOGD( "**JNISendGameEvent**:%d, %d, %d, %d, %d, %s", type, param1, param2, param3, param4, param5);
@@ -453,8 +515,73 @@ std::vector<char>* GCLoadAsset(const char *fileName) {
  * 保存領域へのパスを取得します.
  * @return パス
  */
-const char* GCGetStoragePath(const char* fileName=NULL) {
+const char* GCGetStoragePath(const char* fileName) {
 	return "";
+}
+
+int GCHttpRequestAsync(std::string url, std::map<std::string, std::string> headers, std::string body,  IHttpRquestListener *callback) {
+	JNIEnv* env = jni.env;
+	if (env) {
+		jstring urlString = env->NewStringUTF(url.c_str());
+		jstring postString = env->NewStringUTF(body.c_str());
+
+		int i = 0;
+		int size = headers.size();
+		jclass clazz = env->FindClass("java/lang/String");
+		jobjectArray arrj = (jobjectArray)env->NewObjectArray(size * 2, clazz, NULL);
+		std::map<std::string, std::string>::iterator itr;
+		for (itr = headers.begin(); itr != headers.end(); itr++) {
+			jstring key = env->NewStringUTF(itr->first.c_str());
+			jstring value = env->NewStringUTF(itr->second.c_str());
+			env->SetObjectArrayElement(arrj, i++, key);
+			env->SetObjectArrayElement(arrj, i++, value);
+		}
+
+		jint response = env->CallIntMethod(jni.obj, jni.requestHttpAsyncMethod, urlString, arrj, postString, ++httpRequestId);
+		env->DeleteLocalRef(urlString);
+		env->DeleteLocalRef(postString);
+		env->DeleteLocalRef(arrj);
+
+		if (response != 0) {
+			// コールバック登録
+			httpRequestMap[httpRequestId] = callback;
+			// 登録したIDを返却
+			return httpRequestId;
+		}
+		return response;
+	}
+	return 0;
+}
+
+HttpResponse* GCHttpRequest(std::string url, std::map<std::string, std::string> headers, std::string body) {
+	JNIEnv* env = jni.env;
+	if (env) {
+		jstring urlString = env->NewStringUTF(url.c_str());
+		jstring postString = env->NewStringUTF(body.c_str());
+
+		int i = 0;
+		int size = headers.size();
+		jclass clazz = env->FindClass("java/lang/String");
+		jobjectArray arrj = (jobjectArray)env->NewObjectArray(size * 2, clazz, NULL);
+		std::map<std::string, std::string>::iterator itr;
+		for (itr = headers.begin(); itr != headers.end(); itr++) {
+			jstring key = env->NewStringUTF(itr->first.c_str());
+			jstring value = env->NewStringUTF(itr->second.c_str());
+			env->SetObjectArrayElement(arrj, i++, key);
+			env->SetObjectArrayElement(arrj, i++, value);
+		}
+
+		// Javaの関数を呼び出す
+		jobject response = env->CallObjectMethod(jni.obj, jni.requestHttpMethod, urlString, arrj, postString, httpRequestId);
+		env->DeleteLocalRef(urlString);
+		env->DeleteLocalRef(postString);
+		env->DeleteLocalRef(arrj);
+
+		HttpResponse *resp = createHttpResponse(response);
+		env->DeleteLocalRef(response);
+		return resp;
+	}
+	return NULL;
 }
 
 /**
@@ -537,6 +664,14 @@ Java_com_gclue_gl_JNILib_setInterface(
 	jni.getTextureMethod = env->GetMethodID(clazz, "getTexture", "()Lcom/gclue/gl/texture/Texture;");
 	if (!jni.getTextureMethod) {
 		LOGE("Mehtod not found!! (getTextureMethod)");
+	}
+	jni.requestHttpAsyncMethod = env->GetMethodID(clazz, "requestHttpAsync", "(Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;I)I");
+	if (!jni.requestHttpAsyncMethod) {
+		LOGE("Mehtod not found!! (requestHttpAsyncMethod)");
+	}
+	jni.requestHttpMethod = env->GetMethodID(clazz, "requestHttp", "(Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Lcom/gclue/gl/HttpResponse;");
+	if (!jni.requestHttpMethod) {
+		LOGE("Mehtod not found!! (requestHttpMethod)");
 	}
 
 	env->DeleteLocalRef(clazz);
