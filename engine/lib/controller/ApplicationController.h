@@ -39,9 +39,6 @@ class Main;
  */
 class ApplicationController : public GCContext {
 private:
-	float red;		//!< 赤色成分
-	float green;	//!< 緑色成分
-	float blue;		//!< 青色成分
 	bool pause;		//!< ポーズフラグ
 	bool changeFlg;	//!< シーン切り替えフラグ
 

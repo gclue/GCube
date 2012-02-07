@@ -62,9 +62,7 @@ ApplicationController::ApplicationController() {
 	aspect = 1.0f;
 
 	// 背景色
-	red = 0.5f;
-	green = 0.5f;
-	blue = 0.5f;
+	glClearColor(0.5, 0.5, 0.5, 1.0f);
 }
 
 // デストラクタ
@@ -126,9 +124,7 @@ void ApplicationController::backScene() {
 
 // 背景色を設定
 void ApplicationController::setBackgroundColor(float r, float g, float b) {
-	red = r;
-	green = g;
-	blue = b;
+	glClearColor(r, g, b, 1.0f);
 }
 
 //前のシーンIDを取得.
@@ -234,7 +230,6 @@ void ApplicationController::onResume() {
 void ApplicationController::step(float dt) {
 	if (pause) return;
 	// 画面クリア
-	glClearColor(red, green, blue, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	if (dt > 0.07) dt = 0.07;

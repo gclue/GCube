@@ -85,6 +85,7 @@ int XMLParser::parse(const char *data, int len) {
 	XML_SetCharacterDataHandler(parser, XMLParser_bodyElement);
 
 	if ((XML_Parse(parser, data, len, true)) == XML_STATUS_ERROR) {
+		LOGE("*ERROR*XMLParser::parse:(%s)[l:%d]", XML_ErrorString(XML_GetErrorCode(parser)), XML_GetCurrentLineNumber(parser));
 		return XML_GetErrorCode(parser);
 	}
 	XML_ParserFree(parser);
