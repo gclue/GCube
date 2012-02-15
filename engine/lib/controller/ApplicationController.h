@@ -86,18 +86,24 @@ public:
 	}
 	
 	/**
+	 * 指定されたIDのシーンを取得します.
+	 * @return Scene
+	 */
+	IScene *getScene(int id) {
+		return scenes[id];
+	}
+
+	/**
 	 * 遷移前のシーンIDを取得します.
 	 * @return 前のシーンID.
 	 */
 	int getPreSceneID();
-	
 	
 	/**
 	 * 遷移前の前のシーンIDを取得します.
 	 * @return 前の前のシーンID.
 	 */
 	int getPrePreSceneID();
-	
 	
 	/**
 	 * 現在のシーンIDを取得します.

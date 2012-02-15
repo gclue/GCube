@@ -133,6 +133,14 @@ public:
 	virtual const std::string& getData() {
 		return data;
 	}
+
+	virtual void addHeader(std::string& key, std::string& value) {
+		headers.insert(std::map<std::string, std::string>::value_type(key, value));
+	}
+
+	virtual std::string& getHeader(std::string& key) {
+		return headers[key];
+	}
 };
 
 /**

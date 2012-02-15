@@ -221,38 +221,14 @@ public class NDKInterface {
 	}
 	
 	/**
-	 * NDKの予期かが完了したときに呼び出されます.
+	 * NDKの初期化が完了したときに呼び出されます.
 	 */
 	public void onInitNDK() {
 		Log.e(TAG, "onInitNDK");
 		
-		/*
-		GCViewGroup vg = new GCViewGroup();
-		
-		GCTexture texture = new GCTexture("texture/gclue_logo.png");
-		
-		GCImageView view = new GCImageView();
-		view.setTexture(texture);
-		view.setPosition(10, 10);
-		
-		vg.addView(view);
-		
-		GCImageView view2 = new GCImageView();
-		view2.setTexture(texture);
-		view2.setPosition(200, 200);
-		
-		vg.addView(view2);
-		
-		GCLayer2D layer = new GCLayer2D();
-		layer.setContentView(vg);
-		
-		GCScene scene = new GCScene();
-		scene.addLayer(1, layer);
-		
-		ApplicationController ctr = new ApplicationController();
-		ctr.addScene(1, scene);
-		ctr.sceneChange(1);
-		*/
+		for (int i = 0; i < listeners.size(); i++) {
+			listeners.get(i).onInit();
+		}
 	}
 	
 	/**

@@ -23,5 +23,6 @@
 package com.gclue.gl.app;
 
 public interface INDKEventListener {
+	void onInit();
 	void onGameEvent(int type, int param1, int param2, int param3, int param4, String param5);
 }
