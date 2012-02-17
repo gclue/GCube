@@ -47,6 +47,11 @@ void XMLParser_bodyElement(void *userData, const XML_Char *s, int len) {
 	XMLParser *loader = (XMLParser *) userData;
 	loader->bodyElement(s, len);
 }
+void XMLParser_commentElement(void *userData, const XML_Char *data);
+void XMLParser_commentElement(void *userData, const XML_Char *data) {
+	XMLParser *loader = (XMLParser *) userData;
+	loader->commentElement(data);
+}
 
 //////////////////////////////////////////////////////////////////////////////////////
 // XMLParserの実装
@@ -68,7 +73,7 @@ int XMLParser::parseFromAsset(const char *fileName) {
 	int result = -1;
 	if (fdata != NULL) {
 		fdata->push_back('\0');
-        const char *data = (const char *) &(*fdata)[0];
+		const char *data = (const char *) &(*fdata)[0];
 		result = parse(data, fdata->size());
 		delete fdata;
 	}
@@ -83,6 +88,7 @@ int XMLParser::parse(const char *data, int len) {
 	XML_SetUserData(parser, (void *) this);
 	XML_SetElementHandler(parser, XMLParser_startElement, XMLParser_endElement);
 	XML_SetCharacterDataHandler(parser, XMLParser_bodyElement);
+	XML_SetCommentHandler(parser, XMLParser_commentElement);
 
 	if ((XML_Parse(parser, data, len, true)) == XML_STATUS_ERROR) {
 		LOGE("*ERROR*XMLParser::parse:(%s)[l:%d]", XML_ErrorString(XML_GetErrorCode(parser)), XML_GetCurrentLineNumber(parser));

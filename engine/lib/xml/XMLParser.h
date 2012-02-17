@@ -79,6 +79,12 @@ public:
 	 * @param len コンテンツのサイズ
 	 */
 	virtual void bodyElement(const XML_Char *s, int len) = 0;
+
+	/**
+	 * コメントがヒットしたときに呼び出されます.
+	 * @param data コメント
+	 */
+	virtual void commentElement(const XML_Char *data) {};
 };
 
 #endif /* XMLPARSER_H_ */
