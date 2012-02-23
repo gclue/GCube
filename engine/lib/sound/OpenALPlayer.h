@@ -72,6 +72,8 @@ private:
 	ALenum format;			//!< サウンドのフォーマット(mono8, mono16, stero8 or stero16)
 	ALsizei freq;			//!< サウンドの周波数
 
+	bool loop;				//!< ループ再生フラグ(true: ループ再生).デフォルトではfalse.
+
 	/**
 	 * oggファイルをデコードします.
 	 * @param vf oggファイル
@@ -157,6 +159,18 @@ public:
 	 * @param volume ボリューム
 	 */
 	void setVolume(float volume);
+
+	/**
+	 * ループ再生を設定します.
+	 * @param flag ループ再生フラグ
+	 */
+	void setLoop(bool flag);
+
+	/**
+	 * ループ再生設定されているか.
+	 * @return true: ループ再生
+	 */
+	bool isLoop();
 
 	/**
 	 * OpenALの破棄を行います.

@@ -186,10 +186,10 @@ bool View::isBound(float x, float y) {
 	testMatrix2D(&p);
 	float px = p.x;
 	float py = p.y;
-	float xsize = size.x;
-	float ysize = size.y;
+	float xsize = size.x * scale.x;
+	float ysize = size.y * scale.y * 1.2;
 	if (px - xsize < x && x < px + xsize) {
-		if (py - ysize * 1.2 < y && y < py + ysize * 1.2) {
+		if (py - ysize < y && y < py + ysize) {
 			return true;
 		}
 	}

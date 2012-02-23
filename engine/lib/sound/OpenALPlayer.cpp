@@ -118,6 +118,7 @@ OpenALPlayer::OpenALPlayer() {
 	context = NULL;
 	source = 0;
 	volume = 1.0f;
+	loop = false;
 	vf.datasource = NULL;
 }
 
@@ -306,10 +307,21 @@ void OpenALPlayer::setVolume(float volume) {
 	}
 }
 
+void OpenALPlayer::setLoop(bool flag) {
+	this->loop = flag;
+}
+
+bool OpenALPlayer::isLoop() {
+	return this->loop;
+}
+
 bool OpenALPlayer::play() {
 	if (source) {
 		alSourcef(source, AL_GAIN, volume);
 		alSourcei(source, AL_BUFFER, buffers[0]);
+		if (loop) {
+			alSourcei(source, AL_LOOPING, AL_TRUE);
+		}
 		alSourcePlay(source);
 		return isPlaying();
 	}
