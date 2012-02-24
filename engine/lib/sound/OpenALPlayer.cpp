@@ -235,7 +235,6 @@ bool OpenALPlayer::load2(std::vector<char> *data) {
 		buf.insert(buf.end(), tmp.begin(), tmp.end());
 	}
 
-
 	if (buf.size() <= 0) {
 		// デコードに失敗
 		goto ERROR;
