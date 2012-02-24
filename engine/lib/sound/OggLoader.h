@@ -15,8 +15,8 @@
  */
 typedef struct _MemoryStream {
 	unsigned char* buffer;	//!< バッファ
-	ogg_int64_t size;			//!< バッファサイズ
-	ogg_int64_t offset;			//!< オフセット
+	ogg_int64_t size;		//!< バッファサイズ
+	ogg_int64_t offset;		//!< オフセット
 } MemoryStream;
 
 
@@ -25,7 +25,20 @@ typedef struct _MemoryStream {
  */
 class OggLoader {
 private:
-	
+	/**
+	 * Wavファイルをロードします.
+	 * @param[in] data サウンドデータ
+	 * @return SoundData
+	 */
+	SoundData* loadWav(std::vector<char> *data);
+
+	/**
+	 * Oggファイルをロードします.
+	 * @param[in] data サウンドデータ
+	 * @return SoundData
+	 */
+	SoundData* loadOgg(std::vector<char> *data);
+
 	/**
 	 * oggファイルをデコードします.
 	 * @param vf oggファイル
@@ -36,6 +49,11 @@ private:
 	size_t decode(OggVorbis_File* vf, char* buf, int length);
 	
 public:
+	/**
+	 * 指定されたファイルのサウンドデータを読み込みます.
+	 * assetsに格納されているファイルを読み込みます.
+	 * @param[in] fname ファイル名
+	 */
 	SoundData *load(const char *fname);
 	
 	/**
@@ -44,7 +62,6 @@ public:
 	 * @return true: 成功
 	 */
 	SoundData *load(std::vector<char> *data);
-
 };
 
 #endif

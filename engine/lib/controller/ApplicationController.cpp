@@ -28,6 +28,7 @@
 #include "BoneShader.h"
 #include "APIGlue.h"
 #include "main.h"
+#include "SoundPlayer.h"
 
 // シーンなし
 #define SceneID_None 0
@@ -79,11 +80,14 @@ ApplicationController::~ApplicationController() {
 	delete defaultFadeAnimation;
 	defaultFadeAnimation = NULL;
 	
-	if(fadeAnimation) {
+	if (fadeAnimation) {
 		delete fadeAnimation;
 	}
 	fadeAnimation = NULL;
 	delete main;
+
+	// サウンドプレイヤーを削除
+	SoundPlayer::dispose();
 }
 
 // シーンを追加

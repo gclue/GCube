@@ -1,7 +1,6 @@
 //
 //  SoundData.h
 //
-
 #ifndef CoinPusher_SoundData_h
 #define CoinPusher_SoundData_h
 
@@ -18,17 +17,13 @@
 /**
  * サウンドデータクラス.
  */
-struct SoundData {
-	// ファイルパス
-	std::string filePath;
-	// データサイズ
-	int dataSize;
-	// データ
-	void *data;
-	// ファイルタイプ
-	ALenum fileType;
-	// サンプリングレート
-	ALsizei sampleRate;
+class SoundData {
+public:
+	std::string filePath;	//!< ファイルパス.
+	int dataSize;			//!< データサイズ
+	void *data;				//!< データ
+	ALenum fileType;		//!< ファイルタイプ
+	ALsizei sampleRate;		//!< サンプリングレート
 	
 	/**
 	 * コンストラクタ.
@@ -44,6 +39,5 @@ struct SoundData {
 		if (data) free(data);
 	};
 };
-
 
 #endif
