@@ -41,6 +41,7 @@ class IScene {
 protected:
 	ApplicationController *controller;	//!< コントローラー
 	bool _activeflg;	//!< アクティブフラグ(true: アクティブ)
+	bool _startflg;		//!<
 
 public:
 	/**
@@ -50,6 +51,7 @@ public:
 	IScene(ApplicationController *controller) {
 		this->controller = controller;
 		_activeflg = false;
+		_startflg = false;
 	}
 
 	/**
@@ -88,12 +90,12 @@ public:
 	/**
 	 * 活性化してシーンが切り替え終わったこと通知します.
 	 */
-	virtual void onStart() = 0;
+	virtual void onStart() {_startflg = true;};
 
 	/**
 	 * 非活性化してシーンが切り替え始まったこと通知します.
 	 */
-	virtual void onEnd() = 0;
+	virtual void onEnd() {_startflg = false;};
 
 	/**
 	 * アプリ停止を通知します.
@@ -115,6 +117,12 @@ public:
 	 * @return 活性化状態の場合はtrue
 	 */
 	virtual bool isActive() {return _activeflg;};
+
+	/**
+	 * 開始状態かを返します.
+	 * @return 開始状態の場合はtrue
+	 */
+	virtual bool isStarted() {return _startflg;};
 
 	/**
 	 * バックキーのイベント.

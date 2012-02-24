@@ -148,11 +148,13 @@ void Scene::onSuspend() {
 
 // 活性化してシーンが切り替え終わったこと通知します.
 void Scene::onStart() {
+	super::onStart();
 	LOGD("****Scene::onStart");
 }
 
 // 非活性化してシーンが切り替え始まったこと通知します.
 void Scene::onEnd() {
+	super::onEnd();
 	LOGD("****Scene::onEnd");
 }
 

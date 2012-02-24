@@ -62,7 +62,7 @@ ApplicationController::ApplicationController() {
 	aspect = 1.0f;
 
 	// 背景色
-	glClearColor(0.5, 0.5, 0.5, 1.0f);
+	glClearColor(0, 0, 0, 1.0f);
 }
 
 // デストラクタ
