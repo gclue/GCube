@@ -65,6 +65,19 @@ enum {
 	JAVA_AUTH_CANCEL = 16,		//!< プレイヤーによる認証キャンセル
 };
 
+/**
+ * WebViewのイベントID.
+ */
+enum {
+	WebViewEvent_AddView = 0,
+	WebViewEvent_CloseView,
+	WebViewEvent_RemoveView,
+	WebViewEvent_ReloadPage,
+	WebViewEvent_LoadURL,
+	WebViewEvent_ResizeView,
+	WebViewEvent_SetPosition,
+};
+
 class Figure;
 class Texture;
 class PackerTexture;
@@ -166,6 +179,19 @@ int GCHttpRequestAsync(std::string url, std::map<std::string, std::string> heade
  */
 HttpResponse* GCHttpRequest(std::string url, std::map<std::string, std::string> headers, std::string body);
 
+	
+/**
+ * WebViewのイベントをNativeに送ります.
+ * @param[in] type イベントタイプ.
+ * @param[in] viewId WebViewのビューID(ユーザーID).
+ * @param[in] param1 パラメータ.
+ * @param[in] param2 パラメータ.
+ * @param[in] param3 パラメータ.
+ * @param[in] param4 パラメータ.
+ * @param[in] param5 パラメータ.
+ */
+void GCSendWebViewEvent(int type, int viewId, double param1, double param2, double param3, double param4, const char *param5);
+	
 }
 
 #endif /* APIGLUE_H_ */

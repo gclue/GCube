@@ -60,6 +60,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    ui/RadioButton.cpp \
                    ui/RadioGroup.cpp \
                    ui/NumberView.cpp \
+                   ui/WebView.cpp \
                    util/Animation.cpp \
                    util/AnimationSet.cpp \
                    util/AssetManager.cpp \
@@ -68,9 +69,10 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    util/FigureCache.cpp \
                    util/HttpClient.cpp \
                    util/Storage.cpp \
-                   xml/XMLParser.cpp
-                   #util/BulletWorld.cpp
-                   #scene/Layer3D.cpp
+                   xml/XMLParser.cpp 
+#                   util/BulletWorld.cpp \
+#                   scene/Layer3D.cpp 
+                   
 LOCAL_LDLIBS    := -llog -lGLESv2
 LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/.. \

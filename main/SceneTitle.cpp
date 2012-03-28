@@ -37,6 +37,7 @@
 #include "HttpClient.h"
 #include "XMLParser.h"
 #include "PngData.h"
+#include "WebView.h"
 
 SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	LOGD("****SceneTitle");
@@ -107,6 +108,20 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	animView->setScale(2.0, 2.0);
 
 	root->addView(animView);
+	
+	
+	
+	//webViewサンプル
+	WebView *wv = new WebView(controller);
+	wv->setInitialURL("http://www.gclue.com/");
+	wv->setPosition(0, -0.8);
+	wv->setSize(0.8, 0.3);
+	wv->setUserID(1234);
+	
+	root->addView(wv);
+	wv->release();
+	
+	
 
 	Layer2D *layer = new Layer2D(controller);
 	layer->setContentView(root);
@@ -287,7 +302,7 @@ bool SceneTitle::onTouch(TouchEvent &event) {
 			index %= 4;
 			v->setAnimationFrameIndex(index + 1);
 		}
-		controller->sceneChange(2);
+//		controller->sceneChange(2);
 		return true;
 	}
 	return false;
