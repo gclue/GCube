@@ -115,13 +115,24 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	WebView *wv = new WebView(controller);
 	wv->setInitialURL("http://www.gclue.com/");
 	wv->setPosition(0, -0.8);
-	wv->setSize(0.8, 0.3);
+	wv->setSize(0.4, 0.2);
 	wv->setUserID(1234);
 	
+	WebView *wv2 = new WebView(controller);
+	wv2->setInitialURL("http://www.google.com/");
+	wv2->setPosition(0, 0.8);
+	wv2->setSize(0.4, 0.2);
+	wv2->setUserID(5678);
+	wv2->visible = false;
+	
+	
 	root->addView(wv);
+	root->addView(wv2);
 	wv->release();
+	wv2->release();
 	
 	
+
 
 	Layer2D *layer = new Layer2D(controller);
 	layer->setContentView(root);
@@ -294,14 +305,21 @@ bool SceneTitle::onTouch(TouchEvent &event) {
 	super::onTouch(event);
 	LOGD("****SceneTitle::onTouch");
 	if (event.type == touchDown) {
+		
+		
 		Layer2D *layer = (Layer2D *) getLayer(1);
-
-		ImageAnimationView *v = (ImageAnimationView *) layer->findViewByID(10);
-		if (v) {
-			index++;
-			index %= 4;
-			v->setAnimationFrameIndex(index + 1);
-		}
+		WebView *wv = (WebView*)layer->findViewByID(1234);
+		WebView *wv2 = (WebView*)layer->findViewByID(5678);
+		wv->visible = !wv->visible;
+		wv2->visible = !wv2->visible;
+		
+//
+//		ImageAnimationView *v = (ImageAnimationView *) layer->findViewByID(10);
+//		if (v) {
+//			index++;
+//			index %= 4;
+//			v->setAnimationFrameIndex(index + 1);
+//		}
 //		controller->sceneChange(2);
 		return true;
 	}
