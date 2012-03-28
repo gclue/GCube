@@ -13,4 +13,6 @@
 
 -(void)addWebView:(int)viewId: (double)x: (double)y: (double)width: (double)height: (NSString*)url;
 -(void)closeWebView:(int)viewId;
+-(void)removeWebView:(int)viewId;
+
 @end

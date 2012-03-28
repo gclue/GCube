@@ -13,17 +13,18 @@
 
 
 WebView::WebView(GCContext *context, const char* url) : View(context) {
-	//開かれていない状態.
 	openedView = false;
 	initialURL = url;
+	LOGD("viewID = %d",wholeWebViewCount);
+	webViewID = wholeWebViewCount;
+	wholeWebViewCount++;
 }
 
 
 WebView::~WebView() {
 	//TODO: Native側のビューを消去する
 	//deleteじゃなくてinvisibleにするだけでよい？
-	//TODO: ここらへんのライフサイクルを考えます.
-	GCSendWebViewEvent(WebViewEvent_RemoveView, userID, 0, 0, 0, 0, "");
+	GCSendWebViewEvent(WebViewEvent_RemoveView, webViewID, 0, 0, 0, 0, "");
 	
 }
 
@@ -41,11 +42,23 @@ Pointf WebView::convertGlCoordToPixel(Pointf p) {
 	r.x = w/2.0 + (w/2.0) * p.x;
 	r.y = h/2.0 - (w/2.0) * p.y;
 	
-	//TODO: サイズはあっているけど、この計算方法だとiPhone,Androidで大きさ位置があわない。画面的にはあってる。
 	
 	return r;
 	
 };
+
+Pointf WebView::convertGLSizeToPixel(Pointf p) {
+	Pointf r;
+	float w = (float)context->getWidth();
+	float h = (float)context->getHeight();
+	
+	r.x = w * p.x;
+	r.y = h * p.y;
+	
+	return r;
+};
+
+
 
 
 void WebView::setInitialURL(const char *url) {
@@ -54,15 +67,14 @@ void WebView::setInitialURL(const char *url) {
 
 void WebView::render(double dt) {
 	
+	
 	if (visible) {
-		if(!openedView) { //visibleでかつまだビューが開かれていない場合
-
+		if(!openedView) {
 			//TODO: Nativeのビューを表示
 			Pointf webViewPos = convertGlCoordToPixel(point);
-			Pointf webViewSize = convertGlCoordToPixel(size);
-		
-			//ビューの追加。既に追加されている場合は非表示から表示に切り替えるだけ.
-			GCSendWebViewEvent(WebViewEvent_AddView, userID, webViewPos.x - webViewSize.x / 2.0, webViewPos.y - webViewSize.y / 2.0, webViewSize.x, webViewSize.y, initialURL.c_str());
+			Pointf webViewSize = convertGLSizeToPixel(size);
+			
+			GCSendWebViewEvent(WebViewEvent_AddView, webViewID, webViewPos.x - webViewSize.x / 2.0, webViewPos.y - webViewSize.y / 2.0, webViewSize.x, webViewSize.y, initialURL.c_str());
 			
 			
 			openedView = true;
@@ -73,7 +85,7 @@ void WebView::render(double dt) {
 		}
 		
 		//TODO:アニメーション処理
-
+		
 		
 		if (animation) {
 			if (animation->isFinish()) {
@@ -81,10 +93,9 @@ void WebView::render(double dt) {
 			}
 		}
 	}else {
-		//非表示でビューが開かれている場合
 		if(openedView) {
-			//TODO: Nativeのビューをクローズ
-			GCSendWebViewEvent(WebViewEvent_CloseView, userID, 0, 0, 0, 0, "");
+			//			GCSendWebViewEvent(WebViewEvent_CloseView, webViewID, 0, 0, 0, 0, "");
+			GCSendWebViewEvent(WebViewEvent_RemoveView, webViewID, 0, 0, 0, 0, "");
 			openedView = false;
 			return;
 		}

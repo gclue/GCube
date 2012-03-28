@@ -312,6 +312,25 @@ public class NDKInterface {
 			
 			
 			break;
+		case WebViewEvent_RemoveView:
+			
+			root.post(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					for(int i = 0 ; i < webViewList.size(); i++) {
+						AbsoluteWebView wv = webViewList.get(i);
+						if(wv.getId() == viewId) {
+							root.removeView(wv);
+							webViewList.remove(i);
+							return;
+						}
+					}
+ 				}
+				
+			});
+			break;
 		}
 	}
 	

@@ -13,45 +13,28 @@
 #include <string>
 
 
-/**
- * WebViewクラス.
- */
-class WebView : public View {
+static int wholeWebViewCount = 0;
 
+class WebView : public View {
+	
 private:
-	bool openedView; //!< ビューが開かれているかどうか.
+	bool openedView;
+	int webViewID;
 	
-	/**
-	 * GL座標からピクセル座標へ変換します.
-	 * @return p 座標（サイズ）.
-	 */
 	Pointf convertGlCoordToPixel(Pointf p);
+	Pointf convertGLSizeToPixel(Pointf p);
 	
-	std::string initialURL;	//!< 初期URL.
+	std::string initialURL;
 	
 public:
-	/**
-	 * コンストラクタ
-	 * @param[in] context コンテキスト.
-	 * @param[in] url URL 初期値は空白です.
-	 */
+	
 	WebView(GCContext *context, const char* url = "");
 	
-	/**
-	 * デストラクタ.
-	 */
 	virtual ~WebView();
 	
-	/**
-	 * URLを読み込みます.
-	 * @param[in] url URL.
-	 */
 	virtual void loadUrl(const char* url);
 	
-	/**
-	 * 初期表示のURLを設定します.
-	 * @param[in] url URL.
-	 */
+	
 	virtual void setInitialURL(const char *url);
 	
 	//////////////

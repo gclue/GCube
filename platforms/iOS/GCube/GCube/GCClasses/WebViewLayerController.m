@@ -13,8 +13,7 @@
 
 @end
 
-
-NSMutableArray *webViews;
+NSMutableArray *webViews; //画面上に出ているWebViewを管理する配列
 
 @implementation WebViewLayerController
 
@@ -52,18 +51,20 @@ NSMutableArray *webViews;
 
 #pragma mark public methods
 
-
+//ウェブビューを追加します.
 - (void)addWebView:(int)viewId: (double)x: (double)y: (double)width: (double)height: (NSString*)url {
 	
-	
+	//ViewIDから既に追加されているかを探します。
 	for(id ids in webViews) {
 		if([ids tag] == viewId) {
+			//あったらWebViewを表示
 			[ids setHidden:NO];
 			NSLog(@"this view id had been added");
 			return;
 		}
 	}
 	
+	//ウェブビューの作成.
 	UIWebView *view = [[UIWebView alloc] initWithFrame:CGRectMake(x, y, width, height)];
 	
 	//初期ページのロード
@@ -73,21 +74,38 @@ NSMutableArray *webViews;
 		[view loadRequest:req];
 	}
 	
+	//タグの追加
 	[view setTag:viewId];
+	//表示
 	[view setHidden:NO];
+	//管理配列に追加.
 	[webViews addObject:view];
 	
 	
 	[[self view]addSubview:view];
 }
 
+//ビューを閉じます.removeはしません
 -(void)closeWebView:(int)viewId {
 	for(id ids in webViews) {
 		if([ids tag] == viewId) {
+			//あったら非表示に.
 			[ids setHidden:YES];
 			
 		}
 	}
+}
+
+//ウェブビューをremoveします.
+-(void)removeWebView:(int)viewId {
+	for(id ids in webViews) {
+		if([ids tag] == viewId) {
+			[ids removeFromSuperview];
+			[webViews removeObject:ids];
+			return;
+		}
+	}
+	NSLog(@"not found %d", viewId);
 }
 
 
