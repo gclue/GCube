@@ -26,14 +26,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import com.gclue.gl.Figure;
 import com.gclue.gl.GLView;
@@ -65,6 +67,18 @@ public class NDKInterface {
 	 * デバック用タグを定義します.
 	 */
 	private static final String TAG = "GCube";
+	
+	// ////////////////////////////////////////////////////////////////////////////
+	// WebViewイベント
+	// ////////////////////////////////////////////////////////////////////////////
+
+	public static final int WebViewEvent_AddView = 0;
+	public static final int WebViewEvent_CloseView = 1;
+	public static final int WebViewEvent_RemoveView = 2;
+	public static final int WebViewEvent_ReloadPage = 3;
+	public static final int WebViewEvent_LoadURL = 4;
+	public static final int WebViewEvent_ResizeView = 5;
+	public static final int WebViewEvent_SetPosition = 6;
 	
 	//////////////////////////////////////////////////////////////////////////////
 	// サウンドイベント
@@ -129,10 +143,14 @@ public class NDKInterface {
 	 */
 	private Texture texture;
 	
+	private FrameLayout root;
+	
 	/**
 	 * NDKからのイベントを通知するリスナー.
 	 */
 	private List<INDKEventListener> listeners = new Vector<INDKEventListener>();
+	
+	private ArrayList<AbsoluteWebView> webViewList;
 	
 	/**
 	 * コンストラクタ.
@@ -142,6 +160,7 @@ public class NDKInterface {
 	public NDKInterface(Context context) {
 		this.context = context;
 		mediaPlayer = new MusicPlayer(context);
+		webViewList = new ArrayList<AbsoluteWebView>();
 	}
 	
 	/**
@@ -166,6 +185,10 @@ public class NDKInterface {
 	 */
 	public GLView getGLView() {
 		return view;
+	}
+	
+	public void setRootView(FrameLayout root) {
+		this.root = root;
 	}
 	
 	/**
@@ -228,6 +251,67 @@ public class NDKInterface {
 		
 		for (int i = 0; i < listeners.size(); i++) {
 			listeners.get(i).onInit();
+		}
+	}
+	
+	public void onWebViewEvent(int type, final int viewId, final double param1, final double param2, final double param3, final double param4, final String param5) {
+		Log.i(TAG, "onWebViewEvent** type = " + type +", viewID = " + viewId);
+		switch(type) {
+		case WebViewEvent_AddView:
+			root.post(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					int l = webViewList.size();
+					for(int i =  0 ; i < l  ; i++) {
+						AbsoluteWebView wv = webViewList.get(i);
+						int id = wv.getId();
+						if(id == viewId) {
+							Log.i(TAG, "this view had been added. view is into visible");
+							wv.setVisibility(View.VISIBLE);
+							return;
+						}
+					}
+					
+					AbsoluteWebView wv = new AbsoluteWebView(context);
+					wv.setWebViewPosition((int)param1 + (int)param3/2, (int)param2 + (int)param4/2);
+					wv.setWebViewSize((int)param3, (int)param4);
+					wv.setId(viewId);
+					wv.setVisibility(View.VISIBLE);
+					if(param5 != null) {
+						wv.loadUrl(param5);
+					}
+					
+					root.addView(wv);
+					webViewList.add(wv);
+				}
+				
+			});
+			break;
+			
+		case WebViewEvent_CloseView:
+			
+			root.post(new Runnable() {
+
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					for(int i = 0 ; i < webViewList.size(); i++) {
+						AbsoluteWebView wv = webViewList.get(i);
+						if(wv.getId() == viewId) {
+							wv.setVisibility(View.INVISIBLE);
+							return;
+						}
+					}
+					
+					Log.i(TAG, "not found WebView(id: " + viewId+")");
+				}
+				
+			});
+			
+			
+			break;
 		}
 	}
 	

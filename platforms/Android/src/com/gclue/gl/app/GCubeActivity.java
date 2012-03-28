@@ -28,8 +28,12 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
+import com.gclue.gcube.R;
 import com.gclue.gl.JNILib;
+
+
 
 /**
  * 起動用アクティビティ.
@@ -54,6 +58,8 @@ public class GCubeActivity extends Activity {
 	private NDKInterface ndk;
 	/** レンダリング. */
 	private Renderer renderer;
+	
+	private FrameLayout root;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -67,6 +73,8 @@ public class GCubeActivity extends Activity {
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
+		setContentView(R.layout.main);
+		
 		// 初期化
 		ndk = new NDKInterface(this);
 		// レンダラーの初期化
@@ -76,8 +84,13 @@ public class GCubeActivity extends Activity {
 		// ndkにGLViewを設定
 		ndk.setGLView(view);
 		
+		
+		root = (FrameLayout)findViewById(R.id.root);
+		ndk.setRootView(root);
+		
+		root.addView(view);
 		// Viewを設定
-		setContentView(view);
+		
 	}
 	
 	/**

@@ -146,7 +146,9 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="GLLibrary.cdt.managedbuild.target.macosx.exe.1670874441" name="Executable" projectType="cdt.managedbuild.target.macosx.exe"/>
 	</storageModule>
-	<storageModule moduleId="refreshScope" versionNumber="1"/>
+	<storageModule moduleId="refreshScope" versionNumber="1">
+		<resource resourceType="PROJECT" workspacePath="/GCubeAndroid"/>
+	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>

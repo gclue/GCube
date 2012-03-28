@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F1C1B611521D25A0093AE03 /* WebViewLayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1F1C1B5F1521D2590093AE03 /* WebViewLayerController.m */; };
+		1F1C1B621521D25A0093AE03 /* WebViewLayerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1F1C1B601521D25A0093AE03 /* WebViewLayerView.xib */; };
+		1F1C1B651521D7A70093AE03 /* WebView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F1C1B631521D7A70093AE03 /* WebView.cpp */; };
 		662CB2E614D7CBBD003AA995 /* png.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB21D14D7CBBD003AA995 /* png.c */; };
 		662CB2E914D7CBBD003AA995 /* pngerror.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22214D7CBBD003AA995 /* pngerror.c */; };
 		662CB2EA14D7CBBD003AA995 /* pnggccrd.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22314D7CBBD003AA995 /* pnggccrd.c */; };
@@ -296,6 +299,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1F1C1B5E1521D2590093AE03 /* WebViewLayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewLayerController.h; path = ../../../../../../TheTerraDeffender3/platforms/iOS/GCube/GCube/GCClasses/WebViewLayerController.h; sourceTree = "<group>"; };
+		1F1C1B5F1521D2590093AE03 /* WebViewLayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewLayerController.m; path = ../../../../../../TheTerraDeffender3/platforms/iOS/GCube/GCube/GCClasses/WebViewLayerController.m; sourceTree = "<group>"; };
+		1F1C1B601521D25A0093AE03 /* WebViewLayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WebViewLayerView.xib; path = ../../../../../../TheTerraDeffender3/platforms/iOS/GCube/GCube/GCClasses/WebViewLayerView.xib; sourceTree = "<group>"; };
+		1F1C1B631521D7A70093AE03 /* WebView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WebView.cpp; path = ../../../../TheTerraDeffender3/engine/lib/ui/WebView.cpp; sourceTree = "<group>"; };
+		1F1C1B641521D7A70093AE03 /* WebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebView.h; path = ../../../../TheTerraDeffender3/engine/lib/ui/WebView.h; sourceTree = "<group>"; };
 		662CB1C014D7CBBD003AA995 /* ANNOUNCE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ANNOUNCE; sourceTree = "<group>"; };
 		662CB1C114D7CBBD003AA995 /* CHANGES */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGES; sourceTree = "<group>"; };
 		662CB1C214D7CBBD003AA995 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
@@ -1882,6 +1890,9 @@
 		6674753314552B2A0065EDF3 /* GCClasses */ = {
 			isa = PBXGroup;
 			children = (
+				1F1C1B5E1521D2590093AE03 /* WebViewLayerController.h */,
+				1F1C1B5F1521D2590093AE03 /* WebViewLayerController.m */,
+				1F1C1B601521D25A0093AE03 /* WebViewLayerView.xib */,
 				6674754E14552F0A0065EDF3 /* engine */,
 				6674753414552B2A0065EDF3 /* EAGLView.h */,
 				6674753514552B2A0065EDF3 /* EAGLView.m */,
@@ -2114,6 +2125,8 @@
 		667475BB14552F0A0065EDF3 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				1F1C1B631521D7A70093AE03 /* WebView.cpp */,
+				1F1C1B641521D7A70093AE03 /* WebView.h */,
 				667475BC14552F0A0065EDF3 /* Button.cpp */,
 				667475BD14552F0A0065EDF3 /* Button.h */,
 				667475BE14552F0A0065EDF3 /* GridView.cpp */,
@@ -2837,6 +2850,7 @@
 				6644324314568A55001847A0 /* gclue_logo.png in Resources */,
 				66E54831145EABDE0050571F /* cube.model in Resources */,
 				66E54833145F96A30050571F /* kotoji.model in Resources */,
+				1F1C1B621521D25A0093AE03 /* WebViewLayerView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3104,6 +3118,8 @@
 				662CB2FB14D7CBBD003AA995 /* pngwutil.c in Sources */,
 				6633F54A14D7D73C00E16FC6 /* HttpClient.cpp in Sources */,
 				66EFF67314DA696B00A7CB94 /* PngData.cpp in Sources */,
+				1F1C1B611521D25A0093AE03 /* WebViewLayerController.m in Sources */,
+				1F1C1B651521D7A70093AE03 /* WebView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

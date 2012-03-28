@@ -37,9 +37,14 @@
 #include "main.h"
 
 #import "PVRTexture.h"
+#import "WebViewLayerController.h"
+#import "GCAppDelegate.h"
 
 // コントローラーインスタンス
 static ApplicationController *controller = NULL;
+
+//WebViewのインスタンス.
+static WebViewLayerController* webView = NULL;
 
 /**
  * インスタンスを返します.
@@ -383,6 +388,37 @@ const char* GCGetStoragePath(const char *fileName) {
 
 - (void)dealloc {
 	[debugButton release];
+	[webView release];
 	[super dealloc];
 }
 @end
+
+
+//ウェブビューのイベントを受け取ります.
+void GCSendWebViewEvent(int type, int viewId, double param1, double param2, double param3, double param4, const char *param5) {
+	LOGD("GCSendWebViewEvent# type: %d, id: %d, param1:%f, param2:%f, %s",type,viewId, param1, param2, param3);
+	
+	//ウェブビューを載せる透明なビューを作成します.
+	if(webView == NULL) {
+		webView = [[WebViewLayerController alloc] initWithNibName:@"WebViewLayerView" bundle:nil];
+		GCAppDelegate *delegate = (GCAppDelegate*)[[UIApplication sharedApplication] delegate];
+		[delegate.viewController.view addSubview:webView.view];
+		
+	}
+	
+	NSString *strParam = [NSString stringWithCString:param5 encoding:NSUTF8StringEncoding];
+	switch(type) {
+			
+		case WebViewEvent_AddView: //ウェブビューの追加(表示)
+			[webView addWebView:viewId :param1/2.0 :param2/2.0 :param3/2.0 :param4/2.0: strParam];
+			break;
+		case WebViewEvent_CloseView: //ウェブビューのクローズ(非表示)
+			[webView closeWebView:viewId];
+			break;
+		case WebViewEvent_RemoveView:
+			break;
+		case WebViewEvent_LoadURL:
+			break;
+	}
+	
+}
