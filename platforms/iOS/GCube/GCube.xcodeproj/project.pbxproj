@@ -299,11 +299,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1F1C1B5E1521D2590093AE03 /* WebViewLayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewLayerController.h; path = ../../../../../../TheTerraDeffender3/platforms/iOS/GCube/GCube/GCClasses/WebViewLayerController.h; sourceTree = "<group>"; };
-		1F1C1B5F1521D2590093AE03 /* WebViewLayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewLayerController.m; path = ../../../../../../TheTerraDeffender3/platforms/iOS/GCube/GCube/GCClasses/WebViewLayerController.m; sourceTree = "<group>"; };
+		1F1C1B5E1521D2590093AE03 /* WebViewLayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewLayerController.h; sourceTree = "<group>"; };
+		1F1C1B5F1521D2590093AE03 /* WebViewLayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewLayerController.m; sourceTree = "<group>"; };
 		1F1C1B601521D25A0093AE03 /* WebViewLayerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = WebViewLayerView.xib; path = ../../../../../../TheTerraDeffender3/platforms/iOS/GCube/GCube/GCClasses/WebViewLayerView.xib; sourceTree = "<group>"; };
-		1F1C1B631521D7A70093AE03 /* WebView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WebView.cpp; path = ../../../../TheTerraDeffender3/engine/lib/ui/WebView.cpp; sourceTree = "<group>"; };
-		1F1C1B641521D7A70093AE03 /* WebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebView.h; path = ../../../../TheTerraDeffender3/engine/lib/ui/WebView.h; sourceTree = "<group>"; };
+		1F1C1B631521D7A70093AE03 /* WebView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WebView.cpp; sourceTree = "<group>"; };
+		1F1C1B641521D7A70093AE03 /* WebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebView.h; sourceTree = "<group>"; };
 		662CB1C014D7CBBD003AA995 /* ANNOUNCE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ANNOUNCE; sourceTree = "<group>"; };
 		662CB1C114D7CBBD003AA995 /* CHANGES */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGES; sourceTree = "<group>"; };
 		662CB1C214D7CBBD003AA995 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };

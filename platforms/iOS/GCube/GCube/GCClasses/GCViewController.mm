@@ -415,7 +415,8 @@ void GCSendWebViewEvent(int type, int viewId, double param1, double param2, doub
 		case WebViewEvent_CloseView: //ウェブビューのクローズ(非表示)
 			[webView closeWebView:viewId];
 			break;
-		case WebViewEvent_RemoveView:
+		case WebViewEvent_RemoveView: //WebViewのremove
+			[webView removeWebView:viewId];
 			break;
 		case WebViewEvent_LoadURL:
 			break;
