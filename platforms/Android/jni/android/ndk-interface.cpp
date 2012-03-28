@@ -60,6 +60,7 @@ struct JNIInterface {
 	jmethodID getTextureMethod;		//!< NDKInterfae#getTextureMethod()のID
 	jmethodID requestHttpMethod;	//!< NDKInterface#requestHttp()のID
 	jmethodID requestHttpAsyncMethod;	//!< NDKInterface#requestHttp()のID
+	jmethodID sendWebViewEventMethod;	//!< NDKInterface#onWebViewEvent() id
 };
 
 /**
@@ -585,6 +586,31 @@ HttpResponse* GCHttpRequest(std::string url, std::map<std::string, std::string> 
 }
 
 /**
+ * WebViewイベントをJavaに送ります.
+ * @param[in] type イベントタイプ.
+ * @param[in] viewId ビューのID.
+ * @param[in] param1 パラメータ(x座標)
+ * @param[in] param2 パラメータ(y座標)
+ * @param[in] param3 パラメータ(width)
+ * @param[in] param4 パラメータ(height)
+ * @param[in] param5 文字列パラメータ(URL)
+ */
+void GCSendWebViewEvent(int type, int viewId, double param1, double param2, double param3, double param4, const char *param5) {
+	JNIEnv* env = jni.env;
+		if (env) {
+			LOGD( "**JNIsendWebViewEvent**:%d, %d, %f, %f, %f, %f, %s", type,viewId, param1, param2, param3, param4, param5);
+			jstring str = NULL;
+			if (param5) {
+				str = env->NewStringUTF(param5);
+			}
+			env->CallVoidMethod(jni.obj, jni.sendWebViewEventMethod, type, viewId, param1, param2, param3, param4, str);
+			if (str) {
+				env->DeleteLocalRef(str);
+			}
+		}
+}
+
+/**
  * 初期化関数.
  *
  * @param env 環境変数
@@ -672,6 +698,10 @@ Java_com_gclue_gl_JNILib_setInterface(
 	jni.requestHttpMethod = env->GetMethodID(clazz, "requestHttp", "(Ljava/lang/String;[Ljava/lang/String;Ljava/lang/String;)Lcom/gclue/gl/HttpResponse;");
 	if (!jni.requestHttpMethod) {
 		LOGE("Mehtod not found!! (requestHttpMethod)");
+	}
+	jni.sendWebViewEventMethod = env->GetMethodID(clazz, "onWebViewEvent", "(IIDDDDLjava/lang/String;)V");
+	if (!jni.sendWebViewEventMethod) {
+		LOGE("Mehtod not found!! (onGameEventMethod)");
 	}
 
 	env->DeleteLocalRef(clazz);
