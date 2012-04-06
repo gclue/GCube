@@ -11,7 +11,6 @@
 
 #include "Box2D.h"
 
-
 struct PhysicsParams {
 
 	float density;
