@@ -38,6 +38,7 @@ LOCAL_C_INCLUDES:= $(MY_PATH)/ \
                    $(ENGINE_PATH)/lib/ui \
                    $(ENGINE_PATH)/lib/util \
                    $(ENGINE_PATH)/lib/xml \
+                   $(ENGINE_PATH)/external \
                    $(ENGINE_PATH)/external/lpng1246 \
                    $(ENGINE_PATH)/external/xml \
                    $(ENGINE_PATH)/external/xml/expat \
@@ -47,6 +48,11 @@ LOCAL_C_INCLUDES:= $(MY_PATH)/ \
                    $(ENGINE_PATH)/external/OpenAL/include \
                    $(ENGINE_PATH)/external/OpenAL/OpenAL32/Include \
                    $(ENGINE_PATH)/external/Bullet \
+                   $(ENGINE_PATH)/external/Box2D \
+                   $(ENGINE_PATH)/external/Box2D/Collision \
+                   $(ENGINE_PATH)/external/Box2D/Dynamics \
+                   $(ENGINE_PATH)/external/Box2D/Common \
+                   $(ENGINE_PATH)/external/Box2D/Rope \
 				   $(ENGINE_PATH)/external/Bullet/Extras/Serialize/BulletWorldImporter  \
 				   $(ENGINE_PATH)/external/Bullet/Extras/Serialize/BulletFileLoader \
                    $(ENGINE_PATH)/external/Ogg/libogg-1.3.0/include \
@@ -54,6 +60,6 @@ LOCAL_C_INCLUDES:= $(MY_PATH)/ \
                    $(ENGINE_PATH)/external/Ogg/libvorbis-1.3.2/include \
                    $(ENGINE_PATH)/external/Ogg/libvorbis-1.3.2/lib \
                    $(INC_PATH)
-LOCAL_STATIC_LIBRARIES := common xml math bullet ogg openal png
+LOCAL_STATIC_LIBRARIES := common box2d xml math bullet ogg openal png
 
 include $(BUILD_SHARED_LIBRARY)
