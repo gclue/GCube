@@ -30,6 +30,7 @@
 #include "ImageAnimationView.h"
 #include "ViewGroup.h"
 #include "Layer2D.h"
+#include "PhysicsLayer2D.h"
 //#include "Layer3D.h"
 #include "PrimitiveObjectBuilder.h"
 #include "WFObjLoader.h"
@@ -110,34 +111,41 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	root->addView(animView);
 	
 	
-	
-	//webViewサンプル
-	WebView *wv = new WebView(controller);
-	wv->setInitialURL("http://www.gclue.com/");
-	wv->setPosition(0, -0.8);
-	wv->setSize(0.4, 0.2);
-	wv->setUserID(1234);
-	
-	WebView *wv2 = new WebView(controller);
-	wv2->setInitialURL("http://www.google.com/");
-	wv2->setPosition(0, 0.8);
-	wv2->setSize(0.4, 0.2);
-	wv2->setUserID(5678);
-	wv2->visible = false;
-	
-	
-	root->addView(wv);
-	root->addView(wv2);
-	wv->release();
-	wv2->release();
-	
-	
 
 
 	Layer2D *layer = new Layer2D(controller);
 	layer->setContentView(root);
-
+	
+	
+	
+	PhysicsLayer2D *pLayer = new PhysicsLayer2D(controller);
+	ImageView *pv = new ImageView(controller);
+	pv->setFigure(tex->makePlate(filename[0]));
+	pv->setTexture(&tex->getTexture());
+	pv->setPosition(0, 1);
+	pv->setScale(2, 2);
+	
+	
+	ImageView *wall = new ImageView(controller);
+//	wall->setFigure(tex->makePlate(filename[0]));
+	wall->setPosition(0, -1/controller->getAspect());
+	wall->setSize(1, 0.05);
+//	wall->setTexture(&tex->getTexture());
+	
+	
+	
+	PhysicsParams param;
+	param.type = b2_dynamicBody;
+	PhysicsParams param2;
+	param2.type = b2_staticBody;
+	
+	pLayer->addBody(pv, param);
+	pLayer->addBody(wall, param2);
+	pv->release();
+	wall->release();
+	
 	addLayer(1, layer);
+	addLayer(2, pLayer);
 	
 /*
 	Matrix3D *mtx1 = new Matrix3D();
@@ -305,14 +313,6 @@ bool SceneTitle::onTouch(TouchEvent &event) {
 	super::onTouch(event);
 	LOGD("****SceneTitle::onTouch");
 	if (event.type == touchDown) {
-		
-		
-		Layer2D *layer = (Layer2D *) getLayer(1);
-		WebView *wv = (WebView*)layer->findViewByID(1234);
-		WebView *wv2 = (WebView*)layer->findViewByID(5678);
-		wv->visible = !wv->visible;
-		wv2->visible = !wv2->visible;
-		
 //
 //		ImageAnimationView *v = (ImageAnimationView *) layer->findViewByID(10);
 //		if (v) {

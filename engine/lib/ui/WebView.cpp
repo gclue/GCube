@@ -73,6 +73,8 @@ void WebView::render(double dt) {
 			//TODO: Nativeのビューを表示
 			Pointf webViewPos = convertGlCoordToPixel(point);
 			Pointf webViewSize = convertGLSizeToPixel(size);
+			LOGD("webViewPos = %f, %f",webViewPos.x, webViewPos.y);
+			LOGD("webViewSize = %f, %f",webViewSize.x, webViewSize.y);
 			
 			GCSendWebViewEvent(WebViewEvent_AddView, webViewID, webViewPos.x - webViewSize.x / 2.0, webViewPos.y - webViewSize.y / 2.0, webViewSize.x, webViewSize.y, initialURL.c_str());
 			
