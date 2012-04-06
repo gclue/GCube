@@ -40,6 +40,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    controller/TextureManager.cpp \
                    scene/Scene.cpp \
                    scene/Layer2D.cpp \
+                   scene/PhysicsLayer2D.cpp \
                    shader/Shader.cpp \
                    shader/SimpleShader.cpp \
                    shader/PointSpriteShader.cpp \
@@ -69,6 +70,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    util/FigureCache.cpp \
                    util/HttpClient.cpp \
                    util/Storage.cpp \
+                   util/Box2DManager.cpp \
                    xml/XMLParser.cpp 
 #                   util/BulletWorld.cpp \
 #                   scene/Layer3D.cpp 
@@ -86,12 +88,22 @@ LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/ui \
                    $(LOCAL_PATH)/util \
                    $(LOCAL_PATH)/xml \
+                   $(LOCAL_PATH)/../ \
+                   $(LOCAL_PATH)/../external \
                    $(LOCAL_PATH)/../external/lpng1246 \
                    $(LOCAL_PATH)/../external/xml \
                    $(LOCAL_PATH)/../external/xml/expat \
                    $(LOCAL_PATH)/../external/math \
                    $(LOCAL_PATH)/../external/SmartPtr \
                    $(LOCAL_PATH)/../external/Bullet \
+                   $(LOCAL_PATH)/../external/Box2D \
+				   $(LOCAL_PATH)/../external/Box2D/Collision \
+				   $(LOCAL_PATH)/../external/Box2D/Collision/Shapes \
+				   $(LOCAL_PATH)/../external/Box2D/Common/ \
+				   $(LOCAL_PATH)/../external/Box2D/Dynamics \
+				   $(LOCAL_PATH)/../external/Box2D/Dynamics/Contacts \
+				   $(LOCAL_PATH)/../external/Box2D/Dynamics/Joints \
+				   $(LOCAL_PATH)/../external/Box2D/Rope \
                    $(LOCAL_PATH)/../external/OpenAL \
                    $(LOCAL_PATH)/../external/OpenAL/Alc \
                    $(LOCAL_PATH)/../external/OpenAL/include \
@@ -104,6 +116,6 @@ LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
 				   $(LOCAL_PATH)/../external/Bullet/Extras/Serialize/BulletWorldImporter  \
 				   $(LOCAL_PATH)/../external/Bullet/Extras/Serialize/BulletFileLoader \
 				   $(LOCAL_PATH)/../../main/ \
-LOCAL_STATIC_LIBRARIES := math bullet xml png
+LOCAL_STATIC_LIBRARIES := box2d math bullet xml png
 
 include $(BUILD_STATIC_LIBRARY)
