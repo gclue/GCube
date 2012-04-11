@@ -41,6 +41,9 @@ public:
 	~PhysicsLayerInfo(){};
 	
 	
+	
+	
+	
 	b2Body *body;
 	int id;
 	int groupID;
@@ -61,6 +64,8 @@ private:
 	
 	int bodyCount;
 	float ppm;
+	bool canStepPhysics;
+	bool removeFlag;
 	
 public:
 	PhysicsLayer2D(GCContext* context);
@@ -70,6 +75,11 @@ public:
 	virtual int addBody(View *view, PhysicsParams param);
 	
 	virtual void removeBody(int id);
+	virtual void removeAllBodies();
+	
+	virtual void pausePhysics();
+	virtual void restartPhysics();
+	virtual bool isStepPhysics();
 	
 	
 	//////////////////////////////////////////////////////////

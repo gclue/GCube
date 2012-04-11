@@ -30,7 +30,7 @@ b2Body* Box2DManager::addBox(PhysicsParams param) {
 	b2BodyDef def;
 	def.position.Set(param.position.x * ppm, param.position.y * ppm);	//配置する場所
 	def.type = param.type;
-
+	
 	
 	//シェイプの定義
 	b2PolygonShape shape = createBoxShape(param.size.x * ppm, param.size.y * ppm);
