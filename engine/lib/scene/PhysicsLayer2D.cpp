@@ -16,6 +16,8 @@ PhysicsLayer2D::PhysicsLayer2D(GCContext *context) : Layer(context) {
 	b2Manager = new Box2DManager(ppm);
 	
 	bodyCount = 0;
+	canStepPhysics = true;
+	removeFlag = false;
 }
 
 
@@ -35,8 +37,37 @@ PhysicsLayer2D::~PhysicsLayer2D() {
 			}
 		}
 		
+		
 		it++;
 	}
+}
+
+
+
+void PhysicsLayer2D::removeAllBodies() {
+	removeFlag = true;
+	
+	std::map<unsigned long, PhysicsLayerInfo*>::iterator it = bodies.begin();
+	while(it != bodies.end() ){
+		b2Body *body = ((*it).second)->body;
+		PhysicsUserData *data = (PhysicsUserData*)body->GetUserData();
+		std::vector<View*> views =  data->view;
+		for(int i = 0 ; i < views.size() ; i++) {
+			if(views[i]) {
+				views[i]->release();
+				views[i] = NULL;
+			}
+		}
+		delete data;
+		b2Manager->removeBody(body);
+		
+		bodies.erase(it);
+		it++;
+	}
+	bodyCount = 0;
+	
+	removeFlag = false;
+	
 }
 
 
@@ -115,6 +146,18 @@ int PhysicsLayer2D::addBodyList(b2Body *body) {
 }
 
 
+void PhysicsLayer2D::pausePhysics() {
+	canStepPhysics = false;
+}
+
+void PhysicsLayer2D::restartPhysics() {
+	canStepPhysics = true;
+}
+
+bool PhysicsLayer2D::isStepPhysics() {
+	return canStepPhysics;
+}
+
 
 
 //////////////////////////////////////////////////////////
@@ -140,13 +183,21 @@ void PhysicsLayer2D::resize(float aspect){
  * @param dt 前回描画からの差分時間
  */
 void PhysicsLayer2D::render(double dt){
+	
+	
 	while(removeList.size() > 0) {
 		b2Body* body = removeList.front();
 		b2Manager->removeBody(body);
 		removeList.pop_front();
 	}
 	
-	b2Manager->step(dt);
+	if(removeFlag) {
+		return;
+	}
+	
+	if(isStepPhysics() ) {
+		b2Manager->step(dt);
+	}
 	
 	
 	glDisable(GL_DEPTH_TEST);
@@ -161,7 +212,7 @@ void PhysicsLayer2D::render(double dt){
 			b2Vec2 pos = body->GetPosition();
 			float angle = body->GetAngle();
 			
-
+			
 			pos.x = pos.x / ppm;
 			pos.y = pos.y / ppm;
 			

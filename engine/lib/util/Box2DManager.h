@@ -11,8 +11,9 @@
 
 #include "Box2D.h"
 
-struct PhysicsParams {
 
+struct PhysicsParams {
+	
 	float density;
 	float friction;
 	float restitution;
@@ -27,14 +28,14 @@ struct PhysicsParams {
 		density = 1.0;
 		friction = 0.3;
 		restitution = 0.3;
-	
+		
 		type = b2_dynamicBody;
 	}
 };
 
 
 class Box2DManager {
-
+	
 	
 private:
 	
