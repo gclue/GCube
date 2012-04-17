@@ -213,7 +213,7 @@ static TexData createTexData(jobject data, TextTexture* textTex) {
 
 		jstring text = (jstring)env->CallObjectMethod(data, getTextID);
 		const char *s = env->GetStringUTFChars(text, NULL);
-		LOG("texture text: %s", s);
+		LOGD("texture text: %s", s);
 
 		float fontSize = env->CallFloatMethod(data, getFontSizeID);
 		float r = env->CallFloatMethod(data, getRID);
@@ -973,8 +973,6 @@ Java_com_gclue_gl_JNILib_setInterface(
 		LOGE("Mehtod not found!! (getFilePath)");
 	}
 
-	LOG("setInterface %d", jni.getFilePathMethod );
-
 	env->DeleteLocalRef(clazz);
 
 }
@@ -1101,7 +1099,7 @@ JNIEXPORT void JNICALL
 Java_com_gclue_gl_JNILib_sendHttpEvent(
 		JNIEnv* env, jobject thiz, jint id, jobject response)
 {
-	LOG("Java_com_gclue_gl_JNILib_sendHttpEvent:");
+	//LOG("Java_com_gclue_gl_JNILib_sendHttpEvent:");
 	if (controller) {
 		IHttpRquestListener *callback = NULL;
 		callback = httpRequestMap[id];

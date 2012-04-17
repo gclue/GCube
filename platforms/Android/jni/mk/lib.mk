@@ -10,6 +10,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    gl/Camera.cpp \
                    gl/Figure.cpp \
                    gl/Texture.cpp \
+                   gl/TextTexture.cpp \
                    gl/SharedTexture.cpp \
                    gl/PackerTexture.cpp \
                    gl/PrimitiveObjectBuilder.cpp \

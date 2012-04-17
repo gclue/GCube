@@ -26,6 +26,7 @@
 #include "SimpleShader.h"
 #include "TextureManager.h"
 #include "SharedTexture.h"
+#include "PackerTexture.h"
 #include "ImageView.h"
 #include "ImageAnimationView.h"
 #include "ViewGroup.h"
@@ -65,6 +66,42 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 			"texture/chara_texture.txt");
 
 	ViewGroup *root = new ViewGroup(controller);
+
+	//TextTexture使用サンプル
+	//結構メモリを使用するので動的に生成するのはおすすめしない
+    GCDrawText("Test", 60, 1.0, 1.0, 1.0);
+    GCDrawText("Red", 60, 1.0, 0.0, 0.0);
+    GCDrawText("日本語", 40, 1.0, 0.0, 1.0);
+
+    //GCGetTextTextureでテクスチャを取得
+    PackerTexture *strTexture = GCGetTextTexture();
+
+    //TextureManagerにテクスチャを登録する。
+    //登録しておかないと復帰時の再ロードが行われない。
+    //任意の名前で登録する "TextTexture"
+    //登録後は　mgr->getSharedTexture("TextTexture",NULL);　で取得できる
+    mgr->addExtraTexture("TextTexture", strTexture);
+
+    ImageView *textLabel = new ImageView(controller);
+    textLabel->setFigure(strTexture->makePlate(0, 0));//登録順のインデックスもしくは、 strTexture->makePlate("Test")　GCDrawText時の文字列を指定する
+    textLabel->setTexture(&strTexture->getTexture());
+    textLabel->setPosition(0, 1.0/controller->getAspect()-textLabel->size.y);
+    root->addView(textLabel);
+    textLabel->release();
+
+    ImageView *textLabel2 = new ImageView(controller);
+    textLabel2->setFigure(strTexture->makePlate(1, 0));
+    textLabel2->setTexture(&strTexture->getTexture());
+    textLabel2->setPosition(1.0 - textLabel2->size.x, 1.0/controller->getAspect()-textLabel2->size.y);
+    root->addView(textLabel2);
+    textLabel2->release();
+
+    ImageView *textLabel3 = new ImageView(controller);
+    textLabel3->setFigure(strTexture->makePlate(2, 0));
+    textLabel3->setTexture(&strTexture->getTexture());
+    textLabel3->setPosition(-1.0 + textLabel3->size.x, -1.0/controller->getAspect()+textLabel3->size.y);
+    root->addView(textLabel3);
+    textLabel3->release();
 
 	static const char *filename[] = {
 		"chara00.png",
