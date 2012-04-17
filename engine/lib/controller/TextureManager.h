@@ -53,6 +53,8 @@ public:
 	TextureManager();
 	/** デストラクタ. */
 	virtual ~TextureManager();
+    
+    void addExtraTexture(const char *name, SharedTexture *tex);
 
 	Texture *getTexture(const char *name);
 	SharedTexture *getSharedTexture(const char *png, const char *txt);

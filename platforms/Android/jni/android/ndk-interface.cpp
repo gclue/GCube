@@ -34,6 +34,7 @@
 #include "ApplicationController.h"
 #include "Figure.h"
 #include "Texture.h"
+#include "TextTexture.h"
 #include "PackerTexture.h"
 #include "HttpClient.h"
 #include "defines.h"
@@ -43,6 +44,8 @@
 #include <string>
 #include <map>
 #include <vector>
+
+#include "png.h"
 
 /**
  * JNIを操作する為のデータを保持する構造体.
@@ -61,6 +64,9 @@ struct JNIInterface {
 	jmethodID requestHttpMethod;	//!< NDKInterface#requestHttp()のID
 	jmethodID requestHttpAsyncMethod;	//!< NDKInterface#requestHttp()のID
 	jmethodID sendWebViewEventMethod;	//!< NDKInterface#onWebViewEvent() id
+
+	jmethodID copyFileFromAssetsMethod;	//!< NDKInterface#copyFileFromAssetsMethod()のID
+	jmethodID getFilePathMethod;	    //!< NDKInterface#getFilePathMethod()のID
 };
 
 /**
@@ -147,7 +153,7 @@ static bool createTexture(Texture *texture, jobject image) {
  * @param data Javaから取得したtexture/Sprite
  * @return 変換されたTexData
  */
-static TexData createTexData(jobject data) {
+static TexData createTexData(jobject data, TextTexture* textTex) {
 	JNIEnv* env = jni.env;
 	jclass clazz = env->FindClass("com/gclue/gl/texture/Sprite");
 	if (clazz) {
@@ -176,22 +182,66 @@ static TexData createTexData(jobject data) {
 			LOGE( "getRotateID is Zero");
 		}
 
+		jmethodID getTextID = env->GetMethodID(clazz, "getText", "()Ljava/lang/String;");
+		if (getTextID == 0) {
+			LOGE( "getTextID is Zero");
+		}
+
+		jmethodID getFontSizeID = env->GetMethodID(clazz, "getFontSize", "()F");
+		if (getFontSizeID == 0) {
+			LOGE( "getFontSize is Zero");
+		}
+
+		jmethodID getRID = env->GetMethodID(clazz, "getR", "()F");
+		if (getRID == 0) {
+			LOGE( "getRID is Zero");
+		}
+		jmethodID getGID = env->GetMethodID(clazz, "getG", "()F");
+		if (getGID == 0) {
+			LOGE( "getGID is Zero");
+		}
+		jmethodID getBID = env->GetMethodID(clazz, "getB", "()F");
+		if (getBID == 0) {
+			LOGE( "getBID is Zero");
+		}
+
 		int left = env->CallIntMethod(data, getLeftID);
 		int top = env->CallIntMethod(data, getTopID);
 		int right = env->CallIntMethod(data, getRightID);
 		int bottom = env->CallIntMethod(data, getBottomID);
 		int rotate = env->CallIntMethod(data, getBottomID);
 
-		env->DeleteLocalRef(clazz);
+		jstring text = (jstring)env->CallObjectMethod(data, getTextID);
+		const char *s = env->GetStringUTFChars(text, NULL);
+		LOG("texture text: %s", s);
+
+		float fontSize = env->CallFloatMethod(data, getFontSizeID);
+		float r = env->CallFloatMethod(data, getRID);
+		float g = env->CallFloatMethod(data, getGID);
+		float b = env->CallFloatMethod(data, getBID);
 
 		TexData tex;
+		tex.name.assign(s);
 		tex.rect.left = left;
 		tex.rect.top = top;
 		tex.rect.right = right;
 		tex.rect.bottom = bottom;
 		tex.rotate = rotate;
 
+		TextInfo textInfo;
+		textInfo.text.assign(s);
+		textInfo.size = fontSize;
+		textInfo.r = r;
+		textInfo.g = g;
+		textInfo.b = b;
+
+		textTex->addTextInfo(textInfo);
+
 		LOGI("(%d, %d, %d, %d)", left, top, right, bottom);
+		//LOG("color:(%f, %f, %f)", tex.r, tex.g, tex.b);
+
+		env->ReleaseStringUTFChars(text, s);
+		env->DeleteLocalRef(clazz);
 
 		return tex;
 	}
@@ -277,12 +327,13 @@ PackerTexture* JNIGetTextTexture() {
 		}
 
 		PackerTexture *packerTexture = new PackerTexture();
+		TextTexture* tex = new TextTexture();
 
 		// 文字列の個数を取得
 		int count = env->CallIntMethod(texture, getCountID);
 		for (int i = 0; i < count; i++) {
 			jobject data = env->CallObjectMethod(texture, getSpriteID, i);
-			packerTexture->addTexData(createTexData(data));
+			packerTexture->addTexData(createTexData(data, tex));
 			env->DeleteLocalRef(data);
 		}
 
@@ -295,9 +346,8 @@ PackerTexture* JNIGetTextTexture() {
 			return NULL;
 		}
 
-		Texture* tex = new Texture();
-		createTexture(tex, image);
-		packerTexture->setTexture(tex);
+		createTexture((Texture *)tex, image);
+		packerTexture->setTexture((Texture *)tex);
 
 		// 後始末
 		env->DeleteLocalRef(texture);
@@ -307,6 +357,56 @@ PackerTexture* JNIGetTextTexture() {
 		return packerTexture;
 	}
 	return NULL;
+}
+PackerTexture* GCGetTextTexture(){
+	return JNIGetTextTexture();
+}
+
+bool GCReloadTextTexture(TextTexture *textTexture){
+	bool ret = false;
+	std::vector<TextInfo>::iterator it;
+	TextInfo textInfo;
+
+	std::vector<TextInfo> list = textTexture->getTextList();
+
+	for(it = list.begin(); it != list.end(); it++){
+		textInfo = *it;
+
+		GCDrawText(textInfo.text.c_str(), textInfo.size, textInfo.r, textInfo.g, textInfo.b);
+	}
+
+	JNIEnv* env = jni.env;
+	if (env) {
+		jobject texture = env->CallObjectMethod(jni.obj, jni.getTextureMethod);
+		if (!texture) {
+			LOGE( "**ERROR(JNIGetTextTexture)**");
+			return false;
+		}
+
+		jclass clazz = env->FindClass("com/gclue/gl/texture/Texture");
+		jmethodID getImageDataID = env->GetMethodID(clazz, "getImageData", "()Lcom/gclue/gl/ImageData;");
+		if (!getImageDataID) {
+			LOGE( "**ERROR(getImageDataID)**");
+			return false;
+		}
+
+		// テクスチャデータの取得
+		// この関数を呼び出すとJavaでBitmapなどを破棄してしまうので
+		// この関数は最後に呼び出すこと。
+		jobject image = env->CallObjectMethod(texture, getImageDataID);
+		if (!image) {
+			LOGE( "**ERROR(image is NULL.)**");
+			return false;
+		}
+
+		ret = createTexture((Texture *)textTexture, image);
+
+		// 後始末
+		env->DeleteLocalRef(texture);
+		env->DeleteLocalRef(image);
+		env->DeleteLocalRef(clazz);
+	}
+	return ret;
 }
 
 /**
@@ -322,16 +422,19 @@ void JNIDrawText(const char *text, float fontSize, float r, float g, float b) {
 	JNIEnv* env = jni.env;
 	if (env) {
 		jstring str = env->NewStringUTF(text);
-		jint red = (jint) 255 * r;
-		jint green = (jint) 255 * g;
-		jint blue = (jint) 255 * b;
+		//jfloat red = r;
+		//jfloat green = g;
+		//jfloat blue = b;
 
-		jobject data = env->CallObjectMethod(jni.obj, jni.drawTextMethod, str, fontSize, red, green, blue);
+		jobject data = env->CallObjectMethod(jni.obj, jni.drawTextMethod, str, fontSize, r, g, b);
 		env->DeleteLocalRef(str);
 		if (data) {
 			env->DeleteLocalRef(data);
 		}
 	}
+}
+void GCDrawText(const char *text, float fontSize, float r, float g, float b){
+	JNIDrawText(text,fontSize, r, g, b);
 }
 
 /**
@@ -465,7 +568,7 @@ Figure* GCLoadFigure(const char *fname) {
  * @param[in] fileName ファイル名
  * @return テクスチャオブジェクト
  */
-bool GCLoadTexture(Texture *texture, const char *fileName) {
+bool GCLoadTexture2(Texture *texture, const char *fileName) {
 	JNIEnv* env = jni.env;
 	if (env) {
 		jstring str = env->NewStringUTF(fileName);
@@ -478,6 +581,163 @@ bool GCLoadTexture(Texture *texture, const char *fileName) {
 		return createTexture(texture, image);
 	}
 	return false;
+}
+
+
+// libpngを使用し書き換えたloadTexture
+bool GCLoadTexture(Texture *gctexture, const char* filename){
+	JNIEnv* env = jni.env;
+
+	if(!env) return false;
+
+	jstring str = env->NewStringUTF(filename);
+	jboolean b = env->CallBooleanMethod(jni.obj, jni.copyFileFromAssetsMethod, str);
+	env->DeleteLocalRef(str);
+	if (!b) {
+		LOGE( "**ERROR(JNILoadTexture)**");
+		return false;
+	}
+
+	str = env->NewStringUTF("assets.tmp");
+	jstring tmpFilename = (jstring)env->CallObjectMethod(jni.obj, jni.getFilePathMethod, str);
+	env->DeleteLocalRef(str);
+
+	const char *s = env->GetStringUTFChars(tmpFilename, NULL);
+	char path_tex[256];
+	// パスを生成;
+	sprintf(path_tex,"%s", s);
+
+	env->ReleaseStringUTFChars(tmpFilename, s);
+	env->DeleteLocalRef(tmpFilename);
+
+
+
+
+
+    GLuint texture = 0;
+    int width = 0;
+    int height = 0;
+
+    GLuint textures[1];
+    glGenTextures( 1, textures );
+    texture = textures[0];
+    glBindTexture( GL_TEXTURE_2D, texture );
+
+
+
+    FILE *fp;
+
+    //画像ファイルの読み込み
+    LOGI("loadTexture filename= %s",filename);
+    fp = fopen(path_tex,"r");
+    if(fp == NULL){
+        LOGI("loadTexture path_tex no open %s",path_tex);
+        return false;
+    }
+    int bSucceeded = 0;
+
+    png_bytepp    ppRowImage = NULL;
+    png_structp    pPng = NULL;
+    png_infop    pInfo = NULL;
+
+    pPng = png_create_read_struct(PNG_LIBPNG_VER_STRING,NULL,NULL,NULL);
+    if(pPng == NULL){
+        return false;
+    }
+
+    pInfo = png_create_info_struct(pPng);
+    if(pInfo == NULL){
+        return false;
+    }
+    //ファイルポインタの設定
+    png_init_io(pPng,fp);
+
+    png_uint_32 nWidth;
+    png_uint_32 nHeight;
+    int nBitDepth;
+    int nColorType;
+    int nIntMethod;
+    int nCompMethod;
+    int nFilterMethod;
+    png_uint_32 nImageBytes;
+    png_uint_32 nRowBytes;
+
+    //画像情報取得
+    png_read_info(pPng,pInfo);
+    png_get_IHDR(pPng,pInfo,&nWidth,&nHeight,&nBitDepth,&nColorType,&nIntMethod,&nCompMethod,&nFilterMethod);
+    /*
+    画像の取得情報を表示
+    LOGI( "nWidth = %d", nWidth );
+    LOGI( "nHeight = %d", nHeight );
+    LOGI( "nBitDepth = %d", nBitDepth );
+    LOGI( "nColorType = %d", nColorType );
+    LOGI( "nIntMethod = %d", nIntMethod );
+    LOGI( "nCompMethod = %d", nCompMethod );
+    LOGI( "nFilterMethod = %d", nFilterMethod );
+    */
+
+    nRowBytes    = png_get_rowbytes(pPng,pInfo);
+    nImageBytes    = nHeight * nRowBytes;
+
+    // BGRAの32bit色として読み込む為の設定
+    if(png_get_valid(pPng, pInfo, PNG_INFO_tRNS))
+        png_set_expand(pPng);
+    if(nColorType == PNG_COLOR_TYPE_PALETTE)
+        png_set_expand(pPng);
+    if(nColorType == PNG_COLOR_TYPE_GRAY && nBitDepth < 8)
+        png_set_expand(pPng);
+    if(nBitDepth > 8)
+        png_set_strip_16(pPng);
+    if(nColorType == PNG_COLOR_TYPE_GRAY)
+        png_set_gray_to_rgb(pPng);
+
+    unsigned char *imageData;
+    unsigned char **Lines;
+
+    //画像データ用バッファーの確保
+    // メモリ確保
+    imageData = new unsigned char[nHeight * nHeight * 4];
+
+    Lines = (unsigned char **)malloc(sizeof(unsigned char *) * nHeight);
+
+    for(int i = 0; i < nHeight; i++){
+        Lines[i] = imageData + nWidth * 4 * i;
+    }
+    if(!(nColorType & PNG_COLOR_MASK_ALPHA)){
+        png_set_filler(pPng, 0, 1);
+    }
+    // フィルターを設定
+    png_set_bgr(pPng);
+    // imageDataへ画像を読み出す
+    png_read_image(pPng, Lines);
+
+    // メモリ開放
+    free(Lines);
+
+
+    // BGRAの順番で読み込まれるので並びをRGBAへ変更
+    int max = nHeight * nHeight * 4;
+    unsigned char tmp;
+
+    for(int i = 0 ; i < max; ){
+
+        tmp = imageData[i];
+        imageData[i] = imageData[i+2];
+        imageData[i+2] = tmp;
+        i+=4;
+    }
+
+
+    width = nWidth;
+    height = nHeight;
+
+    // テクスチャ作成
+    gctexture->setImageData(imageData, width, height);
+
+    // メモリを開放
+    delete [] imageData;
+
+    return true;
 }
 
 /**
@@ -683,7 +943,7 @@ Java_com_gclue_gl_JNILib_setInterface(
 	if (!jni.onGameEventMethod) {
 		LOGE("Mehtod not found!! (onGameEventMethod)");
 	}
-	jni.drawTextMethod = env->GetMethodID(clazz, "drawText", "(Ljava/lang/String;FIII)Lcom/gclue/gl/texture/Sprite;");
+	jni.drawTextMethod = env->GetMethodID(clazz, "drawText", "(Ljava/lang/String;FFFF)Lcom/gclue/gl/texture/Sprite;");
 	if (!jni.drawTextMethod) {
 		LOGE("Mehtod not found!! (drawTextMethod)");
 	}
@@ -703,6 +963,17 @@ Java_com_gclue_gl_JNILib_setInterface(
 	if (!jni.sendWebViewEventMethod) {
 		LOGE("Mehtod not found!! (onGameEventMethod)");
 	}
+
+	jni.copyFileFromAssetsMethod = env->GetMethodID(clazz, "copyFileFromAssets", "(Ljava/lang/String;)Z");
+	if (!jni.copyFileFromAssetsMethod) {
+		LOGE("Mehtod not found!! (copyFileFromAssets)");
+	}
+	jni.getFilePathMethod = env->GetMethodID(clazz, "getFilePath", "(Ljava/lang/String;)Ljava/lang/String;");
+	if (!jni.getFilePathMethod) {
+		LOGE("Mehtod not found!! (getFilePath)");
+	}
+
+	LOG("setInterface %d", jni.getFilePathMethod );
 
 	env->DeleteLocalRef(clazz);
 
@@ -825,6 +1096,24 @@ Java_com_gclue_gl_JNILib_sendGameEvent(
 		}
 	}
 }
+
+JNIEXPORT void JNICALL
+Java_com_gclue_gl_JNILib_sendHttpEvent(
+		JNIEnv* env, jobject thiz, jint id, jobject response)
+{
+	LOG("Java_com_gclue_gl_JNILib_sendHttpEvent:");
+	if (controller) {
+		IHttpRquestListener *callback = NULL;
+		callback = httpRequestMap[id];
+		int ret = httpRequestMap.erase(id);
+		//LOG("erase: %d", ret);
+		HttpResponse *resp = createHttpResponse(response);
+		env->DeleteLocalRef(response);
+		callback->onResponse(resp);
+	}
+}
+//void sendHttpEvent(int id, HttpResponse response);
+
 
 };	// end of extern "C"
 
