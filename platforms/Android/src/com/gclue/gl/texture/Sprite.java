@@ -58,17 +58,17 @@ public class Sprite {
 	/**
 	 * 赤色成分.
 	 */
-	private int r;
+	private float r;
 	
 	/**
 	 * 緑色成分.
 	 */
-	private int g;
+	private float g;
 	
 	/**
 	 * 青色成分.
 	 */
-	private int b;
+	private float b;
 	
 	/**
 	 * 横幅.
@@ -208,21 +208,21 @@ public class Sprite {
 		this.fontSize = fontSize;
 	}
 
-	public void setRGB(int r, int g, int b) {
+	public void setRGB(float r, float g, float b) {
 		this.r = r;
 		this.g = g;
 		this.b = b;
 	}
 	
-	public int getR() {
+	public float getR() {
 		return r;
 	}
 
-	public int getG() {
+	public float getG() {
 		return g;
 	}
 
-	public int getB() {
+	public float getB() {
 		return b;
 	}
 

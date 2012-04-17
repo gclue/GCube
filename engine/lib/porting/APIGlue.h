@@ -80,6 +80,7 @@ enum {
 
 class Figure;
 class Texture;
+class TextTexture;
 class PackerTexture;
 class ApplicationController;
 class HttpResponse;
@@ -106,6 +107,12 @@ extern "C" {
  * @return Textureクラス
  */
 PackerTexture* GCGetTextTexture();
+
+/**
+ * 文字列で描画したテクスチャを再読み込みをします。
+ * GCDrawTextをコールしている途中には使わないでください。
+ */
+bool GCReloadTextTexture(TextTexture *texture);
 
 /**
  * 指定された文字列をテクスチャに書き込みます.

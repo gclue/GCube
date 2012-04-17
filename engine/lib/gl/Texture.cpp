@@ -24,7 +24,7 @@
 #include "APIGlue.h"
 
 Texture::Texture(const char *fname):GCObject() {
-	filename.append(fname);
+	filename.assign(fname);
 	GCLoadTexture(this, fname);
 }
 

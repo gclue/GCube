@@ -44,6 +44,9 @@ public class Renderer extends FixedFPSRenderer {
 	 */
 	private NDKInterface ndk;
 	
+	private int curWidth;
+	private int curHeight;
+	
 	/**
 	 * コンストラクタ.
 	 * @param ndk NDKとのやり取り行うインターフェイス
@@ -55,6 +58,14 @@ public class Renderer extends FixedFPSRenderer {
 
 	@Override
 	public void onSurfaceChanged(GL10 gl, int width, int height) {
+		//Log.e("Render","onSurfaceChanged"+width+" "+height);
+		
+		if(curWidth == width && curHeight == height) return;
+		
+		curWidth = width;
+		curHeight = height;
+		
+		System.gc();
 		boolean first = JNILib.init(width, height);
 		if (!first) {
 			// OpenGLESの初期化でエラーが発生したので、ダイアログを表示して終了する
@@ -79,6 +90,8 @@ public class Renderer extends FixedFPSRenderer {
 	public void onSurfaceCreated(GL10 gl, EGLConfig config) {
 		// JNI側にNDKInterfaceを設定
 		JNILib.setInterface(ndk);
+		curWidth = -1;
+		curHeight = -1;
 	}
 	
 	@Override

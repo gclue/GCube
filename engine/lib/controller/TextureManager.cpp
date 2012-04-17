@@ -130,6 +130,17 @@ void TextureManager::reload() {
 	}
 }
 
+void TextureManager::addExtraTexture(const char *name, SharedTexture *tex){
+	if (tex) {
+		if (addTexture(name, (SharedTexture *) tex)) {
+			return;
+		} else {
+			DELETE(tex);
+		}
+	}
+	return;
+}
+
 //////////////////////////////////////////////////////////////////////////////////////////
 /// privateな関数
 //////////////////////////////////////////////////////////////////////////////////////////

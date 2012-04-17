@@ -68,7 +68,7 @@ public:
 
 	void clamp();
 
-	void reload();
+	virtual void reload();
 };
 
 #endif // end of GL_TEXTURE_H

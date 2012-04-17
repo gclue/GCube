@@ -24,6 +24,7 @@ package com.gclue.gl.app;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -187,6 +188,10 @@ public class NDKInterface {
 		return view;
 	}
 	
+	/**
+	 * ルートビューを設定します.
+	 * @param root ルートビュー.
+	 */
 	public void setRootView(FrameLayout root) {
 		this.root = root;
 	}
@@ -247,8 +252,7 @@ public class NDKInterface {
 	 * NDKの初期化が完了したときに呼び出されます.
 	 */
 	public void onInitNDK() {
-		Log.e(TAG, "onInitNDK");
-		
+		//Log.e(TAG, "onInitNDK");
 		for (int i = 0; i < listeners.size(); i++) {
 			listeners.get(i).onInit();
 		}
@@ -398,6 +402,72 @@ public class NDKInterface {
 		}
 	}
 	
+	public boolean copyFileFromAssets(String fileName){
+		final int bufSize = 8192;
+		//Log.d(TAG,"copyFileFromAssets:"+fileName);
+		InputStream is = null;
+		FileOutputStream output = null;
+		//System.gc();
+		try {
+			is = context.getAssets().open(fileName);
+			output = context.openFileOutput("assets.tmp", Context.MODE_WORLD_READABLE); 
+			
+			int len;
+			final byte[] b = new byte[bufSize];
+			while ((len = is.read(b)) >= 0) {
+				output.write(b, 0, len);
+			}
+		} catch (FileNotFoundException e) {
+			if (DEBUG) {
+				Log.w(TAG, "copyFileFromAssets", e);
+			}
+			return false;
+		} catch (IOException e) {
+			if (DEBUG) {
+				Log.w(TAG, "copyFileFromAssets", e);
+			}
+			return false;
+		} catch (OutOfMemoryError e) {
+			if (DEBUG) {
+				Log.w(TAG, "copyFileFromAssets", e);
+			}
+			return false;
+		} finally {
+			if (is != null) {
+				try {
+					is.close();
+				} catch (Exception e) {
+					// do nothing.
+					if (DEBUG) {
+						Log.w(TAG, "copyFileFromAssets", e);
+					}
+				}
+			}
+			
+			if(output != null){
+				try {
+					output.close();
+				} catch (Exception e){
+					if (DEBUG) {
+						Log.w(TAG, "copyFileFromAssets", e);
+					}
+				}
+			}
+		}
+		//String path = "/data/data/"+context.getPackageName()+"/files/"+fileName;
+		//Log.d(TAG,"copyFileFromAssets:"+path);
+		//return baos.toByteArray();
+		return true;
+	}
+	
+	public String getFilePath(String name){
+		//Log.d(TAG,"getFilePath:"+name);
+		String path = "/data/data/"+context.getPackageName()+"/files/"+name;
+		//Log.d(TAG,"filePath:"+path);
+		return path;
+	}
+	
+	
 	/**
 	 * assetから画像ファイルの読み込み
 	 * <br><br>
@@ -452,19 +522,19 @@ public class NDKInterface {
 	 * このメソッドは JNI 側から呼び出されることがあります。
 	 * @param text テキスト
 	 * @param fontSize フォントサイズ
-	 * @param r 赤色成分(0〜255)
-	 * @param g 緑色成分(0〜255)
-	 * @param b 青色成分(0〜255)
+	 * @param r 赤色成分(0.0〜1.0)
+	 * @param g 緑色成分(0.0〜1.0)
+	 * @param b 青色成分(0.0〜1.0)
 	 * @return 文字列が描画された範囲
 	 */
-	public Sprite drawText(String text, float fontSize, int r, int g, int b) {
+	public Sprite drawText(String text, float fontSize, float r, float g, float b) {
 		if (DEBUG) {
 			Log.i(TAG, "drawText: " + text);
 		}
 		if (texture == null) {
 			// 文字列用のテクスチャがない場合には作成する
 			texture = new Texture();
-			texture.createBitmap(512, 512);
+			//texture.createBitmap(512, 512);
 		}
 		return texture.addDrawText(text, fontSize, r, g, b);
 	}

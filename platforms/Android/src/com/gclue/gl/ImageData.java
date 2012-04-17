@@ -36,7 +36,7 @@ import android.util.Log;
 public class ImageData {
 	
 	static {
-		pixels = new int[2048*2048];
+		//pixels = new int[2048*2048];
 	}
 	
 	/**
@@ -98,6 +98,7 @@ public class ImageData {
 		InputStream is = null;
 		try {
 			is = context.getResources().getAssets().open(fileName);
+			System.gc();
 			b = BitmapFactory.decodeStream(is, null, opt);
 			
 			// Bitmapをint型の配列取得する
