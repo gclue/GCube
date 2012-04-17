@@ -65,6 +65,8 @@ public class Texture {
 	 */
 	private Bitmap bitmap;
 	
+	private int bitmapSize = 512;
+	
 	/**
 	 * 描画を行った文字列のリスト.
 	 */
@@ -94,13 +96,14 @@ public class Texture {
 	public void createBitmap(int width, int height) {
 		if (bitmap != null) {
 			bitmap.recycle();
+			System.gc();
 		}
 		bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 		canvas = new Canvas(bitmap);
 		paint = new Paint();
-		if (brSize == 0) {
+		//if (brSize == 0) {
 			brSize = width - 2;
-		}
+		//}
 	}
 	
 	/**
@@ -118,6 +121,7 @@ public class Texture {
 		}
 		list.clear();
 		bitmap = null;
+		bitmapSize = 512;
 		canvas = null;
 		paint = null;
 	}
@@ -194,7 +198,7 @@ public class Texture {
 		clearSpriteData();
 		
 		// ソートを行う
-		sort.sort(list, new Rect(1, 1, bitmap.getWidth() - 2, bitmap.getHeight() - 2));
+		sort.sort(list, new Rect(1, 1, bitmapSize - 2, bitmapSize - 2));
 		
 		// すべてのサイズが決定できなかった場合には、
 		// テクスチャを大きくして再度ソートしてみる
@@ -203,13 +207,10 @@ public class Texture {
 				Log.w(TAG, "Sprite can not deploy.");
 			}
 			
-			// 前のテクスチャ用のビットマップを削除
-			disposeBitmap();
-			
 			// 前のテクスチャを2倍のサイズに変更
-			int w = bitmap.getWidth() * 2;
-			int h = bitmap.getHeight() * 2;
-			createBitmap(w, h);
+			//int w = bitmap.getWidth() * 2;
+			//int h = bitmap.getHeight() * 2;
+			bitmapSize *= 2;	
 			
 			// 最適化
 			optimize();
@@ -218,6 +219,16 @@ public class Texture {
 				return;
 			}
 			optimize = true;
+			
+			if (bitmap != null) {
+				bitmap.recycle();
+			}
+			bitmap = null;
+			canvas = null;
+			paint = null;
+			//bitmapSize = 512;
+			createBitmap(bitmapSize, bitmapSize);
+			
 			
 			final int size = list.size();
 			for (int i = 0; i < size; i++) {
@@ -230,12 +241,16 @@ public class Texture {
 	 * テクスチャに文字列を描画します.
 	 * @param text テキスト
 	 * @param fontSize フォントサイズ
-	 * @param r 赤色成分(0〜255)
-	 * @param g 緑色成分(0〜255)
-	 * @param b 青色成分(0〜255)
+	 * @param red 赤色成分(0.0〜1.0)
+	 * @param green 緑色成分(0.0〜1.0)
+	 * @param blue 青色成分(0.0〜1.0)
 	 * @return 追加した文字列のSpriteデータ
 	 */
-	public Sprite addDrawText(String text, float fontSize, int r, int g, int b) {
+	public Sprite addDrawText(String text, float fontSize, float red, float green, float blue) {
+		int r = (int) (red*255);
+		int g = (int) (green*255);
+		int b = (int) (blue*255);
+		
 		// 追加された文字列がnullの場合は、適当な文字列に変更
 		if (text == null) {
 			text = "no-data";
@@ -249,7 +264,7 @@ public class Texture {
 		
 		int width = (int) paint.measureText(text);
 		int height = (int) (fontSize + fontMetrics.bottom);
-		
+		/*
 		if (width > brSize) {
 			int maxWidth = brSize;
 			int brPoint = Integer.MAX_VALUE;
@@ -264,12 +279,12 @@ public class Texture {
 			}
 			width = brSize;
 		}
-		
+		*/
 		Sprite sd = new Sprite();
 		sd.setWidth(width + 2);
 		sd.setHeight(height + 2);
 		sd.setFontSize(fontSize);
-		sd.setRGB(r, g, b);
+		sd.setRGB(red, green, blue);
 		sd.setText(text);
 		
 		list.add(sd);
@@ -325,9 +340,9 @@ public class Texture {
 		if (sprite.getText() != null) {
 			String t = sprite.getText();
 			float s = sprite.getFontSize();
-			int r = sprite.getR();
-			int g = sprite.getG();
-			int b = sprite.getB();
+			int r = (int) (sprite.getR()*255);
+			int g = (int) (sprite.getG()*255);
+			int b = (int) (sprite.getB()*255);
 			draw(t, x, y, s, r, g, b);
 		} else if (sprite.getBitmap() != null) {
 			canvas.drawBitmap(sprite.getBitmap(), x, y, paint);

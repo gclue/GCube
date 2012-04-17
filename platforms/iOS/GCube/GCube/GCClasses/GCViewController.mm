@@ -202,7 +202,7 @@ const char* GCGetStoragePath(const char *fileName) {
     
 	if (!controller) {
 		controller = ApplicationController::getInstance();
-		CGRect screenSize = [[UIScreen mainScreen] bounds];
+		CGRect screenSize = [[UIScreen mainScreen] applicationFrame];
 		float scale = [UIScreen mainScreen].scale;
         controller->resize(screenSize.size.width * scale, screenSize.size.height * scale);
 		controller->resetup();
@@ -251,7 +251,9 @@ const char* GCGetStoragePath(const char *fileName) {
 	UITouch *touch = [touches anyObject];
 	CGPoint location = [touch locationInView:self.view];
 	if (controller) {
-		controller->onTouch(type, location.x*scale, location.y*scale, touch.timestamp);
+        //NSLog(@"touch time: %f",touch.timestamp);
+        //NSLog(@"touch:(%f, %f) %f",location.x, location.y, scale);
+		controller->onTouch(type, location.x*scale, location.y*scale, touch.timestamp*1000);
 	}
 }
 
