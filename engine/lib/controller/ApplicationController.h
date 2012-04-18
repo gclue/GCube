@@ -187,6 +187,21 @@ public:
 	 */
 	void onGameEvent(int type, int param1=0, long param2=0, double param3=0, int param4=0, const char *param5=NULL);
 
+	
+	/**
+	 * ツイッターイベントを送信します.
+	 * @param[in] type ツイッターイベントID.
+	 * @param[in] text 投稿文.
+	 */
+	void sendTwitterEvent(int type, const char* text = NULL);
+	
+	/**
+	 * ツイッターイベントを受け取ります.
+	 * @param[in] type　ツイッターイベントID.
+	 * @param[in] param1 パラメータ.
+	 */
+	void onTwitterEvent(int type, int param1 = 0);
+	
 	/**
 	 * デバッグコマンドを処理します.
 	 * @param[in] command コマンド
