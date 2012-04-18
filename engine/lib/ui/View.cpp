@@ -183,13 +183,39 @@ View* View::findViewByUserObj(void *userObj, COMPARE_FUNC_PTR *func) {
 
 bool View::isBound(float x, float y) {
 	Pointf p = {0.0, 0.0};
-	testMatrix2D(&p);
-	float px = p.x;
-	float py = p.y;
-	float xsize = size.x * scale.x;
-	float ysize = size.y * scale.y * 1.2;
-	if (px - xsize < x && x < px + xsize) {
-		if (py - ysize < y && y < py + ysize) {
+    Pointf tScale;
+    float tRotate;
+    
+	testMatrix2D(&p, &tScale, &tRotate);
+    
+    //LOG("before point:%f %f",x,y);
+    if(tRotate != 0){
+        float rad = -tRotate * (M_PI / 180.0f);
+        float cosrad = cosf(rad);
+        float sinrad = sinf(rad);
+    
+        float px = x - p.x;
+        float py = y - p.y;
+    
+        float rx = px * cosrad - py * sinrad;
+        float ry = px * sinrad + py * cosrad;
+
+        x = rx + p.x;
+        y = ry + p.y;
+    }
+    
+    //LOG("after point:%f %f",x,y);
+    
+    
+    
+    
+	//float px = p.x;
+	//float py = p.y;
+    
+	float xsize = size.x * tScale.x + TOUCH_MARGIN;
+	float ysize = size.y * tScale.y + TOUCH_MARGIN;//ちょっと大きくする
+	if (p.x - xsize < x && x < p.x + xsize) {
+		if (p.y - ysize < y && y < p.y + ysize) {
 			return true;
 		}
 	}
@@ -245,7 +271,7 @@ void View::testMatrix3D(Matrix3D *m, float *a, float *b) {
 	}
 }
 
-void View::testMatrix2D(Pointf *p) {
+void View::testMatrix2D(Pointf *p, Pointf *s, float *r) {
 	float rad = rotate * (M_PI / 180.0f);
 
 	float cosrad = cosf(rad);
@@ -260,8 +286,19 @@ void View::testMatrix2D(Pointf *p) {
 	p->y = y + point.y;
 
 	if (!absolute && parent) {
-		parent->testMatrix2D(p);
+		parent->testMatrix2D(p,s,r);
+        
+        s->x *= scale.x;
+        s->y *= scale.y;
+        
+        *r += rotate;
 	}
+    else {
+        s->x = scale.x;
+        s->y = scale.y;
+        
+        *r = rotate;
+    }
 }
 
 void View::setBlendType(int type) {

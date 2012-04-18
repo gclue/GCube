@@ -34,6 +34,8 @@
 #include "GCContext.h"
 #include "GCObject.h"
 
+#define TOUCH_MARGIN (15/320.0)
+
 /**
  * タッチイベントのタイプを定義します.
  */
@@ -107,7 +109,7 @@ protected:
 	 * Viewが表示されている位置の計算を行います.
 	 * @param[out] p 位置を格納するポインタ
 	 */
-	virtual void testMatrix2D(Pointf *p);
+	virtual void testMatrix2D(Pointf *p, Pointf *s, float *r);
 
 public:
 	GCContext *context;			//!< Viewを描画するためのコンテキスト
@@ -172,6 +174,12 @@ public:
 	virtual bool isClickable() {
 		return clickable;
 	}
+    
+    virtual bool isTouchable() {
+        return visible&&clickable;
+    }
+    
+    
 
 	/**
 	 * Viewの表示位置を設定します.
