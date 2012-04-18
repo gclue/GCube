@@ -63,6 +63,12 @@ bool Main::onGameEvent(int type, int param1, long param2, double param3, int par
 	return false;
 }
 
+//ツイッターイベント受信.
+bool Main::onTwitterEvent(int type, int param1) {
+	LOGD("***Main::onTwitterEvent(%d, %d)",type, param1);
+	return false;
+}
+
 // デバッグコマンド
 bool Main::onDebugCommand(const char *command, int param) {
 	return false;

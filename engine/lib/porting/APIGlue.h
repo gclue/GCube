@@ -78,6 +78,14 @@ enum {
 	WebViewEvent_SetPosition,
 };
 
+/**
+ * TwitterのイベントID.
+ */
+enum {
+	TwitterEvent_Post = 0,
+	TwitterEvent_Authenticate,
+};
+
 class Figure;
 class Texture;
 class TextTexture;
@@ -198,6 +206,13 @@ HttpResponse* GCHttpRequest(std::string url, std::map<std::string, std::string> 
  * @param[in] param5 パラメータ.
  */
 void GCSendWebViewEvent(int type, int viewId, double param1, double param2, double param3, double param4, const char *param5);
+
+/**
+ * ツイッターのイベントをNativeに投げます.
+ * @param[in] type ツイッターイベントタイプ.
+ * @param[in] text 投稿文.
+ */
+void GCSendTwitterEvent(int type, const char* text);
 	
 }
 

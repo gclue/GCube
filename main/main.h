@@ -70,6 +70,14 @@ public:
 	 */
 	bool onGameEvent(int type, int param1, long param2, double param3, int param4, const char *param5);
 	
+	
+	/**
+	 * ツイッターイベントを受け取ります.
+	 * @param[in] type イベントタイプ.
+	 * @param[in] param1 パラメータ.
+	 */
+	bool onTwitterEvent(int type, int param1);
+	
 	/**
 	 * デバッグコマンドを受け取るメソッド.
 	 * @param command コマンド

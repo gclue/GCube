@@ -15,6 +15,8 @@
 #import "GCAppDelegate.h"
 #import "GCViewController.h"
 
+#import "TwitterHelper.h"
+
 /**
  * 非同期HTTP Client用レスポンスクラス
  */
@@ -242,6 +244,93 @@ HttpResponse* GCHttpRequest(std::string url, std::map<std::string, std::string> 
     }
     
     return httpResponse;
+}
+
+//ツイッターイベント送信を受け取ります。
+void GCSendTwitterEvent(int type, const char *text) {
+	LOGD("GCSendTwitterEvent %d, %s",type, text);
+	switch(type) {
+		case TwitterEvent_Post: {
+			
+			NSString *str = [NSString stringWithUTF8String:text];
+			
+			NSString *str05 = [str stringByAppendingString:[NSString stringWithFormat: @"Already Updated. %@", [NSDate date]]];
+			
+			
+			TwitterHelper *twitView = [[TwitterHelper alloc] init];
+			twitView.responseBlock = ^(int type) {
+				if(type == 3) {
+					//認証済み
+					[twitView tweet:str05];
+				}
+				if(type == 1 || type == 2) {
+					//認証失敗 or　キャンセル
+					ApplicationController *ctr = CGControllerInstance();
+					ctr->onTwitterEvent(TwitterEvent_Post, 2);
+					
+				}
+				if(type == 0) {
+					//認証成功→ツイート
+					[twitView tweet:str05];
+				}
+			};
+			
+			twitView.tweetResponseBlock = ^(int type) {
+				if(type == 0) {
+					//ツイート成功
+					ApplicationController *ctr = CGControllerInstance();
+					ctr->onTwitterEvent(TwitterEvent_Post, 0);
+			
+				}
+				if(type == 1) {
+					//ツイート失敗
+					ApplicationController *ctr = CGControllerInstance();
+					ctr->onTwitterEvent(TwitterEvent_Post, 1);
+				}
+			};
+			
+			
+			//twitter登録画面の表示
+			GCAppDelegate *delegate = (GCAppDelegate*)[[UIApplication sharedApplication] delegate];
+			[delegate.viewController.view addSubview:twitView.view];
+			[twitView release];
+			break;
+		}
+		case TwitterEvent_Authenticate: {
+			TwitterHelper *helper = [[TwitterHelper alloc] init];
+						
+			helper.responseBlock = ^(int type) {
+				NSLog(@"%d",type);
+				ApplicationController *ctr = CGControllerInstance();
+				switch(type) {
+						
+					case 0:	//認証成功
+						ctr->onTwitterEvent(TwitterEvent_Authenticate, 0);
+						break;
+					case 1: //認証失敗
+					case 2: //認証失敗
+						ctr->onTwitterEvent(TwitterEvent_Authenticate, 1);
+						break;
+					case 3: //認証済み
+						ctr->onTwitterEvent(TwitterEvent_Authenticate, 0);
+						break;
+				}
+				[helper release];
+			};
+			
+			
+			
+			
+			//twitter登録画面の表示
+			GCAppDelegate *delegate = (GCAppDelegate*)[[UIApplication sharedApplication] delegate];
+			[delegate.viewController.view addSubview:helper.view];
+			
+			[helper authenticate];
+			
+			break;
+		}
+	}
+	
 }
 
 
