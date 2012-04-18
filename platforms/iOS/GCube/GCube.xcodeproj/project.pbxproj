@@ -59,6 +59,7 @@
 		1FE7BEFA152D728500166041 /* b2Rope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7BECC152D728500166041 /* b2Rope.cpp */; };
 		1FE7BF02152D89AB00166041 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE7BF01152D89AB00166041 /* libz.dylib */; };
 		1FE7BF05152D8A5100166041 /* GCEventReceiver.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7BF04152D8A5000166041 /* GCEventReceiver.mm */; };
+		44DEE767153E860400E81D21 /* TextTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44DEE765153E860400E81D21 /* TextTexture.cpp */; };
 		662CB2E614D7CBBD003AA995 /* png.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB21D14D7CBBD003AA995 /* png.c */; };
 		662CB2E914D7CBBD003AA995 /* pngerror.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22214D7CBBD003AA995 /* pngerror.c */; };
 		662CB2EA14D7CBBD003AA995 /* pnggccrd.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22314D7CBBD003AA995 /* pnggccrd.c */; };
@@ -450,6 +451,8 @@
 		1FE7BECD152D728500166041 /* b2Rope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2Rope.h; sourceTree = "<group>"; };
 		1FE7BF01152D89AB00166041 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		1FE7BF04152D8A5000166041 /* GCEventReceiver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GCEventReceiver.mm; sourceTree = "<group>"; };
+		44DEE765153E860400E81D21 /* TextTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextTexture.cpp; sourceTree = "<group>"; };
+		44DEE766153E860400E81D21 /* TextTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextTexture.h; sourceTree = "<group>"; };
 		662CB1C014D7CBBD003AA995 /* ANNOUNCE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ANNOUNCE; sourceTree = "<group>"; };
 		662CB1C114D7CBBD003AA995 /* CHANGES */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGES; sourceTree = "<group>"; };
 		662CB1C214D7CBBD003AA995 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
@@ -2295,6 +2298,8 @@
 				6674759614552F0A0065EDF3 /* SharedTexture.h */,
 				6674759714552F0A0065EDF3 /* Texture.cpp */,
 				6674759814552F0A0065EDF3 /* Texture.h */,
+				44DEE765153E860400E81D21 /* TextTexture.cpp */,
+				44DEE766153E860400E81D21 /* TextTexture.h */,
 				66F980641467AF9200D85239 /* Light.cpp */,
 				66F980651467AF9200D85239 /* Light.h */,
 			);
@@ -3476,6 +3481,7 @@
 				1FE7BF05152D8A5100166041 /* GCEventReceiver.mm in Sources */,
 				1F21165D152EA11800B4E750 /* PhysicsLayer2D.cpp in Sources */,
 				1F211660152EA12900B4E750 /* Box2DManager.cpp in Sources */,
+				44DEE767153E860400E81D21 /* TextTexture.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

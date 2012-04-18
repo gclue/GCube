@@ -35,6 +35,7 @@
 #include "Figure.h"
 #include "Texture.h"
 #include "main.h"
+#include "PackerTexture.h"
 
 #import "PVRTexture.h"
 #import "WebViewLayerController.h"
@@ -155,6 +156,151 @@ const char* GCGetStoragePath(const char *fileName) {
 	} else {
 		return [documentsDirectory UTF8String];
 	}
+}
+
+NSMutableArray *textTextureArray = nil;
+CGSize textTextureSize = CGSizeZero;
+
+/**
+ * 文字列を描画したテクスチャを取得します.
+ * もし文字列の描画が行われていなかった場合にはNULLを返却します.
+ *
+ * この関数を呼び出す前にJNIDrawTextで実行された文字列を描画したテクスチャを作成します。
+ * この関数が呼ばれるとJNIDrawTextで登録された文字列はすべてJava上から削除されてしまうので
+ * 再度、この関数を呼び出すときはJNIDrawTextを行ってください。
+ *
+ * また、PackerTextureに登録されているテスチャIDはJNIDrawTextで登録した順番になっています。
+ *
+ * @return Textureクラス
+ */
+PackerTexture* GCGetTextTexture(){
+    PackerTexture *packerTexture = new PackerTexture();
+    
+    if(textTextureArray == nil) return NULL;
+    if([textTextureArray count] == 0) return NULL;
+    
+    UIImage *textImage;
+    
+    float targetTextureSize = MAX(textTextureSize.width, textTextureSize.height);
+    int textureSize = 2;
+    while(textureSize < targetTextureSize){
+        textureSize *= 2;
+    }
+    textTextureSize.width = textTextureSize.height = textureSize;
+    UIGraphicsBeginImageContext(textTextureSize);
+    
+    float ty = 0;
+    UILabel *label;
+    CGRect labelRect;
+    for(int i=0;i<[textTextureArray count];i++){
+        label = [textTextureArray objectAtIndex:i];
+        labelRect = label.frame;
+        labelRect.origin.y = ty;
+        [label setFrame:labelRect];
+        
+        //ラベルの描画
+        [label.textColor set];
+        [label.text drawAtPoint:labelRect.origin withFont:label.font];
+        
+        TexData texData;
+        texData.name = [label.text cStringUsingEncoding:NSUTF8StringEncoding];
+        texData.rect.left = 0;
+        texData.rect.top = ty;
+        texData.rect.right = labelRect.size.width;
+        texData.rect.bottom = ty + labelRect.size.height;
+        texData.padding.left = 0;
+        texData.padding.top = 0;
+        texData.padding.right = 0;
+        texData.padding.bottom = 0;
+        texData.rotate = 0;
+        
+        packerTexture->addTexData(texData);
+        
+        ty += label.frame.size.height;
+    }
+    
+    /*
+     [[UIColor whiteColor] set];
+     UIFont *font = [UIFont boldSystemFontOfSize:13];
+     CGPoint point = CGPointMake(0, 0);
+     [@"testttttttt" drawAtPoint:point withFont:font];
+     */
+    
+    textImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    //textImage = [[UIImage alloc]init];
+    
+    
+    //NSData *imageData = UIImagePNGRepresentation(textImage);
+    Texture *tex = new Texture();
+    
+    CGImageRef img = [textImage CGImage];
+    
+    CGContextRef	texContext;
+    GLubyte			*texData;
+    
+    // サイズ取得
+    size_t width = CGImageGetWidth(img);
+    size_t height = CGImageGetHeight(img);
+    
+    // メモリ確保
+    texData = (GLubyte *) malloc(width * height * 4);
+    // texDataに対応したBitmapContext作成
+    texContext = CGBitmapContextCreate(texData, width, height, 8, width * 4, CGImageGetColorSpace(img), kCGImageAlphaPremultipliedLast);
+    // Context(texData)に描画
+    CGRect rect = CGRectMake(0.0, 0.0, (CGFloat)width, (CGFloat)height);
+    CGContextClearRect(texContext, rect);
+    CGContextDrawImage(texContext, rect, img);
+    // Contextはもう要らないので解放
+    CGContextRelease(texContext);
+	
+	// テクスチャ作成
+	tex->setImageData(texData, width, height);
+    
+    // 解放
+    free(texData);
+    
+    
+    
+    packerTexture->setTexture(tex);
+    
+    
+    //[textImage release];
+    [textTextureArray removeAllObjects];
+    textTextureSize.width = textTextureSize.height = 0;
+    
+    return packerTexture;
+}
+
+/**
+ * 指定された文字列をテクスチャに書き込みます.
+ * @param[in] text 文字列
+ * @param[in] fontSize フォントサイズ
+ * @param[in] r 赤色成分
+ * @param[in] g 緑色成分
+ * @param[in] b 青色成分
+ * @return テクスチャデータ
+ */
+void GCDrawText(const char *text, float fontSize, float r, float g, float b){
+    NSString *textString = [NSString stringWithCString:text encoding:NSUTF8StringEncoding];
+    UIFont *font = [UIFont systemFontOfSize:fontSize];
+    UILabel *label = [[UILabel alloc]init];
+    [label setFont:font];
+    [label setText:textString];
+    [label sizeToFit];
+    [label setTextColor:[UIColor colorWithRed:r green:g blue:b alpha:1.0]];
+    
+    if(textTextureSize.width < label.frame.size.width){
+        textTextureSize.width = label.frame.size.width;
+    }
+    textTextureSize.height += label.frame.size.height;
+    
+    if(textTextureArray == nil){
+        textTextureArray = [[NSMutableArray alloc]initWithCapacity:4];
+    }
+    [textTextureArray addObject:label];
+    [label release];
 }
 
 
