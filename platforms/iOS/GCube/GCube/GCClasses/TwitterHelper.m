@@ -11,8 +11,8 @@
 #import "SA_OAuthTwitterEngine.h"
 
 
-#define kOAuthConsumerKey				@"ByRxuc6bUEaNjKhPdnFg"		//REPLACE ME
-#define kOAuthConsumerSecret			@"yvtlEEsNyIVmzm6HePK7aFeZhtfWBE5DJb4AuiuHE"		//REPLACE ME
+#define kOAuthConsumerKey				@"REPLACE ME"		//REPLACE ME
+#define kOAuthConsumerSecret			@"REPLACE ME"		//REPLACE ME
 
 @implementation TwitterHelper
 
@@ -109,7 +109,7 @@
 }
 
 
-- (BOOL) tweet:(NSString *)text {
+- (void) tweet:(NSString *)text {
 	[_engine sendUpdate: text];
 }
 

@@ -352,7 +352,7 @@ bool SceneTitle::onTouch(TouchEvent &event) {
 	if (event.type == touchDown) {
 		
 //		controller->sendTwitterEvent(TwitterEvent_Post, "Test tweet by GCube! ");
-		controller->sendTwitterEvent(TwitterEvent_Authenticate);
+//		controller->sendTwitterEvent(TwitterEvent_Authenticate);
 		
 //
 //		ImageAnimationView *v = (ImageAnimationView *) layer->findViewByID(10);
