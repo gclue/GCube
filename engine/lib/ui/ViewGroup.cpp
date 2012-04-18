@@ -54,6 +54,7 @@ void ViewGroup::removeView(View *view) {
 		View *a = *it;
 		if (a == view) {
 			it = views.erase(it);
+            a->parent = NULL;
 			a->release();
 //			delete a;
 		} else {
