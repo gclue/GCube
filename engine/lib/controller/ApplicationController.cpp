@@ -349,6 +349,7 @@ void ApplicationController::onGameEvent(int type, int param1, long param2, doubl
 
 
 void ApplicationController::sendTwitterEvent(int type, const char* text) {
+	LOGD("ApplicationController::sendTwitterEvent %d, %s",type, text);
 	GCSendTwitterEvent(type, text);
 }
 

@@ -24,6 +24,7 @@
 #include "ApplicationController.h"
 #include "APIGlue.h"
 #include "SceneTitle.h"
+#include "SceneTwitterTest.h"
 //#include "Scene3D.h"
 #include <time.h>
 
@@ -36,9 +37,11 @@ void Main::initApplicationController() {
 
 	SceneTitle *scene1 = new SceneTitle(controller);
 //	Scene3D *scene2 = new Scene3D(controller);
+	SceneTwitterTest *scene3 = new SceneTwitterTest(controller);
 	
 	controller->addScene(1, scene1);
 //	controller->addScene(2, scene2);
+	controller->addScene(2, scene3);
 	controller->sceneChange(1);
 }
 

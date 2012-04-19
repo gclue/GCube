@@ -12,6 +12,9 @@
 		1F1C1B651521D7A70093AE03 /* WebView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F1C1B631521D7A70093AE03 /* WebView.cpp */; };
 		1F21165D152EA11800B4E750 /* PhysicsLayer2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F21165B152EA11800B4E750 /* PhysicsLayer2D.cpp */; };
 		1F211660152EA12900B4E750 /* Box2DManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F21165E152EA12900B4E750 /* Box2DManager.cpp */; };
+		1FC2DB351540060600112E08 /* SceneTwitterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FC2DB341540060600112E08 /* SceneTwitterTest.cpp */; };
+		1FC2DB39154008E800112E08 /* twitter_texture_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC2DB37154008E800112E08 /* twitter_texture_01.png */; };
+		1FC2DB3A154008E800112E08 /* twitter_texture_01.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1FC2DB38154008E800112E08 /* twitter_texture_01.txt */; };
 		1FE7BECE152D728500166041 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7BE6E152D728500166041 /* b2BroadPhase.cpp */; };
 		1FE7BECF152D728500166041 /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7BE70152D728500166041 /* b2CollideCircle.cpp */; };
 		1FE7BED0152D728500166041 /* b2CollideEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7BE71152D728500166041 /* b2CollideEdge.cpp */; };
@@ -375,6 +378,10 @@
 		1F21165C152EA11800B4E750 /* PhysicsLayer2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsLayer2D.h; sourceTree = "<group>"; };
 		1F21165E152EA12900B4E750 /* Box2DManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Box2DManager.cpp; sourceTree = "<group>"; };
 		1F21165F152EA12900B4E750 /* Box2DManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DManager.h; sourceTree = "<group>"; };
+		1FC2DB341540060600112E08 /* SceneTwitterTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneTwitterTest.cpp; sourceTree = "<group>"; };
+		1FC2DB361540061200112E08 /* SceneTwitterTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneTwitterTest.h; sourceTree = "<group>"; };
+		1FC2DB37154008E800112E08 /* twitter_texture_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter_texture_01.png; sourceTree = "<group>"; };
+		1FC2DB38154008E800112E08 /* twitter_texture_01.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = twitter_texture_01.txt; sourceTree = "<group>"; };
 		1FE7BE6C152D728500166041 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
 		1FE7BE6E152D728500166041 /* b2BroadPhase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2BroadPhase.cpp; sourceTree = "<group>"; };
 		1FE7BE6F152D728500166041 /* b2BroadPhase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2BroadPhase.h; sourceTree = "<group>"; };
@@ -2041,6 +2048,8 @@
 		6644323214568A55001847A0 /* texture */ = {
 			isa = PBXGroup;
 			children = (
+				1FC2DB37154008E800112E08 /* twitter_texture_01.png */,
+				1FC2DB38154008E800112E08 /* twitter_texture_01.txt */,
 				6644323314568A55001847A0 /* chara_texture.png */,
 				6644323414568A55001847A0 /* chara_texture.txt */,
 				6644323514568A55001847A0 /* gclue_logo.png */,
@@ -2057,6 +2066,8 @@
 				6644324A1456A22C001847A0 /* Scene3D.h */,
 				6644324B1456A22C001847A0 /* SceneTitle.cpp */,
 				6644324C1456A22C001847A0 /* SceneTitle.h */,
+				1FC2DB341540060600112E08 /* SceneTwitterTest.cpp */,
+				1FC2DB361540061200112E08 /* SceneTwitterTest.h */,
 			);
 			name = main;
 			path = ../../../main;
@@ -3331,6 +3342,8 @@
 				1FE949D5153E8BC500A5336A /* jQueryInject.txt in Resources */,
 				1FE949D6153E8BC500A5336A /* jQueryInjectLandscape.txt in Resources */,
 				1FE949E8153E8BC500A5336A /* twitter_load.png in Resources */,
+				1FC2DB39154008E800112E08 /* twitter_texture_01.png in Resources */,
+				1FC2DB3A154008E800112E08 /* twitter_texture_01.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3661,6 +3674,7 @@
 				1FE949E6153E8BC500A5336A /* SA_OAuthTwitterController.m in Sources */,
 				1FE949E7153E8BC500A5336A /* SA_OAuthTwitterEngine.m in Sources */,
 				1FE949F1153E935B00A5336A /* TwitterHelper.m in Sources */,
+				1FC2DB351540060600112E08 /* SceneTwitterTest.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
