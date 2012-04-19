@@ -714,7 +714,7 @@ bool GCLoadTexture(Texture *gctexture, const char* filename){
 
     // メモリ開放
     free(Lines);
-
+    fclose(fp);
 
     // BGRAの順番で読み込まれるので並びをRGBAへ変更
     int max = nHeight * nHeight * 4;
