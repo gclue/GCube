@@ -11,8 +11,8 @@
 #import "SA_OAuthTwitterEngine.h"
 
 
-#define kOAuthConsumerKey				@"REPLACE ME"		//REPLACE ME
-#define kOAuthConsumerSecret			@"REPLACE ME"		//REPLACE ME
+#define kOAuthConsumerKey				@"REPLACE_ME"		//REPLACE ME
+#define kOAuthConsumerSecret			@"REPLACE_ME"		//REPLACE ME
 
 @implementation TwitterHelper
 
@@ -40,7 +40,7 @@
 - (void) OAuthTwitterController: (SA_OAuthTwitterController *) controller authenticatedWithUsername: (NSString *) username {
 	NSLog(@"Authenicated for %@", username);
 	if (self.responseBlock) {
-		self.responseBlock(0);
+		self.responseBlock(TWITTER_HELPER_EVENT_AUTH_SUCCESS);
 	}
 	
 	
@@ -49,7 +49,7 @@
 - (void) OAuthTwitterControllerFailed: (SA_OAuthTwitterController *) controller {
 	NSLog(@"Authentication Failed!");
 	if (self.responseBlock) {
-		self.responseBlock(1);
+		self.responseBlock(TWITTER_HELPER_EVENT_AUTH_FAILED);
 	}
 	
 }
@@ -57,7 +57,7 @@
 - (void) OAuthTwitterControllerCanceled: (SA_OAuthTwitterController *) controller {
 	NSLog(@"Authentication Canceled.");
 	if (self.responseBlock) {
-		self.responseBlock(2);
+		self.responseBlock(TWITTER_HELPER_EVENT_AUTH_FAILED);
 	}
 	
 }
@@ -66,12 +66,12 @@
 #pragma mark TwitterEngineDelegate
 - (void) requestSucceeded: (NSString *) requestIdentifier {
 	NSLog(@"Request %@ succeeded", requestIdentifier);
-	self.tweetResponseBlock(0);
+	self.tweetResponseBlock(TWITTER_HELPER_EVENT_POST_SUCCESS);
 }
 
 - (void) requestFailed: (NSString *) requestIdentifier withError: (NSError *) error {
 	NSLog(@"Request %@ failed with error: %@", requestIdentifier, error);
-	self.tweetResponseBlock(1);
+	self.tweetResponseBlock(TWITTER_HELPER_EVENT_POST_FAILED);
 }
 
 
@@ -96,7 +96,7 @@
 		[self presentModalViewController: controller animated: YES];
 	else {
 		if (self.responseBlock) {
-			self.responseBlock(3);
+			self.responseBlock(TWITTER_HELPER_EVENT_ALREADY_AUTHORIZED);
 			
 		}
 		
@@ -128,8 +128,8 @@
 	if(controller) {
 		[self presentModalViewController: controller animated: YES];
 	}else {
-		responseBlock(3);
-		[controller release];
+		responseBlock(TWITTER_HELPER_EVENT_ALREADY_AUTHORIZED);
+//		[controller release];
 	}
 	
 	

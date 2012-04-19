@@ -12,7 +12,14 @@
 #import "GCAppDelegate.h"
 #import "SA_OAuthTwitterController.h"
 
+#define TWITTER_HELPER_EVENT_POST_SUCCESS 0
+#define TWITTER_HELPER_EVENT_POST_FAILED 1
+#define TWITTER_HELPER_EVENT_AUTH_SUCCESS 0
+#define TWITTER_HELPER_EVENT_AUTH_FAILED 1
+#define TWITTER_HELPER_EVENT_ALREADY_AUTHORIZED 2
+
 @class SA_OAuthTwitterEngine;
+
 
 @interface TwitterHelper : UIViewController <SA_OAuthTwitterControllerDelegate> {
 	SA_OAuthTwitterEngine *_engine;

@@ -101,4 +101,7 @@ public final class JNILib {
 	 * @param response レスポンス
 	 */
 	public synchronized static native void sendHttpEvent(int id, HttpResponse response);
+	
+	
+	public synchronized static native void sendTwitterEvent(int type, int param1);
 }

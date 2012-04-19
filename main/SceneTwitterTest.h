@@ -20,36 +20,39 @@
  * THE SOFTWARE.
  */
 
-#ifndef SCENETITLE_H_
-#define SCENETITLE_H_
+#ifndef SceneTwitterTest_H_
+#define SceneTwitterTest_H_
 
 #include "Scene.h"
+#include "Button.h"
+#include "Animation.h"
 
-class Camera;
-class TitleRenderer;
-class SimpleShader;
-class Figure;
 
 /**
- * タイトルシーンクラス.
+ * ツイッターサンプルコードクラス.
  */
-class SceneTitle : public Scene {
+class SceneTwitterTest : public Scene, OnButtonClickListener, IAnimationListener {
 private:
 	typedef Scene super;
 	int index;
+	
+	//成功文字の表示
+	void startPostSuccess();
+	//失敗文字の表示
+	void startPostFailed();
 	
 public:
 	/**
 	 * コンストラクタ.
 	 * @param[in] controller コントローラー
 	 */
-	SceneTitle(ApplicationController *controller);
-
+	SceneTwitterTest(ApplicationController *controller);
+	
 	/**
 	 * デストラクタ.
 	 */
-	virtual ~SceneTitle();
-
+	virtual ~SceneTwitterTest();
+	
 	//////////////////////////////////////////////////////////
 	// IScene の実装
 	//////////////////////////////////////////////////////////
@@ -63,39 +66,39 @@ public:
 	 * セットアップ処理を行います.
 	 */
 	virtual void setup();
-
+	
 	/**
 	 * リサイズ処理を行います.
 	 * @param[in] width 横幅
 	 * @param[in] height 縦幅
 	 */
 	virtual void resize(int width, int height);
-
+	
 	/**
 	 * 活性化します.
 	 */
 	virtual void onActivate();
-
+	
 	/**
 	 * 休止します.
 	 */
 	virtual void onSuspend();
-
+	
 	/**
 	 * 活性化してシーンが切り替え終わったこと通知します.
 	 */
 	virtual void onStart();
-
+	
 	/**
 	 * 非活性化してシーンが切り替え終わったこと通知します.
 	 */
 	virtual void onEnd();
-
+	
 	/**
 	 * コンテキストが切り替わったことを通知します.
 	 */
 	virtual void onContextChanged();
-
+	
 	/**
 	 * タッチイベント.
 	 * @param[in] event タッチイベント
@@ -103,7 +106,46 @@ public:
 	virtual bool onTouch(TouchEvent &event);
 	
 	
+	/**
+	 * ツイッターイベントを受け取ります.
+	 */
+	virtual void onTwitterEvent(int type, int param);
+	
+	
+	/**
+	 * ボタンがクリックされたイベント.
+	 * @param[in] btn クリックされたボタン
+	 */
+	virtual void onButtonClick(Button *btn);
+	/**
+	 * ボタンがタッチされたときに呼び出されます.
+	 * @param[in] btn タッチされたボタン
+	 */
+	virtual void onButtonTouchStart(Button *btn);
+	
+	
+	/**
+	 * アニメーションが開始されたときのイベント.
+	 * @param animation 開始したアニメーション
+	 */
+	virtual void onAnimationStart(IAnimation *animation);
+	
+	/**
+	 * アニメーションが完了したときのイベント.
+	 * @param animation 完了したアニメーション
+	 * @param index AnimationSetの場合には、終了したアニメーションのインデックス
+	 */
+	virtual void onAnimationEnd(IAnimation *animation, int index);
+	
+	/**
+	 * アニメーションが完了したときのイベント.
+	 * @param animation 完了したアニメーション
+	 */
+	virtual void onAnimationAllEnd(IAnimation *animation);
+	
+	
+	
 	
 };
 
-#endif /* SCENETITLE_H_ */
+#endif /* SceneTwitterTest_H_ */
