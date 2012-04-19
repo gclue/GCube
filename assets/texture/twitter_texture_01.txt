@@ -1,0 +1,4 @@
+btCancel.png,826,0,184,56,0,1.0
+btPost.png,0,373,184,56,0,1.0
+ivTextBack.png,453,0,373,197,0,1.0
+ivTwitterBack.png,0,0,453,373,0,1.0
