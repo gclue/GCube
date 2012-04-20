@@ -153,6 +153,14 @@ public:
 	 */
 	virtual void onGameEvent(int type, int param1, long param2, double param3, int param4, const char *param5) = 0;
 	
+	
+	/**
+	 * ツイッターイベントを受け取ります.
+	 * @param[in] type イベントタイプ.
+	 * @param[in] param1 パラメータ.
+	 */
+	virtual void onTwitterEvent(int type, int param1) = 0;
+	
 	/**
 	 * デバッグコマンドを受け取るメソッド.
 	 * @param command コマンド

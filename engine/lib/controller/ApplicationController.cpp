@@ -350,6 +350,22 @@ void ApplicationController::onGameEvent(int type, int param1, long param2, doubl
 	}
 }
 
+
+void ApplicationController::sendTwitterEvent(int type, const char* text) {
+	LOGD("ApplicationController::sendTwitterEvent %d, %s",type, text);
+	GCSendTwitterEvent(type, text);
+}
+
+
+void ApplicationController::onTwitterEvent(int type, int param1) {
+	LOGD("******* onTwitterEvent: %d, %d",type, param1);
+	
+	bool f = main->onTwitterEvent(type, param1);
+	if(activeScene && !f) {
+		activeScene->onTwitterEvent(type, param1);
+	}
+}
+
 // デバッグコマンド
 void ApplicationController::onDebugCommand(const char *command, int param) {
 	LOGD("***********onDebugCommand:%s,%d", command, param);

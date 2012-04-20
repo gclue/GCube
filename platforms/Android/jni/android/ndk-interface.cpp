@@ -67,6 +67,7 @@ struct JNIInterface {
 
 	jmethodID copyFileFromAssetsMethod;	//!< NDKInterface#copyFileFromAssetsMethod()のID
 	jmethodID getFilePathMethod;	    //!< NDKInterface#getFilePathMethod()のID
+	jmethodID sendTwitterEventMethod;	//!< NDKinterface#onTwitterEvent() id
 };
 
 /**
@@ -870,6 +871,21 @@ void GCSendWebViewEvent(int type, int viewId, double param1, double param2, doub
 		}
 }
 
+void GCSendTwitterEvent(int type, const char* text) {
+	JNIEnv* env = jni.env;
+			if (env) {
+				LOGD( "**JNISendTwitterEvent**:%d, %s", type,text);
+				jstring str = NULL;
+				if (text) {
+					str = env->NewStringUTF(text);
+				}
+				env->CallVoidMethod(jni.obj, jni.sendTwitterEventMethod, type, str);
+				if (str) {
+					env->DeleteLocalRef(str);
+				}
+			}
+}
+
 /**
  * 初期化関数.
  *
@@ -971,6 +987,10 @@ Java_com_gclue_gl_JNILib_setInterface(
 	jni.getFilePathMethod = env->GetMethodID(clazz, "getFilePath", "(Ljava/lang/String;)Ljava/lang/String;");
 	if (!jni.getFilePathMethod) {
 		LOGE("Mehtod not found!! (getFilePath)");
+	}
+	jni.sendTwitterEventMethod = env->GetMethodID(clazz, "onTwitterEvent", "(ILjava/lang/String;)V");
+	if(!jni.sendTwitterEventMethod) {
+		LOGE("Method not found!! (onTwitterEvent)");
 	}
 
 	env->DeleteLocalRef(clazz);
@@ -1092,6 +1112,15 @@ Java_com_gclue_gl_JNILib_sendGameEvent(
 		if (str) {
 			env->ReleaseStringUTFChars(param5, str);
 		}
+	}
+}
+
+JNIEXPORT void JNICALL
+Java_com_gclue_gl_JNILib_sendTwitterEvent(
+		JNIEnv* env, jobject thiz, jint type, jint param1)
+{
+	if (controller) {
+		controller->onTwitterEvent(type, param1);
 	}
 }
 

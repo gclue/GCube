@@ -101,6 +101,9 @@ public:
 	 * @param[in] event タッチイベント
 	 */
 	virtual bool onTouch(TouchEvent &event);
+	
+	
+	
 };
 
 #endif /* SCENETITLE_H_ */

@@ -1,2 +1,12 @@
 Android,iOSで動作するゲームエンジンです。
 絶賛開発途上中です！
+
+以下のライブラリを使用しています
+Twitter Libraries
+
+-Twitter OAuth iPhone
+	Includes Twitter+OAuth code by Ben Gottlieb
+	https://github.com/bengottlieb/Twitter-OAuth-iPhone
+-Twitter4j
+	http://twitter4j.org/ja/index.html
+

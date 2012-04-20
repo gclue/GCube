@@ -15,6 +15,8 @@
 #import "GCAppDelegate.h"
 #import "GCViewController.h"
 
+#import "TwitterHelper.h"
+
 /**
  * 非同期HTTP Client用レスポンスクラス
  */
@@ -242,6 +244,115 @@ HttpResponse* GCHttpRequest(std::string url, std::map<std::string, std::string> 
     }
     
     return httpResponse;
+}
+
+TwitterHelper *helper = NULL;
+
+//ツイッターイベント送信を受け取ります。
+void GCSendTwitterEvent(int type, const char *text) {
+	LOGD("GCSendTwitterEvent %d, %s",type, text);
+	switch(type) {
+		case TwitterEvent_Post: {
+			
+			NSString *str = [NSString stringWithUTF8String:text];
+			
+			NSLog(str);
+			//テスト投稿用のテキスト.時間を自動追加で二重投稿回避.
+			//NSString *addTimeText = [str stringByAppendingString:[NSString stringWithFormat: @"Already Updated. %@", [NSDate date]]];
+			
+			
+			//ツイッタービューの作成.
+			if(!helper) {
+				helper = [[TwitterHelper alloc] init];
+			}
+			
+			
+			//認証コールバック.
+			helper.responseBlock = ^(int type) {
+				NSLog(@"auth res %d",type);
+				if(type == TWITTER_HELPER_EVENT_ALREADY_AUTHORIZED) {
+
+					//認証済み
+					[helper tweet:str];
+				}
+				if(type == TWITTER_HELPER_EVENT_AUTH_FAILED) {
+					//認証失敗 or　キャンセル
+					ApplicationController *ctr = CGControllerInstance();
+					ctr->onTwitterEvent(TwitterEvent_Post, 2);
+					
+				}
+				if(type == TWITTER_HELPER_EVENT_AUTH_SUCCESS) {
+					//認証成功→ツイート
+					[helper tweet:str];
+				}
+			};
+			
+			//ツイートコールバック.
+			helper.tweetResponseBlock = ^(int type) {
+				NSLog(@"tweet res %d",type);
+				if(type == TWITTER_HELPER_EVENT_POST_SUCCESS) {
+					//ツイート成功
+					ApplicationController *ctr = CGControllerInstance();
+					ctr->onTwitterEvent(TwitterEvent_Post, 0);
+			
+				}
+				if(type == TWITTER_HELPER_EVENT_POST_FAILED) {
+					//ツイート失敗
+					ApplicationController *ctr = CGControllerInstance();
+					ctr->onTwitterEvent(TwitterEvent_Post, 1);
+				}
+				[helper removeFromParentViewController];
+			};
+			
+			
+			//twitter登録画面の表示
+			GCAppDelegate *delegate = (GCAppDelegate*)[[UIApplication sharedApplication] delegate];
+			[delegate.viewController.view addSubview:helper.view];
+			
+			
+			[helper authenticate];
+			break;
+		}
+		case TwitterEvent_Authenticate: {
+			if(!helper) {
+				helper = [[TwitterHelper alloc] init];
+			}
+			
+						
+			helper.responseBlock = ^(int type) {
+				NSLog(@"%d",type);
+				ApplicationController *ctr = CGControllerInstance();
+				switch(type) {
+						
+					case TWITTER_HELPER_EVENT_AUTH_SUCCESS:	//認証成功
+						ctr->onTwitterEvent(TwitterEvent_Authenticate, 0);
+						
+						break;
+					case TWITTER_HELPER_EVENT_AUTH_FAILED: //認証失敗
+						ctr->onTwitterEvent(TwitterEvent_Authenticate, 1);
+						break;
+					case TWITTER_HELPER_EVENT_ALREADY_AUTHORIZED: //認証済み
+						ctr->onTwitterEvent(TwitterEvent_Authenticate, 0);
+						break;
+				}
+				[helper removeFromParentViewController];
+				
+			};
+			
+			
+			
+			
+			//twitter登録画面の表示
+			GCAppDelegate *delegate = (GCAppDelegate*)[[UIApplication sharedApplication] delegate];
+			[delegate.viewController.view addSubview:helper.view];
+
+			
+			[helper authenticate];
+			
+			break;
+		}
+	}
+	
 }
 
 

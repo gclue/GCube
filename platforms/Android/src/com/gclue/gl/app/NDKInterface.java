@@ -51,6 +51,7 @@ import com.gclue.util.HttpRequestManager.HttpRequestListener;
 import com.gclue.util.MusicPlayer;
 import com.gclue.util.SoundManager;
 import com.gclue.util.StringUtils;
+import com.gclue.util.TwitterUtil;
 
 /**
  * Cから呼び出されるメソッドのインターフェースとなるクラスです.
@@ -80,6 +81,13 @@ public class NDKInterface {
 	public static final int WebViewEvent_LoadURL = 4;
 	public static final int WebViewEvent_ResizeView = 5;
 	public static final int WebViewEvent_SetPosition = 6;
+	
+	
+	//////////////////////////////////////////////////////////////////////////////
+	// Twitterイベント
+	//////////////////////////////////////////////////////////////////////////////
+	public static final int TwitterEvent_Post = 0;
+	public static final int TwitterEvent_Authenticate = 1;
 	
 	//////////////////////////////////////////////////////////////////////////////
 	// サウンドイベント
@@ -145,6 +153,8 @@ public class NDKInterface {
 	private Texture texture;
 	
 	private FrameLayout root;
+	
+	private TwitterUtil twitterUtil = null;
 	
 	/**
 	 * NDKからのイベントを通知するリスナー.
@@ -258,6 +268,56 @@ public class NDKInterface {
 		}
 	}
 	
+	public void onTwitterEvent(int type, final String text) {
+		Log.i(TAG, "onTwitterEvent");
+		if(twitterUtil == null) {
+			twitterUtil = new TwitterUtil(context, root);
+		}
+		
+		
+		switch(type) {
+		case TwitterEvent_Post:
+			twitterUtil.tweet(text + ":" + System.currentTimeMillis(), new TwitterUtil.OnTwitterResponseListener() {
+				
+				@Override
+				public void onTwitterResponse(int type) {
+					// TODO Auto-generated method stub
+					Log.i(TAG,"PostEvent Twitter Response " + type);
+					if(type == TwitterUtil.TWITTER_RESPONSE_POST_SUCCESS) {
+						JNILib.sendTwitterEvent(TwitterEvent_Post, 0);
+					}else {
+						JNILib.sendTwitterEvent(TwitterEvent_Post, 1);
+					}
+				}
+			});
+			break;
+		case TwitterEvent_Authenticate:
+			twitterUtil.authenticate(new TwitterUtil.OnTwitterResponseListener() {
+
+				@Override
+				public void onTwitterResponse(int type) {
+					if(type == TwitterUtil.TWITTER_RESPONSE_AUTH_SUCCESS) {
+						JNILib.sendTwitterEvent(TwitterEvent_Authenticate, 0);
+					}else {
+						JNILib.sendTwitterEvent(TwitterEvent_Authenticate, 1);
+					}
+				}
+				
+			});
+			break;
+		}
+	}
+	
+	/**
+	 * WebViewのイベントを受け取ります.
+	 * @param type
+	 * @param viewId
+	 * @param param1
+	 * @param param2
+	 * @param param3
+	 * @param param4
+	 * @param param5
+	 */
 	public void onWebViewEvent(int type, final int viewId, final double param1, final double param2, final double param3, final double param4, final String param5) {
 		Log.i(TAG, "onWebViewEvent** type = " + type +", viewID = " + viewId);
 		switch(type) {

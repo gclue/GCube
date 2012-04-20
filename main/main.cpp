@@ -25,6 +25,7 @@
 #include "APIGlue.h"
 #include "SceneTitle.h"
 #include "SceneSample1.h"
+#include "SceneTwitterTest.h"
 //#include "Scene3D.h"
 #include <time.h>
 
@@ -38,9 +39,11 @@ void Main::initApplicationController() {
 	SceneTitle *scene1 = new SceneTitle(controller);
 //	Scene3D *scene2 = new Scene3D(controller);
     SceneSample1 *sceneSample1 = new SceneSample1(controller);
+    SceneTwitterTest *scene3 = new SceneTwitterTest(controller);
 	
 	controller->addScene(1, scene1);
 //	controller->addScene(2, scene2);
+    controller->addScene(2, scene3);
     controller->addScene(3, sceneSample1);
 	controller->sceneChange(3);
 }
@@ -63,6 +66,12 @@ void Main::saveData() {
 // ゲームイベント受信.
 bool Main::onGameEvent(int type, int param1, long param2, double param3, int param4, const char *param5) {
 	LOGD("*Main::onGameEvent(%d, %d, %ld, %f, %d, %s)", type, param1, param2, param3, param4, param5);
+	return false;
+}
+
+//ツイッターイベント受信.
+bool Main::onTwitterEvent(int type, int param1) {
+	LOGD("***Main::onTwitterEvent(%d, %d)",type, param1);
 	return false;
 }
 

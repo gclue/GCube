@@ -45,64 +45,64 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	LOGD("****SceneTitle");
 	index = 0;
 	
-//	HttpClient client;
-//	PngData png;
-//	Scene sn(controller);
-//
-//	class ps : public XMLParser {
-//		virtual void startElement(const XML_Char *name, const XML_Char *atts[]) {};
-//		virtual void endElement(const XML_Char *name) {};
-//		virtual void bodyElement(const XML_Char *s, int len) {};
-//	};
-//
-//	ps a;
-
-
-
+	//	HttpClient client;
+	//	PngData png;
+	//	Scene sn(controller);
+	//
+	//	class ps : public XMLParser {
+	//		virtual void startElement(const XML_Char *name, const XML_Char *atts[]) {};
+	//		virtual void endElement(const XML_Char *name) {};
+	//		virtual void bodyElement(const XML_Char *s, int len) {};
+	//	};
+	//
+	//	ps a;
+	
+	
+	
 	TextureManager *mgr = controller->texMgr;
-
+	
 	SharedTexture *tex = mgr->getSharedTexture(
-			"texture/chara_texture.png",
-			"texture/chara_texture.txt");
-
+											   "texture/chara_texture.png",
+											   "texture/chara_texture.txt");
+	
 	ViewGroup *root = new ViewGroup(controller);
-
+	
 	//TextTexture使用サンプル
 	//結構メモリを使用するので動的に生成するのはおすすめしない
     GCDrawText("Test", 60, 1.0, 1.0, 1.0);
     GCDrawText("Red", 60, 1.0, 0.0, 0.0);
     GCDrawText("日本語", 40, 1.0, 0.0, 1.0);
-
+	
     //GCGetTextTextureでテクスチャを取得
     PackerTexture *strTexture = GCGetTextTexture();
-
+	
     //TextureManagerにテクスチャを登録する。
     //登録しておかないと復帰時の再ロードが行われない。
     //任意の名前で登録する "TextTexture"
     //登録後は　mgr->getSharedTexture("TextTexture",NULL);　で取得できる
     mgr->addExtraTexture("TextTexture", strTexture);
-
+	
     ImageView *textLabel = new ImageView(controller);
     textLabel->setFigure(strTexture->makePlate(0, 0));//登録順のインデックスもしくは、 strTexture->makePlate("Test")　GCDrawText時の文字列を指定する
     textLabel->setTexture(&strTexture->getTexture());
     textLabel->setPosition(0, 1.0/controller->getAspect()-textLabel->size.y);
     root->addView(textLabel);
     textLabel->release();
-
+	
     ImageView *textLabel2 = new ImageView(controller);
     textLabel2->setFigure(strTexture->makePlate(1, 0));
     textLabel2->setTexture(&strTexture->getTexture());
     textLabel2->setPosition(1.0 - textLabel2->size.x, 1.0/controller->getAspect()-textLabel2->size.y);
     root->addView(textLabel2);
     textLabel2->release();
-
+	
     ImageView *textLabel3 = new ImageView(controller);
     textLabel3->setFigure(strTexture->makePlate(2, 0));
     textLabel3->setTexture(&strTexture->getTexture());
     textLabel3->setPosition(-1.0 + textLabel3->size.x, -1.0/controller->getAspect()+textLabel3->size.y);
     root->addView(textLabel3);
     textLabel3->release();
-
+	
 	static const char *filename[] = {
 		"chara00.png",
 		"chara01.png",
@@ -117,7 +117,7 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 		"chara10.png",
 		"chara11.png",
 	};
-
+	
 	ImageAnimationView *animView = new ImageAnimationView(controller);
 	for (int i = 0; i < 12; i++) {
 		ImageView *image = new ImageView(controller);
@@ -125,7 +125,7 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 		image->setTexture(&tex->getTexture());
 		animView->addView(image);
 	}
-
+	
 	// 下
 	animView->addAnimationFrame(1, 0, 0.12);
 	animView->addAnimationFrame(1, 2, 0.12);
@@ -138,18 +138,18 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	// 左
 	animView->addAnimationFrame(4, 3, 0.12);
 	animView->addAnimationFrame(4, 5, 0.12);
-
+	
 	animView->setAnimationFrameIndex(1);
 	animView->setUserID(10);
 	
-//	animView->setRotate(30);
+	//	animView->setRotate(30);
 	animView->setScale(2.0, 2.0);
-
+	
 	root->addView(animView);
 	
 	
-
-
+	
+	
 	Layer2D *layer = new Layer2D(controller);
 	layer->setContentView(root);
 	
@@ -164,10 +164,10 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	
 	
 	ImageView *wall = new ImageView(controller);
-//	wall->setFigure(tex->makePlate(filename[0]));
+	//	wall->setFigure(tex->makePlate(filename[0]));
 	wall->setPosition(0, -1/controller->getAspect());
 	wall->setSize(1, 0.05);
-//	wall->setTexture(&tex->getTexture());
+	//	wall->setTexture(&tex->getTexture());
 	
 	
 	
@@ -184,79 +184,79 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	addLayer(1, layer);
 	addLayer(2, pLayer);
 	
-/*
-	Matrix3D *mtx1 = new Matrix3D();
-	mtx1->translate(1.5, 1, -1);
-	
-	// キューブ
-	Figure *fig = createBox(0.5, 0.5, 0.5);
-	fig->build();
-	Matrix3D *mtx2 = new Matrix3D();
-	mtx2->rotate(30, RotateDirX);
-	mtx2->translate(2, 3, 0);
-	RigidBodyOption opt;
-	opt.sizeX = 0.5;
-	opt.sizeY = 0.5;
-	opt.sizeZ = 0.5;
-	opt.mass = 3.0;
-	opt.restitution = 0.3;
-	opt.friction = 1.0;
-
-	// 床
-	Figure *fig2 = createPlate(3, 3);
-	fig2->build();
-	fig2->transForm->rotate(90, RotateDirX);
-	RigidBodyOption opt2;
-	opt.restitution = 0.3;
-	opt.friction = 1.0;
-	
-	// 
-	WFObjLoader loader;
-	Figure *fig3 = loader.loadFile("model/kotoji.model");
-	fig3->build();
-	fig3->transForm->translate(-1.5, 5, 0);
-	
-	Light *light = new Light();
-	light->position.x = 0;
-	light->position.y = 4;
-	light->position.z = 5;
-	
-	Texture *tex2 = new Texture("texture/gclue_logo.png");
-	//
-	Layer3D *l3 = new Layer3D(controller);
-	l3->addLight(1, light);
-	
-	FigureInfo info = {NULL};
-	info.fig = fig;
-	info.mtx = mtx1;
-	l3->addFigure(info);
-	
-	info.tex = tex2;
-	info.mtx = mtx2;
-	opt.type = RigidBodyType_Box;
-	l3->addFigure(info, opt);
-	
-	info.fig = fig2;
-	info.mtx = NULL;
-	info.tex = NULL;
-	opt.type = RigidBodyType_Ground;
-	l3->addFigure(info, opt);
-	
-	info.fig = fig3;
-	info.mtx = NULL;
-	info.tex = NULL;
-	opt.type = RigidBodyType_Mesh;
-	l3->addFigure(info, opt);
-	
-	fig->release();
-	fig2->release();
-	fig3->release();
-	mtx1->release();
-	mtx2->release();
-	tex2->release();
-	
-	addLayer(0, l3);
-	*/
+	/*
+	 Matrix3D *mtx1 = new Matrix3D();
+	 mtx1->translate(1.5, 1, -1);
+	 
+	 // キューブ
+	 Figure *fig = createBox(0.5, 0.5, 0.5);
+	 fig->build();
+	 Matrix3D *mtx2 = new Matrix3D();
+	 mtx2->rotate(30, RotateDirX);
+	 mtx2->translate(2, 3, 0);
+	 RigidBodyOption opt;
+	 opt.sizeX = 0.5;
+	 opt.sizeY = 0.5;
+	 opt.sizeZ = 0.5;
+	 opt.mass = 3.0;
+	 opt.restitution = 0.3;
+	 opt.friction = 1.0;
+	 
+	 // 床
+	 Figure *fig2 = createPlate(3, 3);
+	 fig2->build();
+	 fig2->transForm->rotate(90, RotateDirX);
+	 RigidBodyOption opt2;
+	 opt.restitution = 0.3;
+	 opt.friction = 1.0;
+	 
+	 // 
+	 WFObjLoader loader;
+	 Figure *fig3 = loader.loadFile("model/kotoji.model");
+	 fig3->build();
+	 fig3->transForm->translate(-1.5, 5, 0);
+	 
+	 Light *light = new Light();
+	 light->position.x = 0;
+	 light->position.y = 4;
+	 light->position.z = 5;
+	 
+	 Texture *tex2 = new Texture("texture/gclue_logo.png");
+	 //
+	 Layer3D *l3 = new Layer3D(controller);
+	 l3->addLight(1, light);
+	 
+	 FigureInfo info = {NULL};
+	 info.fig = fig;
+	 info.mtx = mtx1;
+	 l3->addFigure(info);
+	 
+	 info.tex = tex2;
+	 info.mtx = mtx2;
+	 opt.type = RigidBodyType_Box;
+	 l3->addFigure(info, opt);
+	 
+	 info.fig = fig2;
+	 info.mtx = NULL;
+	 info.tex = NULL;
+	 opt.type = RigidBodyType_Ground;
+	 l3->addFigure(info, opt);
+	 
+	 info.fig = fig3;
+	 info.mtx = NULL;
+	 info.tex = NULL;
+	 opt.type = RigidBodyType_Mesh;
+	 l3->addFigure(info, opt);
+	 
+	 fig->release();
+	 fig2->release();
+	 fig3->release();
+	 mtx1->release();
+	 mtx2->release();
+	 tex2->release();
+	 
+	 addLayer(0, l3);
+	 */
 }
 
 SceneTitle::~SceneTitle() {
@@ -271,35 +271,35 @@ float ddt = 0;
 
 // ステップ実行します
 void SceneTitle::step(float dt) {
-
+	
 	ddt+=dt;
 	if (ddt>5) {
 		/*
-		Layer3D *l3 = (Layer3D*)getLayer(0);
-		Matrix3D *mtx = l3->findMatrixByID(2);
-		mtx->loadIdentity();
-		mtx->rotate(rand()%180, RotateDirZ);
-		mtx->translate(2,3,0);
-
-		mtx = l3->findMatrixByID(4);
-		mtx->loadIdentity();
-		mtx->rotate(rand()%50, RotateDirX);
-		mtx->translate(-1.5,5,0);
-		*/
-
-
+		 Layer3D *l3 = (Layer3D*)getLayer(0);
+		 Matrix3D *mtx = l3->findMatrixByID(2);
+		 mtx->loadIdentity();
+		 mtx->rotate(rand()%180, RotateDirZ);
+		 mtx->translate(2,3,0);
+		 
+		 mtx = l3->findMatrixByID(4);
+		 mtx->loadIdentity();
+		 mtx->rotate(rand()%50, RotateDirX);
+		 mtx->translate(-1.5,5,0);
+		 */
+		
+		
 		Layer2D *layer = (Layer2D *) getLayer(1);
-
+		
 		ImageAnimationView *v = (ImageAnimationView *) layer->findViewByID(10);
 		if (v) {
 			index++;
 			index %= 4;
 			v->setAnimationFrameIndex(index + 1);
 		}
-
+		
 		ddt = 0;
 	}
-
+	
 	super::step(dt);
 }
 
@@ -331,7 +331,7 @@ void SceneTitle::onSuspend() {
 void SceneTitle::onStart() {
 	super::onStart();
 	LOGD("****SceneTitle::onStart");
-
+	
 }
 
 // 非活性化してシーンが切り替え終わったこと通知します.
@@ -350,14 +350,18 @@ bool SceneTitle::onTouch(TouchEvent &event) {
 	super::onTouch(event);
 	LOGD("****SceneTitle::onTouch");
 	if (event.type == touchDown) {
-//
-//		ImageAnimationView *v = (ImageAnimationView *) layer->findViewByID(10);
-//		if (v) {
-//			index++;
-//			index %= 4;
-//			v->setAnimationFrameIndex(index + 1);
-//		}
-//		controller->sceneChange(2);
+		
+		//		controller->sendTwitterEvent(TwitterEvent_Post, "Test tweet by GCube! ");
+		//		controller->sendTwitterEvent(TwitterEvent_Authenticate);
+		
+		//
+		//		ImageAnimationView *v = (ImageAnimationView *) layer->findViewByID(10);
+		//		if (v) {
+		//			index++;
+		//			index %= 4;
+		//			v->setAnimationFrameIndex(index + 1);
+		//		}
+		//		controller->sceneChange(2);
 		return true;
 	}
 	return false;
