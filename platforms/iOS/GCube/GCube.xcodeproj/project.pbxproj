@@ -86,6 +86,7 @@
 		44D4AC4F154114BB004B3442 /* texture.xml in Resources */ = {isa = PBXBuildFile; fileRef = 44D4AC4E154114BB004B3442 /* texture.xml */; };
 		44D4AC52154114C5004B3442 /* SampleTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44D4AC50154114C5004B3442 /* SampleTexture.png */; };
 		44D4AC53154114C5004B3442 /* SampleTexture.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44D4AC51154114C5004B3442 /* SampleTexture.txt */; };
+		44D4AC5B1541446B004B3442 /* MathExpression.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44D4AC5A1541446A004B3442 /* MathExpression.cpp */; };
 		44DEE767153E860400E81D21 /* TextTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44DEE765153E860400E81D21 /* TextTexture.cpp */; };
 		662CB2E614D7CBBD003AA995 /* png.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB21D14D7CBBD003AA995 /* png.c */; };
 		662CB2E914D7CBBD003AA995 /* pngerror.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22214D7CBBD003AA995 /* pngerror.c */; };
@@ -540,6 +541,8 @@
 		44D4AC4E154114BB004B3442 /* texture.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = texture.xml; sourceTree = "<group>"; };
 		44D4AC50154114C5004B3442 /* SampleTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SampleTexture.png; sourceTree = "<group>"; };
 		44D4AC51154114C5004B3442 /* SampleTexture.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SampleTexture.txt; sourceTree = "<group>"; };
+		44D4AC5A1541446A004B3442 /* MathExpression.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MathExpression.cpp; sourceTree = "<group>"; };
+		44D4AC5C1541447F004B3442 /* MathExpression.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MathExpression.h; sourceTree = "<group>"; };
 		44DEE765153E860400E81D21 /* TextTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextTexture.cpp; sourceTree = "<group>"; };
 		44DEE766153E860400E81D21 /* TextTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextTexture.h; sourceTree = "<group>"; };
 		662CB1C014D7CBBD003AA995 /* ANNOUNCE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ANNOUNCE; sourceTree = "<group>"; };
@@ -1697,6 +1700,15 @@
 			path = layout;
 			sourceTree = "<group>";
 		};
+		44D4AC5415413E41004B3442 /* math */ = {
+			isa = PBXGroup;
+			children = (
+				44D4AC5A1541446A004B3442 /* MathExpression.cpp */,
+				44D4AC5C1541447F004B3442 /* MathExpression.h */,
+			);
+			path = math;
+			sourceTree = "<group>";
+		};
 		662CB1BF14D7CBBD003AA995 /* lpng1246 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2455,6 +2467,7 @@
 		6674755014552F0A0065EDF3 /* math */ = {
 			isa = PBXGroup;
 			children = (
+				44D4AC5415413E41004B3442 /* math */,
 				6674755114552F0A0065EDF3 /* matrixUtil.c */,
 				6674755214552F0A0065EDF3 /* matrixUtil.h */,
 				6674755314552F0A0065EDF3 /* vectorUtil.c */,
@@ -3725,6 +3738,7 @@
 				44D4AC4315411427004B3442 /* SceneSample1.cpp in Sources */,
 				44D4AC4615411457004B3442 /* LayoutInflater.cpp in Sources */,
 				44D4AC4A15411474004B3442 /* ViewFactory.cpp in Sources */,
+				44D4AC5B1541446B004B3442 /* MathExpression.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
