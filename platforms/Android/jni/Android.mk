@@ -45,6 +45,7 @@ LOCAL_C_INCLUDES:= $(MY_PATH)/ \
                    $(ENGINE_PATH)/external/xml \
                    $(ENGINE_PATH)/external/xml/expat \
                    $(ENGINE_PATH)/external/math \
+                   $(ENGINE_PATH)/external/math/math \
                    $(ENGINE_PATH)/external/SmartPtr \
                    $(ENGINE_PATH)/external/OpenAL/ \
                    $(ENGINE_PATH)/external/OpenAL/include \
