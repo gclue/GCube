@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ViewGroup>
+
+    <ImageView 
+        id="1"
+        figure="@texture/tex1:plus.png"
+        figure_width="0.2"
+        figure_height="0.2"
+        position_x="0"
+        position_y="0.5">
+    </ImageView>
+    
+    <ViewGroup
+        id="2"
+        position_x="0.2"
+        position_y="-0.5"
+        >
+        <Button
+            id="3"
+            figure="@texture/tex1:ok.png"
+            figure_width="0.3"
+            figure_height="0.3"
+            select_figure="@texture/tex1:ok.png"
+            select_figure_width="0.5"
+            select_figure_height="0.5"
+            position_x="-0.5"
+            position_y="0.0"
+            />
+    </ViewGroup>
+    
+    <ImageView 
+        figure="@texture/tex1:0.png"
+        position_x="0.5"
+        position_y="0.5">
+    </ImageView>
+
+</ViewGroup>

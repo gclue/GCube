@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<textures>
+	<SharedTexture 
+    name="tex1"
+    texture_name="texture/SampleTexture.png"
+    packer_name="texture/SampleTexture.txt"
+    />
+    
+    
+</textures>

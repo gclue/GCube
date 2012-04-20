@@ -72,7 +72,7 @@ int XMLParser::parseFromAsset(const char *fileName) {
 	std::vector<char> *fdata = mgr.open(fileName);
 	int result = -1;
 	if (fdata != NULL) {
-		fdata->push_back('\0');
+		//fdata->push_back('\0');
 		const char *data = (const char *) &(*fdata)[0];
 		result = parse(data, fdata->size());
 		delete fdata;
