@@ -63,6 +63,8 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    ui/RadioGroup.cpp \
                    ui/NumberView.cpp \
                    ui/WebView.cpp \
+                   ui/LayoutInflater.cpp \
+                   ui/factory/ViewFactory.cpp \
                    util/Animation.cpp \
                    util/AnimationSet.cpp \
                    util/AssetManager.cpp \
@@ -87,6 +89,7 @@ LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/shader \
                    $(LOCAL_PATH)/sound \
                    $(LOCAL_PATH)/ui \
+                   $(LOCAL_PATH)/ui/factory \
                    $(LOCAL_PATH)/util \
                    $(LOCAL_PATH)/xml \
                    $(LOCAL_PATH)/../ \

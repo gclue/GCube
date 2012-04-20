@@ -30,6 +30,9 @@
 #include "main.h"
 #include "SoundPlayer.h"
 
+#include "LayoutInflater.h"
+#include "ViewFactory.h"
+
 // シーンなし
 #define SceneID_None 0
 
@@ -358,3 +361,10 @@ void ApplicationController::onDebugCommand(const char *command, int param) {
 	}
 }
 
+LayoutInflater* ApplicationController::getLayoutInflater(){
+	LayoutInflater *inflater = new LayoutInflater(this);
+	ViewFactory *factory = new ViewFactory();
+	inflater->addFactory(factory);
+
+	return inflater;
+}

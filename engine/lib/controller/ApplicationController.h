@@ -28,6 +28,7 @@
 #include "IScene.h"
 #include "GCContext.h"
 #include "Log.h"
+#include "LayoutInflater.h"
 
 class Animation;
 class SimpleShader;
@@ -219,6 +220,12 @@ public:
 	 * @param b 青色成分(0.0〜1.0)
 	 */
 	void setBackgroundColor(float r, float g, float b);
+
+
+	/**
+	 * LayoutInflaterのインスタンスを取得。
+	 */
+	LayoutInflater* getLayoutInflater();
 };
 
 #endif /* APPLICATIONCONTROLLER_H_ */

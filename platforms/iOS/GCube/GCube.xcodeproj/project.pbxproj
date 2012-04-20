@@ -59,7 +59,14 @@
 		1FE7BEFA152D728500166041 /* b2Rope.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7BECC152D728500166041 /* b2Rope.cpp */; };
 		1FE7BF02152D89AB00166041 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE7BF01152D89AB00166041 /* libz.dylib */; };
 		1FE7BF05152D8A5100166041 /* GCEventReceiver.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7BF04152D8A5000166041 /* GCEventReceiver.mm */; };
+		44D4AC2815410765004B3442 /* SampleTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 44D4AC2615410765004B3442 /* SampleTexture.png */; };
+		44D4AC2915410765004B3442 /* SampleTexture.txt in Resources */ = {isa = PBXBuildFile; fileRef = 44D4AC2715410765004B3442 /* SampleTexture.txt */; };
+		44D4AC3515410AA5004B3442 /* SceneSample1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44D4AC3415410AA5004B3442 /* SceneSample1.cpp */; };
 		44DEE767153E860400E81D21 /* TextTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44DEE765153E860400E81D21 /* TextTexture.cpp */; };
+		44DEE773153EA24900E81D21 /* LayoutInflater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44DEE772153EA24900E81D21 /* LayoutInflater.cpp */; };
+		44DEE77A153EAA7F00E81D21 /* ViewFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44DEE779153EAA7F00E81D21 /* ViewFactory.cpp */; };
+		44DEE77E153EB9B800E81D21 /* main.xml in Resources */ = {isa = PBXBuildFile; fileRef = 44DEE77D153EB9B800E81D21 /* main.xml */; };
+		44DF0ED415402E27001B0B11 /* texture.xml in Resources */ = {isa = PBXBuildFile; fileRef = 44DF0ED315402E27001B0B11 /* texture.xml */; };
 		662CB2E614D7CBBD003AA995 /* png.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB21D14D7CBBD003AA995 /* png.c */; };
 		662CB2E914D7CBBD003AA995 /* pngerror.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22214D7CBBD003AA995 /* pngerror.c */; };
 		662CB2EA14D7CBBD003AA995 /* pnggccrd.c in Sources */ = {isa = PBXBuildFile; fileRef = 662CB22314D7CBBD003AA995 /* pnggccrd.c */; };
@@ -451,8 +458,18 @@
 		1FE7BECD152D728500166041 /* b2Rope.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2Rope.h; sourceTree = "<group>"; };
 		1FE7BF01152D89AB00166041 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		1FE7BF04152D8A5000166041 /* GCEventReceiver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GCEventReceiver.mm; sourceTree = "<group>"; };
+		44D4AC2615410765004B3442 /* SampleTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SampleTexture.png; sourceTree = "<group>"; };
+		44D4AC2715410765004B3442 /* SampleTexture.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SampleTexture.txt; sourceTree = "<group>"; };
+		44D4AC3415410AA5004B3442 /* SceneSample1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneSample1.cpp; sourceTree = "<group>"; };
+		44D4AC3615410AAF004B3442 /* SceneSample1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneSample1.h; sourceTree = "<group>"; };
 		44DEE765153E860400E81D21 /* TextTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextTexture.cpp; sourceTree = "<group>"; };
 		44DEE766153E860400E81D21 /* TextTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextTexture.h; sourceTree = "<group>"; };
+		44DEE772153EA24900E81D21 /* LayoutInflater.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayoutInflater.cpp; sourceTree = "<group>"; };
+		44DEE774153EA25800E81D21 /* LayoutInflater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutInflater.h; sourceTree = "<group>"; };
+		44DEE779153EAA7F00E81D21 /* ViewFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ViewFactory.cpp; sourceTree = "<group>"; };
+		44DEE77B153EAA9400E81D21 /* ViewFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewFactory.h; sourceTree = "<group>"; };
+		44DEE77D153EB9B800E81D21 /* main.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main.xml; sourceTree = "<group>"; };
+		44DF0ED315402E27001B0B11 /* texture.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = texture.xml; sourceTree = "<group>"; };
 		662CB1C014D7CBBD003AA995 /* ANNOUNCE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ANNOUNCE; sourceTree = "<group>"; };
 		662CB1C114D7CBBD003AA995 /* CHANGES */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CHANGES; sourceTree = "<group>"; };
 		662CB1C214D7CBBD003AA995 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
@@ -1496,6 +1513,23 @@
 			path = Rope;
 			sourceTree = "<group>";
 		};
+		44DEE775153EAA6000E81D21 /* factory */ = {
+			isa = PBXGroup;
+			children = (
+				44DEE779153EAA7F00E81D21 /* ViewFactory.cpp */,
+				44DEE77B153EAA9400E81D21 /* ViewFactory.h */,
+			);
+			path = factory;
+			sourceTree = "<group>";
+		};
+		44DEE77C153EB9B800E81D21 /* layout */ = {
+			isa = PBXGroup;
+			children = (
+				44DEE77D153EB9B800E81D21 /* main.xml */,
+			);
+			path = layout;
+			sourceTree = "<group>";
+		};
 		662CB1BF14D7CBBD003AA995 /* lpng1246 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1840,6 +1874,7 @@
 		6644322614568A4F001847A0 /* assets */ = {
 			isa = PBXGroup;
 			children = (
+				44DEE77C153EB9B800E81D21 /* layout */,
 				6644322714568A55001847A0 /* model */,
 				6644322914568A55001847A0 /* shader */,
 				6644323014568A55001847A0 /* sound */,
@@ -1881,8 +1916,11 @@
 		6644323214568A55001847A0 /* texture */ = {
 			isa = PBXGroup;
 			children = (
+				44DF0ED315402E27001B0B11 /* texture.xml */,
 				6644323314568A55001847A0 /* chara_texture.png */,
 				6644323414568A55001847A0 /* chara_texture.txt */,
+				44D4AC2615410765004B3442 /* SampleTexture.png */,
+				44D4AC2715410765004B3442 /* SampleTexture.txt */,
 				6644323514568A55001847A0 /* gclue_logo.png */,
 			);
 			path = texture;
@@ -1897,6 +1935,8 @@
 				6644324A1456A22C001847A0 /* Scene3D.h */,
 				6644324B1456A22C001847A0 /* SceneTitle.cpp */,
 				6644324C1456A22C001847A0 /* SceneTitle.h */,
+				44D4AC3415410AA5004B3442 /* SceneSample1.cpp */,
+				44D4AC3615410AAF004B3442 /* SceneSample1.h */,
 			);
 			name = main;
 			path = ../../../main;
@@ -2436,6 +2476,7 @@
 		667475BB14552F0A0065EDF3 /* ui */ = {
 			isa = PBXGroup;
 			children = (
+				44DEE775153EAA6000E81D21 /* factory */,
 				1F1C1B631521D7A70093AE03 /* WebView.cpp */,
 				1F1C1B641521D7A70093AE03 /* WebView.h */,
 				667475BC14552F0A0065EDF3 /* Button.cpp */,
@@ -2462,6 +2503,8 @@
 				667475D114552F0A0065EDF3 /* View.h */,
 				667475D214552F0A0065EDF3 /* ViewGroup.cpp */,
 				667475D314552F0A0065EDF3 /* ViewGroup.h */,
+				44DEE772153EA24900E81D21 /* LayoutInflater.cpp */,
+				44DEE774153EA25800E81D21 /* LayoutInflater.h */,
 			);
 			path = ui;
 			sourceTree = "<group>";
@@ -3164,6 +3207,10 @@
 				66E54831145EABDE0050571F /* cube.model in Resources */,
 				66E54833145F96A30050571F /* kotoji.model in Resources */,
 				1F1C1B621521D25A0093AE03 /* WebViewLayerView.xib in Resources */,
+				44DEE77E153EB9B800E81D21 /* main.xml in Resources */,
+				44DF0ED415402E27001B0B11 /* texture.xml in Resources */,
+				44D4AC2815410765004B3442 /* SampleTexture.png in Resources */,
+				44D4AC2915410765004B3442 /* SampleTexture.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3482,6 +3529,9 @@
 				1F21165D152EA11800B4E750 /* PhysicsLayer2D.cpp in Sources */,
 				1F211660152EA12900B4E750 /* Box2DManager.cpp in Sources */,
 				44DEE767153E860400E81D21 /* TextTexture.cpp in Sources */,
+				44DEE773153EA24900E81D21 /* LayoutInflater.cpp in Sources */,
+				44DEE77A153EAA7F00E81D21 /* ViewFactory.cpp in Sources */,
+				44D4AC3515410AA5004B3442 /* SceneSample1.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
