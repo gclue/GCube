@@ -28,6 +28,7 @@
 #include "SceneTwitterTest.h"
 //#include "Scene3D.h"
 #include <time.h>
+#include "MathExpression.h"
 
 // 初期化処理.
 void Main::initApplicationController() {
@@ -46,6 +47,11 @@ void Main::initApplicationController() {
     controller->addScene(2, scene3);
     controller->addScene(3, sceneSample1);
 	controller->sceneChange(3);
+    
+    MathExpression *mathEx = new MathExpression("12+0.5*3.567/0.0003");
+    float ret = mathEx->eval();
+    LOGD("answer %f",ret);
+    delete mathEx;
 }
 
 // 一時停止処理.

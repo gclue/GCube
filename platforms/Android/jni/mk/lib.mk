@@ -98,6 +98,7 @@ LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/../external/xml \
                    $(LOCAL_PATH)/../external/xml/expat \
                    $(LOCAL_PATH)/../external/math \
+                   $(LOCAL_PATH)/../external/math/math \
                    $(LOCAL_PATH)/../external/SmartPtr \
                    $(LOCAL_PATH)/../external/Bullet \
                    $(LOCAL_PATH)/../external/Box2D \

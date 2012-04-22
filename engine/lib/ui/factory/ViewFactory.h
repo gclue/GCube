@@ -38,7 +38,7 @@ public:
 class ViewFactory : public ViewFactoryInterface{
 private:
     TextureSercher *textureSercher;
-    void viewConfig(View* view, std::map<std::string, std::string> attrs);
+    void viewConfig(GCContext *context, View* view, std::map<std::string, std::string> attrs);
     void imageViewConfig(GCContext *context, ImageView* view, std::map<std::string, std::string> attrs);
     void buttonConfig(GCContext *context, Button* view, std::map<std::string, std::string> attrs);
 

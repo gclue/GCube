@@ -12,6 +12,7 @@
 #include "Button.h"
 #include "TextureManager.h"
 #include "SharedTexture.h"
+#include "MathExpression.h"
 
 #include <list>
 
@@ -33,7 +34,7 @@ View* ViewFactory::onCreateView(const char* name, GCContext *context, std::map<s
         LOGD("create ViewGroup");
         ViewGroup *viewGroup = new ViewGroup(context);
         
-        viewConfig(viewGroup, attrs);
+        viewConfig(context, viewGroup, attrs);
         
         view = viewGroup;
     }
@@ -41,7 +42,7 @@ View* ViewFactory::onCreateView(const char* name, GCContext *context, std::map<s
         LOGD("create ImageView");
         ImageView *imageView = new ImageView(context);
         
-        viewConfig(imageView, attrs);
+        viewConfig(context, imageView, attrs);
         imageViewConfig(context, imageView, attrs);
         
         view = imageView;
@@ -50,7 +51,7 @@ View* ViewFactory::onCreateView(const char* name, GCContext *context, std::map<s
         LOGD("create ImageView");
         Button *button = new Button(context);
         
-        viewConfig(button, attrs);
+        viewConfig(context, button, attrs);
         buttonConfig(context, button, attrs);
         
         view = button;
@@ -63,6 +64,27 @@ int atob(const char *str){
     if(strcmp("true", str)==0) return 1;
     else if(strcmp("false", str)==0) return -1;
     return 0;
+}
+
+float parseExpression(std::string expression, GCContext *context){
+    int index = 0;
+    char aspect[16];
+    snprintf(aspect, 16, "%f", context->getAspect());
+    LOGD("before: %s", expression.c_str());
+    while(true){
+        index = expression.find("#aspect");
+        
+        if(index == std::string::npos) break;
+        
+        expression.replace(index, 7, aspect);
+    }
+    LOGD("after: %s", expression.c_str());
+    
+    float ret;
+    MathExpression *math = new MathExpression(expression);
+    ret = math->eval();
+    delete math;
+    return ret;
 }
 
 std::list<std::string> split(std::string str, std::string delim){
@@ -99,7 +121,7 @@ void parseTextureName(std::string textureStr, std::string *textureName, std::str
     }
 }
 
-void ViewFactory::viewConfig(View* view, std::map<std::string, std::string> attrs){
+void ViewFactory::viewConfig(GCContext *context, View* view, std::map<std::string, std::string> attrs){
     std::map<std::string, std::string>::iterator it;
     
     /*
@@ -127,11 +149,11 @@ void ViewFactory::viewConfig(View* view, std::map<std::string, std::string> attr
 
     it = attrs.find("position_x");
     if(it != attrs.end()){
-        float posx = atof(it->second.c_str());
+        float posx = parseExpression(it->second, context);
         
         it = attrs.find("position_y");
         if(it != attrs.end()){
-            float posy = atof(it->second.c_str());
+            float posy = parseExpression(it->second, context);
             
             LOGD("position: (%f, %f)",posx, posy);
             view->setPosition(posx, posy);
@@ -140,11 +162,11 @@ void ViewFactory::viewConfig(View* view, std::map<std::string, std::string> attr
     
     it = attrs.find("width");
     if(it != attrs.end()){
-        float width = atof(it->second.c_str());
+        float width = parseExpression(it->second, context);
         
         it = attrs.find("height");
         if(it != attrs.end()){
-            float height = atof(it->second.c_str());
+            float height = parseExpression(it->second, context);
             
             LOGD("size: (%f, %f)",width, height);
             view->setSize(width, height);
@@ -153,11 +175,11 @@ void ViewFactory::viewConfig(View* view, std::map<std::string, std::string> attr
     
     it = attrs.find("scale_width");
     if(it != attrs.end()){
-        float width = atof(it->second.c_str());
+        float width = parseExpression(it->second, context);
         
         it = attrs.find("scale_height");
         if(it != attrs.end()){
-            float height = atof(it->second.c_str());
+            float height = parseExpression(it->second, context);
             
             LOGD("scale: (%f, %f)",width, height);
             view->setScale(width, height);
@@ -188,7 +210,7 @@ void ViewFactory::viewConfig(View* view, std::map<std::string, std::string> attr
 
     it = attrs.find("rotate");
     if(it != attrs.end()){
-        float rotate = atof(it->second.c_str());
+        float rotate = parseExpression(it->second, context);
         
         LOGD("rotate: %f",rotate);
         view->setRotate(rotate);
@@ -196,7 +218,7 @@ void ViewFactory::viewConfig(View* view, std::map<std::string, std::string> attr
     
     it = attrs.find("alpha");
     if(it != attrs.end()){
-        float alpha = atof(it->second.c_str());
+        float alpha = parseExpression(it->second, context);
         
         LOGD("alpha: %f",alpha);
         view->setAlpha(alpha);
@@ -227,11 +249,11 @@ void ViewFactory::imageViewConfig(GCContext *context, ImageView* view, std::map<
             
             it = attrs.find("figure_width");
             if(it != attrs.end()){
-                figureWidth = atof(it->second.c_str());
+                figureWidth = parseExpression(it->second, context);
                 
                 it = attrs.find("figure_height");
                 if(it != attrs.end()){
-                    figureHeight = atof(it->second.c_str());
+                    figureHeight = parseExpression(it->second, context);
                     
                     LOGD("figureSize: (%f, %f)",figureWidth, figureHeight);
                     sizeFlag = true;
@@ -275,11 +297,11 @@ void ViewFactory::buttonConfig(GCContext *context, Button* view, std::map<std::s
             
             it = attrs.find("figure_width");
             if(it != attrs.end()){
-                figureWidth = atof(it->second.c_str());
+                figureWidth = parseExpression(it->second, context);
                 
                 it = attrs.find("figure_height");
                 if(it != attrs.end()){
-                    figureHeight = atof(it->second.c_str());
+                    figureHeight = parseExpression(it->second, context);
                     
                     LOGD("figureSize: (%f, %f)",figureWidth, figureHeight);
                     sizeFlag = true;
@@ -318,11 +340,11 @@ void ViewFactory::buttonConfig(GCContext *context, Button* view, std::map<std::s
             
             it = attrs.find("select_figure_width");
             if(it != attrs.end()){
-                figureWidth = atof(it->second.c_str());
+                figureWidth = parseExpression(it->second, context);
                 
                 it = attrs.find("select_figure_height");
                 if(it != attrs.end()){
-                    figureHeight = atof(it->second.c_str());
+                    figureHeight = parseExpression(it->second, context);
                     
                     LOGD("figureSize: (%f, %f)",figureWidth, figureHeight);
                     sizeFlag = true;
@@ -350,6 +372,7 @@ void ViewFactory::buttonConfig(GCContext *context, Button* view, std::map<std::s
  *************/
 TextureSercher::TextureSercher(){
     int result = XMLParser::parseFromAsset("texture/texture.xml");
+    LOGD("TextureSercher:XMLParser %d", result);
     //TODO: エラー処理
 }
 
