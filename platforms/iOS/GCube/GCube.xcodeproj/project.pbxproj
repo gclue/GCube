@@ -12,6 +12,10 @@
 		1F1C1B651521D7A70093AE03 /* WebView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F1C1B631521D7A70093AE03 /* WebView.cpp */; };
 		1F21165D152EA11800B4E750 /* PhysicsLayer2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F21165B152EA11800B4E750 /* PhysicsLayer2D.cpp */; };
 		1F211660152EA12900B4E750 /* Box2DManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F21165E152EA12900B4E750 /* Box2DManager.cpp */; };
+		1F6C8F941544E0A800ADCB80 /* SceneGameCenterSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F6C8F921544E0A800ADCB80 /* SceneGameCenterSample.cpp */; };
+		1F6C8F961544E21400ADCB80 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6C8F951544E21400ADCB80 /* GameKit.framework */; };
+		1F6C8F991544E26D00ADCB80 /* game_center_ui.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C8F971544E26D00ADCB80 /* game_center_ui.png */; };
+		1F6C8F9A1544E26D00ADCB80 /* game_center_ui.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C8F981544E26D00ADCB80 /* game_center_ui.txt */; };
 		1FC2DB351540060600112E08 /* SceneTwitterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FC2DB341540060600112E08 /* SceneTwitterTest.cpp */; };
 		1FC2DB39154008E800112E08 /* twitter_texture_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC2DB37154008E800112E08 /* twitter_texture_01.png */; };
 		1FC2DB3A154008E800112E08 /* twitter_texture_01.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1FC2DB38154008E800112E08 /* twitter_texture_01.txt */; };
@@ -386,6 +390,11 @@
 		1F21165C152EA11800B4E750 /* PhysicsLayer2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsLayer2D.h; sourceTree = "<group>"; };
 		1F21165E152EA12900B4E750 /* Box2DManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Box2DManager.cpp; sourceTree = "<group>"; };
 		1F21165F152EA12900B4E750 /* Box2DManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DManager.h; sourceTree = "<group>"; };
+		1F6C8F921544E0A800ADCB80 /* SceneGameCenterSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneGameCenterSample.cpp; sourceTree = "<group>"; };
+		1F6C8F931544E0A800ADCB80 /* SceneGameCenterSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneGameCenterSample.h; sourceTree = "<group>"; };
+		1F6C8F951544E21400ADCB80 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		1F6C8F971544E26D00ADCB80 /* game_center_ui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = game_center_ui.png; sourceTree = "<group>"; };
+		1F6C8F981544E26D00ADCB80 /* game_center_ui.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = game_center_ui.txt; sourceTree = "<group>"; };
 		1FC2DB341540060600112E08 /* SceneTwitterTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneTwitterTest.cpp; sourceTree = "<group>"; };
 		1FC2DB361540061200112E08 /* SceneTwitterTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneTwitterTest.h; sourceTree = "<group>"; };
 		1FC2DB37154008E800112E08 /* twitter_texture_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter_texture_01.png; sourceTree = "<group>"; };
@@ -1421,6 +1430,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F6C8F961544E21400ADCB80 /* GameKit.framework in Frameworks */,
 				1FE949EE153E8EA000A5336A /* libxml2.dylib in Frameworks */,
 				1FE7BF02152D89AB00166041 /* libz.dylib in Frameworks */,
 				665EB574147A19EA006900C1 /* OpenAL.framework in Frameworks */,
@@ -2095,6 +2105,8 @@
 		6644323214568A55001847A0 /* texture */ = {
 			isa = PBXGroup;
 			children = (
+				1F6C8F971544E26D00ADCB80 /* game_center_ui.png */,
+				1F6C8F981544E26D00ADCB80 /* game_center_ui.txt */,
 				44D4AC4E154114BB004B3442 /* texture.xml */,
 				1FC2DB37154008E800112E08 /* twitter_texture_01.png */,
 				1FC2DB38154008E800112E08 /* twitter_texture_01.txt */,
@@ -2110,6 +2122,8 @@
 		664432471456A229001847A0 /* main */ = {
 			isa = PBXGroup;
 			children = (
+				1F6C8F921544E0A800ADCB80 /* SceneGameCenterSample.cpp */,
+				1F6C8F931544E0A800ADCB80 /* SceneGameCenterSample.h */,
 				666DF21314C503A800FE1ADF /* main.h */,
 				664432481456A22C001847A0 /* main.cpp */,
 				664432491456A22C001847A0 /* Scene3D.cpp */,
@@ -2384,6 +2398,7 @@
 			children = (
 				1FE949ED153E8EA000A5336A /* libxml2.dylib */,
 				1FE7BF01152D89AB00166041 /* libz.dylib */,
+				1F6C8F951544E21400ADCB80 /* GameKit.framework */,
 				665EB573147A19EA006900C1 /* OpenAL.framework */,
 				6674754514552E110065EDF3 /* QuartzCore.framework */,
 				6674753E14552CB60065EDF3 /* OpenGLES.framework */,
@@ -3404,6 +3419,8 @@
 				44D4AC4F154114BB004B3442 /* texture.xml in Resources */,
 				44D4AC52154114C5004B3442 /* SampleTexture.png in Resources */,
 				44D4AC53154114C5004B3442 /* SampleTexture.txt in Resources */,
+				1F6C8F991544E26D00ADCB80 /* game_center_ui.png in Resources */,
+				1F6C8F9A1544E26D00ADCB80 /* game_center_ui.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3739,6 +3756,7 @@
 				44D4AC4615411457004B3442 /* LayoutInflater.cpp in Sources */,
 				44D4AC4A15411474004B3442 /* ViewFactory.cpp in Sources */,
 				44D4AC5B1541446B004B3442 /* MathExpression.cpp in Sources */,
+				1F6C8F941544E0A800ADCB80 /* SceneGameCenterSample.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

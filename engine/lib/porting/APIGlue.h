@@ -86,6 +86,19 @@ enum {
 	TwitterEvent_Authenticate,
 };
 
+
+/**
+ * ゲームセンターイベントID.
+ */
+enum {
+	GameCenterEvent_Login = 0,
+	GameCenterEvent_Send_Score_Long,
+	GameCenterEvent_Send_Score_Integer,
+	GameCenterEvent_Send_Score_Double,
+	GameCenterEvent_Open_LeaderBoard,
+	GameCenterEvent_Close_LeaderBoard,
+};
+
 class Figure;
 class Texture;
 class TextTexture;
@@ -213,6 +226,18 @@ void GCSendWebViewEvent(int type, int viewId, double param1, double param2, doub
  * @param[in] text 投稿文.
  */
 void GCSendTwitterEvent(int type, const char* text);
+	
+	/**
+	 * ゲームセンターのイベントをNativeに投げます(iPhone only).
+	 * <br>
+	 * 設定したスコアの型に合わせてスコアを設定してください。
+	 * @param[in] type イベントタイプ.
+	 * @param[in] lScore ロング型のスコア.
+	 * @param[in] iScore int型のスコア.
+	 * @param[in] dScore double型のスコア.
+	 */
+	void GCSendGameCenterEvent(int type, long long lScore, int iScore, double dScore);
+
 	
 }
 

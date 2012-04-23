@@ -1,0 +1,3 @@
+bt_sendScore.png,0,0,184,56,0,1.0
+game_center_icon_gclue.png,0,56,87,87,0,1.0
+lodinginfo.png,184,0,48,48,0,1.0
