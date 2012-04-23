@@ -871,6 +871,11 @@ void GCSendWebViewEvent(int type, int viewId, double param1, double param2, doub
 		}
 }
 
+
+void GCSendGameCenterEvent(int type, long long lScore, int iScore, double dScore) {
+	//空実装
+}
+
 void GCSendTwitterEvent(int type, const char* text) {
 	JNIEnv* env = jni.env;
 			if (env) {

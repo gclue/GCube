@@ -16,6 +16,7 @@
 #import "GCViewController.h"
 
 #import "TwitterHelper.h"
+#import <GameKit/GameKit.h>
 
 /**
  * 非同期HTTP Client用レスポンスクラス
@@ -354,6 +355,122 @@ void GCSendTwitterEvent(int type, const char *text) {
 	}
 	
 }
+
+//デリゲートイベントを受け取るためのクラス.
+@interface GCubeLeaderBoardDelegate: NSObject <GKLeaderboardViewControllerDelegate>
+
+@end
+
+@implementation GCubeLeaderBoardDelegate
+
+//リーダーボードのDoneが押された時の処理を行います.
+- (void)leaderboardViewControllerDidFinish:(GKLeaderboardViewController *)viewController {
+	NSLog(@"did finished");
+	
+	//ビューコントローラを閉じる
+	[viewController dismissModalViewControllerAnimated:YES];
+	ApplicationController *ctr =CGControllerInstance();
+	ctr->onGameCenterEvent(GameCenterEvent_Close_LeaderBoard);
+	//いらないのでリリース
+	[viewController release];
+	//自身も必要ないのでリリース.
+	[self release];
+}
+
+
+@end
+
+
+//ゲームセンターイベントを処理します.
+void GCSendGameCenterEvent(int type, long long lScore, int iScore, double dScore) {
+	LOGD("GCSendGameCenterEvent: %d, %ld, %d, %f",type, lScore, iScore, dScore);
+	
+	ApplicationController *ctr =CGControllerInstance();
+	
+	switch(type) {
+		case GameCenterEvent_Login:
+			//GameCenterのログインを行います
+			//既にログイン済みの場合は、「ようこそ〜」が、していない場合はOS指定のダイアログが表示されます。
+			[[GKLocalPlayer localPlayer] authenticateWithCompletionHandler:^(NSError *error){
+				//エラー処理.
+				if(error != nil) {
+					NSLog(@"GameCenterEvent_Login error = %@",error);
+					ctr->onGameCenterEvent(GameCenterEvent_Login, 1);
+				}else {
+					ctr->onGameCenterEvent(GameCenterEvent_Login, 0);
+				}
+			}];
+			break;
+			
+			//リーダーボードを開きます
+		case GameCenterEvent_Open_LeaderBoard: {
+			//ビューコントロラーを作成
+			GKLeaderboardViewController *leaderboardController = [[GKLeaderboardViewController alloc] init];
+			//ログインをしていればnil以外が入ります.
+			if (leaderboardController != nil)
+			{
+				ctr->onGameCenterEvent(GameCenterEvent_Open_LeaderBoard, 0);
+				//デフォルトで表示するリーダーボードカテゴリを指定します。
+				//何も入れなければ、リーダーボードのトップページにいきます
+				//				leaderboardController.category = @"gcubereaderboard2";
+				
+				//表示されるリーダーボードのタイムスコープを選択します。today, this week ,alltimeから選びます。
+				//				leaderboardController.timeScope = GKLeaderboardTimeScopeToday;
+				
+				//デリゲートを設定します。リスナーです。
+				//自前のデリゲートを継承したクラスを使います。必要な処理があればそちらに書いてください.
+				leaderboardController.leaderboardDelegate = [[GCubeLeaderBoardDelegate alloc] init];
+				
+				//GCubeのデリゲートを取得.
+				GCAppDelegate *delegate = (GCAppDelegate*)[[UIApplication sharedApplication] delegate];
+				//デリゲートのビューコントローラーにリーダーボードのビューコントロラーを追加.
+				[delegate.viewController presentModalViewController:leaderboardController animated:YES];
+				
+				
+				
+			}else {
+				//TODO: エラー処理.
+				ctr->onGameCenterEvent(GameCenterEvent_Open_LeaderBoard, 1);
+			}
+			
+			break;
+		}
+			
+			//整数のスコアを送信
+		case GameCenterEvent_Send_Score_Integer: {
+			//スコア送信インスタンスを作成
+			//送信するカテゴリを引数に作成します。カテゴリ名は必須です。
+			GKScore *scoreReporter = [[GKScore alloc] initWithCategory:@"gcubereaderboard2"];
+			
+			//NSIntegerにintを格納します。こっちじゃないとダメだという噂.
+			NSInteger scoreR;
+			scoreR=iScore;
+			scoreReporter.value = scoreR;
+			
+			//スコアの送信
+			[scoreReporter reportScoreWithCompletionHandler:^(NSError *error) {
+				if (error != nil)
+				{
+					// 報告エラーの処理
+					NSLog(@"SendScore_Integer error = %@",error);
+					ctr->onGameCenterEvent(GameCenterEvent_Send_Score_Integer, 1);
+				}else {
+					//TODO: 成功処理.
+					ctr->onGameCenterEvent(GameCenterEvent_Send_Score_Integer, 0);
+				}
+			}];
+			
+			break;
+		}
+			//Doubleとlong型で欲しい場合の処理。
+			//必要に応じて実装してね！
+		case GameCenterEvent_Send_Score_Double:
+			break;
+		case GameCenterEvent_Send_Score_Long:
+			break;
+	}
+}
+
 
 
 void GCSoundEvent(const char *fileName, int mode){
