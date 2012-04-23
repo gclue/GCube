@@ -155,6 +155,14 @@ public:
 	
 	
 	/**
+	 * ゲームセンターイベントのレスポンスを受け取ります.
+	 * @param[in] type イベントタイプ.
+	 * @param[in] param1 パラメータ1.
+	 * @param[in] param2 パラメータ2.
+	 */
+	virtual void onGameCenterEvent(int type, int param1, int param2) = 0;
+	
+	/**
 	 * ツイッターイベントを受け取ります.
 	 * @param[in] type イベントタイプ.
 	 * @param[in] param1 パラメータ.

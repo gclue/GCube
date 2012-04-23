@@ -79,6 +79,14 @@ public:
 	bool onTwitterEvent(int type, int param1);
 	
 	/**
+	 * ゲームセンターイベントのレスポンスを受け取ります.
+	 * @param[in] type イベントタイプ.
+	 * @param[in] param1 パラメータ1.
+	 * @param[in] param2 パラメータ2.
+	 */
+	bool onGameCenterEvent(int type, int param1, int param2);
+	
+	/**
 	 * デバッグコマンドを受け取るメソッド.
 	 * @param command コマンド
 	 * @param param パラメータ

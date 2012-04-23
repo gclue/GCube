@@ -356,6 +356,18 @@ void ApplicationController::sendTwitterEvent(int type, const char* text) {
 	GCSendTwitterEvent(type, text);
 }
 
+void ApplicationController::sendGameCenterEvent(int type, long long lScore, int iScore, double dScore) {
+	GCSendGameCenterEvent(type, lScore, iScore, dScore);
+}
+
+
+void ApplicationController::onGameCenterEvent(int type, int param1, int param2) {
+	bool f = main->onGameCenterEvent(type, param1, param2);
+	if(activeScene && !f) {
+		activeScene->onGameCenterEvent(type, param1, param2);
+	}
+}
+
 
 void ApplicationController::onTwitterEvent(int type, int param1) {
 	LOGD("******* onTwitterEvent: %d, %d",type, param1);

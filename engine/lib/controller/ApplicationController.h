@@ -204,6 +204,23 @@ public:
 	void onTwitterEvent(int type, int param1 = 0);
 	
 	/**
+	 * ゲームセンターイベントを送信します.
+	 * @param[in] type タイプ.
+	 * @param[in] lScore スコア.
+	 * @param[in] iScore スコア.
+	 * @param[in] dScore スコア.
+	 */
+	void sendGameCenterEvent(int type, long long lScore, int iScore, double dScore);
+	
+	/**
+	 * ゲームセンターイベントのレスポンスを受け取ります.
+	 * @param[in] type イベントタイプ.
+	 * @param[in] param1 パラメータ1.
+	 * @param[in] param2 パラメータ2.
+	 */
+	void onGameCenterEvent(int type, int param1 = 0, int param2 = 0);
+	
+	/**
 	 * デバッグコマンドを処理します.
 	 * @param[in] command コマンド
 	 * @param[in] param パラメータ
