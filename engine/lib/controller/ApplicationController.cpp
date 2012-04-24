@@ -360,6 +360,9 @@ void ApplicationController::sendGameCenterEvent(int type, long long lScore, int 
 	GCSendGameCenterEvent(type, lScore, iScore, dScore);
 }
 
+void ApplicationController::sendAdMobEvent(int type, int pos, const char* unitid) {
+	GCSendAdMobEvent(type, pos, unitid);
+}
 
 void ApplicationController::onGameCenterEvent(int type, int param1, int param2) {
 	bool f = main->onGameCenterEvent(type, param1, param2);

@@ -30,6 +30,7 @@
 #include <time.h>
 #include "MathExpression.h"
 #include "SceneGameCenterSample.h"
+#include "SceneAdMobView.h"
 
 // 初期化処理.
 void Main::initApplicationController() {
@@ -43,14 +44,16 @@ void Main::initApplicationController() {
     SceneSample1 *sceneSample1 = new SceneSample1(controller);
     SceneTwitterTest *scene3 = new SceneTwitterTest(controller);
 	SceneGameCenterSample *scene4 = new SceneGameCenterSample(controller);
+	SceneAdMobView *scene5 = new SceneAdMobView(controller);
 	
 	controller->addScene(1, scene1);
 //	controller->addScene(2, scene2);
     controller->addScene(2, scene3);
     controller->addScene(3, sceneSample1);
 	controller->addScene(4, scene4);
+	controller->addScene(5, scene5);
 	
-	controller->sceneChange(4);
+	controller->sceneChange(5);
     
     MathExpression *mathEx = new MathExpression("12+0.5*3.567/0.0003");
     float ret = mathEx->eval();

@@ -212,6 +212,13 @@ public:
 	 */
 	void sendGameCenterEvent(int type, long long lScore, int iScore, double dScore);
 	
+	
+	/**
+	 * AdMobのイベントを送信します.
+	 * @param[in] type イベントタイプ.
+	 */
+	void sendAdMobEvent(int type, int pos = 0, const char* unitid = NULL);
+	
 	/**
 	 * ゲームセンターイベントのレスポンスを受け取ります.
 	 * @param[in] type イベントタイプ.

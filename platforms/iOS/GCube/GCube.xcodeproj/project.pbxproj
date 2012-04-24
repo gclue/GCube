@@ -12,6 +12,7 @@
 		1F1C1B651521D7A70093AE03 /* WebView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F1C1B631521D7A70093AE03 /* WebView.cpp */; };
 		1F21165D152EA11800B4E750 /* PhysicsLayer2D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F21165B152EA11800B4E750 /* PhysicsLayer2D.cpp */; };
 		1F211660152EA12900B4E750 /* Box2DManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F21165E152EA12900B4E750 /* Box2DManager.cpp */; };
+		1F4AE55015454B0F00ACFF7A /* SceneAdMobView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F4AE54F15454B0F00ACFF7A /* SceneAdMobView.cpp */; };
 		1F6C8F941544E0A800ADCB80 /* SceneGameCenterSample.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1F6C8F921544E0A800ADCB80 /* SceneGameCenterSample.cpp */; };
 		1F6C8F961544E21400ADCB80 /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F6C8F951544E21400ADCB80 /* GameKit.framework */; };
 		1F6C8F991544E26D00ADCB80 /* game_center_ui.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C8F971544E26D00ADCB80 /* game_center_ui.png */; };
@@ -19,6 +20,11 @@
 		1FC2DB351540060600112E08 /* SceneTwitterTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FC2DB341540060600112E08 /* SceneTwitterTest.cpp */; };
 		1FC2DB39154008E800112E08 /* twitter_texture_01.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FC2DB37154008E800112E08 /* twitter_texture_01.png */; };
 		1FC2DB3A154008E800112E08 /* twitter_texture_01.txt in Resources */ = {isa = PBXBuildFile; fileRef = 1FC2DB38154008E800112E08 /* twitter_texture_01.txt */; };
+		1FC663CE15452CB700DAE788 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC663CD15452CB600DAE788 /* libGoogleAdMobAds.a */; };
+		1FC663D115452D1100DAE788 /* AdMobViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FC663D015452D1100DAE788 /* AdMobViewController.m */; };
+		1FC663D31545301E00DAE788 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC663D21545301E00DAE788 /* MessageUI.framework */; };
+		1FC663D51545303000DAE788 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC663D41545303000DAE788 /* SystemConfiguration.framework */; };
+		1FC663D71545303A00DAE788 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FC663D61545303A00DAE788 /* AudioToolbox.framework */; };
 		1FE7BECE152D728500166041 /* b2BroadPhase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7BE6E152D728500166041 /* b2BroadPhase.cpp */; };
 		1FE7BECF152D728500166041 /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7BE70152D728500166041 /* b2CollideCircle.cpp */; };
 		1FE7BED0152D728500166041 /* b2CollideEdge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 1FE7BE71152D728500166041 /* b2CollideEdge.cpp */; };
@@ -390,6 +396,8 @@
 		1F21165C152EA11800B4E750 /* PhysicsLayer2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsLayer2D.h; sourceTree = "<group>"; };
 		1F21165E152EA12900B4E750 /* Box2DManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Box2DManager.cpp; sourceTree = "<group>"; };
 		1F21165F152EA12900B4E750 /* Box2DManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2DManager.h; sourceTree = "<group>"; };
+		1F4AE54F15454B0F00ACFF7A /* SceneAdMobView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneAdMobView.cpp; sourceTree = "<group>"; };
+		1F4AE55115454B1900ACFF7A /* SceneAdMobView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneAdMobView.h; sourceTree = "<group>"; };
 		1F6C8F921544E0A800ADCB80 /* SceneGameCenterSample.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneGameCenterSample.cpp; sourceTree = "<group>"; };
 		1F6C8F931544E0A800ADCB80 /* SceneGameCenterSample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneGameCenterSample.h; sourceTree = "<group>"; };
 		1F6C8F951544E21400ADCB80 /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
@@ -399,6 +407,21 @@
 		1FC2DB361540061200112E08 /* SceneTwitterTest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneTwitterTest.h; sourceTree = "<group>"; };
 		1FC2DB37154008E800112E08 /* twitter_texture_01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = twitter_texture_01.png; sourceTree = "<group>"; };
 		1FC2DB38154008E800112E08 /* twitter_texture_01.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = twitter_texture_01.txt; sourceTree = "<group>"; };
+		1FC663C415452CB600DAE788 /* GADAdMobExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdMobExtras.h; sourceTree = "<group>"; };
+		1FC663C515452CB600DAE788 /* GADAdNetworkExtras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdNetworkExtras.h; sourceTree = "<group>"; };
+		1FC663C615452CB600DAE788 /* GADAdSize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADAdSize.h; sourceTree = "<group>"; };
+		1FC663C715452CB600DAE788 /* GADBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerView.h; sourceTree = "<group>"; };
+		1FC663C815452CB600DAE788 /* GADBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADBannerViewDelegate.h; sourceTree = "<group>"; };
+		1FC663C915452CB600DAE788 /* GADInterstitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitial.h; sourceTree = "<group>"; };
+		1FC663CA15452CB600DAE788 /* GADInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADInterstitialDelegate.h; sourceTree = "<group>"; };
+		1FC663CB15452CB600DAE788 /* GADRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequest.h; sourceTree = "<group>"; };
+		1FC663CC15452CB600DAE788 /* GADRequestError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADRequestError.h; sourceTree = "<group>"; };
+		1FC663CD15452CB600DAE788 /* libGoogleAdMobAds.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAdMobAds.a; sourceTree = "<group>"; };
+		1FC663CF15452D1100DAE788 /* AdMobViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdMobViewController.h; sourceTree = "<group>"; };
+		1FC663D015452D1100DAE788 /* AdMobViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdMobViewController.m; sourceTree = "<group>"; };
+		1FC663D21545301E00DAE788 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		1FC663D41545303000DAE788 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		1FC663D61545303A00DAE788 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		1FE7BE6C152D728500166041 /* Box2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Box2D.h; sourceTree = "<group>"; };
 		1FE7BE6E152D728500166041 /* b2BroadPhase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2BroadPhase.cpp; sourceTree = "<group>"; };
 		1FE7BE6F152D728500166041 /* b2BroadPhase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2BroadPhase.h; sourceTree = "<group>"; };
@@ -1430,6 +1453,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1FC663D71545303A00DAE788 /* AudioToolbox.framework in Frameworks */,
+				1FC663D51545303000DAE788 /* SystemConfiguration.framework in Frameworks */,
+				1FC663D31545301E00DAE788 /* MessageUI.framework in Frameworks */,
 				1F6C8F961544E21400ADCB80 /* GameKit.framework in Frameworks */,
 				1FE949EE153E8EA000A5336A /* libxml2.dylib in Frameworks */,
 				1FE7BF02152D89AB00166041 /* libz.dylib in Frameworks */,
@@ -1440,12 +1466,30 @@
 				667474F2145528DE0065EDF3 /* Foundation.framework in Frameworks */,
 				667474F4145528DE0065EDF3 /* CoreGraphics.framework in Frameworks */,
 				1FE949D7153E8BC500A5336A /* libOAuth.a in Frameworks */,
+				1FC663CE15452CB700DAE788 /* libGoogleAdMobAds.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1FC663B815452C6F00DAE788 /* AdMobLibraries */ = {
+			isa = PBXGroup;
+			children = (
+				1FC663C415452CB600DAE788 /* GADAdMobExtras.h */,
+				1FC663C515452CB600DAE788 /* GADAdNetworkExtras.h */,
+				1FC663C615452CB600DAE788 /* GADAdSize.h */,
+				1FC663C715452CB600DAE788 /* GADBannerView.h */,
+				1FC663C815452CB600DAE788 /* GADBannerViewDelegate.h */,
+				1FC663C915452CB600DAE788 /* GADInterstitial.h */,
+				1FC663CA15452CB600DAE788 /* GADInterstitialDelegate.h */,
+				1FC663CB15452CB600DAE788 /* GADRequest.h */,
+				1FC663CC15452CB600DAE788 /* GADRequestError.h */,
+				1FC663CD15452CB600DAE788 /* libGoogleAdMobAds.a */,
+			);
+			path = AdMobLibraries;
+			sourceTree = "<group>";
+		};
 		1FE7BE6B152D728500166041 /* Box2D */ = {
 			isa = PBXGroup;
 			children = (
@@ -1603,6 +1647,7 @@
 		1FE94998153E8BA900A5336A /* External */ = {
 			isa = PBXGroup;
 			children = (
+				1FC663B815452C6F00DAE788 /* AdMobLibraries */,
 				1FE94999153E8BC500A5336A /* TwitterLibraries */,
 			);
 			name = External;
@@ -2134,6 +2179,8 @@
 				44D4AC4215411427004B3442 /* SceneSample1.h */,
 				1FC2DB341540060600112E08 /* SceneTwitterTest.cpp */,
 				1FC2DB361540061200112E08 /* SceneTwitterTest.h */,
+				1F4AE54F15454B0F00ACFF7A /* SceneAdMobView.cpp */,
+				1F4AE55115454B1900ACFF7A /* SceneAdMobView.h */,
 			);
 			name = main;
 			path = ../../../main;
@@ -2377,6 +2424,9 @@
 		667474E0145528DE0065EDF3 = {
 			isa = PBXGroup;
 			children = (
+				1FC663D61545303A00DAE788 /* AudioToolbox.framework */,
+				1FC663D41545303000DAE788 /* SystemConfiguration.framework */,
+				1FC663D21545301E00DAE788 /* MessageUI.framework */,
 				664432471456A229001847A0 /* main */,
 				6644322614568A4F001847A0 /* assets */,
 				667474F5145528DE0065EDF3 /* GCube */,
@@ -2449,6 +2499,8 @@
 				1FE7BF04152D8A5000166041 /* GCEventReceiver.mm */,
 				1FE949EF153E935900A5336A /* TwitterHelper.h */,
 				1FE949F0153E935A00A5336A /* TwitterHelper.m */,
+				1FC663CF15452D1100DAE788 /* AdMobViewController.h */,
+				1FC663D015452D1100DAE788 /* AdMobViewController.m */,
 			);
 			path = GCClasses;
 			sourceTree = "<group>";
@@ -3757,6 +3809,8 @@
 				44D4AC4A15411474004B3442 /* ViewFactory.cpp in Sources */,
 				44D4AC5B1541446B004B3442 /* MathExpression.cpp in Sources */,
 				1F6C8F941544E0A800ADCB80 /* SceneGameCenterSample.cpp in Sources */,
+				1FC663D115452D1100DAE788 /* AdMobViewController.m in Sources */,
+				1F4AE55015454B0F00ACFF7A /* SceneAdMobView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3828,6 +3882,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/External/TwitterLibraries/Libraries & Headers\"",
+					"\"$(SRCROOT)/External/AdMobLibraries\"",
 				);
 				"LIBRARY_SEARCH_PATHS[arch=*]" = (
 					"$(inherited)",
@@ -3851,6 +3906,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/External/TwitterLibraries/Libraries & Headers\"",
+					"\"$(SRCROOT)/External/AdMobLibraries\"",
 				);
 				OTHER_LDFLAGS = (
 					"-ObjC",

@@ -72,7 +72,7 @@ ViewGroup* SceneGameCenterSample::createView() {
 	btOpen->setOnButtonClickListener(this);
 	btOpen->setUserID(100);
 	btOpen->setPosition(-0.4, -0.3);
-	btOpen->setClickable(false);
+	btOpen->setClickable(true);
 	
 	//ゲームセンタースコア送信
 	Button *btSend = new Button(controller);
@@ -81,7 +81,7 @@ ViewGroup* SceneGameCenterSample::createView() {
 	btSend->setTexture(&tex02->getTexture());
 	btSend->setOnButtonClickListener(this);
 	btSend->setUserID(101);
-	btSend->setClickable(false);
+	btSend->setClickable(true);
 	
 	btSend->setPosition(0.4, -0.3);
 	
@@ -148,7 +148,7 @@ void SceneGameCenterSample::onActivate() {
 	
 	
 	//ゲームセンターのログイン
-	controller->sendGameCenterEvent(GameCenterEvent_Login, 0, 0, 0);
+//	controller->sendGameCenterEvent(GameCenterEvent_Login, 0, 0, 0);
 	
 }
 
