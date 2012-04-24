@@ -68,6 +68,7 @@ struct JNIInterface {
 	jmethodID copyFileFromAssetsMethod;	//!< NDKInterface#copyFileFromAssetsMethod()のID
 	jmethodID getFilePathMethod;	    //!< NDKInterface#getFilePathMethod()のID
 	jmethodID sendTwitterEventMethod;	//!< NDKinterface#onTwitterEvent() id
+	jmethodID sendAdMobEventMethod;		//!< NDKInterface#onAdMobEvent() id
 };
 
 /**
@@ -480,6 +481,22 @@ void GCSendGameEvent(int type, int param1, long param2, double param3, int param
 			env->DeleteLocalRef(str);
 		}
 	}
+}
+
+
+void GCSendAdMobEvent(int type, int pos, const char* unitid) {
+	JNIEnv* env = jni.env;
+		if (env) {
+			LOGD( "**JNISendAdMobEvent**:%d, %d, %s", type, pos, unitid);
+			jstring str = NULL;
+			if (unitid) {
+				str = env->NewStringUTF(unitid);
+			}
+			env->CallVoidMethod(jni.obj, jni.sendAdMobEventMethod, type, pos, str);
+			if (str) {
+				env->DeleteLocalRef(str);
+			}
+		}
 }
 
 /**
@@ -996,6 +1013,11 @@ Java_com_gclue_gl_JNILib_setInterface(
 	jni.sendTwitterEventMethod = env->GetMethodID(clazz, "onTwitterEvent", "(ILjava/lang/String;)V");
 	if(!jni.sendTwitterEventMethod) {
 		LOGE("Method not found!! (onTwitterEvent)");
+	}
+
+	jni.sendAdMobEventMethod = env->GetMethodID(clazz, "onAdMobEvent", "(IILjava/lang/String;)V");
+	if(!jni.sendAdMobEventMethod) {
+		LOGE("Method not found!! (onAdMobEvent)");
 	}
 
 	env->DeleteLocalRef(clazz);
