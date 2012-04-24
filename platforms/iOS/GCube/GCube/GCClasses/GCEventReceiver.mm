@@ -17,6 +17,7 @@
 
 #import "TwitterHelper.h"
 #import <GameKit/GameKit.h>
+#import "AdMobViewController.h"
 
 /**
  * 非同期HTTP Client用レスポンスクラス
@@ -404,6 +405,7 @@ void GCSendGameCenterEvent(int type, long long lScore, int iScore, double dScore
 			
 			//リーダーボードを開きます
 		case GameCenterEvent_Open_LeaderBoard: {
+						
 			//ビューコントロラーを作成
 			GKLeaderboardViewController *leaderboardController = [[GKLeaderboardViewController alloc] init];
 			//ログインをしていればnil以外が入ります.
@@ -471,6 +473,59 @@ void GCSendGameCenterEvent(int type, long long lScore, int iScore, double dScore
 	}
 }
 
+
+
+static AdMobViewController *admobController = NULL;
+
+void GCSendAdMobEvent(int type, int pos, const char* unitID) {
+	LOGD("*****GCSendAdMobEvent %d %d %s ",type,pos,unitID);
+	
+
+	
+	switch(type) {
+		case AdMobEvent_Create: { //AdMobを作成
+			if(!admobController) {
+				admobController = [[AdMobViewController alloc] customInit:[NSString stringWithUTF8String:unitID]];
+				admobController.view.frame = CGRectMake(0, 0, 320, 48);
+				ApplicationController *ctr =CGControllerInstance();
+				float w = ctr->getWidth();
+				float h = ctr->getHeight();
+				[admobController changePosition:pos:w:h];
+				
+				//GCubeのデリゲートを取得.
+				GCAppDelegate *delegate = (GCAppDelegate*)[[UIApplication sharedApplication] delegate];
+				//ビューを追加.
+				[delegate.viewController.view addSubview:admobController.view];
+				
+			}else {
+				ApplicationController *ctr =CGControllerInstance();
+				float w = ctr->getWidth();
+				float h = ctr->getHeight();
+				[admobController changePosition:pos:w:h];
+			}
+		
+			break;
+		}
+		case AdMobEvent_Visible: { //AdMobを表示
+			if(admobController) {
+				//GCubeのデリゲートを取得.
+				GCAppDelegate *delegate = (GCAppDelegate*)[[UIApplication sharedApplication] delegate];
+				//ビューを追加.
+				[delegate.viewController.view addSubview:admobController.view];
+			}
+			break;
+		}
+		case AdMobEvent_Invisible: {//AdMobを非表示
+			if(admobController) {
+				//ビューを削除.
+				[admobController.view removeFromSuperview];
+			}
+			break;
+		}
+
+	}
+	
+}
 
 
 void GCSoundEvent(const char *fileName, int mode){
