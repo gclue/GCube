@@ -529,5 +529,10 @@ void GCSendAdMobEvent(int type, int pos, const char* unitID) {
 
 
 void GCSoundEvent(const char *fileName, int mode){
-	
+	//空実装
+}
+
+bool GCReloadTextTexture(TextTexture *texture) {
+	//空実装
+	return false;
 }
