@@ -80,8 +80,8 @@ ApplicationController::~ApplicationController() {
 		delete scene;
 		it++;
 	}
-	delete defaultFadeAnimation;
-	defaultFadeAnimation = NULL;
+//	delete defaultFadeAnimation;
+//	defaultFadeAnimation = NULL;
 	
 	if (fadeAnimation) {
 		delete fadeAnimation;

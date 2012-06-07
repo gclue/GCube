@@ -2001,9 +2001,13 @@ ALC_API ALCdevice* ALC_APIENTRY alcOpenDevice(const ALCchar *deviceName)
     fmt = GetConfigValue(NULL, "format", "AL_FORMAT_STEREO16");
     device->Format = GetFormatFromString(fmt);
 
-    device->NumUpdates = GetConfigValueInt(NULL, "periods", 4);
-    if(device->NumUpdates < 2)
-        device->NumUpdates = 4;
+    //Androidの遅延を直すための修正
+    device->NumUpdates = GetConfigValueInt(NULL, "periods", 1);
+        if(device->NumUpdates < 2)
+            device->NumUpdates = 1;
+//    device->NumUpdates = GetConfigValueInt(NULL, "periods", 4);
+//    if(device->NumUpdates < 2)
+//        device->NumUpdates = 4;
 
     device->UpdateSize = GetConfigValueInt(NULL, "period_size", 1024);
     if(device->UpdateSize <= 0)

@@ -36,6 +36,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.assembler.macosx.exe.debug.26046628" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.macosx.exe.debug">
 								<option id="gnu.both.asm.option.include.paths.1586724875" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/platforms/android-9/arch-arm/usr/include"/>
+									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/sources/cxx-stl/stlport/stlport"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.588654944" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -45,6 +46,7 @@
 								<option id="gnu.cpp.compiler.macosx.exe.debug.option.debugging.level.1428276761" name="Debug Level" superClass="gnu.cpp.compiler.macosx.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.510814000" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/platforms/android-9/arch-arm/usr/include"/>
+									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/sources/cxx-stl/stlport/stlport"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1509336316" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__ANDROID__=1"/>
@@ -56,6 +58,7 @@
 								<option id="gnu.c.compiler.macosx.exe.debug.option.debugging.level.350966330" name="Debug Level" superClass="gnu.c.compiler.macosx.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.447843131" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/platforms/android-9/arch-arm/usr/include"/>
+									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/sources/cxx-stl/stlport/stlport"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.786939615" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__ANDROID__=1"/>
@@ -107,6 +110,7 @@
 								<option id="gnu.both.asm.option.include.paths.869488488" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/platforms/android-9/arch-arm/usr/include"/>
 									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/sources/cxx-stl/gnu-libstdc++/include"/>
+									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/sources/cxx-stl/stlport/stlport"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.2067163046" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -117,6 +121,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.73967307" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/platforms/android-9/arch-arm/usr/include"/>
 									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/sources/cxx-stl/gnu-libstdc++/include"/>
+									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/sources/cxx-stl/stlport/stlport"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.385741808" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -127,6 +132,7 @@
 									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/platforms/android-9/arch-arm/usr/include"/>
 									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/sources/cxx-stl/gnu-libstdc++/libs"/>
 									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/sources/cxx-stl/gnu-libstdc++/include"/>
+									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/sources/cxx-stl/stlport/stlport"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1549614047" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
