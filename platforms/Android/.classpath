@@ -6,5 +6,6 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="lib" path="libs/GoogleAdMobAdsSdk-6.0.0.jar"/>
 	<classpathentry kind="lib" path="libs/twitter4j-core-android-2.2.5.jar"/>
+	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
