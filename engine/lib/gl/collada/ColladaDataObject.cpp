@@ -28,21 +28,16 @@ Joint *ColladaDataObject::makeJoint(ColladaJointData &data, BindMtxMap &bindMtxM
 
 	// Joint作成
 	Joint *jt = new Joint();
-	jt->baseMatrix->translate(data.location.x, data.location.y, data.location.z);
-	jt->baseMatrix->rotate(data.rotation.z, RotateDirZ);
-	jt->baseMatrix->rotate(data.rotation.y, RotateDirY);
-	jt->baseMatrix->rotate(data.rotation.x, RotateDirX);
-//	jt->baseMatrix->rotate(data.rotation.z,0,0,1);
-//	jt->baseMatrix->rotate(data.rotation.y,0,1,0);
-//	jt->baseMatrix->rotate(data.rotation.x,1,0,0);
+	jt->baseMatrix->translate(data.location.x, data.location.y, data.location.z, true);
+	jt->baseMatrix->rotate(data.rotation.z, RotateDirZ, true);
+	jt->baseMatrix->rotate(-data.rotation.y, RotateDirY, true);
+	jt->baseMatrix->rotate(data.rotation.x, RotateDirX, true);
 	jt->baseMatrix->scale(data.scale.x, data.scale.y, data.scale.z);
-//	GL_LOGI("%f,%f,%f",data.rotation.x,data.rotation.y,data.rotation.z);
-//	jt->baseMatrix->debugPrint();
 	jt->sid = data.sid;
+	LOGD("%s", data.sid.c_str());
 	//
 	BindMtxMap::iterator ret = bindMtxMap.find(data.sid);
 	if(ret != bindMtxMap.end()) {
-//		GL_LOGI("**j:%s",data.sid.c_str());
 		std::vector<float> data = ret->second;
 		jt->invBindMatrix->setElements(&data[0]);
 	} else {
@@ -69,9 +64,13 @@ Figure *ColladaDataObject::makeFigure() {
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {
 				mtx[i*4+j] = bindPosesArray[j*4+i+16*k];
+//				mtx[i*4+j] = bindPosesArray[i*4+j+16*k];
 			}
 		}
-		bindMtxMap[jointsIdArray[k]] = mtx;
+		//printf("%s,", jointsIdArray[k].c_str());
+		if (jointsIdArray.size()>k) {
+			bindMtxMap[jointsIdArray[k]] = mtx;
+		}
 	}
 
 	// Joint作成
@@ -104,6 +103,8 @@ Figure *ColladaDataObject::makeFigure() {
 			joint2Array[i] = 0;
 			weight2Array[i] = 0;
 		}
+//		LOGD("[%d/%d] 1: %d, %f", i, maxJoint, joint1Array[i], weight1Array[i]);
+//		LOGD("[%d/%d] 2: %d, %f", i, maxJoint, joint2Array[i], weight2Array[i]);
 		jidx += jc;
 	}
 
@@ -119,13 +120,14 @@ Figure *ColladaDataObject::makeFigure() {
 		elements++;
 		hasUV = true;
 	}
+	elements = 5;
 
 	// 再構成してFigureにセット
 	Figure *fig = new Figure();
 	for (GLushort i = 0; i < meshIndexesArray.size()/elements; ++i) {
 		int idx = meshIndexesArray[i*elements];
-//		GL_LOGE("***:%d, %d, %d", i, idx, elements);
-//		GL_LOGE("***:%d, %d, %d, %f", i, idx, joint1Array[idx], weight1Array[idx]);
+		LOGD("***:%d, %d, %d", i, idx, elements);
+		LOGD("****:%d, %d, %d, %f", i, idx, joint1Array[idx], weight1Array[idx]);
 		fig->addVertices(&positionsArray[idx*3], 3);
 		int offset = 1;
 		if (hasNormal) {
@@ -137,6 +139,7 @@ Figure *ColladaDataObject::makeFigure() {
 			int uidx = meshIndexesArray[i*elements+offset];
 			fig->addTextureCoords(&uvArray[uidx*2], 2);
 		}
+//		LOGD("%d", idx);
 		fig->addJoints(&joint1Array[idx], &weight1Array[idx], &joint2Array[idx], &weight2Array[idx], 1);
 //		fig->addWeights(&weight1Array[idx], &weight2Array[idx], 1);
 		//

@@ -2421,6 +2421,49 @@
 			path = json;
 			sourceTree = "<group>";
 		};
+		666EC721168979F400A43A04 /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+				6674756114552F0A0065EDF3 /* Accessor.cpp */,
+				6674756214552F0A0065EDF3 /* Accessor.h */,
+				6674756314552F0A0065EDF3 /* Collada.cpp */,
+				6674756414552F0A0065EDF3 /* Collada.h */,
+				6674756714552F0A0065EDF3 /* ColladaLoader.cpp */,
+				6674756814552F0A0065EDF3 /* ColladaLoader.h */,
+				6674756914552F0A0065EDF3 /* FloatArray.cpp */,
+				6674756A14552F0A0065EDF3 /* FloatArray.h */,
+				6674756B14552F0A0065EDF3 /* Geometry.cpp */,
+				6674756C14552F0A0065EDF3 /* Geometry.h */,
+				6674756D14552F0A0065EDF3 /* GeometryLibrary.cpp */,
+				6674756E14552F0A0065EDF3 /* GeometryLibrary.h */,
+				6674756F14552F0A0065EDF3 /* Image.cpp */,
+				6674757014552F0A0065EDF3 /* Image.h */,
+				6674757114552F0A0065EDF3 /* ImagesLibrary.cpp */,
+				6674757214552F0A0065EDF3 /* ImagesLibrary.h */,
+				6674757314552F0A0065EDF3 /* InitFrom.cpp */,
+				6674757414552F0A0065EDF3 /* InitFrom.h */,
+				6674757514552F0A0065EDF3 /* Input.cpp */,
+				6674757614552F0A0065EDF3 /* Input.h */,
+				6674757714552F0A0065EDF3 /* Mesh.cpp */,
+				6674757814552F0A0065EDF3 /* Mesh.h */,
+				6674757914552F0A0065EDF3 /* NameArray.cpp */,
+				6674757A14552F0A0065EDF3 /* NameArray.h */,
+				6674757B14552F0A0065EDF3 /* P.cpp */,
+				6674757C14552F0A0065EDF3 /* P.h */,
+				6674757D14552F0A0065EDF3 /* Param.cpp */,
+				6674757E14552F0A0065EDF3 /* Param.h */,
+				6674757F14552F0A0065EDF3 /* Source.cpp */,
+				6674758014552F0A0065EDF3 /* Source.h */,
+				6674758114552F0A0065EDF3 /* TechniqueCommon.cpp */,
+				6674758214552F0A0065EDF3 /* TechniqueCommon.h */,
+				6674758314552F0A0065EDF3 /* Triangles.cpp */,
+				6674758414552F0A0065EDF3 /* Triangles.h */,
+				6674758514552F0A0065EDF3 /* Vertices.cpp */,
+				6674758614552F0A0065EDF3 /* Vertices.h */,
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
 		667474E0145528DE0065EDF3 = {
 			isa = PBXGroup;
 			children = (
@@ -2604,44 +2647,9 @@
 		6674756014552F0A0065EDF3 /* collada */ = {
 			isa = PBXGroup;
 			children = (
-				6674756114552F0A0065EDF3 /* Accessor.cpp */,
-				6674756214552F0A0065EDF3 /* Accessor.h */,
-				6674756314552F0A0065EDF3 /* Collada.cpp */,
-				6674756414552F0A0065EDF3 /* Collada.h */,
+				666EC721168979F400A43A04 /* New Group */,
 				6674756514552F0A0065EDF3 /* ColladaDataObject.cpp */,
 				6674756614552F0A0065EDF3 /* ColladaDataObject.h */,
-				6674756714552F0A0065EDF3 /* ColladaLoader.cpp */,
-				6674756814552F0A0065EDF3 /* ColladaLoader.h */,
-				6674756914552F0A0065EDF3 /* FloatArray.cpp */,
-				6674756A14552F0A0065EDF3 /* FloatArray.h */,
-				6674756B14552F0A0065EDF3 /* Geometry.cpp */,
-				6674756C14552F0A0065EDF3 /* Geometry.h */,
-				6674756D14552F0A0065EDF3 /* GeometryLibrary.cpp */,
-				6674756E14552F0A0065EDF3 /* GeometryLibrary.h */,
-				6674756F14552F0A0065EDF3 /* Image.cpp */,
-				6674757014552F0A0065EDF3 /* Image.h */,
-				6674757114552F0A0065EDF3 /* ImagesLibrary.cpp */,
-				6674757214552F0A0065EDF3 /* ImagesLibrary.h */,
-				6674757314552F0A0065EDF3 /* InitFrom.cpp */,
-				6674757414552F0A0065EDF3 /* InitFrom.h */,
-				6674757514552F0A0065EDF3 /* Input.cpp */,
-				6674757614552F0A0065EDF3 /* Input.h */,
-				6674757714552F0A0065EDF3 /* Mesh.cpp */,
-				6674757814552F0A0065EDF3 /* Mesh.h */,
-				6674757914552F0A0065EDF3 /* NameArray.cpp */,
-				6674757A14552F0A0065EDF3 /* NameArray.h */,
-				6674757B14552F0A0065EDF3 /* P.cpp */,
-				6674757C14552F0A0065EDF3 /* P.h */,
-				6674757D14552F0A0065EDF3 /* Param.cpp */,
-				6674757E14552F0A0065EDF3 /* Param.h */,
-				6674757F14552F0A0065EDF3 /* Source.cpp */,
-				6674758014552F0A0065EDF3 /* Source.h */,
-				6674758114552F0A0065EDF3 /* TechniqueCommon.cpp */,
-				6674758214552F0A0065EDF3 /* TechniqueCommon.h */,
-				6674758314552F0A0065EDF3 /* Triangles.cpp */,
-				6674758414552F0A0065EDF3 /* Triangles.h */,
-				6674758514552F0A0065EDF3 /* Vertices.cpp */,
-				6674758614552F0A0065EDF3 /* Vertices.h */,
 			);
 			path = collada;
 			sourceTree = "<group>";

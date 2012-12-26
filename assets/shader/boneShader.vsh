@@ -8,7 +8,7 @@ struct light {
 
 uniform mat4 u_mvMatrix;
 uniform mat4 u_mvpMatrix;
-uniform mat4 u_skinningMatrix[10];
+uniform mat4 u_skinningMatrix[30];
 uniform mat3 u_nMatrix;
 uniform bool u_useSkinning;
 uniform bool u_useLighting;
