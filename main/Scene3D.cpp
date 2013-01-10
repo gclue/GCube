@@ -386,7 +386,7 @@ Scene3D::Scene3D(ApplicationController *controller) : Scene(controller) {
 	
 	animation = WFObjLoader::loadGAVFile("model/01walk.gav");
 	
-	Figure *fig = WFObjLoader::loadGCBFile("model/01walk.gcb");
+	fig = WFObjLoader::loadGCBFile("model/01walk.gcb");
 	fig->setAnimation(animation);
 	
 	Texture *tex = new Texture("texture/neko_siro-01metoji.png");
@@ -431,7 +431,8 @@ void Scene3D::step(float dt) {
 	rot += 0.2;
 	if (rot>10) rot = -5;
 	
-//	fig->transForm->rotate(1, RotateDirY);
+//	fig->transForm->rotate(2, RotateDirZ);
+	fig->transForm->rotate(1, RotateDirY);
 	
 	// ジョイントのアニメーション
 //	Joint *joint = fig->joint;

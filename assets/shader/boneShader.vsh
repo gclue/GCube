@@ -27,19 +27,23 @@ void main()
     v_texcoord = a_texcoord;
 	
 	// bone
+	mat4 skmtx = mat4(1);
 	if (u_useSkinning) {
-		vec4 p1 = u_skinningMatrix[int(a_joints[0])] * vec4(a_position, 1.0);
-		vec4 p2 = u_skinningMatrix[int(a_joints[2])] * vec4(a_position, 1.0);
-		gl_Position = u_mvpMatrix * (p1 * a_joints[1] + p2 * a_joints[3]);
+		mat4 m1 = u_skinningMatrix[int(a_joints[0])] * a_joints[1];
+		mat4 m2 = u_skinningMatrix[int(a_joints[2])] * a_joints[3];
+		skmtx = m1 + m2;
+		vec4 p1 = m1 * vec4(a_position, 1.0);
+		vec4 p2 = m2 * vec4(a_position, 1.0);
+		gl_Position = u_mvpMatrix * (p1 + p2);
 	} else {
 		gl_Position = u_mvpMatrix * vec4(a_position, 1.0);
 	}
 
     // light
 	if (u_useLighting) {
-		vec4 pos = u_mvMatrix * vec4(a_position, 1.0);
+		vec4 pos = u_mvMatrix * skmtx * vec4(a_position, 1.0);
 		vec3 lightDir = normalize(u_lightState.position - vec3(pos));
-		vec3 normal = normalize(u_nMatrix * a_normal);
+		vec3 normal = normalize(u_nMatrix * mat3(skmtx) * a_normal);
 		v_color = vec3(dot(lightDir, normal));
 	} else {
 		v_color = vec3(1.0);

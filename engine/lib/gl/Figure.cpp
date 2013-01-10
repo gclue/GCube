@@ -87,10 +87,11 @@ void Figure::addVertexIndexes(const unsigned short *v, int len) {
 // ジョイント追加
 void Figure::addJoints(const unsigned short *j1, const float *w1, const unsigned short *j2, const float *w2, int len) {
 	for (int i = 0; i < len; i++) {
+		float max = w1[i] + w2[i];
 		jointData.push_back(j1[i]);
-		jointData.push_back(w1[i]);
+		jointData.push_back(w1[i]/max);
 		jointData.push_back(j2[i]);
-		jointData.push_back(w2[i]);
+		jointData.push_back(w2[i]/max);
 	}
 }
 
