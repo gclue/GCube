@@ -30,6 +30,10 @@
 
 
 #include "Figure.h"
+#include "Joint.h"
+#include "JointAnimation.h"
+
+class BinaryStream;
 
 /**
  * Obj形式の3Dオブジェクト読み込みクラス.
@@ -46,6 +50,16 @@ private:
 	 */
 	static void scanLine(const std::string &line, std::vector<float> &outupt, int max, bool rightHanded);
 	
+	/**
+	 * スキニング用のデータを読み込みます.
+	 */
+	static void loadWeight(BinaryStream& stream, Figure *fig);
+	
+	/**
+	 * ジョイントのデータを読み込みます.
+	 */
+	static Joint* loadJoint(BinaryStream& stream);
+
 public:
 	/**
 	 * ファイルから読み込みます.
@@ -58,7 +72,35 @@ public:
 	 * @param data データ
 	 */
 	static Figure* loadData(std::vector<char>* data, bool rightHanded=true);
-
+	
+	
+	/**
+	 * .gcbファイルからFigureを読み込みます.
+	 * @param fileName ファイル名
+	 * @return Figureクラス
+	 */
+	static Figure* loadGCBFile(const char *fileName);
+	
+	/**
+	 * .gcbデータからFigureを読み込みます.
+	 * @param data データ
+	 * @return Figureクラス
+	 */
+	static Figure* loadGCBData(std::vector<char>* data);
+	
+	/**
+	 * .gavファイルからアニメーションデータを読み込みます.
+	 * @param fileName ファイル名
+	 * @return アニメーションデータ
+	 */
+	static JointAnimation* loadGAVFile(const char *fileName);
+	
+	/**
+	 * .gavのデータからアニメーションデータを読み込みます.
+	 * @param data データ
+	 * @return アニメーションデータ
+	 */
+	static JointAnimation* loadGAVData(std::vector<char>* data);
 };
 
 #endif // end of GL_WFOBJLOADER_H

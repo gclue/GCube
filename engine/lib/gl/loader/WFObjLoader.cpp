@@ -133,3 +133,299 @@ Figure* WFObjLoader::loadData(std::vector<char>* data, bool rightHanded) {
 	
 	return fig;
 }
+
+
+
+
+
+
+// バイナリを読み込むためのストリーム
+class BinaryStream {
+private:
+	std::vector<char>::iterator it;
+	std::vector<char>* data;
+	
+public:
+	BinaryStream(std::vector<char>* data) {
+		this->data = data;
+		this->it = data->begin();
+	}
+	
+	~BinaryStream() {
+		data = NULL;
+	}
+	
+	char readByte() {
+		return (*it++);
+	}
+	
+	short readShort() {
+		short f;
+		char t[2];
+		t[1] = (*it++);
+		t[0] = (*it++);
+		memcpy(&f, t, 2);
+		return f;
+	}
+	
+	int readInt() {
+		int f;
+		char t[4];
+		t[3] = (*it++);
+		t[2] = (*it++);
+		t[1] = (*it++);
+		t[0] = (*it++);
+		memcpy(&f, t, 4);
+		return f;
+	}
+	
+	float readFloat() {
+		float f;
+		char t[4];
+		t[3] = (*it++);
+		t[2] = (*it++);
+		t[1] = (*it++);
+		t[0] = (*it++);
+		memcpy(&f, t, 4);
+		return f;
+	}
+	
+	bool isEnd() {
+		return it == data->end();
+	}
+};
+
+
+// 頂点座標のデータ群を表すタグ
+#define TYPE_VERTEX 1
+// 法線ベクトルのデータ群を表すタグ
+#define TYPE_NORMAL 2
+// テクスチャのデータ群を表すタグ
+#define TYPE_TEXCOOD 3
+// インデックスのデータ群を表すタグ
+#define TYPE_INDEX 4
+// ジョイントのデータ群を表すタグ
+#define TYPE_NODE 5
+#define TYPE_WEIGHT 6
+#define TYPE_COLOR 7
+
+
+Figure* WFObjLoader::loadGCBFile(const char *fileName)
+{
+	std::vector<char>* data = GCLoadAsset(fileName);
+	Figure *out = WFObjLoader::loadGCBData(data);
+	if (out) {
+		out->name = fileName;
+		out->build();
+	}
+	delete data;
+	return out;
+}
+
+Figure* WFObjLoader::loadGCBData(std::vector<char>* data)
+{
+	BinaryStream stream(data);
+	
+	// マジックナンバーチェック
+	if (stream.readByte() != 'g' ||
+		stream.readByte() != 'c' ||
+		stream.readByte() != 'u' ||
+		stream.readByte() != 'b') {
+		return NULL;
+	}
+	
+	Figure *fig = new Figure();
+	
+	while (!stream.isEnd()) {
+		short type = stream.readShort();
+		switch (type) {
+			case TYPE_VERTEX:
+			{
+				short size = stream.readShort();
+				for (int i = 0; i < size; i++) {
+					float v = stream.readFloat();
+					fig->addVertices(&v, 1);
+				}
+			}	break;
+			case TYPE_NORMAL:
+			{
+				short size = stream.readShort();
+				for (int i = 0; i < size; i++) {
+					float v = stream.readFloat();
+					fig->addNormal(&v, 1);
+				}
+			}	break;
+			case TYPE_TEXCOOD:
+			{
+				short size = stream.readShort();
+				for (int i = 0; i < size; i++) {
+					float v = stream.readFloat();
+					fig->addTextureCoords(&v, 1);
+				}
+			}	break;
+			case TYPE_INDEX:
+			{
+				short size = stream.readShort();
+				for (int i = 0; i < size; i++) {
+					unsigned short v = stream.readInt();
+					fig->addVertexIndexes(&v, 1);
+				}
+			}	break;
+			case TYPE_COLOR:
+			{
+				// no implements.
+			}	break;
+			case TYPE_WEIGHT:
+			{
+				loadWeight(stream, fig);
+			}	break;
+			case TYPE_NODE:
+			{
+				fig->joint = loadJoint(stream);
+			}	break;
+			default:
+			{
+				LOGE("Unknown Type. [type=%d]", type);
+				return NULL;
+			}	break;
+		}
+	}
+	return fig;
+}
+
+void WFObjLoader::loadWeight(BinaryStream& stream, Figure *fig)
+{
+	int weightIndexSize = stream.readShort();
+	short weightIndex[weightIndexSize];
+	for (int i = 0; i < weightIndexSize; i++) {
+		weightIndex[i] = stream.readShort();
+	}
+	
+	int weightsSize = stream.readShort();
+	float weights[weightsSize];
+	for (int i = 0; i < weightIndexSize; i++) {
+		weights[i] = stream.readFloat();
+	}
+	
+	int vcount = stream.readShort();
+	GLushort joint1Array[vcount];
+	GLushort joint2Array[vcount];
+	GLfloat weight1Array[vcount];
+	GLfloat weight2Array[vcount];
+	
+	int jidx = 0;
+	for (int i = 0; i < vcount; i++) {
+		short v = stream.readShort();
+		joint1Array[i] = weightIndex[jidx];
+		weight1Array[i] = weights[jidx];
+		if (v > 1) {
+			joint2Array[i] = weightIndex[jidx + 1];
+			weight2Array[i] = weights[jidx + 1];
+		} else {
+			joint2Array[i] = 0;
+			weight2Array[i] = 0;
+		}
+		jidx += v;
+		
+		// FIXEDME: Figureが2つのウェイトしか持てないので、それ以上のデータが入っていても無視する
+		
+		fig->addJoints(&joint1Array[i], &weight1Array[i], &joint2Array[i], &weight2Array[i], 1);
+	}
+}
+
+Joint* WFObjLoader::loadJoint(BinaryStream& stream)
+{
+	Joint *jt = new Joint();
+	
+	bool hasSid = stream.readByte() == 1 ? true : false;
+	if (hasSid) {
+		short sidSize = stream.readShort();
+		for (int i = 0; i < sidSize; i++) {
+			jt->sid.append(1, stream.readByte());
+		}
+	}
+	
+	bool hasMatrix = stream.readByte() == 1 ? true : false;
+	if (hasMatrix) {
+		float m[16];
+		for (int i = 0; i < 16; i++) {
+			m[i] = stream.readFloat();
+		}
+		jt->baseMatrix->setElements(m);
+	}
+	
+	bool hasBindPoses = stream.readByte() == 1 ? true : false;
+	if (hasBindPoses) {
+		float m[16];
+		for (int i = 0; i < 16; i++) {
+			m[i] = stream.readFloat();
+		}
+		jt->invBindMatrix->setElements(m);
+	} else {
+		jt->hasMesh = false;
+	}
+	
+	int childrenSize = stream.readShort();
+	for (int i = 0; i < childrenSize; i++) {
+		short type = stream.readShort();
+		if (type != TYPE_NODE) {
+			LOGE("Illegal type. [type=%d]", type);
+		}
+		jt->addChild(loadJoint(stream));
+	}
+	
+	return jt;
+}
+
+
+JointAnimation* WFObjLoader::loadGAVFile(const char *fileName)
+{
+	std::vector<char>* data = GCLoadAsset(fileName);
+	JointAnimation* result = WFObjLoader::loadGAVData(data);
+	delete data;
+	return result;
+	
+}
+
+JointAnimation* WFObjLoader::loadGAVData(std::vector<char>* data)
+{
+	BinaryStream stream(data);
+	
+	// マジックナンバーチェック
+	if (stream.readByte() != 'g' ||
+		stream.readByte() != 'a' ||
+		stream.readByte() != 'n' ||
+		stream.readByte() != 'i') {
+		return NULL;
+	}
+	
+	JointAnimation *animation = new JointAnimation();
+	
+	short animationCount = stream.readShort();
+	
+	for (int i = 0; i < animationCount; i++) {
+		JointKeyFrame *frame = new JointKeyFrame();
+		
+		short sidSize = stream.readShort();
+		for (int i = 0; i < sidSize; i++) {
+			frame->sid.append(1, stream.readByte());
+		}
+		
+		short matrixSize = stream.readShort();
+		for (int j = 0; j < matrixSize; j++) {
+			float t = stream.readFloat();
+			frame->addTime(&t, 1);
+			
+			float m[16];
+			for (int k = 0; k < 16; k++) {
+				m[k] = stream.readFloat();
+			}
+			frame->addMatrix(m, 1);
+		}
+		
+		animation->animations.push_back(frame);
+	}
+	
+	return animation;
+}
+

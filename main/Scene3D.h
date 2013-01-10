@@ -24,6 +24,7 @@
 #define SCENE3D_H_
 
 #include "Scene.h"
+#include "JointAnimation.h"
 
 /**
  * 3Dサンプルシーンクラス.
@@ -33,7 +34,8 @@ private:
 	typedef Scene super;
 	float rot;
 	Figure *fig;
-	
+	JointAnimation *animation;
+
 public:
 	/**
 	 * コンストラクタ.

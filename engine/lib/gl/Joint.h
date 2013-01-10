@@ -74,10 +74,12 @@ public:
     Joint *getParent() const;
 
 	/**
-	 * シェーダにスキニング用行列を設定します.
-	 * @param[in] shader シェーダ
+	 * 指定されたsidのジョイントを返します.
+	 * 指定されたsidのジョイントが見つからない場合はNULLを返します.
+	 * @param[in] sid ジョイントのID
+	 * @return ジョイント
 	 */
-    void setSkinningMatrix(BoneShader *shader);
+	Joint *findJointBySID(std::string sid);
 
 	/**
 	 * 変換行列を適用します.

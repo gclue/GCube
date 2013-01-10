@@ -22,6 +22,7 @@
 
 #include "Figure.h"
 #include "Joint.h"
+#include "JointAnimation.h"
 #include <float.h>
 
 // コンストラクタ
@@ -34,6 +35,7 @@ Figure::Figure() {
 	
 	transForm = NULL;
 	joint = NULL;
+	animation = NULL;
 	
 	hasNormals = false;
 	hasTexture = false;
@@ -334,3 +336,30 @@ void Figure::enableAttribute(GLuint attrib) {
 
 	glVertexAttribPointer(attrib, elements, type, GL_FALSE, 0, 0);
 }
+
+
+void Figure::setAnimation(JointAnimation *animation) {
+	this->animation = animation;
+}
+
+void Figure::draw(float dt) {
+	if (animation) {
+		animation->animationTime += dt;
+		
+		// アニメーション時間を超えたらリピート
+		if (animation->repeat &&
+			animation->animationTime > animation->getTotalAnimationTime()) {
+			animation->animationTime -= animation->getTotalAnimationTime();
+		}
+		
+		for (int i = 0; i < animation->animations.size(); i++) {
+			JointKeyFrame *frame = animation->animations.at(i);
+			Joint *jj = joint->findJointBySID(frame->sid);
+			if (jj) {
+				jj->transForm->setElements(frame->getMatrix(animation->animationTime)->matrix);
+			}
+		}
+	}
+	draw();
+}
+

@@ -33,6 +33,7 @@
 #include <algorithm>
 
 class Joint;
+class JointAnimation;
 
 // attribute index
 enum {
@@ -93,6 +94,8 @@ public:
 	bool useIndex;			//!< インデックスのAttributeを使用する場合はtrue
 	bool visible;			//!< 表示する場合はtrue
 	const char* name;
+	
+	JointAnimation *animation;	//!< アニメーションデータ
 
 	/**
 	 * コンストラクタ.
@@ -178,6 +181,18 @@ public:
 	 * @param[in] len 追加するインデックスの個数
 	 */
 	void addVertexIndexes(const unsigned short *v, int len);
+	
+	/**
+	 * アニメーションを設定します.
+	 * @param[in] animation アニメーションデータ
+	 */
+	void setAnimation(JointAnimation *animation);
+	
+	/**
+	 * アニメーション付きで描画を行います.
+	 * @param[in] dt 経過時間(1.0で1秒)
+	 */
+	void draw(float dt);
 };
 
 #endif // end of GL_FIGURE_H

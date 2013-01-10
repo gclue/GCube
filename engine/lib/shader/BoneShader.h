@@ -101,6 +101,12 @@ public:
 	void setSkinningMatrix(Matrix3D **matrix, int len);
 	
 	/**
+	 * スキニング用のデータをFigureから取得し、設定します.
+	 * @param[in] fig スキニングデータを持っているFigure
+	 */
+	void setSkinningMatrix(Figure *fig);
+	
+	/**
 	 * 変換行列から法線行列を計算しシェーダに設定します.
 	 * <br>
 	 * @param[in] matrix 変換行列

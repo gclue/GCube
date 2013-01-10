@@ -64,6 +64,22 @@ Joint *Joint::getParent() const {
     return parent;
 }
 
+// 指定されたSIDのJointを返す
+Joint *Joint::findJointBySID(std::string sid) {
+	if (sid.compare(this->sid) == 0) {
+		return this;
+	}
+	
+	// 子ジョイントから探す
+	for (int i = 0; i < children.size(); i++) {
+		Joint *joint = children.at(i)->findJointBySID(sid);
+		if (joint) {
+			return joint;
+		}
+	}
+	return  NULL;
+}
+
 // 変換行列を適用
 int Joint::applyMatrix(Matrix3D* parentMtx, std::vector<Matrix3D*> *visitor) {
 
@@ -74,7 +90,7 @@ int Joint::applyMatrix(Matrix3D* parentMtx, std::vector<Matrix3D*> *visitor) {
 	workingMtx->loadIdentity();
 	if (parentMtx) workingMtx->multiply(parentMtx);
 	workingMtx->multiply(transForm);
-	workingMtx->multiply(baseMatrix);
+//	workingMtx->multiply(baseMatrix);
 	// 必要ならば行列を返す
 	if(hasMesh) {
 		visitor->push_back(workingMtx);
@@ -93,11 +109,4 @@ int Joint::applyMatrix(Matrix3D* parentMtx, std::vector<Matrix3D*> *visitor) {
 	if(hasMesh) workingMtx->multiply(invBindMatrix);
 
 	return count;
-}
-
-// シェーダーにスキニング用行列を設定
-void Joint::setSkinningMatrix(BoneShader *shader) {
-	std::vector<Matrix3D*> visitor;
-	int count = this->applyMatrix(NULL, &visitor);
-	shader->setSkinningMatrix(&visitor[0], count);
 }

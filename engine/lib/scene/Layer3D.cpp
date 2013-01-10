@@ -446,19 +446,14 @@ void Layer3D::render(double dt) {
 			shader->bindTexture(0);
 		}
 		
-		// ジョイント設定
-		if (set->fig->joint) {
-			set->fig->joint->setSkinningMatrix(shader);
-		} else {
-			shader->setSkinningMatrix(NULL, 0);
-		}
+		shader->setSkinningMatrix(set->fig);
 		
 		// 描画
 		if (fig != set->fig) {
 			set->fig->bind();
 			fig = set->fig;
 		}
-		set->fig->draw();
+		set->fig->draw(dt);
 		
 		it++;
 	}

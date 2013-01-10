@@ -21,6 +21,7 @@
  */
 
 #include "BoneShader.h"
+#include "Joint.h"
 
 // uniform index
 enum {
@@ -97,6 +98,16 @@ void BoneShader::setSkinningMatrix(Matrix3D **matrix, int len) {
 		glUniformMatrix4fv(uniforms[UNIFORM_SKINNING_MATRIX], len, GL_FALSE, mtx);
 	} else {
 		glUniform1i(uniforms[UNIFORM_USE_SKINNING], 0);
+	}
+}
+
+void BoneShader::setSkinningMatrix(Figure *fig) {
+	if (fig->joint && fig->animation) {
+		std::vector<Matrix3D*> visitor;
+		int count = fig->joint->applyMatrix(NULL, &visitor);
+		this->setSkinningMatrix(&visitor[0], count);
+	} else {
+		this->setSkinningMatrix(NULL, 0);
 	}
 }
 

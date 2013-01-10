@@ -374,6 +374,10 @@
 		66EFF67314DA696B00A7CB94 /* PngData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66EFF67114DA696B00A7CB94 /* PngData.cpp */; };
 		66EFF67914DA6E4F00A7CB94 /* simpleShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322F14568A55001847A0 /* simpleShader.vsh */; };
 		66F980661467AF9200D85239 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66F980641467AF9200D85239 /* Light.cpp */; };
+		C2D2B6C6169E93A1004255F6 /* JointAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2D2B6C5169E93A0004255F6 /* JointAnimation.cpp */; };
+		C2D2B6C9169E9539004255F6 /* 01walk.gav in Resources */ = {isa = PBXBuildFile; fileRef = C2D2B6C7169E9539004255F6 /* 01walk.gav */; };
+		C2D2B6CA169E9539004255F6 /* 01walk.gcb in Resources */ = {isa = PBXBuildFile; fileRef = C2D2B6C8169E9539004255F6 /* 01walk.gcb */; };
+		C2D2B6CC169E9755004255F6 /* neko_siro-01metoji.png in Resources */ = {isa = PBXBuildFile; fileRef = C2D2B6CB169E9755004255F6 /* neko_siro-01metoji.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1446,6 +1450,11 @@
 		66EFF67214DA696B00A7CB94 /* PngData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PngData.h; sourceTree = "<group>"; };
 		66F980641467AF9200D85239 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
 		66F980651467AF9200D85239 /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
+		C2D2B6C4169E93A0004255F6 /* JointAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JointAnimation.h; sourceTree = "<group>"; };
+		C2D2B6C5169E93A0004255F6 /* JointAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JointAnimation.cpp; sourceTree = "<group>"; };
+		C2D2B6C7169E9539004255F6 /* 01walk.gav */ = {isa = PBXFileReference; lastKnownFileType = file; path = 01walk.gav; sourceTree = "<group>"; };
+		C2D2B6C8169E9539004255F6 /* 01walk.gcb */ = {isa = PBXFileReference; lastKnownFileType = file; path = 01walk.gcb; sourceTree = "<group>"; };
+		C2D2B6CB169E9755004255F6 /* neko_siro-01metoji.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "neko_siro-01metoji.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2121,6 +2130,8 @@
 		6644322714568A55001847A0 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				C2D2B6C7169E9539004255F6 /* 01walk.gav */,
+				C2D2B6C8169E9539004255F6 /* 01walk.gcb */,
 				66E54832145F96A30050571F /* kotoji.model */,
 				66E54830145EABDE0050571F /* cube.model */,
 			);
@@ -2150,6 +2161,7 @@
 		6644323214568A55001847A0 /* texture */ = {
 			isa = PBXGroup;
 			children = (
+				C2D2B6CB169E9755004255F6 /* neko_siro-01metoji.png */,
 				1F6C8F971544E26D00ADCB80 /* game_center_ui.png */,
 				1F6C8F981544E26D00ADCB80 /* game_center_ui.txt */,
 				44D4AC4E154114BB004B3442 /* texture.xml */,
@@ -2628,6 +2640,8 @@
 				6674758B14552F0A0065EDF3 /* glcommon.h */,
 				6674758C14552F0A0065EDF3 /* Joint.cpp */,
 				6674758D14552F0A0065EDF3 /* Joint.h */,
+				C2D2B6C5169E93A0004255F6 /* JointAnimation.cpp */,
+				C2D2B6C4169E93A0004255F6 /* JointAnimation.h */,
 				6674759114552F0A0065EDF3 /* PackerTexture.cpp */,
 				6674759214552F0A0065EDF3 /* PackerTexture.h */,
 				6674759314552F0A0065EDF3 /* PrimitiveObjectBuilder.cpp */,
@@ -3481,6 +3495,9 @@
 				44D4AC53154114C5004B3442 /* SampleTexture.txt in Resources */,
 				1F6C8F991544E26D00ADCB80 /* game_center_ui.png in Resources */,
 				1F6C8F9A1544E26D00ADCB80 /* game_center_ui.txt in Resources */,
+				C2D2B6C9169E9539004255F6 /* 01walk.gav in Resources */,
+				C2D2B6CA169E9539004255F6 /* 01walk.gcb in Resources */,
+				C2D2B6CC169E9755004255F6 /* neko_siro-01metoji.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3819,6 +3836,7 @@
 				1F6C8F941544E0A800ADCB80 /* SceneGameCenterSample.cpp in Sources */,
 				1FC663D115452D1100DAE788 /* AdMobViewController.m in Sources */,
 				1F4AE55015454B0F00ACFF7A /* SceneAdMobView.cpp in Sources */,
+				C2D2B6C6169E93A1004255F6 /* JointAnimation.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3887,6 +3905,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GCube/GCube-Prefix.pch";
 				INFOPLIST_FILE = "GCube/GCube-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/External/TwitterLibraries/Libraries & Headers\"",
@@ -3911,6 +3930,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "GCube/GCube-Prefix.pch";
 				INFOPLIST_FILE = "GCube/GCube-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/External/TwitterLibraries/Libraries & Headers\"",

@@ -29,10 +29,12 @@
 #include "Joint.h"
 #include "Layer3D.h"
 #include "Light.h"
+#include "WFObjLoader.h"
 #include <string>
 
 Scene3D::Scene3D(ApplicationController *controller) : Scene(controller) {
 	LOGD("****Scene3D");
+#if 0
 	/*
 	/////// library_geometries
 	// mesh-vertices
@@ -380,16 +382,23 @@ Scene3D::Scene3D(ApplicationController *controller) : Scene(controller) {
 	fig2->build();
 	fig2->transForm->loadIdentity();
 	fig2->transForm->translate(1.5,0,0);
+#endif
 	
-	Texture *tex = new Texture("texture/gclue_logo.png");
+	animation = WFObjLoader::loadGAVFile("model/01walk.gav");
+	
+	Figure *fig = WFObjLoader::loadGCBFile("model/01walk.gcb");
+	fig->setAnimation(animation);
+	
+	Texture *tex = new Texture("texture/neko_siro-01metoji.png");
 	Layer3D *layer = new Layer3D(controller);
 	
 	FigureInfo info = {NULL};
 	info.fig = fig;
+	info.tex = tex;
 	layer->addFigure(info);
 
-	info.fig = fig2;
-	info.tex = tex;
+//	info.fig = fig2;
+//	info.tex = tex;
 //	layer->addFigure(info);
 	
 	
@@ -425,12 +434,12 @@ void Scene3D::step(float dt) {
 //	fig->transForm->rotate(1, RotateDirY);
 	
 	// ジョイントのアニメーション
-	Joint *joint = fig->joint;
-	Joint *jj = joint->getChildren()[0]->getChildren()[0]->getChildren()[0]->getChildren()[1];
-//	Joint *jj = joint->getChildren()[0]->getChildren()[0]->getChildren()[0]->getChildren()[0]->getChildren()[0]->getChildren()[0];
-	jj->transForm->loadIdentity();
-	jj->transForm->rotate(rot, RotateDirY);
-	LOGD("%s", jj->sid.c_str());
+//	Joint *joint = fig->joint;
+//	Joint *jj = joint->getChildren()[0]->getChildren()[0]->getChildren()[0]->getChildren()[1];
+////	Joint *jj = joint->getChildren()[0]->getChildren()[0]->getChildren()[0]->getChildren()[0]->getChildren()[0]->getChildren()[0];
+//	jj->transForm->loadIdentity();
+//	jj->transForm->rotate(rot, RotateDirY);
+//	LOGD("%s", jj->sid.c_str());
 	
 	// 親をステップ実行
 	super::step(dt);
