@@ -26,9 +26,9 @@ include $(CLEAR_VARS)
 
 include $(MK_PATH)/xml.mk
 
-#include $(CLEAR_VARS)
+include $(CLEAR_VARS)
 
-#include $(MK_PATH)/bullet.mk
+include $(MK_PATH)/bullet.mk
 
 include $(CLEAR_VARS)
 
