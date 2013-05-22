@@ -15,6 +15,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    gl/PackerTexture.cpp \
                    gl/PrimitiveObjectBuilder.cpp \
                    gl/Joint.cpp \
+                   gl/JointAnimation.cpp \
                    gl/Light.cpp \
                    gl/collada/Accessor.cpp \
                    gl/collada/Collada.cpp \
@@ -74,9 +75,9 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    util/HttpClient.cpp \
                    util/Storage.cpp \
                    util/Box2DManager.cpp \
-                   xml/XMLParser.cpp 
-#                   util/BulletWorld.cpp \
-#                   scene/Layer3D.cpp 
+                   xml/XMLParser.cpp \
+                   util/BulletWorld.cpp \
+                   scene/Layer3D.cpp 
                    
 LOCAL_LDLIBS    := -llog -lGLESv2
 LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
