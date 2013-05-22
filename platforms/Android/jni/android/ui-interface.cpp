@@ -118,7 +118,7 @@ Java_com_gclue_gl_scene_GCScene_nativeCreate(
 		uiController->add(ui);
 		return (int) ui;
 	}
-	return NULL;
+	return 0;
 }
 
 /**
@@ -163,7 +163,7 @@ Java_com_gclue_gl_scene_GCLayer2D_nativeCreate(
 		uiController->add(ui);
 		return (int) ui;
 	}
-	return NULL;
+	return 0;
 }
 
 /**
@@ -674,7 +674,7 @@ Java_com_gclue_gl_ui_GCViewGroup_nativeCreate(
 //		uiController->add(ui);
 //		return (int) ui;
 	}
-	return NULL;
+	return 0;
 }
 
 /**
@@ -719,7 +719,7 @@ Java_com_gclue_gl_ui_GCImageView_nativeCreate(
 //		uiController->add(ui);
 //		return (int) ui;
 	}
-	return NULL;
+	return 0;
 }
 
 /**
@@ -768,7 +768,7 @@ Java_com_gclue_gl_ui_GCGridView_nativeCreate(
 //		uiController->add(ui);
 //		return (int) ui;
 	}
-	return NULL;
+	return 0;
 }
 
 

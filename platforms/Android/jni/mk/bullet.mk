@@ -4,6 +4,8 @@
 LOCAL_PATH := $(call my-dir)/../../../../engine/external/bullet
 include $(CLEAR_VARS)
 
+SYSROOT := (your_ndk_dir)/platforms/android-9/arch-arm
+
 LOCAL_MODULE           := bullet
 LOCAL_CFLAGS           := -isystem $(SYSROOT)/usr/include
 LOCAL_C_INCLUDES       := $(APP_HOME_PATH)/test/cpp \
