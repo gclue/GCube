@@ -15,15 +15,13 @@ APP_MODULES     := gcube
 LOCAL_MODULE    := gcube
 LOCAL_CFLAGS    := -Werror
 LOCAL_SRC_FILES := platforms/Android/jni/android/ndk-interface.cpp \
-                   platforms/Android/jni/android/ui-interface.cpp \
-                   platforms/Android/jni/android/UIController.cpp \
                    $(MAIN_PATH)/main.cpp \
                    $(MAIN_PATH)/SceneTitle.cpp \
                    $(MAIN_PATH)/SceneSample1.cpp \
                    $(MAIN_PATH)/SceneTwitterTest.cpp \
                    $(MAIN_PATH)/SceneGameCenterSample.cpp \
                    $(MAIN_PATH)/SceneAdMobView.cpp \
-#                   $(MAIN_PATH)/Scene3D.cpp
+                   $(MAIN_PATH)/Scene3D.cpp
                    
 LOCAL_LDLIBS    := -llog -lGLESv2 -lz
 LOCAL_C_INCLUDES:= $(MY_PATH)/ \
