@@ -392,8 +392,7 @@ Scene3D::Scene3D(ApplicationController *controller) : Scene(controller) {
 	Texture *tex = new Texture("texture/neko_siro-01metoji.png");
 	Layer3D *layer = new Layer3D(controller);
 	
-	FigureInfo info;
-	bzero(&info,sizeof(FigureInfo));
+	FigureInfo info = {0};
 	info.fig = fig;
 	info.tex = tex;
 	layer->addFigure(info);
