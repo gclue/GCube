@@ -35,8 +35,8 @@
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.assembler.macosx.exe.debug.26046628" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.macosx.exe.debug">
 								<option id="gnu.both.asm.option.include.paths.1586724875" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/platforms/android-9/arch-arm/usr/include"/>
 									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/sources/cxx-stl/stlport/stlport"/>
+									<listOptionValue builtIn="false" value="/Application/android-sdk/ndk/platforms/android-9/arch-arm/usr/include"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.588654944" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -45,8 +45,8 @@
 								<option id="gnu.cpp.compilermacosx.exe.debug.option.optimization.level.734314820" name="Optimization Level" superClass="gnu.cpp.compilermacosx.exe.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.macosx.exe.debug.option.debugging.level.1428276761" name="Debug Level" superClass="gnu.cpp.compiler.macosx.exe.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.510814000" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/platforms/android-9/arch-arm/usr/include"/>
 									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/sources/cxx-stl/stlport/stlport"/>
+									<listOptionValue builtIn="false" value="/Application/android-sdk/ndk/platforms/android-9/arch-arm/usr/include"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1509336316" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__ANDROID__=1"/>
@@ -57,8 +57,8 @@
 								<option defaultValue="gnu.c.optimization.level.none" id="gnu.c.compiler.macosx.exe.debug.option.optimization.level.1830175154" name="Optimization Level" superClass="gnu.c.compiler.macosx.exe.debug.option.optimization.level" valueType="enumerated"/>
 								<option id="gnu.c.compiler.macosx.exe.debug.option.debugging.level.350966330" name="Debug Level" superClass="gnu.c.compiler.macosx.exe.debug.option.debugging.level" value="gnu.c.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.c.compiler.option.include.paths.447843131" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/platforms/android-9/arch-arm/usr/include"/>
 									<listOptionValue builtIn="false" value="/Applications/android-sdk/ndk/sources/cxx-stl/stlport/stlport"/>
+									<listOptionValue builtIn="false" value="/Application/android-sdk/ndk/platforms/android-9/arch-arm/usr/include"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.786939615" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="__ANDROID__=1"/>

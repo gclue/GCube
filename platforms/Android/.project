@@ -128,6 +128,11 @@
 			<type>2</type>
 			<locationURI>PARENT-2-PROJECT_LOC/main</locationURI>
 		</link>
+		<link>
+			<name>jni/sample</name>
+			<type>2</type>
+			<locationURI>PARENT-2-PROJECT_LOC/sample</locationURI>
+		</link>
 	</linkedResources>
 	<variableList>
 		<variable>

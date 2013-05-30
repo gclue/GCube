@@ -25,13 +25,13 @@ class ApplicationController;
 /**
  * メインクラス.
  */
-class Main {
+class SampleMain {
 private:
 	ApplicationController *controller;
 	
 public:
-	Main(ApplicationController *controller) {this->controller=controller;};
-	virtual ~Main() {};
+	SampleMain(ApplicationController *controller) {this->controller=controller;};
+	virtual ~SampleMain() {};
 	
 	/**
 	 * アプリケーション初期化処理.

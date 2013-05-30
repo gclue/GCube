@@ -22,43 +22,21 @@
 
 #include "main.h"
 #include "ApplicationController.h"
-#include "APIGlue.h"
-#include "SceneTitle.h"
-#include "SceneSample1.h"
-#include "SceneTwitterTest.h"
-#include "Scene3D.h"
-#include <time.h>
-#include "MathExpression.h"
-#include "SceneGameCenterSample.h"
-#include "SceneAdMobView.h"
+#include "SceneHello.h"
 
 // 初期化処理.
 void Main::initApplicationController() {
 	LOGD("*Main::initApplicationController()");
-	
-	// 乱数シード
-	srand((unsigned) time(NULL));
-
-	SceneTitle *scene1 = new SceneTitle(controller);
-	Scene3D *scene2 = new Scene3D(controller);
-    SceneSample1 *sceneSample1 = new SceneSample1(controller);
-    SceneTwitterTest *scene3 = new SceneTwitterTest(controller);
-	SceneGameCenterSample *scene4 = new SceneGameCenterSample(controller);
-	SceneAdMobView *scene5 = new SceneAdMobView(controller);
-	
-	controller->addScene(1, scene1);
-	controller->addScene(2, scene2);
-//    controller->addScene(2, scene3);
-//    controller->addScene(3, sceneSample1);
-//	controller->addScene(4, scene4);
-//	controller->addScene(5, scene5);
-	
-	controller->sceneChange(2);
+	    
+    // シーンの生成
+	SceneHello *hello = new SceneHello(controller);
     
-////    MathExpression *mathEx = new MathExpression("12+0.5*3.567/0.0003");
-////    float ret = mathEx->eval();
-////    LOGD("answer %f",ret);
-//    delete mathEx;
+    // シーンの登録
+    controller->addScene(1, hello);
+    
+    // シーンへ遷移
+	controller->sceneChange(1);
+    
 }
 
 // 一時停止処理.
@@ -82,18 +60,20 @@ bool Main::onGameEvent(int type, int param1, long param2, double param3, int par
 	return false;
 }
 
-//ツイッターイベント受信.
+// ツイッターイベント受信.
 bool Main::onTwitterEvent(int type, int param1) {
-	LOGD("***Main::onTwitterEvent(%d, %d)",type, param1);
+	LOGD("*Main::onTwitterEvent(%d, %d)",type, param1);
 	return false;
 }
 
+// iOSのGameCenterイベント受信.
 bool Main::onGameCenterEvent(int type, int param1, int param2) {
-	LOGD("***Main::onGameCenterEvent %d, %d, %d",type, param1, param2);
+	LOGD("*Main::onGameCenterEvent %d, %d, %d",type, param1, param2);
 	return false;
 }
 
 // デバッグコマンド
 bool Main::onDebugCommand(const char *command, int param) {
+    LOGD("*Main::onDebugCommand %s, %d",command, param);
 	return false;
 }
