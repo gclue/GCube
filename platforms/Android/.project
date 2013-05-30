@@ -36,7 +36,7 @@
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.buildCommand</key>
-					<value>/Applications/android-sdk/ndk/ndk-build</value>
+					<value>/Users/Mikan/Main/EclipseSetup/ndk/android-ndk-r8e/ndk-build</value>
 				</dictionary>
 				<dictionary>
 					<key>org.eclipse.cdt.make.core.buildLocation</key>
@@ -127,6 +127,11 @@
 			<name>jni/main</name>
 			<type>2</type>
 			<locationURI>PARENT-2-PROJECT_LOC/main</locationURI>
+		</link>
+		<link>
+			<name>jni/sample</name>
+			<type>2</type>
+			<location>PARENT-2-PROJECT_LOC/sample</location>
 		</link>
 	</linkedResources>
 	<variableList>
