@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[GCube Developers]]></title>
+  <link href="http://gclue.github.io/GCube/atom.xml" rel="self"/>
+  <link href="http://gclue.github.io/GCube/"/>
+  <updated>2013-06-13T19:16:55+09:00</updated>
+  <id>http://gclue.github.io/GCube/</id>
+  <author>
+    <name><![CDATA[gclue]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[Xcodeで実機デバッグをするまでの手順]]></title>
+    <link href="http://gclue.github.io/GCube/blog/2013/06/12/xcodedevicedebug/"/>
+    <updated>2013-06-12T18:03:00+09:00</updated>
+    <id>http://gclue.github.io/GCube/blog/2013/06/12/xcodedevicedebug</id>
+    <content type="html"><![CDATA[<p><img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/keychain-myself-1.png"></p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/keychain-key-1.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/keychain-cert-1.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/keychain-setting.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/keychain-request.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/assistant-personal.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/assistant-keypair.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/keychain-key-2.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/member-login.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/member-list.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/member-iosapp.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dev.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dev-selecttype.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dev-request.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dev-generate.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dev-download.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dist.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dist-download.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-id.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-id-name.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-id-suffix.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-id-submit.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-id-done.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-ids.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-devices.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile-type.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile-id.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile-cert.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile-devices.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile-generate.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile-download.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-profile.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/finder-download.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/keychain-myself-2.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/xcode-open-organizer.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/xcode-organizer-login.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/xcode-organizer-profile.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/xcode-new.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/xcode-new-options.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/xcode-sc.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/xcode-organizer-deviceprofile.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/web-cert-profile-zero.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/keychain-validated.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/keychain-cert-2.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/keychain-write.png">
+<img src="http://gclue.github.io/GCube/images/gcube/XcodeDeviceDebug/keychain-securepass.png"></p>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Xcodeでの実行]]></title>
+    <link href="http://gclue.github.io/GCube/blog/2013/06/12/tryxcode/"/>
+    <updated>2013-06-12T16:51:00+09:00</updated>
+    <id>http://gclue.github.io/GCube/blog/2013/06/12/tryxcode</id>
+    <content type="html"><![CDATA[<p>本記事ではGCubeをXcodeで利用する方法を紹介しています。</p>
+
+<h2>GCubeのダウンロード</h2>
+
+<p>GCube本体を<a href="https://github.com/gclue/GCube">GitHub</a>よりダウンロードします。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryXcode/web-github-zip.png" title="zip" alt="zip"></p>
+
+<h2>Xcodeのダウンロードと準備</h2>
+
+<p>Xcodeは<a href="https://developer.apple.com/xcode/">公式サイト</a>またはApp Storeからダウンロードしてきてください。
+起動直後は次のような新しいプロジェクトを作成するための画面が出ます。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryXcode/xcode-welcome.png" title="welcome" alt="welcome"></p>
+
+<p>今のところこれは必要ないので消します。</p>
+
+<p>その状態でメニューから<code>Xcode</code> > <code>Preferences</code>と選択して設定画面を開きます。
+タブの中から<code>Downloads</code>を選択して<code>Command Line Tools</code>をinstallします。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryXcode/xcode-download.png" title="download" alt="download"></p>
+
+<h2>GCubeプロジェクト導入の仕方</h2>
+
+<p>ダウンロードして解凍したGCubeのプロジェクトフォルダの中から<code>GCube.xcodeproj</code>をダブルクリックしてXcodeを起動します。</p>
+
+<p><code>Gcube.xcodeproj</code>は</p>
+
+<pre><code>(GCubeプロジェクトのパス)/platforms/iOS/GCube/GCube.xcodeproj
+</code></pre>
+
+<p>にあります。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryXcode/finder-gcube.png" title="gcube" alt="gcube"></p>
+
+<h2>実行</h2>
+
+<p>Xcodeが起動した後はRunボタンを押して実行するだけです。初回実行の際はビルドのためそれなりに時間がかかります。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryXcode/xcode-processing.png" title="processing" alt="processing"></p>
+
+<p>実行後、Organizerでスクリーンショットを取ってみた画像です。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryXcode/xcode-hello.png" title="hello" alt="hello"></p>
+
+<h1>関連リンク</h1>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Android用開発環境の構築と実行]]></title>
+    <link href="http://gclue.github.io/GCube/blog/2013/06/12/tryandroid/"/>
+    <updated>2013-06-12T12:33:00+09:00</updated>
+    <id>http://gclue.github.io/GCube/blog/2013/06/12/tryandroid</id>
+    <content type="html"><![CDATA[<p>本記事ではGCubeをAndroidの開発環境で利用する方法を紹介しています。</p>
+
+<p>AndroidSDK及びNDKの導入部分にも触れていますが、既に環境を整えている場合は不要なので飛ばしてください。</p>
+
+<h2>GCubeのダウンロード</h2>
+
+<p>GCube本体を<a href="https://github.com/gclue/GCube" title="github">GitHub</a>よりダウンロードします。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryAndroid/web-github-zip.png" title="zip" alt="zip"></p>
+
+<h2>SDK及びNDKのダウンロード</h2>
+
+<p>Androidの公式サイトから、SDKとNDKのzipファイルをダウンロードしていきます。</p>
+
+<p><a href="http://developer.android.com/sdk/index.html#download">Get the Android SDK</a>
+<img src="http://gclue.github.io/GCube/images/gcube/TryAndroid/web-sdk.png" title="sdk" alt="sdk"></p>
+
+<p><a href="http://developer.android.com/tools/sdk/ndk/index.html">Android NDK</a>
+<img src="http://gclue.github.io/GCube/images/gcube/TryAndroid/web-ndk.png" title="ndk" alt="ndk"></p>
+
+<p>それぞれ解凍してFinderで開くと、フォルダ構成は以下のようになっています。
+<img src="http://gclue.github.io/GCube/images/gcube/TryAndroid/finder-sdk.png" title="finder-sdk" alt="finder-sdk"></p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryAndroid/finder-ndk.png" title="finder-ndk" alt="finder-ndk"></p>
+
+<h2>SDK(ADT)の起動</h2>
+
+<p>解凍したSDKのフォルダの<code>eclipse</code>フォルダ以下にある<code>Eclipse.app</code>をダブルクリックして起動していきます。
+ADTでは、初めて起動した場所のパスでSDKの設定を行いますので、パスに日本語が含まれないところで起動すると余計な心配が減らせると思います。NDKの配置場所も同じ理屈で決めておくとよいでしょう。</p>
+
+<p>ADTを起動すると次のようなスプラッシュ画像が表示されます。
+初めて起動する場合はワークスペースの設定を促されますが、デフォルトの場所もしくは好きな場所で大丈夫です。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryAndroid/adt-splash.png" title="splash" alt="splash"></p>
+
+<h2>各種設定</h2>
+
+<p>ADTを起動した時点で、いくつかの設定を行います。</p>
+
+<p><code>ADT</code> > <code>詳細設定</code> > <code>Android</code> > <code>NDK</code> と開いて自分のNDKのパスを設定します。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryAndroid/adt-preferences-ndk.png" title="p-ndk" alt="p-ndk"></p>
+
+<p>GCubeのデフォルトの設定で使用するのでAndroid SDK ManagerでAPI 7のパッケージをインストールします。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryAndroid/adt-sdkmanager-7.png" title="manager" alt="manager"></p>
+
+<h2>NDKのバグ修正</h2>
+
+<p><code>nkd-r8e</code>の<code>ndk-build clean</code>にはバグがあるようです。</p>
+
+<p><a href="http://stackoverflow.com/questions/15982658/error-on-ndk-build-clean">Error on ndk-build clean</a></p>
+
+<p>記事の通り、</p>
+
+<pre><code>$(ndk-dir)/build/core/build-binary.mk
+</code></pre>
+
+<p>というファイルの49行目</p>
+
+<pre><code>$(cleantarget): PRIVATE_CLEAN_FILES := ($(my)OBJS)
+</code></pre>
+
+<p>を</p>
+
+<pre><code>$(cleantarget): PRIVATE_CLEAN_FILES := $($(my)OBJS)
+</code></pre>
+
+<p>と修正してください。</p>
+
+<h2>GCubeプロジェクトの導入</h2>
+
+<p>GCubeのプロジェクトをADTに読み込ませます。
+現在指定しているワークスペースに解凍したGCubeのプロジェクトを配置して下さい。</p>
+
+<p>配置した状態でADTの<code>File</code> > <code>Import</code> > <code>Existing Android Code Into Workspace</code>を開いて、<code>Root Directory</code>に</p>
+
+<pre><code>(GCubeのパス)/platforms/Android
+</code></pre>
+
+<p>を入力します。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryAndroid/adt-import.png" title="import" alt="import"></p>
+
+<p>このAndroidフォルダが普通のAndroidアプリのプロジェクトフォルダになっています。これでFinishを押すとプロジェクトがインポートされます。</p>
+
+<p>次はこのプロジェクトに対するNDKのビルドに関する設定を行なっていきます。</p>
+
+<p>プロジェクトを右クリックして、<code>Properties</code> > <code>C/C++ Build</code>を開き、<code>Build Command:</code>のパスを</p>
+
+<pre><code>(ndkのパス)/ndk-build
+</code></pre>
+
+<p>に変更します。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryAndroid/adt-preferences-CBuild.png" title="c-build" alt="c-build"></p>
+
+<p>続いて<code>C/C++ General</code> > <code>Paths and Symbols</code>を開きます。<code>Languages</code>の部分に<code>Assembly</code>、<code>GNC C</code>、<code>GNU C++</code>とあります。この各言語ごとに設定されている、</p>
+
+<pre><code>/Application/android-sdk/ndk/platforms/android-9/arch-arm/usr/include
+</code></pre>
+
+<p>の部分を全て</p>
+
+<pre><code>(ndkのパス)/platforms/android-9/arch-arm/usr/include
+</code></pre>
+
+<p>に変更します。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryAndroid/adt-preferences-Paths-and-Symbols.png" title="path" alt="path"></p>
+
+<p>さらに<code>C/C++ General</code> > <code>Indexer</code> を開いて、<code>Enable project specific setting</code>にチェックを入れ、<code>Allow heuristic resolution of includes</code>の<code>Skip files larger than:</code>を<code>8MB</code>から<code>32MB</code>まで増やします。
+この値を増しておくことでcppファイルのコンパイルエラーが出にくくなります。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryAndroid/adt-preferences-indexer.png" title="indexer" alt="indexer"></p>
+
+<h2>ソースコード修正</h2>
+
+<p>NDKのパスに依存する部分を修正する必要があります。</p>
+
+<p><code>jni/mk/bullet.mk</code>の7行目</p>
+
+<pre><code>SYSROOT := (your_ndk_dir)/platform/android-9/arch-arm
+</code></pre>
+
+<p>ここで<code>(your_ndk_dir)</code>となっている部分に自分の環境のNDKのパスを入力してください。</p>
+
+<h2>実行</h2>
+
+<p>ここまで来たならば後は普通に実行するのみです。「Hello World!」という文字が大きく表示されると思います。</p>
+
+<p><img src="http://gclue.github.io/GCube/images/gcube/TryAndroid/sc-hello.png" title="hello" alt="hello"></p>
+
+<h1>関連リンク</h1>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[first]]></title>
+    <link href="http://gclue.github.io/GCube/blog/2013/06/10/first/"/>
+    <updated>2013-06-10T16:48:00+09:00</updated>
+    <id>http://gclue.github.io/GCube/blog/2013/06/10/first</id>
+    <content type="html"><![CDATA[<h1>This is First post!</h1>
+
+<p>Octopress is cool blog system.</p>
+
+<h2>How To</h2>
+
+<pre><code>$ git clone git://github.com/imathis/octopress.git octopress
+$ cd octopress
+$ (sudo) gem install bundler
+$ bundle install
+$ rake install
+$ rake new_post['first']
+$ rake generate
+$ rake preview
+</code></pre>
+
+<p>You can see this page by <code>localhost:4000</code>.</p>
+
+<p>How to create new page is following.</p>
+
+<pre><code>$ rake new_page['page']
+$ rake generate
+$ rake preview
+</code></pre>
+
+<p>You should change url <code>localhost:4000</code> to <code>localhost:4000/page</code>.</p>
+
+<p>And try changing theme.</p>
+
+<pre><code>$ git clone THEME_URL .theme/THEME_NAME
+$ rake install['THEME_NAME']
+$ rake generate
+$ rake preview
+</code></pre>
+
+<p>Some urls is <a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">here</a>.</p>
+
+<p>Octopress makes fun you will be blogging about everything.</p>
+]]></content>
+  </entry>
+  
+</feed>

@@ -5,12 +5,13 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>GCube Developers</title>
+  <title>first - GCube Developers</title>
   <meta name="author" content="gclue">
 
   
-  <meta name="description" content="
-">
+  <meta name="description" content="This is First post! Octopress is cool blog system. How To $ git clone git://github.com/imathis/octopress.git octopress
+$ cd octopress
+$ (sudo) gem &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -19,7 +20,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://gclue.github.io/GCube">
+  <link rel="canonical" href="http://gclue.github.io/GCube/blog/2013/06/10/first">
   <link href="/GCube/favicon.png" rel="icon">
   <link href="/GCube/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
   <script src="/GCube/javascripts/modernizr-2.0.js"></script>
@@ -33,7 +34,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
 </head>
 
-<body id='frontpage' class="collapse-sidebar sidebar-footer">
+<body   >
   <nav role="navigation"><div role="search">
 </div>
 <ul class="main-navigation">
@@ -44,18 +45,15 @@
 </ul>
 
 </nav>
+  <header role="banner"><hgroup>
+  <h1><a href="/GCube/"><img src='/images/logo.png'></a></h1>
+  
+    <h2>X-Platform development</h2>
+  
+</hgroup>
 
-  <div id="main">
-    <div id="content">
-      <div>
-        <img src="/images/logo.png" />
-        <article role="article">
-          
-
-        </article>
-      </div>
-    </div>
-    <ul class='ctas'>
+</header>
+  <ul class='ctas'>
   <li><a href='/sponsors'>Sponsors</a></li>
   <!--
    <li><a href='/about'>About</a></li>
@@ -64,9 +62,126 @@
    <li><a href='/venue'>Venue</a></li>
     -->
 </ul>
-    <aside class="sidebar">
+
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">First</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-10T16:48:00+09:00" pubdate data-updated="true">Jun 10<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><h1>This is First post!</h1>
+
+<p>Octopress is cool blog system.</p>
+
+<h2>How To</h2>
+
+<pre><code>$ git clone git://github.com/imathis/octopress.git octopress
+$ cd octopress
+$ (sudo) gem install bundler
+$ bundle install
+$ rake install
+$ rake new_post['first']
+$ rake generate
+$ rake preview
+</code></pre>
+
+<p>You can see this page by <code>localhost:4000</code>.</p>
+
+<p>How to create new page is following.</p>
+
+<pre><code>$ rake new_page['page']
+$ rake generate
+$ rake preview
+</code></pre>
+
+<p>You should change url <code>localhost:4000</code> to <code>localhost:4000/page</code>.</p>
+
+<p>And try changing theme.</p>
+
+<pre><code>$ git clone THEME_URL .theme/THEME_NAME
+$ rake install['THEME_NAME']
+$ rake generate
+$ rake preview
+</code></pre>
+
+<p>Some urls is <a href="https://github.com/imathis/octopress/wiki/3rd-Party-Octopress-Themes">here</a>.</p>
+
+<p>Octopress makes fun you will be blogging about everything.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
       
-        <section>
+  
+
+<span class="byline author vcard">Posted by <span class="fn">gclue</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-10T16:48:00+09:00" pubdate data-updated="true">Jun 10<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gclue.github.io/GCube/blog/2013/06/10/first/" data-via="" data-counturl="http://gclue.github.io/GCube/blog/2013/06/10/first/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+      
+        <a class="basic-alignment right" href="/GCube/blog/2013/06/12/tryandroid/" title="Next Post: Android用開発環境の構築と実行">Android用開発環境の構築と実行 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
   <h1>News</h1>
 <ul id="recent_posts">
   
@@ -93,8 +208,11 @@
 
 
 
-      
-    </aside>
+  
+</aside>
+
+
+    </div>
   </div>
   <footer role="contentinfo"><p>
   <a href='http://creativecommons.org/licenses/by/3.0/'>Some rights reserved</a> &middot; 2013 &middot;

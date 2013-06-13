@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Xcodeでの実行 - GCube Developers</title>
+  <meta name="author" content="gclue">
+
+  
+  <meta name="description" content="本記事ではGCubeをXcodeで利用する方法を紹介しています。 GCubeのダウンロード GCube本体をGitHubよりダウンロードします。 Xcodeのダウンロードと準備 Xcodeは公式サイトまたはApp Storeからダウンロードしてきてください。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gclue.github.io/GCube/blog/2013/06/12/tryxcode">
+  <link href="/GCube/favicon.png" rel="icon">
+  <link href="/GCube/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/GCube/javascripts/modernizr-2.0.js"></script>
+  <script src="/GCube/javascripts/ender.js"></script>
+  <script src="/GCube/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/GCube/atom.xml" rel="alternate" title="GCube Developers" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body   >
+  <nav role="navigation"><div role="search">
+</div>
+<ul class="main-navigation">
+  <li><a href="/GCube/">Home</a></li>
+  <li><a href="/GCube/blog">News</a></li>
+  <!-- <li><a href="/GCube/contact">Contact</a></li> -->
+  <li><a href="/GCube/atom.xml"><img src='/images/rss.png' /> RSS</a></li>
+</ul>
+
+</nav>
+  <header role="banner"><hgroup>
+  <h1><a href="/GCube/"><img src='/images/logo.png'></a></h1>
+  
+    <h2>X-Platform development</h2>
+  
+</hgroup>
+
+</header>
+  <ul class='ctas'>
+  <li><a href='/sponsors'>Sponsors</a></li>
+  <!--
+   <li><a href='/about'>About</a></li>
+   <li><a href='/travel'>Travel</a></li>
+   <li><a href='/schedule'>Schedule</a></li>
+   <li><a href='/venue'>Venue</a></li>
+    -->
+</ul>
+
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Xcodeでの実行</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-12T16:51:00+09:00" pubdate data-updated="true">Jun 12<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>本記事ではGCubeをXcodeで利用する方法を紹介しています。</p>
+
+<h2>GCubeのダウンロード</h2>
+
+<p>GCube本体を<a href="https://github.com/gclue/GCube">GitHub</a>よりダウンロードします。</p>
+
+<p><img src="/GCube/images/gcube/TryXcode/web-github-zip.png" title="zip" alt="zip"></p>
+
+<h2>Xcodeのダウンロードと準備</h2>
+
+<p>Xcodeは<a href="https://developer.apple.com/xcode/">公式サイト</a>またはApp Storeからダウンロードしてきてください。
+起動直後は次のような新しいプロジェクトを作成するための画面が出ます。</p>
+
+<p><img src="/GCube/images/gcube/TryXcode/xcode-welcome.png" title="welcome" alt="welcome"></p>
+
+<p>今のところこれは必要ないので消します。</p>
+
+<p>その状態でメニューから<code>Xcode</code> > <code>Preferences</code>と選択して設定画面を開きます。
+タブの中から<code>Downloads</code>を選択して<code>Command Line Tools</code>をinstallします。</p>
+
+<p><img src="/GCube/images/gcube/TryXcode/xcode-download.png" title="download" alt="download"></p>
+
+<h2>GCubeプロジェクト導入の仕方</h2>
+
+<p>ダウンロードして解凍したGCubeのプロジェクトフォルダの中から<code>GCube.xcodeproj</code>をダブルクリックしてXcodeを起動します。</p>
+
+<p><code>Gcube.xcodeproj</code>は</p>
+
+<pre><code>(GCubeプロジェクトのパス)/platforms/iOS/GCube/GCube.xcodeproj
+</code></pre>
+
+<p>にあります。</p>
+
+<p><img src="/GCube/images/gcube/TryXcode/finder-gcube.png" title="gcube" alt="gcube"></p>
+
+<h2>実行</h2>
+
+<p>Xcodeが起動した後はRunボタンを押して実行するだけです。初回実行の際はビルドのためそれなりに時間がかかります。</p>
+
+<p><img src="/GCube/images/gcube/TryXcode/xcode-processing.png" title="processing" alt="processing"></p>
+
+<p>実行後、Organizerでスクリーンショットを取ってみた画像です。</p>
+
+<p><img src="/GCube/images/gcube/TryXcode/xcode-hello.png" title="hello" alt="hello"></p>
+
+<h1>関連リンク</h1>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">gclue</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-12T16:51:00+09:00" pubdate data-updated="true">Jun 12<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gclue.github.io/GCube/blog/2013/06/12/tryxcode/" data-via="" data-counturl="http://gclue.github.io/GCube/blog/2013/06/12/tryxcode/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/GCube/blog/2013/06/12/tryandroid/" title="Previous Post: Android用開発環境の構築と実行">&laquo; Android用開発環境の構築と実行</a>
+      
+      
+        <a class="basic-alignment right" href="/GCube/blog/2013/06/12/xcodedevicedebug/" title="Next Post: Xcodeで実機デバッグをするまでの手順">Xcodeで実機デバッグをするまでの手順 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>News</h1>
+<ul id="recent_posts">
+  
+    <li class="post">
+      <a href="/GCube/blog/2013/06/12/xcodedevicedebug/">Xcodeで実機デバッグをするまでの手順</a>
+    </li>
+  
+    <li class="post">
+      <a href="/GCube/blog/2013/06/12/tryxcode/">Xcodeでの実行</a>
+    </li>
+  
+    <li class="post">
+      <a href="/GCube/blog/2013/06/12/tryandroid/">Android用開発環境の構築と実行</a>
+    </li>
+  
+    <li class="post">
+      <a href="/GCube/blog/2013/06/10/first/">first</a>
+    </li>
+  
+</ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  <a href='http://creativecommons.org/licenses/by/3.0/'>Some rights reserved</a> &middot; 2013 &middot;
+  <span class="credit">Brought to you by <a href="http://geeksoflondon.com">GeeksOfLondon</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

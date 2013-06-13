@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Android用開発環境の構築と実行 - GCube Developers</title>
+  <meta name="author" content="gclue">
+
+  
+  <meta name="description" content="本記事ではGCubeをAndroidの開発環境で利用する方法を紹介しています。 AndroidSDK及びNDKの導入部分にも触れていますが、既に環境を整えている場合は不要なので飛ばしてください。 GCubeのダウンロード GCube本体をGitHubよりダウンロードします。 &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gclue.github.io/GCube/blog/2013/06/12/tryandroid">
+  <link href="/GCube/favicon.png" rel="icon">
+  <link href="/GCube/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/GCube/javascripts/modernizr-2.0.js"></script>
+  <script src="/GCube/javascripts/ender.js"></script>
+  <script src="/GCube/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/GCube/atom.xml" rel="alternate" title="GCube Developers" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body   >
+  <nav role="navigation"><div role="search">
+</div>
+<ul class="main-navigation">
+  <li><a href="/GCube/">Home</a></li>
+  <li><a href="/GCube/blog">News</a></li>
+  <!-- <li><a href="/GCube/contact">Contact</a></li> -->
+  <li><a href="/GCube/atom.xml"><img src='/images/rss.png' /> RSS</a></li>
+</ul>
+
+</nav>
+  <header role="banner"><hgroup>
+  <h1><a href="/GCube/"><img src='/images/logo.png'></a></h1>
+  
+    <h2>X-Platform development</h2>
+  
+</hgroup>
+
+</header>
+  <ul class='ctas'>
+  <li><a href='/sponsors'>Sponsors</a></li>
+  <!--
+   <li><a href='/about'>About</a></li>
+   <li><a href='/travel'>Travel</a></li>
+   <li><a href='/schedule'>Schedule</a></li>
+   <li><a href='/venue'>Venue</a></li>
+    -->
+</ul>
+
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Android用開発環境の構築と実行</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-12T12:33:00+09:00" pubdate data-updated="true">Jun 12<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>本記事ではGCubeをAndroidの開発環境で利用する方法を紹介しています。</p>
+
+<p>AndroidSDK及びNDKの導入部分にも触れていますが、既に環境を整えている場合は不要なので飛ばしてください。</p>
+
+<h2>GCubeのダウンロード</h2>
+
+<p>GCube本体を<a href="https://github.com/gclue/GCube" title="github">GitHub</a>よりダウンロードします。</p>
+
+<p><img src="/GCube/images/gcube/TryAndroid/web-github-zip.png" title="zip" alt="zip"></p>
+
+<h2>SDK及びNDKのダウンロード</h2>
+
+<p>Androidの公式サイトから、SDKとNDKのzipファイルをダウンロードしていきます。</p>
+
+<p><a href="http://developer.android.com/sdk/index.html#download">Get the Android SDK</a>
+<img src="/GCube/images/gcube/TryAndroid/web-sdk.png" title="sdk" alt="sdk"></p>
+
+<p><a href="http://developer.android.com/tools/sdk/ndk/index.html">Android NDK</a>
+<img src="/GCube/images/gcube/TryAndroid/web-ndk.png" title="ndk" alt="ndk"></p>
+
+<p>それぞれ解凍してFinderで開くと、フォルダ構成は以下のようになっています。
+<img src="/GCube/images/gcube/TryAndroid/finder-sdk.png" title="finder-sdk" alt="finder-sdk"></p>
+
+<p><img src="/GCube/images/gcube/TryAndroid/finder-ndk.png" title="finder-ndk" alt="finder-ndk"></p>
+
+<h2>SDK(ADT)の起動</h2>
+
+<p>解凍したSDKのフォルダの<code>eclipse</code>フォルダ以下にある<code>Eclipse.app</code>をダブルクリックして起動していきます。
+ADTでは、初めて起動した場所のパスでSDKの設定を行いますので、パスに日本語が含まれないところで起動すると余計な心配が減らせると思います。NDKの配置場所も同じ理屈で決めておくとよいでしょう。</p>
+
+<p>ADTを起動すると次のようなスプラッシュ画像が表示されます。
+初めて起動する場合はワークスペースの設定を促されますが、デフォルトの場所もしくは好きな場所で大丈夫です。</p>
+
+<p><img src="/GCube/images/gcube/TryAndroid/adt-splash.png" title="splash" alt="splash"></p>
+
+<h2>各種設定</h2>
+
+<p>ADTを起動した時点で、いくつかの設定を行います。</p>
+
+<p><code>ADT</code> > <code>詳細設定</code> > <code>Android</code> > <code>NDK</code> と開いて自分のNDKのパスを設定します。</p>
+
+<p><img src="/GCube/images/gcube/TryAndroid/adt-preferences-ndk.png" title="p-ndk" alt="p-ndk"></p>
+
+<p>GCubeのデフォルトの設定で使用するのでAndroid SDK ManagerでAPI 7のパッケージをインストールします。</p>
+
+<p><img src="/GCube/images/gcube/TryAndroid/adt-sdkmanager-7.png" title="manager" alt="manager"></p>
+
+<h2>NDKのバグ修正</h2>
+
+<p><code>nkd-r8e</code>の<code>ndk-build clean</code>にはバグがあるようです。</p>
+
+<p><a href="http://stackoverflow.com/questions/15982658/error-on-ndk-build-clean">Error on ndk-build clean</a></p>
+
+<p>記事の通り、</p>
+
+<pre><code>$(ndk-dir)/build/core/build-binary.mk
+</code></pre>
+
+<p>というファイルの49行目</p>
+
+<pre><code>$(cleantarget): PRIVATE_CLEAN_FILES := ($(my)OBJS)
+</code></pre>
+
+<p>を</p>
+
+<pre><code>$(cleantarget): PRIVATE_CLEAN_FILES := $($(my)OBJS)
+</code></pre>
+
+<p>と修正してください。</p>
+
+<h2>GCubeプロジェクトの導入</h2>
+
+<p>GCubeのプロジェクトをADTに読み込ませます。
+現在指定しているワークスペースに解凍したGCubeのプロジェクトを配置して下さい。</p>
+
+<p>配置した状態でADTの<code>File</code> > <code>Import</code> > <code>Existing Android Code Into Workspace</code>を開いて、<code>Root Directory</code>に</p>
+
+<pre><code>(GCubeのパス)/platforms/Android
+</code></pre>
+
+<p>を入力します。</p>
+
+<p><img src="/GCube/images/gcube/TryAndroid/adt-import.png" title="import" alt="import"></p>
+
+<p>このAndroidフォルダが普通のAndroidアプリのプロジェクトフォルダになっています。これでFinishを押すとプロジェクトがインポートされます。</p>
+
+<p>次はこのプロジェクトに対するNDKのビルドに関する設定を行なっていきます。</p>
+
+<p>プロジェクトを右クリックして、<code>Properties</code> > <code>C/C++ Build</code>を開き、<code>Build Command:</code>のパスを</p>
+
+<pre><code>(ndkのパス)/ndk-build
+</code></pre>
+
+<p>に変更します。</p>
+
+<p><img src="/GCube/images/gcube/TryAndroid/adt-preferences-CBuild.png" title="c-build" alt="c-build"></p>
+
+<p>続いて<code>C/C++ General</code> > <code>Paths and Symbols</code>を開きます。<code>Languages</code>の部分に<code>Assembly</code>、<code>GNC C</code>、<code>GNU C++</code>とあります。この各言語ごとに設定されている、</p>
+
+<pre><code>/Application/android-sdk/ndk/platforms/android-9/arch-arm/usr/include
+</code></pre>
+
+<p>の部分を全て</p>
+
+<pre><code>(ndkのパス)/platforms/android-9/arch-arm/usr/include
+</code></pre>
+
+<p>に変更します。</p>
+
+<p><img src="/GCube/images/gcube/TryAndroid/adt-preferences-Paths-and-Symbols.png" title="path" alt="path"></p>
+
+<p>さらに<code>C/C++ General</code> > <code>Indexer</code> を開いて、<code>Enable project specific setting</code>にチェックを入れ、<code>Allow heuristic resolution of includes</code>の<code>Skip files larger than:</code>を<code>8MB</code>から<code>32MB</code>まで増やします。
+この値を増しておくことでcppファイルのコンパイルエラーが出にくくなります。</p>
+
+<p><img src="/GCube/images/gcube/TryAndroid/adt-preferences-indexer.png" title="indexer" alt="indexer"></p>
+
+<h2>ソースコード修正</h2>
+
+<p>NDKのパスに依存する部分を修正する必要があります。</p>
+
+<p><code>jni/mk/bullet.mk</code>の7行目</p>
+
+<pre><code>SYSROOT := (your_ndk_dir)/platform/android-9/arch-arm
+</code></pre>
+
+<p>ここで<code>(your_ndk_dir)</code>となっている部分に自分の環境のNDKのパスを入力してください。</p>
+
+<h2>実行</h2>
+
+<p>ここまで来たならば後は普通に実行するのみです。「Hello World!」という文字が大きく表示されると思います。</p>
+
+<p><img src="/GCube/images/gcube/TryAndroid/sc-hello.png" title="hello" alt="hello"></p>
+
+<h1>関連リンク</h1>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">gclue</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-12T12:33:00+09:00" pubdate data-updated="true">Jun 12<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gclue.github.io/GCube/blog/2013/06/12/tryandroid/" data-via="" data-counturl="http://gclue.github.io/GCube/blog/2013/06/12/tryandroid/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/GCube/blog/2013/06/10/first/" title="Previous Post: first">&laquo; first</a>
+      
+      
+        <a class="basic-alignment right" href="/GCube/blog/2013/06/12/tryxcode/" title="Next Post: Xcodeでの実行">Xcodeでの実行 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>News</h1>
+<ul id="recent_posts">
+  
+    <li class="post">
+      <a href="/GCube/blog/2013/06/12/xcodedevicedebug/">Xcodeで実機デバッグをするまでの手順</a>
+    </li>
+  
+    <li class="post">
+      <a href="/GCube/blog/2013/06/12/tryxcode/">Xcodeでの実行</a>
+    </li>
+  
+    <li class="post">
+      <a href="/GCube/blog/2013/06/12/tryandroid/">Android用開発環境の構築と実行</a>
+    </li>
+  
+    <li class="post">
+      <a href="/GCube/blog/2013/06/10/first/">first</a>
+    </li>
+  
+</ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  <a href='http://creativecommons.org/licenses/by/3.0/'>Some rights reserved</a> &middot; 2013 &middot;
+  <span class="credit">Brought to you by <a href="http://geeksoflondon.com">GeeksOfLondon</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>

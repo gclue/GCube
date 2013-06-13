@@ -1,0 +1,256 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Xcodeで実機デバッグをするまでの手順 - GCube Developers</title>
+  <meta name="author" content="gclue">
+
+  
+  <meta name="description" content=" ">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://gclue.github.io/GCube/blog/2013/06/12/xcodedevicedebug">
+  <link href="/GCube/favicon.png" rel="icon">
+  <link href="/GCube/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <script src="/GCube/javascripts/modernizr-2.0.js"></script>
+  <script src="/GCube/javascripts/ender.js"></script>
+  <script src="/GCube/javascripts/octopress.js" type="text/javascript"></script>
+  <link href="/GCube/atom.xml" rel="alternate" title="GCube Developers" type="application/atom+xml">
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700' rel='stylesheet' type='text/css'>
+</head>
+
+<body   >
+  <nav role="navigation"><div role="search">
+</div>
+<ul class="main-navigation">
+  <li><a href="/GCube/">Home</a></li>
+  <li><a href="/GCube/blog">News</a></li>
+  <!-- <li><a href="/GCube/contact">Contact</a></li> -->
+  <li><a href="/GCube/atom.xml"><img src='/images/rss.png' /> RSS</a></li>
+</ul>
+
+</nav>
+  <header role="banner"><hgroup>
+  <h1><a href="/GCube/"><img src='/images/logo.png'></a></h1>
+  
+    <h2>X-Platform development</h2>
+  
+</hgroup>
+
+</header>
+  <ul class='ctas'>
+  <li><a href='/sponsors'>Sponsors</a></li>
+  <!--
+   <li><a href='/about'>About</a></li>
+   <li><a href='/travel'>Travel</a></li>
+   <li><a href='/schedule'>Schedule</a></li>
+   <li><a href='/venue'>Venue</a></li>
+    -->
+</ul>
+
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Xcodeで実機デバッグをするまでの手順</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-12T18:03:00+09:00" pubdate data-updated="true">Jun 12<span>th</span>, 2013</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><img src="/GCube/images/gcube/XcodeDeviceDebug/keychain-myself-1.png"></p>
+
+<p><img src="/GCube/images/gcube/XcodeDeviceDebug/keychain-key-1.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/keychain-cert-1.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/keychain-setting.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/keychain-request.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/assistant-personal.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/assistant-keypair.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/keychain-key-2.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/member-login.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/member-list.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/member-iosapp.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dev.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dev-selecttype.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dev-request.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dev-generate.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dev-download.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dist.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-dist-download.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-id.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-id-name.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-id-suffix.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-id-submit.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-id-done.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-ids.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-devices.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile-type.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile-id.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile-cert.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile-devices.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile-generate.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-add-profile-download.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-profile.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/finder-download.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/keychain-myself-2.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/xcode-open-organizer.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/xcode-organizer-login.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/xcode-organizer-profile.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/xcode-new.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/xcode-new-options.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/xcode-sc.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/xcode-organizer-deviceprofile.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/web-cert-profile-zero.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/keychain-validated.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/keychain-cert-2.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/keychain-write.png">
+<img src="/GCube/images/gcube/XcodeDeviceDebug/keychain-securepass.png"></p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">gclue</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2013-06-12T18:03:00+09:00" pubdate data-updated="true">Jun 12<span>th</span>, 2013</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gclue.github.io/GCube/blog/2013/06/12/xcodedevicedebug/" data-via="" data-counturl="http://gclue.github.io/GCube/blog/2013/06/12/xcodedevicedebug/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/GCube/blog/2013/06/12/tryxcode/" title="Previous Post: Xcodeでの実行">&laquo; Xcodeでの実行</a>
+      
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>News</h1>
+<ul id="recent_posts">
+  
+    <li class="post">
+      <a href="/GCube/blog/2013/06/12/xcodedevicedebug/">Xcodeで実機デバッグをするまでの手順</a>
+    </li>
+  
+    <li class="post">
+      <a href="/GCube/blog/2013/06/12/tryxcode/">Xcodeでの実行</a>
+    </li>
+  
+    <li class="post">
+      <a href="/GCube/blog/2013/06/12/tryandroid/">Android用開発環境の構築と実行</a>
+    </li>
+  
+    <li class="post">
+      <a href="/GCube/blog/2013/06/10/first/">first</a>
+    </li>
+  
+</ul>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  <a href='http://creativecommons.org/licenses/by/3.0/'>Some rights reserved</a> &middot; 2013 &middot;
+  <span class="credit">Brought to you by <a href="http://geeksoflondon.com">GeeksOfLondon</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+
+
+</body>
+</html>
