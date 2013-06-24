@@ -722,7 +722,7 @@ bool GCLoadTexture(Texture *gctexture, const char* filename){
         Lines[i] = imageData + nWidth * 4 * i;
     }
     if(!(nColorType & PNG_COLOR_MASK_ALPHA)){
-        png_set_filler(pPng, 0, 1);
+        png_set_filler(pPng, 0xff, PNG_FILLER_AFTER);
     }
     // フィルターを設定
     png_set_bgr(pPng);
