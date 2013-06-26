@@ -17,6 +17,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    gl/Joint.cpp \
                    gl/JointAnimation.cpp \
                    gl/Light.cpp \
+                   gl/PlistTexture.cpp \
                    gl/collada/Accessor.cpp \
                    gl/collada/Collada.cpp \
                    gl/collada/ColladaDataObject.cpp \
@@ -75,7 +76,12 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    util/HttpClient.cpp \
                    util/Storage.cpp \
                    util/Box2DManager.cpp \
+                   util/GCString.cpp \
+                   util/GCVector.cpp \
+                   util/GCList.cpp \
+                   util/GCMap.cpp \
                    xml/XMLParser.cpp \
+                   xml/PlistParser.cpp \
                    util/BulletWorld.cpp \
                    scene/Layer3D.cpp 
                    

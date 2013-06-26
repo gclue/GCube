@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,6 +30,7 @@
 #include "Texture.h"
 #include "SharedTexture.h"
 #include "PackerTexture.h"
+#include "PlistTexture.h"
 #include "Log.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -40,19 +41,19 @@ class TextureObj {
 public:
 	std::string name;
 	Texture *texture;
-	PackerTexture *packTex;
-
+	SharedTexture *sharedTex;
+    
 	TextureObj();
 	virtual ~TextureObj();
 };
 
 TextureObj::TextureObj() {
 	texture = NULL;
-	packTex = NULL;
+	sharedTex = NULL;
 }
 TextureObj::~TextureObj() {
 	DELETE(texture);
-	DELETE(packTex);
+	DELETE(sharedTex);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -78,12 +79,17 @@ SharedTexture *TextureManager::getSharedTexture(const char *png, const char *txt
 	return loadSharedTexture(png, txt);
 }
 
+SharedTexture* TextureManager::getSharedTextureFromPlist(const char *plist) {
+    
+    return loadSharedTextureFromPlist(plist);
+}
+
 Texture* TextureManager::loadTexture(const char *name) {
 	TextureObj *obj = searchTexture(name);
 	if (obj) {
 		return obj->texture;
 	}
-
+    
 	Texture *tex = new Texture(name);
 	if (tex) {
 		if (addTexture(name, tex)) {
@@ -98,9 +104,9 @@ Texture* TextureManager::loadTexture(const char *name) {
 SharedTexture* TextureManager::loadSharedTexture(const char *png, const char *txt) {
 	TextureObj *obj = searchTexture(png);
 	if (obj) {
-		return obj->packTex;
+		return obj->sharedTex;
 	}
-
+    
 	PackerTexture *tex = new PackerTexture(png, txt);
 	if (tex) {
 		if (addTexture(png, (SharedTexture *) tex)) {
@@ -110,8 +116,29 @@ SharedTexture* TextureManager::loadSharedTexture(const char *png, const char *tx
 		}
 	}
 	return NULL;
-
+    
 }
+
+SharedTexture* TextureManager::loadSharedTextureFromPlist(const char *plist) {
+    
+    TextureObj *obj = searchTexture(plist);
+    if (obj) {
+        return obj->sharedTex;
+    }
+    
+    PlistTexture *tex = new PlistTexture(plist);
+    
+    if (tex) {
+        if (addTexture(plist, tex)) {
+            return tex;
+        } else {
+            DELETE(tex);
+        }
+    }
+    
+    return NULL;
+}
+
 void TextureManager::deleteTexture(const char *name) {
 	removeTexture(name);
 }
@@ -121,8 +148,8 @@ void TextureManager::reload() {
 	for (int i = 0; i < cache.size(); i++) {
 		TextureObj *obj = cache.at(i);
 		LOGD("%s",obj->name.c_str());
-		if (obj->packTex) {
-			obj->packTex->reload();
+		if (obj->sharedTex) {
+			obj->sharedTex->reload();
 		}
 		if (obj->texture) {
 			obj->texture->reload();
@@ -163,7 +190,7 @@ bool TextureManager::addTexture(const char *name, SharedTexture *tex) {
 		return false;
 	}
 	obj->name.append(name);
-	obj->packTex = (PackerTexture *) tex;
+	obj->sharedTex = tex;
 	cache.push_back(obj);
 	return true;
 }

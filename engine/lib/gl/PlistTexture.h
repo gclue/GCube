@@ -21,13 +21,13 @@
  */
 
 /*
- * PackerTexture.h
+ * PlistTexture.h
  *
- *  Created on: 2011/08/11
+ *  Created on: 2013/06/26
  *      Author: GClue, Inc.
  */
-#ifndef PACKERTEXTURE_H_
-#define PACKERTEXTURE_H_
+#ifndef __GCube__PlistTexture__
+#define __GCube__PlistTexture__
 
 #include "SharedTexture.h"
 #include "defines.h"
@@ -35,39 +35,29 @@
 #include <string>
 
 /**
- * TexturePackerで作成されたTextureを使用するためのクラス.
+ * Plist形式のファイルからTextureを使用するためのクラス.
  */
-class PackerTexture : public SharedTexture {
+class PlistTexture : public SharedTexture {
 private:
-	std::vector<TexData> list;		//!< TexturePackerで出力されるデータリスト
+    std::vector<TexData> list;		//!< TexturePackerで出力されるデータリスト
     
 	/**
-	 * 指定されたTexturePackerで出力されたファイルを読み込みます.
-	 * @param packername ファイル名
+	 * 指定されたPlist形式で出力されたファイルを読み込みます.
+	 * @param plist ファイル名
 	 */
-	void load(const char *packername);
-    
-	/**
-	 * TexturePackerで出力されたファイルの1ラインを読み込みます.
-	 * @param data TexturePackerで出力されたデータ
-	 * @return 進んだ文字数
-	 */
-	int parseLine(const char *data);
-    
+	void load(const char *plist);
+
 public:
-	/**
-	 * コンストラクタ.
-	 * @param[in] texname テクスチャ名
-	 * @param[in] packername データのファイル名
-	 */
-	PackerTexture(const char *texname = NULL, const char *packername = NULL);
     
-	/**
-	 * デストラクタ.
+    /**
+	 * 指定されたplist形式のファイルからインスタンスを生成します。
+     *
+	 * @param plist ファイル名
 	 */
-	virtual ~PackerTexture();
-    
-	/**
+    PlistTexture(const char *plist);
+    virtual ~PlistTexture();
+
+    /**
 	 * テクスチャのデータを設定します.
 	 * @param[in] tex テクスチャ
 	 */
@@ -90,4 +80,4 @@ public:
     
 };
 
-#endif /* PACKERTEXTURE_H_ */
+#endif /* defined(__GCube__PlistTexture__) */

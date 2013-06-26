@@ -86,6 +86,15 @@
 		1FE949E8153E8BC500A5336A /* twitter_load.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FE949D4153E8BC500A5336A /* twitter_load.png */; };
 		1FE949EE153E8EA000A5336A /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1FE949ED153E8EA000A5336A /* libxml2.dylib */; };
 		1FE949F1153E935B00A5336A /* TwitterHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1FE949F0153E935A00A5336A /* TwitterHelper.m */; };
+		301D1937177B06D70080BB95 /* PlistHelper.mm in Sources */ = {isa = PBXBuildFile; fileRef = 301D1936177B06D70080BB95 /* PlistHelper.mm */; };
+		301D193B177B07440080BB95 /* PlistTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301D1939177B07440080BB95 /* PlistTexture.cpp */; };
+		301D1944177B07AD0080BB95 /* GCList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301D193C177B07AD0080BB95 /* GCList.cpp */; };
+		301D1945177B07AD0080BB95 /* GCMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301D193E177B07AD0080BB95 /* GCMap.cpp */; };
+		301D1946177B07AD0080BB95 /* GCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301D1940177B07AD0080BB95 /* GCString.cpp */; };
+		301D1947177B07AD0080BB95 /* GCVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301D1942177B07AD0080BB95 /* GCVector.cpp */; };
+		301D194A177B07D40080BB95 /* PlistParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301D1948177B07D40080BB95 /* PlistParser.cpp */; };
+		301D194D177B0A6E0080BB95 /* sample_plist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 301D194B177B0A6C0080BB95 /* sample_plist.plist */; };
+		301D194E177B0A6E0080BB95 /* sample_plist.png in Resources */ = {isa = PBXBuildFile; fileRef = 301D194C177B0A6D0080BB95 /* sample_plist.png */; };
 		44D4AC4615411457004B3442 /* LayoutInflater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44D4AC4415411457004B3442 /* LayoutInflater.cpp */; };
 		44D4AC4A15411474004B3442 /* ViewFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44D4AC4815411474004B3442 /* ViewFactory.cpp */; };
 		44D4AC4D154114A3004B3442 /* main.xml in Resources */ = {isa = PBXBuildFile; fileRef = 44D4AC4C154114A3004B3442 /* main.xml */; };
@@ -563,6 +572,22 @@
 		1FE949ED153E8EA000A5336A /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		1FE949EF153E935900A5336A /* TwitterHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TwitterHelper.h; sourceTree = "<group>"; };
 		1FE949F0153E935A00A5336A /* TwitterHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TwitterHelper.m; sourceTree = "<group>"; };
+		301D1936177B06D70080BB95 /* PlistHelper.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PlistHelper.mm; sourceTree = "<group>"; };
+		301D1938177B07440080BB95 /* PlistHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlistHelper.h; sourceTree = "<group>"; };
+		301D1939177B07440080BB95 /* PlistTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlistTexture.cpp; sourceTree = "<group>"; };
+		301D193A177B07440080BB95 /* PlistTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlistTexture.h; sourceTree = "<group>"; };
+		301D193C177B07AD0080BB95 /* GCList.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GCList.cpp; sourceTree = "<group>"; };
+		301D193D177B07AD0080BB95 /* GCList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCList.h; sourceTree = "<group>"; };
+		301D193E177B07AD0080BB95 /* GCMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GCMap.cpp; sourceTree = "<group>"; };
+		301D193F177B07AD0080BB95 /* GCMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCMap.h; sourceTree = "<group>"; };
+		301D1940177B07AD0080BB95 /* GCString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GCString.cpp; sourceTree = "<group>"; };
+		301D1941177B07AD0080BB95 /* GCString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCString.h; sourceTree = "<group>"; };
+		301D1942177B07AD0080BB95 /* GCVector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GCVector.cpp; sourceTree = "<group>"; };
+		301D1943177B07AD0080BB95 /* GCVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCVector.h; sourceTree = "<group>"; };
+		301D1948177B07D40080BB95 /* PlistParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlistParser.cpp; sourceTree = "<group>"; };
+		301D1949177B07D40080BB95 /* PlistParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlistParser.h; sourceTree = "<group>"; };
+		301D194B177B0A6C0080BB95 /* sample_plist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sample_plist.plist; sourceTree = "<group>"; };
+		301D194C177B0A6D0080BB95 /* sample_plist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_plist.png; sourceTree = "<group>"; };
 		44D4AC4415411457004B3442 /* LayoutInflater.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayoutInflater.cpp; sourceTree = "<group>"; };
 		44D4AC4515411457004B3442 /* LayoutInflater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutInflater.h; sourceTree = "<group>"; };
 		44D4AC4815411474004B3442 /* ViewFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ViewFactory.cpp; sourceTree = "<group>"; };
@@ -1753,6 +1778,14 @@
 			path = SAOAuthTwitterEngine;
 			sourceTree = "<group>";
 		};
+		301D1934177B061B0080BB95 /* plist */ = {
+			isa = PBXGroup;
+			children = (
+				301D1936177B06D70080BB95 /* PlistHelper.mm */,
+			);
+			path = plist;
+			sourceTree = "<group>";
+		};
 		44D4AC4715411474004B3442 /* factory */ = {
 			isa = PBXGroup;
 			children = (
@@ -2167,6 +2200,8 @@
 		6644323214568A55001847A0 /* texture */ = {
 			isa = PBXGroup;
 			children = (
+				301D194B177B0A6C0080BB95 /* sample_plist.plist */,
+				301D194C177B0A6D0080BB95 /* sample_plist.png */,
 				C2D2B6CB169E9755004255F6 /* neko_siro-01metoji.png */,
 				1F6C8F971544E26D00ADCB80 /* game_center_ui.png */,
 				1F6C8F981544E26D00ADCB80 /* game_center_ui.txt */,
@@ -2537,6 +2572,7 @@
 		6674753314552B2A0065EDF3 /* GCClasses */ = {
 			isa = PBXGroup;
 			children = (
+				301D1934177B061B0080BB95 /* plist */,
 				1F1C1B5E1521D2590093AE03 /* WebViewLayerController.h */,
 				1F1C1B5F1521D2590093AE03 /* WebViewLayerController.m */,
 				1F1C1B601521D25A0093AE03 /* WebViewLayerView.xib */,
@@ -2628,6 +2664,9 @@
 		6674755D14552F0A0065EDF3 /* gl */ = {
 			isa = PBXGroup;
 			children = (
+				301D1938177B07440080BB95 /* PlistHelper.h */,
+				301D1939177B07440080BB95 /* PlistTexture.cpp */,
+				301D193A177B07440080BB95 /* PlistTexture.h */,
 				6674756014552F0A0065EDF3 /* collada */,
 				6674758E14552F0A0065EDF3 /* loader */,
 				6674755E14552F0A0065EDF3 /* Camera.cpp */,
@@ -2786,6 +2825,14 @@
 		667475D414552F0A0065EDF3 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				301D193C177B07AD0080BB95 /* GCList.cpp */,
+				301D193D177B07AD0080BB95 /* GCList.h */,
+				301D193E177B07AD0080BB95 /* GCMap.cpp */,
+				301D193F177B07AD0080BB95 /* GCMap.h */,
+				301D1940177B07AD0080BB95 /* GCString.cpp */,
+				301D1941177B07AD0080BB95 /* GCString.h */,
+				301D1942177B07AD0080BB95 /* GCVector.cpp */,
+				301D1943177B07AD0080BB95 /* GCVector.h */,
 				1F21165E152EA12900B4E750 /* Box2DManager.cpp */,
 				1F21165F152EA12900B4E750 /* Box2DManager.h */,
 				6633F54814D7D73C00E16FC6 /* HttpClient.cpp */,
@@ -2816,6 +2863,8 @@
 		667475E414552F0A0065EDF3 /* xml */ = {
 			isa = PBXGroup;
 			children = (
+				301D1948177B07D40080BB95 /* PlistParser.cpp */,
+				301D1949177B07D40080BB95 /* PlistParser.h */,
 				667475FB14552F0A0065EDF3 /* XMLParser.cpp */,
 				667475FC14552F0A0065EDF3 /* XMLParser.h */,
 			);
@@ -3517,6 +3566,8 @@
 				C2D2B6C9169E9539004255F6 /* 01walk.gav in Resources */,
 				C2D2B6CA169E9539004255F6 /* 01walk.gcb in Resources */,
 				C2D2B6CC169E9755004255F6 /* neko_siro-01metoji.png in Resources */,
+				301D194D177B0A6E0080BB95 /* sample_plist.plist in Resources */,
+				301D194E177B0A6E0080BB95 /* sample_plist.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3858,6 +3909,13 @@
 				F54C490E17571E2500C26576 /* SceneTitle.cpp in Sources */,
 				F54C490F17571E2500C26576 /* SceneTwitterTest.cpp in Sources */,
 				F54C491417571F0E00C26576 /* SceneHello.cpp in Sources */,
+				301D1937177B06D70080BB95 /* PlistHelper.mm in Sources */,
+				301D193B177B07440080BB95 /* PlistTexture.cpp in Sources */,
+				301D1944177B07AD0080BB95 /* GCList.cpp in Sources */,
+				301D1945177B07AD0080BB95 /* GCMap.cpp in Sources */,
+				301D1946177B07AD0080BB95 /* GCString.cpp in Sources */,
+				301D1947177B07AD0080BB95 /* GCVector.cpp in Sources */,
+				301D194A177B07D40080BB95 /* PlistParser.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -21,57 +21,54 @@
  */
 
 /*
- * TextureManager.h
+ * GCString.h
  *
- *  Created on: 2011/10/08
+ *  Created on: 2013/06/25
  *      Author: GClue, Inc.
  */
-#ifndef TEXTUREMANAGER_H_
-#define TEXTUREMANAGER_H_
 
-#include <vector>
+#ifndef __GCube__GCString__
+#define __GCube__GCString__
+
+#include "GCObject.h"
 #include <string>
 
-class Texture;
-class SharedTexture;
-class TextureObj;
-
 /**
- * テクスチャを管理するクラス.
+ std::stringを保持するクラス
  */
-class TextureManager {
+class GCString : public GCObject {
 private:
-	std::vector<TextureObj*> cache;	//!< テクスチャをキャッシュするvector
-    
-	bool addTexture(const char *name, Texture *tex);
-	bool addTexture(const char *name, SharedTexture *tex);
-	bool removeTexture(const char *name);
-	TextureObj* searchTexture(const char *name);
-    
+    std::string mString;
 public:
-	/** コンテキスト. */
-	TextureManager();
-	/** デストラクタ. */
-	virtual ~TextureManager();
     
-    void addExtraTexture(const char *name, SharedTexture *tex);
+    GCString(std::string str);
+    GCString(const char *str);
     
-	Texture *getTexture(const char *name);
-	SharedTexture *getSharedTexture(const char *png, const char *txt);
+    virtual ~GCString();
     
     /**
-     plist形式のファイルからテクスチャを読み込む
+     文字列をintに変換して取得する
      
-     @param plist ファイル名
+     @return 文字列のint値
      */
-    SharedTexture* getSharedTextureFromPlist(const char *plist);
+    int intValue();
     
-	Texture* loadTexture(const char *name);
-	SharedTexture* loadSharedTexture(const char *png, const char *txt);
-    SharedTexture* loadSharedTextureFromPlist(const char *plist);
-	void deleteTexture(const char *name);
+    /**
+     文字列をfloatに変換して取得する
+
+     @return 文字列のfloat値     
+     */
+    float floatValue();
     
-	void reload();
+    /**
+     文字列をdoubleに変換して取得する
+     
+     @return 文字列のfloat値
+     */
+    double doubleValue();
+    
+    const std::string& getString();
+    const char* getCString();
 };
 
-#endif /* TEXTUREMANAGER_H_ */
+#endif /* defined(__LandingCat2__GCString__) */

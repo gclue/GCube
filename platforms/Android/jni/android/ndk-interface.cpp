@@ -39,6 +39,8 @@
 #include "HttpClient.h"
 #include "defines.h"
 #include "main.h"
+#include "PlistHelper.h"
+#include "PlistParser.h"
 
 #include <jni.h>
 #include <string>
@@ -601,6 +603,10 @@ bool GCLoadTexture2(Texture *texture, const char *fileName) {
 	return false;
 }
 
+GCMap* createMapFromFile(const char *plistName) {
+	GCMap *map = PlistParser::createMapFromFile(plistName);
+	return map;
+}
 
 // libpngを使用し書き換えたloadTexture
 bool GCLoadTexture(Texture *gctexture, const char* filename){
