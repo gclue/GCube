@@ -54,13 +54,13 @@ public:
 	/**
 	 * ステップ実行します.
 	 */
-	virtual void step(float dt);
+	virtual void onStep(float dt);
     
 	/**
 	 * タッチイベント.
 	 * @param[in] event タッチイベント
 	 */
-	virtual bool onTouch(TouchEvent &event);
+	virtual bool onTouchEvent(TouchEvent &event);
     
 	/**
 	 * Java側からのイベントを受け取るメソッド.

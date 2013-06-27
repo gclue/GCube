@@ -57,7 +57,7 @@ private:
 	float adjustY[10];
 	float space;
 
-	void drawFigure(int index, float x, float y);
+	void drawFigure(ViewContext *context, int index, float x, float y);
 
 public:
 	/**
@@ -148,7 +148,7 @@ public:
 	 * @param[in] dt 前回描画からの差分時間
 	 * @param[in] animation 反映するアニメーション
 	 */
-	virtual void draw(double dt, IAnimation *animation = NULL);
+	virtual void draw(double dt, ViewContext *context);
 };
 
 #endif /* NUMBERVIEW_H_ */

@@ -38,6 +38,7 @@ View::View(GCContext *context):GCObject() {
 	animation = NULL;
 	parent = NULL;
 	texture = NULL;
+	camera = NULL;
 	visible = true;
 	clickable = true;
 	absolute = false;
@@ -49,6 +50,8 @@ View::View(GCContext *context):GCObject() {
 	scale.y = 1.0;
 	point.x = 0.0;
 	point.y = 0.0;
+	size.x = 0;
+	size.y = 0;
 	userObj = NULL;
 	userID = -1;
 	
@@ -123,25 +126,19 @@ void View::setClickable(bool c) {
 }
 
 bool View::onTouch(TouchEvent &event) {
-	if(!clickable || !visible) {
+	if (!clickable || !visible) {
 		return false;
 	}
 	
-	switch(event.type) {
-		case touchDown:
-			if(isBound(event.x, event.y)) {
-				if(touchListener) {
+	if (touchListener) {
+		switch (event.type) {
+			case touchDown:
+				if (isBound(event.x, event.y)) {
 					touchListener->onViewTouchEvent(this);
 				}
 				return true;
-			}
-			
-			break;
-			
+		}
 	}
-	
-	
-	
 	return false;
 }
 
@@ -207,13 +204,12 @@ bool View::isBound(float x, float y) {
     //LOG("after point:%f %f",x,y);
     
     
-    
-    
 	//float px = p.x;
 	//float py = p.y;
     
+	//ちょっと大きくする
 	float xsize = size.x * tScale.x + TOUCH_MARGIN;
-	float ysize = size.y * tScale.y + TOUCH_MARGIN;//ちょっと大きくする
+	float ysize = size.y * tScale.y + TOUCH_MARGIN;
 	if (p.x - xsize < x && x < p.x + xsize) {
 		if (p.y - ysize < y && y < p.y + ysize) {
 			return true;
@@ -223,7 +219,7 @@ bool View::isBound(float x, float y) {
 }
 
 
-void View::render(double dt) {
+void View::render(double dt, ViewContext *context) {
 	if (visible) {
 		if (animation && !animation->isFinish()) {
 			animation->step(dt);
@@ -232,7 +228,7 @@ void View::render(double dt) {
 		if (texture) {
 			context->shader->bindTexture(texture->texName);
 		}
-		draw(dt);
+		draw(dt, context);
 		if (animation) {
 			if (animation->isFinish()) {
 				// アニメーション終了
@@ -292,8 +288,7 @@ void View::testMatrix2D(Pointf *p, Pointf *s, float *r) {
         s->y *= scale.y;
         
         *r += rotate;
-	}
-    else {
+	} else {
         s->x = scale.x;
         s->y = scale.y;
         

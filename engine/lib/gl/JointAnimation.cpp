@@ -45,6 +45,14 @@ float JointKeyFrame::getAnimationTime() {
 	return times.at(times.size() - 1);
 }
 
+int JointKeyFrame::getIndex(float time) {
+	for (int i = 0; i < matrixs.size(); i++) {
+		if (time < times.at(i)) {
+			return i;
+		}
+	}
+	return matrixs.size() - 1;
+}
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -75,3 +83,17 @@ float JointAnimation::getTotalAnimationTime() {
 	}
 	return t;
 }
+
+int JointAnimation::getFrameIndex(std::string& sid) {
+	for (int i = 0; i < animations.size(); i++) {
+		if (animations.at(i)->sid.compare(sid) == 0) {
+			return animations.at(i)->getIndex(animationTime);
+		}
+	}
+	return -1;
+}
+
+bool JointAnimation::isAnimationEnd(){
+	return getTotalAnimationTime() < animationTime;
+}
+

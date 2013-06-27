@@ -92,6 +92,7 @@ private:
 	long startTime[POS_HISTROY];	//!< タッチダウン時間
 	int posCount;					//!< 履歴の個数
 	float sp;						//!< 慣性の速度
+	int touchState;
 
 
 	/**
@@ -105,10 +106,10 @@ private:
 	void onTouchScrollVertical(TouchEvent &event);
 	void onTouchPageScrollVertical(TouchEvent &event);
 
-	void drawScrollHorizon(double dt);
-	void drawPageScrollHorizon(double dt);
-	void drawScrollVertical(double dt);
-	void drawPageScrollVertical(double dt);
+	void drawScrollHorizon(double dt, ViewContext *context);
+	void drawPageScrollHorizon(double dt, ViewContext *context);
+	void drawScrollVertical(double dt, ViewContext *context);
+	void drawPageScrollVertical(double dt, ViewContext *context);
 
 	bool isOverrun();
 
@@ -219,7 +220,7 @@ public:
 	 * @param[in] dt 前回描画からの差分時間
 	 * @param[in] animation 反映するアニメーション
 	 */
-	virtual void draw(double dt, IAnimation *animation = NULL);
+	virtual void draw(double dt, ViewContext *context);
 };
 
 #endif /* SCROLLVIEW_H_ */

@@ -165,64 +165,6 @@ SceneTwitterTest::~SceneTwitterTest() {
 	LOGD("****~SceneTwitterTest");
 }
 
-//////////////////////////////////////////////////////////
-// IScene の実装
-//////////////////////////////////////////////////////////
-
-// ステップ実行します
-void SceneTwitterTest::step(float dt) {
-	super::step(dt);
-}
-
-// セットアップ処理を行います.
-void SceneTwitterTest::setup() {
-	super::setup();
-	LOGD("****SceneTwitterTest::setup");
-}
-
-// リサイズ
-void SceneTwitterTest::resize(int width, int height) {
-	super::resize(width, height);
-	LOGD("****SceneTwitterTest::resize:%d-%d", width, height);
-}
-
-// 活性化します.
-void SceneTwitterTest::onActivate() {
-	super::onActivate();
-	LOGD("****SceneTwitterTest::onActivate");
-}
-
-// 休止します.
-void SceneTwitterTest::onSuspend() {
-	super::onSuspend();
-	LOGD("****SceneTwitterTest::onSuspend");
-}
-
-// 活性化してシーンが切り替え終わったこと通知します.
-void SceneTwitterTest::onStart() {
-	super::onStart();
-	LOGD("****SceneTwitterTest::onStart");
-	
-}
-
-// 非活性化してシーンが切り替え終わったこと通知します.
-void SceneTwitterTest::onEnd() {
-	super::onEnd();
-	LOGD("****SceneTwitterTest::onEnd");
-}
-
-// コンテキストが切り替わったことを通知します.
-void SceneTwitterTest::onContextChanged() {
-	super::onContextChanged();
-	LOGD("****SceneTwitterTest::onContextChanged");
-}
-
-bool SceneTwitterTest::onTouch(TouchEvent &event) {
-	super::onTouch(event);
-	LOGD("****SceneTwitterTest::onTouch");
-	return false;
-}
-
 void SceneTwitterTest::onTwitterEvent(int type, int param) {
 	
 	//投稿イベント

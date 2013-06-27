@@ -25,7 +25,7 @@
 
 #include <map>
 
-#include "IScene.h"
+#include "Scene.h"
 #include "GCContext.h"
 #include "Log.h"
 #include "LayoutInflater.h"
@@ -43,8 +43,8 @@ private:
 	bool pause;		//!< ポーズフラグ
 	bool changeFlg;	//!< シーン切り替えフラグ
 
-	std::map<int, IScene*> scenes;	//!< シーン保存用
-	IScene *activeScene;			//!< アクティブシーン
+	std::map<int, Scene*> scenes;	//!< シーン保存用
+	Scene *activeScene;			//!< アクティブシーン
 	int nextSceneID;				//!< 次のシーンのID
 	int currentSceneID;				//!< 現在のシーンID
 	int preSceneID;					//!< 一つ前のシーンID
@@ -82,7 +82,7 @@ public:
 	 * 現在カレントになっているSceneを取得します.
 	 * @return 現在カレントになっているScene
 	 */
-	IScene *getActiveScene() {
+	Scene *getActiveScene() {
 		return activeScene;
 	}
 	
@@ -90,7 +90,7 @@ public:
 	 * 指定されたIDのシーンを取得します.
 	 * @return Scene
 	 */
-	IScene *getScene(int id) {
+	Scene *getScene(int id) {
 		return scenes[id];
 	}
 
@@ -166,7 +166,7 @@ public:
 	 * 加速度のセンサーイベント.
 	 * @param sensor 加速度のイベント
 	 */
-	void onMoveSenser(double sensor);
+	void onSenserEvent(SensorEvent &event);
 
 	/**
 	 * ゲームイベントを送信します.
@@ -250,7 +250,7 @@ public:
 	 * @param id シーンID
 	 * @param scene シーン
 	 */
-	void addScene(int id, IScene *scene);
+	void addScene(int id, Scene *scene);
 
 	/**
 	 * 背景色を設定します.

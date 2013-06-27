@@ -74,9 +74,9 @@ ApplicationController::~ApplicationController() {
 	LOGD("***********~ApplicationController");
 
 	// 各シーン
-	std::map<int, IScene*>::iterator it = scenes.begin();
+	std::map<int, Scene*>::iterator it = scenes.begin();
 	while (it != scenes.end()) {
-		IScene *scene = (*it).second;
+		Scene *scene = (*it).second;
 		delete scene;
 		it++;
 	}
@@ -94,7 +94,7 @@ ApplicationController::~ApplicationController() {
 }
 
 // シーンを追加
-void ApplicationController::addScene(int id, IScene *scene) {
+void ApplicationController::addScene(int id, Scene *scene) {
 	scenes[id] = scene;
 }
 
@@ -159,9 +159,9 @@ void ApplicationController::resetup() {
 	LOGD("***********resetup-1");
 
 	// 各シーン
-	std::map<int, IScene*>::iterator it = scenes.begin();
+	std::map<int, Scene*>::iterator it = scenes.begin();
 	while (it != scenes.end()) {
-		IScene *scene = (*it).second;
+		Scene *scene = (*it).second;
 		if (scene) {
 			scene->onContextChanged();
 		}
@@ -206,9 +206,9 @@ void ApplicationController::onPause() {
 	// メインに通知
 	main->onPause();
 	// 各シーンに通知
-	std::map<int, IScene*>::iterator it = scenes.begin();
+	std::map<int, Scene*>::iterator it = scenes.begin();
 	while (it != scenes.end()) {
-		IScene *scene = (*it).second;
+		Scene *scene = (*it).second;
 		if (scene) {
 			scene->onPause();
 		}
@@ -223,9 +223,9 @@ void ApplicationController::onResume() {
 	// メインに通知
 	main->onResume();
 	// 各シーンに通知
-	std::map<int, IScene*>::iterator it = scenes.begin();
+	std::map<int, Scene*>::iterator it = scenes.begin();
 	while (it != scenes.end()) {
-		IScene *scene = (*it).second;
+		Scene *scene = (*it).second;
 		if (scene) {
 			scene->onResume();
 		}
@@ -319,8 +319,10 @@ void ApplicationController::onTouch(int action, float x, float y, long time) {
 		event.type = action;
 		event.x = x / width * 2.0 - 1.0;
 		event.y = -(y / height * 2.0 - 1.0) / aspect;
+//		event.x = (x / width * 2.0 - 1.0) * aspect;
+//		event.y = -(y / height * 2.0 - 1.0);
 		event.time = time;
-		activeScene->onTouch(event);
+		activeScene->dispatchTouchEvent(event);
 	}
 }
 
@@ -328,9 +330,9 @@ void ApplicationController::onTouch(int action, float x, float y, long time) {
  * 加速度のセンサーイベント.
  * @param sensor 加速度のイベント
  */
-void ApplicationController::onMoveSenser(double sensor) {
+void ApplicationController::onSenserEvent(SensorEvent &event) {
 	if (activeScene) {
-		activeScene->onMoveSensor(sensor);
+		activeScene->dispatchSensorEvent(event);
 	}
 }
 

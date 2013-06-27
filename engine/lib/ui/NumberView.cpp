@@ -55,7 +55,7 @@ NumberView::NumberView(GCContext *context) : View(context) {
 NumberView::~NumberView() {
 }
 
-void NumberView::drawFigure(int index, float x, float y) {
+void NumberView::drawFigure(ViewContext *context, int index, float x, float y) {
 	float alpha = 1.0;
 	float bright = 1.0;
 	Matrix3D mtx;
@@ -76,7 +76,7 @@ void NumberView::drawFigure(int index, float x, float y) {
 	figure[index]->draw();
 }
 
-void NumberView::draw(double dt, IAnimation *animation) {
+void NumberView::draw(double dt, ViewContext *context) {
 	float width = size.x - w / 2;
 
 	long long v = value;
@@ -90,7 +90,7 @@ void NumberView::draw(double dt, IAnimation *animation) {
 		x = -width;
 		dx = w+space;
 		if(value == 0) {
-			drawFigure(0, x + adjustX[0], y+adjustY[0]);
+			drawFigure(context, 0, x + adjustX[0], y+adjustY[0]);
 			break;
 		}
 		for (int i = digit - 1; i >= 0 ; i--) {
@@ -101,7 +101,7 @@ void NumberView::draw(double dt, IAnimation *animation) {
 			}
 			int a = v % 10;
 			if (zeroFill || first || v != 0) {
-				drawFigure(a, x + adjustX[a], y + adjustY[a]);
+				drawFigure(context, a, x + adjustX[a], y + adjustY[a]);
 				x += dx;
 			}
 			if (!zeroFill && v != 0) {
@@ -111,10 +111,10 @@ void NumberView::draw(double dt, IAnimation *animation) {
 		break;
 	case ALIGN_RIGHT:
 		x = width;
-		dx = -w+space;
+		dx = -w-space;
 		for (int i = 0; i < digit; i++) {
 			int a = v % 10;
-			drawFigure(a, x + adjustX[a], y + adjustY[a]);
+			drawFigure(context, a, x + adjustX[a], y + adjustY[a]);
 			v /= 10;
 			x += dx;
 			if (!zeroFill && v == 0) {

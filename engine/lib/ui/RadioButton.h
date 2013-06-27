@@ -89,7 +89,7 @@ public:
 	 * @param[in] dt 前回描画からの差分時間
 	 * @param[in] animation 反映するアニメーション
 	 */
-	virtual void draw(double dt, IAnimation *animation = NULL);
+	virtual void draw(double dt, ViewContext *context);
 
 	//////////////////////////////////////////////////////////////
 	// publicな関数

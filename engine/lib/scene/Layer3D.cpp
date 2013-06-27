@@ -446,14 +446,19 @@ void Layer3D::render(double dt) {
 			shader->bindTexture(0);
 		}
 		
-		shader->setSkinningMatrix(set->fig);
+		// ジョイント設定
+		if (set->fig->joint) {
+			set->fig->joint->setSkinningMatrix(shader);
+		} else {
+			shader->setSkinningMatrix(NULL, 0);
+		}
 		
 		// 描画
 		if (fig != set->fig) {
 			set->fig->bind();
 			fig = set->fig;
 		}
-		set->fig->draw(dt);
+		set->fig->draw();
 		
 		it++;
 	}
@@ -463,7 +468,7 @@ void Layer3D::render(double dt) {
  * タッチイベント.
  * @param event タッチイベント
  */
-bool Layer3D::onTouch(TouchEvent &event) {
+bool Layer3D::onTouchEvent(TouchEvent &event) {
 //	LOGD("**Layer3D::onTouch:(%f,%f)", event.x, event.y);
 	return false;
 }

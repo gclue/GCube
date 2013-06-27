@@ -32,7 +32,6 @@
  */
 class SimpleShader : public Shader {
 private:
-	GLuint gProgram;	//!< プログラム
 	float baseAlpha;	//!< 基準透明度
 	int texname;		//!< 使用しているtextureのID
 	

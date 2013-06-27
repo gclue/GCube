@@ -65,17 +65,17 @@ public:
 	 * @param[in] width 横幅
 	 * @param[in] height 縦幅
 	 */
-	virtual void resize(int width, int height) = 0;
+	virtual void onResize(int width, int height) = 0;
 
 	/**
 	 * セットアップ処理を行います.
 	 */
-	virtual void setup() = 0;
+	virtual void onSetup() = 0;
 
 	/**
 	 * ステップ実行します.
 	 */
-	virtual void step(float dt) = 0;
+	virtual void onStep(float dt) = 0;
 
 	/**
 	 * 活性化します.
@@ -134,13 +134,13 @@ public:
 	 * タッチイベント.
 	 * @param[in] event タッチイベント
 	 */
-	virtual bool onTouch(TouchEvent &event) = 0;
+	virtual bool onTouchEvent(TouchEvent &event) = 0;
 
 	/**
 	 * 加速度センサーイベント.
 	 * @param sensor 加速度の値
 	 */
-	virtual void onMoveSensor(double sensor) = 0;
+	virtual bool onSensorEvent(SensorEvent &event) = 0;
 
 	/**
 	 * ゲームイベントを受け取るメソッド.

@@ -57,7 +57,7 @@ public:
 
 	/**
 	 * 子ジョイントを追加します.
-	 * @param[in] v 追加するジョイント
+	 * @param[in] child 追加するジョイント
 	 */
     void addChild(Joint *child);
 
@@ -72,7 +72,7 @@ public:
 	 * @return 親ジョイント
 	 */
     Joint *getParent() const;
-
+	
 	/**
 	 * 指定されたsidのジョイントを返します.
 	 * 指定されたsidのジョイントが見つからない場合はNULLを返します.
@@ -82,12 +82,20 @@ public:
 	Joint *findJointBySID(std::string sid);
 
 	/**
+	 * シェーダにスキニング用行列を設定します.
+	 * @param[in] shader シェーダ
+	 */
+    void setSkinningMatrix(BoneShader *shader);
+
+	/**
 	 * 変換行列を適用します.
 	 * @param[in] parentMtx 親の変換行列
 	 * @param[in] visitor 行列格納用の配列
 	 * @return 要素数
 	 */
     int applyMatrix(Matrix3D* parentMtx, std::vector<Matrix3D*> *visitor);
+	
+	void printf(int tab);
 };
 
 #endif /* JOINT_H_ */

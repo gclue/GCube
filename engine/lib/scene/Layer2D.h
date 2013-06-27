@@ -41,11 +41,13 @@ class SimpleShader;
  */
 class Layer2D : public Layer {
 private:
+	ViewContext viewcontext;
 	View *root;				//!< ルートとなるView
 	View *dialog;			//!< ダイアログ
-
 	float aspect;			//!< アスペクト比
-
+	
+	bool deleteDialogFlag;
+	
 public:
 	/**
 	 * コンストラクタ.
@@ -104,6 +106,8 @@ public:
 	 * ダイアログを閉じます.
 	 */
 	virtual void closeDialog();
+	
+	virtual View * getDialog();
 
 	/**
 	 * ダイアログが存在するかチェックします.
@@ -111,6 +115,8 @@ public:
 	 * @retval false 存在しない
 	 */
 	virtual bool isDialog();
+	
+	void setCamera(Camera *camera);
 
 	//////////////////////////////////////////////////////////
 	// Layer の実装
@@ -137,7 +143,7 @@ public:
 	 * @param event タッチイベント
 	 * @return true: 次のレイヤーにイベントを渡さない、false: 次のレイヤーにイベントを渡す
 	 */
-	virtual bool onTouch(TouchEvent &event);
+	virtual bool onTouchEvent(TouchEvent &event);
 	
 };
 

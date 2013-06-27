@@ -30,14 +30,18 @@
 #include "Camera.h"
 #include "SimpleShader.h"
 
-Layer2D::Layer2D(GCContext *context) : Layer(context){
+Layer2D::Layer2D(GCContext *context) : Layer(context) {
 	root = NULL;
 	dialog = NULL;
 	aspect = 1.0;
+	viewcontext.shader = context->shader;
+	viewcontext.camera = context->camera;
+	deleteDialogFlag = false;
 }
 
 Layer2D::~Layer2D() {
 //	DELETE(root);
+	LOGD("~Layer2D");
 	if(root) {
 		root->release();
 	}
@@ -45,6 +49,12 @@ Layer2D::~Layer2D() {
 	if(dialog) {
 		dialog->release();
 	}
+	LOGD("~Layer2D end");
+}
+
+void Layer2D::setCamera(Camera *camera)
+{
+	viewcontext.camera = camera;
 }
 
 View *Layer2D::findViewByID(int id) {
@@ -55,7 +65,6 @@ View *Layer2D::findViewByID(int id) {
 }
 
 void Layer2D::setContentView(View *view) {
-//	DELETE(root);
 	if(root) {
 		root->release();
 	}
@@ -71,14 +80,20 @@ void Layer2D::openDialog(View *view) {
 	closeDialog();
 	dialog = view;
 	dialog->retain();
+	deleteDialogFlag = false;
 }
 
 void Layer2D::closeDialog() {
-//	DELETE(dialog);
-	if(dialog) {
-		dialog->release();
+	if (dialog) {
+		deleteDialogFlag = true;
 	}
 }
+
+View * Layer2D::getDialog()
+{
+	return dialog;
+}
+
 
 bool Layer2D::isDialog() {
 	return (dialog != NULL);
@@ -107,16 +122,24 @@ void Layer2D::resize(float aspect) {
  * @param dt 前回描画からの差分時間
  */
 void Layer2D::render(double dt) {
-	glDisable(GL_DEPTH_TEST);
-	glDisable(GL_CULL_FACE);
-	if (root) {
-		if (context->shader) {
-			context->shader->useProgram();
-		}
-		root->render(dt);
+	if (deleteDialogFlag) {
+		dialog->release();
+		dialog = NULL;
+		deleteDialogFlag = false;
 	}
-	if (dialog) {
-		dialog->render(dt);
+
+	if (visible) {
+		glDisable(GL_DEPTH_TEST);
+		glDisable(GL_CULL_FACE);
+		if (root) {
+			if (context->shader) {
+				context->shader->useProgram();
+			}
+			root->render(dt, &viewcontext);
+		}
+		if (dialog) {
+			dialog->render(dt, &viewcontext);
+		}
 	}
 }
 
@@ -124,11 +147,13 @@ void Layer2D::render(double dt) {
  * タッチイベント.
  * @param event タッチイベント
  */
-bool Layer2D::onTouch(TouchEvent &event) {
-	if (dialog) {
-		return dialog->onTouch(event);
-	} else if (root) {
-		return root->onTouch(event);
+bool Layer2D::onTouchEvent(TouchEvent &event) {
+	if (touchable && visible) {
+		if (dialog) {
+			return dialog->onTouch(event);
+		} else if (root) {
+			return root->onTouch(event);
+		}
 	}
 	return false;
 }

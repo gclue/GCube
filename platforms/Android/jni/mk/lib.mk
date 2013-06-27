@@ -102,6 +102,7 @@ LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/../ \
                    $(LOCAL_PATH)/../external \
                    $(LOCAL_PATH)/../external/lpng1246 \
+                   $(LOCAL_PATH)/../external/json \
                    $(LOCAL_PATH)/../external/xml \
                    $(LOCAL_PATH)/../external/xml/expat \
                    $(LOCAL_PATH)/../external/math \

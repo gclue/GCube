@@ -93,8 +93,6 @@
 		301D1946177B07AD0080BB95 /* GCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301D1940177B07AD0080BB95 /* GCString.cpp */; };
 		301D1947177B07AD0080BB95 /* GCVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301D1942177B07AD0080BB95 /* GCVector.cpp */; };
 		301D194A177B07D40080BB95 /* PlistParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301D1948177B07D40080BB95 /* PlistParser.cpp */; };
-		301D194D177B0A6E0080BB95 /* sample_plist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 301D194B177B0A6C0080BB95 /* sample_plist.plist */; };
-		301D194E177B0A6E0080BB95 /* sample_plist.png in Resources */ = {isa = PBXBuildFile; fileRef = 301D194C177B0A6D0080BB95 /* sample_plist.png */; };
 		44D4AC4615411457004B3442 /* LayoutInflater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44D4AC4415411457004B3442 /* LayoutInflater.cpp */; };
 		44D4AC4A15411474004B3442 /* ViewFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44D4AC4815411474004B3442 /* ViewFactory.cpp */; };
 		44D4AC4D154114A3004B3442 /* main.xml in Resources */ = {isa = PBXBuildFile; fileRef = 44D4AC4C154114A3004B3442 /* main.xml */; };
@@ -2511,9 +2509,6 @@
 			isa = PBXGroup;
 			children = (
 				F54C48FA17571E2500C26576 /* sample */,
-				1FC663D61545303A00DAE788 /* AudioToolbox.framework */,
-				1FC663D41545303000DAE788 /* SystemConfiguration.framework */,
-				1FC663D21545301E00DAE788 /* MessageUI.framework */,
 				664432471456A229001847A0 /* main */,
 				6644322614568A4F001847A0 /* assets */,
 				667474F5145528DE0065EDF3 /* GCube */,
@@ -2533,6 +2528,9 @@
 		667474EE145528DE0065EDF3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1FC663D61545303A00DAE788 /* AudioToolbox.framework */,
+				1FC663D41545303000DAE788 /* SystemConfiguration.framework */,
+				1FC663D21545301E00DAE788 /* MessageUI.framework */,
 				1FE949ED153E8EA000A5336A /* libxml2.dylib */,
 				1FE7BF01152D89AB00166041 /* libz.dylib */,
 				1F6C8F951544E21400ADCB80 /* GameKit.framework */,
@@ -3566,8 +3564,6 @@
 				C2D2B6C9169E9539004255F6 /* 01walk.gav in Resources */,
 				C2D2B6CA169E9539004255F6 /* 01walk.gcb in Resources */,
 				C2D2B6CC169E9755004255F6 /* neko_siro-01metoji.png in Resources */,
-				301D194D177B0A6E0080BB95 /* sample_plist.plist in Resources */,
-				301D194E177B0A6E0080BB95 /* sample_plist.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

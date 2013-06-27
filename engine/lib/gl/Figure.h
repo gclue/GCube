@@ -43,6 +43,7 @@ enum {
 	ATTRIB_TEXCOORD_MLT,
 	ATTRIB_INDEX,
 	ATTRIB_JOINTS,
+	ATTRIB_COLOR,
 	NUM_ATTRIBUTES
 };
 
@@ -55,6 +56,7 @@ enum {
 	VBO_INDEX,
 	VBO_ELEMENT,
 	VBO_JOINTS,
+	VBO_COLOR,
 	NUM_VBO
 };
 
@@ -69,6 +71,7 @@ private:
 	bool hasNormals;	//!< 法線データあり
 	bool hasTexture;	//!< uvデータあり
 	bool hasJoint;		//!< jointデータあり
+	bool hasColor;		//!< カラーデータあり
 	
 	/**
 	 * Attribute変数を設定します.
@@ -87,6 +90,7 @@ public:
 	std::vector<float> textureCoords;	//!< uvデータ.
 	std::vector<float> jointData;		//!< jointデータ.（内容はjoint1, weight1, joint2, weight2の順）
 	std::vector<short> vertexIndexes;	//!< 頂点インデックスデータ.
+	std::vector<float> colors;			//!< 色データ.
 	
 	Matrix3D *transForm;	//!< フィギュアのマトリクス.
 	Joint *joint;			//!< ルートジョイント
@@ -181,6 +185,14 @@ public:
 	 * @param[in] len 追加するインデックスの個数
 	 */
 	void addVertexIndexes(const unsigned short *v, int len);
+	
+	/**
+	 * カラーを追加します.
+	 *
+	 * @param[in] c 追加する色
+	 * @param[in] len 追加する色の個数
+	 */
+	void addColors(const float *c, int len);
 	
 	/**
 	 * アニメーションを設定します.

@@ -56,7 +56,6 @@ void ViewGroup::removeView(View *view) {
 			it = views.erase(it);
             a->parent = NULL;
 			a->release();
-//			delete a;
 		} else {
 			it++;
 		}
@@ -79,7 +78,6 @@ void ViewGroup::removeAllView() {
 	int size = views.size();
 	for (int i = 0; i < size; i++) {
 		views.at(i)->release();
-//		delete views.at(i);
 	}
 	views.clear();
 }
@@ -146,6 +144,23 @@ View* ViewGroup::findViewByUserObj(void *userObj, COMPARE_FUNC_PTR *func) {
 	return NULL;
 }
 
+bool ViewGroup::isBound(float x, float y) {
+	if (!clickable || !visible) {
+		return false;
+	}
+	
+	if (size.x == 0 || size.y == 0) {
+		int size = views.size();
+		for (int i = 0; i < size; i++) {
+			if (views.at(i)->isBound(x, y)) {
+				return true;
+			}
+		}
+	} else {
+		return View::isBound(x, y);
+	}
+	return false;
+}
 
 bool ViewGroup::onTouch(TouchEvent &event) {
 	if (!clickable || !visible) {
@@ -165,12 +180,11 @@ bool ViewGroup::onTouch(TouchEvent &event) {
 	return false;
 }
 
-void ViewGroup::draw(double dt, IAnimation *animation) {
-	if(visible) {
-	int size = views.size();
-	for (int i = 0; i < size; i++) {
-		views.at(i)->render(dt);
-	}
+void ViewGroup::draw(double dt, ViewContext *context) {
+	if (visible) {
+		int size = views.size();
+		for (int i = 0; i < size; i++) {
+			views.at(i)->render(dt, context);
+		}
 	}
 }
-

@@ -71,7 +71,6 @@ void Button::startClickAnimation() {
 	clickAnim->addAnimation(a2);
 	clickAnim->setRepeat(false);
 	clickAnim->reset();
-	
 }
 
 void Button::setFigure(Figure *figure) {
@@ -106,7 +105,7 @@ bool Button::onTouch(TouchEvent &event) {
 	return isClickAnimation();
 }
 
-void Button::draw(double dt, IAnimation *a) {
+void Button::draw(double dt, ViewContext *context) {
 	if (clickAnim && !clickAnim->isFinish()) {
 		float alpha = 1.0;
 		float bright = 1.0;

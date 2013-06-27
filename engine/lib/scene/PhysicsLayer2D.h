@@ -16,46 +16,39 @@
 #include <list>
 
 
+class DebugDraw;
+
 class PhysicsUserData {
 public:
-	PhysicsUserData(){
-		id = -1;
-	};
-	
-	~PhysicsUserData() {
-		
-	};
-	
 	std::vector<View*> view;
 	int id;
+	int userId;
+	PhysicsUserData() { id = -1; userId = -1; }
+	virtual ~PhysicsUserData() {}
 };
 
 class PhysicsLayerInfo {
-	
 public:
-	PhysicsLayerInfo(b2Body *body, int id){
-		this->body = body;
-		this->id =id;
-		groupID = -1;
-	}
-	~PhysicsLayerInfo(){};
-	
-	
-	
-	
-	
 	b2Body *body;
 	int id;
 	int groupID;
 	
+	PhysicsLayerInfo(b2Body *body, int id) {
+		this->body = body;
+		this->id = id;
+		groupID = -1;
+	}
+	virtual ~PhysicsLayerInfo() {};
 };
 
 
 class PhysicsLayer2D : public Layer {
-	
-	
-private:
+protected:
 	Box2DManager *b2Manager;
+	
+	DebugDraw *draw;
+	
+	ViewContext viewcontext;
 	
 	std::map<unsigned long, PhysicsLayerInfo*> bodies;
 	std::list<b2Body*> removeList;
@@ -67,20 +60,35 @@ private:
 	bool canStepPhysics;
 	bool removeFlag;
 	
+	bool debugFlag;
+	
+	void stepPhysics(float dt);
+	void onDraw(float dt);
+	
 public:
 	PhysicsLayer2D(GCContext* context);
 	virtual ~PhysicsLayer2D();
 	
+	b2World* getWorld();
 	
-	virtual int addBody(View *view, PhysicsParams param);
+	int addBody(View *view, PhysicsParams& param);
+	int addBody(View *view, PhysicsParams& param, const char *filename);
 	
-	virtual void removeBody(int id);
-	virtual void removeAllBodies();
+	int addCircleBody(View *view, PhysicsParams& param);
 	
-	virtual void pausePhysics();
-	virtual void restartPhysics();
-	virtual bool isStepPhysics();
+	int addJoint(int bodyA, int bodyB, float x1, float y1, float x2, float y2);
 	
+	b2Body* getBody(int id);
+	
+	void setCamera(Camera *camera);
+	
+	void removeBody(int id);
+	void removeBody(b2Body *body);
+	void removeAllBodies();
+	
+	void pausePhysics();
+	void restartPhysics();
+	bool isStepPhysics();
 	
 	//////////////////////////////////////////////////////////
 	// Layer の実装
@@ -101,14 +109,6 @@ public:
 	 * @param dt 前回描画からの差分時間
 	 */
 	virtual void render(double dt = 0.033);
-	
-	/**
-	 * タッチイベント.
-	 * @param event タッチイベント
-	 * @return true: 次のレイヤーにイベントを渡さない、false: 次のレイヤーにイベントを渡す
-	 */
-	virtual bool onTouch(TouchEvent &event);
-	
 };
 
 #endif

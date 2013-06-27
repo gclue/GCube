@@ -258,7 +258,7 @@ public:
 	 * @param event タッチイベント
 	 * @return true: 次のレイヤーにイベントを渡さない、false: 次のレイヤーにイベントを渡す
 	 */
-	virtual bool onTouch(TouchEvent &event);
+	virtual bool onTouchEvent(TouchEvent &event);
 	
 	/**
 	 * コンテキストが切り替わったことを通知します.

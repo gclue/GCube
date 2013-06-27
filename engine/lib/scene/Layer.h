@@ -37,12 +37,30 @@
 class Layer {
 protected:
 	GCContext *context;
+	bool visible;
+	bool touchable;
 
 public:
 	bool pause;
-	Layer(GCContext *context) { this->context = context; pause=false; }
+	Layer(GCContext *context) { this->context = context; pause=false; visible=true; touchable = true;}
 	virtual ~Layer() {};
 
+	virtual bool isVisible() {
+		return visible;
+	}
+	
+	virtual void setVisible(bool visible) {
+		this->visible = visible;
+	}
+	
+	virtual bool isTouchable() {
+		return touchable;
+	}
+	
+	virtual void setTouchable(bool touchable) {
+		this->touchable = touchable;
+	}
+	
 	/**
 	 * セットアップを行います.
 	 */
@@ -65,7 +83,13 @@ public:
 	 * @param event タッチイベント
 	 * @return true: 次のレイヤーにイベントを渡さない、false: 次のレイヤーにイベントを渡す
 	 */
-	virtual bool onTouch(TouchEvent &event) = 0;
+	virtual bool onTouchEvent(TouchEvent &event) {
+		return false;
+	};
+	
+	virtual bool onSensorEvent(SensorEvent &event) {
+		return false;
+	};
 	
 	/**
 	 * コンテキストが切り替わったことを通知します.

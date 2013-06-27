@@ -116,7 +116,16 @@ public:
 	 * @return Viewのオブジェクト
 	 */
 	virtual View* findViewByUserObj(void *userObj, COMPARE_FUNC_PTR *func = NULL);
-
+	
+	/**
+	 * 指定された座標がボタンの範囲内にいるのかチェックします.
+	 * @param[in] x x座標
+	 * @param[in] y y座標
+	 * @retval true 範囲内
+	 * @retval false 範囲外
+	 */
+	virtual bool isBound(float x, float y);
+	
 	/**
 	 * タッチイベントを処理します.
 	 * @param[in] event タッチイベント
@@ -131,7 +140,7 @@ public:
 	 * @param[in] dt 前回描画からの経過時間
 	 * @param[in] animation アニメーション
 	 */
-	virtual void draw(double dt, IAnimation *animation = NULL);
+	virtual void draw(double dt, ViewContext *context);
 };
 
 #endif /* VIEWGROUP_H_ */

@@ -45,6 +45,8 @@ public:
 	 * アニメーションの時間を取得します.
 	 */
 	float getAnimationTime();
+	
+	int getIndex(float time);
 };
 
 class JointAnimation {
@@ -68,6 +70,10 @@ public:
 	 * @return トータル時間
 	 */
 	float getTotalAnimationTime();
+	
+	int getFrameIndex(std::string& sid);
+	
+	bool isAnimationEnd();
 };
 
 #endif /* defined(__GCube__JointAnimation__) */

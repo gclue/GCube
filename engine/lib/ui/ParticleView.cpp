@@ -42,7 +42,7 @@ ParticleView::ParticleView(GCContext *context) : View(context) {
 ParticleView::~ParticleView() {
 }
 
-void ParticleView::draw(double dt, IAnimation *a) {
+void ParticleView::draw(double dt, ViewContext *context) {
 	if (animation && !animation->isStarted()) {
 		return;
 	}

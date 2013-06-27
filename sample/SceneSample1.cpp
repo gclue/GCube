@@ -37,56 +37,7 @@ SceneSample1::~SceneSample1() {
 // IScene の実装
 //////////////////////////////////////////////////////////
 
-// ステップ実行します
-void SceneSample1::step(float dt) {
-    //LOGD("****SceneMain::step:%f",dt);
-	super::step(dt);
-}
-
-// セットアップ処理を行います.
-void SceneSample1::setup() {
-	super::setup();
-	LOGD("****SceneMain::setup");
-}
-
-// リサイズ
-void SceneSample1::resize(int width, int height) {
-	super::resize(width, height);
-	LOGD("****SceneMain::resize:%d-%d", width, height);
-}
-
-// 活性化します.
-void SceneSample1::onActivate() {
-	super::onActivate();
-	LOGD("****SceneMain::onActivate");
-}
-
-// 休止します.
-void SceneSample1::onSuspend() {
-	super::onSuspend();
-	LOGD("****SceneMain::onSuspend");
-}
-
-// 活性化してシーンが切り替え終わったこと通知します.
-void SceneSample1::onStart() {
-	super::onStart();
-	LOGD("****SceneMain::onStart");
-}
-
-// 非活性化してシーンが切り替え終わったこと通知します.
-void SceneSample1::onEnd() {
-	super::onEnd();
-	LOGD("****SceneMain::onEnd");
-}
-
-// コンテキストが切り替わったことを通知します.
-void SceneSample1::onContextChanged() {
-	super::onContextChanged();
-	LOGD("****SceneMain::onContextChanged");
-}
-
-bool SceneSample1::onTouch(TouchEvent &event) {
-	super::onTouch(event);
+bool SceneSample1::onTouchEvent(TouchEvent &event) {
 	LOGD("****SceneMain::onTouch");
    	return false;
 }

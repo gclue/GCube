@@ -97,11 +97,11 @@ bool RadioButton::onTouch(TouchEvent &event) {
 	return false;
 }
 
-void RadioButton::draw(double dt, IAnimation *a) {
+void RadioButton::draw(double dt, ViewContext *context) {
 	if (selectFlag) {
-		view[1]->render(dt);
+		view[1]->render(dt, context);
 	} else {
-		view[0]->render(dt);
+		view[0]->render(dt, context);
 	}
 }
 

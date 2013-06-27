@@ -425,7 +425,7 @@ Scene3D::~Scene3D() {
 
 
 // ステップ実行します
-void Scene3D::step(float dt) {
+void Scene3D::onStep(float dt) {
 	
 	// 角度
 	rot += 0.2;
@@ -441,14 +441,10 @@ void Scene3D::step(float dt) {
 //	jj->transForm->loadIdentity();
 //	jj->transForm->rotate(rot, RotateDirY);
 //	LOGD("%s", jj->sid.c_str());
-	
-	// 親をステップ実行
-	super::step(dt);
 }
 
 // タッチイベント
-bool Scene3D::onTouch(TouchEvent &event) {
-	super::onTouch(event);
+bool Scene3D::onTouchEvent(TouchEvent &event) {
 	LOGD("****Scene3D::onTouch:%.1f-%.1f", event.x, event.y);
 	if (event.type == touchDown) {
 		controller->sceneChange(1);

@@ -80,6 +80,17 @@ public:
 	
 	
 	void removeAllLayers();
+	
+	void setup();
+	void resize(int width, int height);
+	
+	void step(float dt);
+	
+	void contextChanged();
+	
+	bool dispatchSensorEvent(SensorEvent &event);
+	bool dispatchKeyEvent(KeyEvent &event);
+	bool dispatchTouchEvent(TouchEvent &event);
 
 	//////////////////////////////////////////////////////////
 	// IScene の実装
@@ -87,19 +98,19 @@ public:
 	/**
 	 * セットアップ処理を行います.
 	 */
-	virtual void setup();
+	virtual void onSetup();
 
 	/**
 	 * リサイズ処理を行います.
 	 * @param[in] width 横幅
 	 * @param[in] height 縦幅
 	 */
-	virtual void resize(int width, int height);
+	virtual void onResize(int width, int height);
 
 	/**
 	 * ステップ実行します.
 	 */
-	virtual void step(float dt);
+	virtual void onStep(float dt);
 
 	/**
 	 * 活性化します.
@@ -128,21 +139,23 @@ public:
 
 	/**
 	 * バックキーのイベント.
+	 *
 	 * @return 処理をした場合はtrue,しないでシステムに返す場合はfalse
 	 */
 	virtual bool onPressBackKey();
 
 	/**
 	 * タッチイベント.
+	 *
 	 * @param[in] event タッチイベント
 	 */
-	virtual bool onTouch(TouchEvent &event);
+	virtual bool onTouchEvent(TouchEvent &event);
 
 	/**
 	 * 加速度センサーイベント.
 	 * @param senser 加速度の値
 	 */
-	virtual void onMoveSensor(double sensor){};
+	virtual bool onSensorEvent(SensorEvent &sensor);
 
 	/**
 	 * ゲームイベントを受け取るメソッド.
@@ -153,7 +166,7 @@ public:
 	 * @param param4 イベントパラメータ
 	 * @param param5 イベントパラメータ
 	 */
-	virtual void onGameEvent(int type, int param1, long param2, double param3, int param4, const char *param5){};
+	virtual void onGameEvent(int type, int param1, long param2, double param3, int param4, const char *param5) {};
 	
 	
 	/**
@@ -162,14 +175,14 @@ public:
 	 * @param[in] param1 パラメータ1.
 	 * @param[in] param2 パラメータ2.
 	 */
-	virtual void onGameCenterEvent(int type, int param1, int param2){};
+	virtual void onGameCenterEvent(int type, int param1, int param2) {};
 	
 	/**
 	 * ツイッターイベントを受け取ります.
 	 * @param[in] type イベントタイプ.
 	 * @param[in] param1 パラメータ.
 	 */
-	virtual void onTwitterEvent(int type, int param1){};
+	virtual void onTwitterEvent(int type, int param1) {};
 };
 
 #endif /* SCENE_H_ */

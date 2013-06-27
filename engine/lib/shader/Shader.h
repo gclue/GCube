@@ -63,6 +63,9 @@ private:
 	 */
 	bool linkProgram(GLuint prog);
 	
+protected:
+	GLuint gProgram;	//!< プログラム
+	
 public:
 	
 	/**
@@ -93,6 +96,11 @@ public:
 	 */
 	GLuint loadShader(const char* vertexShader, const char* fragmentShader, int user);
 	
+	/**
+	 * シェーダの使用を開始します.
+	 */
+	void useProgram();
+
 	/**
 	 * 指定されたprogramに合うシェーダのAttributeのバインド処理を行ってください.
 	 * <br><br>

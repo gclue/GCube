@@ -270,7 +270,7 @@ SceneTitle::~SceneTitle() {
 float ddt = 0;
 
 // ステップ実行します
-void SceneTitle::step(float dt) {
+void SceneTitle::onStep(float dt) {
 	
 	ddt+=dt;
 	if (ddt>5) {
@@ -299,55 +299,9 @@ void SceneTitle::step(float dt) {
 		
 		ddt = 0;
 	}
-	
-	super::step(dt);
 }
 
-// セットアップ処理を行います.
-void SceneTitle::setup() {
-	super::setup();
-	LOGD("****SceneTitle::setup");
-}
-
-// リサイズ
-void SceneTitle::resize(int width, int height) {
-	super::resize(width, height);
-	LOGD("****SceneTitle::resize:%d-%d", width, height);
-}
-
-// 活性化します.
-void SceneTitle::onActivate() {
-	super::onActivate();
-	LOGD("****SceneTitle::onActivate");
-}
-
-// 休止します.
-void SceneTitle::onSuspend() {
-	super::onSuspend();
-	LOGD("****SceneTitle::onSuspend");
-}
-
-// 活性化してシーンが切り替え終わったこと通知します.
-void SceneTitle::onStart() {
-	super::onStart();
-	LOGD("****SceneTitle::onStart");
-	
-}
-
-// 非活性化してシーンが切り替え終わったこと通知します.
-void SceneTitle::onEnd() {
-	super::onEnd();
-	LOGD("****SceneTitle::onEnd");
-}
-
-// コンテキストが切り替わったことを通知します.
-void SceneTitle::onContextChanged() {
-	super::onContextChanged();
-	LOGD("****SceneTitle::onContextChanged");
-}
-
-bool SceneTitle::onTouch(TouchEvent &event) {
-	super::onTouch(event);
+bool SceneTitle::onTouchEvent(TouchEvent &event) {
 	LOGD("****SceneTitle::onTouch");
 	if (event.type == touchDown) {
 		

@@ -36,6 +36,16 @@
 
 #define TOUCH_MARGIN (15/320.0)
 
+class Animation;
+class Camera;
+class Figure;
+class IAnimation;
+class Shader;
+class SimpleShader;
+class Texture;
+class CommonTexture;
+class View;
+
 /**
  * タッチイベントのタイプを定義します.
  */
@@ -64,6 +74,25 @@ struct _TouchEvent {
 };
 typedef struct _TouchEvent TouchEvent;
 
+struct _KeyEvent {
+	int type;
+	int keycode;
+	long time;
+};
+typedef struct _KeyEvent KeyEvent;
+
+struct _SensorEvent {
+	Point3f acceleration;
+	Point3f accelerationIncludingGravity;
+	Point3f rotationRate;
+};
+typedef struct _SensorEvent SensorEvent;
+
+struct _ViewContext {
+	SimpleShader *shader;
+	Camera *camera;
+};
+typedef struct _ViewContext ViewContext;
 
 /**
  * userObj1 と userObj2 のオブジェクトを比較して、値を返却します.
@@ -73,15 +102,6 @@ typedef struct _TouchEvent TouchEvent;
  * @retval 0以外 違うオブジェクト
  */
 typedef int (*COMPARE_FUNC_PTR)(void* userObj1, void* userObj2);
-
-class Animation;
-class Camera;
-class Figure;
-class IAnimation;
-class SimpleShader;
-class Texture;
-class CommonTexture;
-class View;
 
 
 class IViewTouchListener {
@@ -94,7 +114,7 @@ public:
 /**
  * 描画するための基底クラス.
  */
-class View : public GCObject{
+class View : public GCObject {
 protected:
 	/**
 	 * 引数に渡されたマトリクスにViewに設定している値をかけていきます.
@@ -114,6 +134,8 @@ protected:
 public:
 	GCContext *context;			//!< Viewを描画するためのコンテキスト
 	IAnimation *animation;		//!< アニメーション
+	
+	Camera *camera;
 
 	View *parent;				//!< 親になるView
 
@@ -179,7 +201,9 @@ public:
         return visible&&clickable;
     }
     
-    
+    virtual View* getParent() {
+		return this->parent;
+	}
 
 	/**
 	 * Viewの表示位置を設定します.
@@ -331,8 +355,7 @@ public:
 	 * 指定されたuserObjと同じuserObjを持つViewを返却します.
 	 * もし同じuserObjをもつViewが無かった場合にはNULLを返却します.
 	 *
-	 * func に NULL が渡された場合には、userObjが同じアドレスか
-	 * どうかで比較します。
+	 * func に NULL が渡された場合には、userObjが同じアドレスかを比較します。
 	 *
 	 * @param[in] userObj Viewに付けられてuserObj
 	 * @param[in] func userObj比較用関数
@@ -347,29 +370,36 @@ public:
 	 * @retval false 次へイベントを渡す
 	 */
 	virtual bool onTouch(TouchEvent &event);
-
+	
 	/**
-	 * Viewの描画を行います.
-	 * @param[in] dt 前回描画からの差分時間
+	 * ブレンドタイプを設定します。
+	 * @param[in] type ブレンドタイプ
 	 */
-	virtual void render(double dt);
-	
-	
 	virtual void setBlendType(int type);
 	
-	
-	virtual void setOnTouchEventListener(IViewTouchListener *listener);
-	
-
 	/**
-	 * Viewの描画を行います.
-	 * アニメーションがない場合にはanimationにはNULLが渡されます.
-	 * @param[in] dt 前回描画からの経過時間
-	 * @param[in] animation アニメーション
+	 * タッチイベントリスナーを設定します。
+	 * @param listener リスナー
 	 */
-	virtual void draw(double dt, IAnimation *animation = NULL) = 0;
+	virtual void setOnTouchEventListener(IViewTouchListener *listener);
+//	
+//	/**
+//	 * Viewの描画を行います.
+//	 * @param[in] dt 前回描画からの差分時間
+//	 */
+//	virtual void render(double dt);
+//	
+//	/**
+//	 * Viewの描画を行います.
+//	 * アニメーションがない場合にはanimationにはNULLが渡されます.
+//	 * @param[in] dt 前回描画からの経過時間
+//	 * @param[in] animation アニメーション
+//	 */
+//	virtual void draw(double dt, IAnimation *animation = NULL) = 0;
 	
+	virtual void render(double dt, ViewContext *context);
 	
+	virtual void draw(double dt, ViewContext *context) = 0;
 	
 };
 

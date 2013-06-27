@@ -60,7 +60,6 @@ public:
 	 * @param[in] figure 表示するフィギュア
 	 */
 	void setFigure(Figure *figure);
-	
 
 
 	/////////////////////////////////////////////////////////////////
@@ -72,10 +71,7 @@ public:
 	 * @param[in] dt 前回描画からの差分時間
 	 * @param[in] animation 反映するアニメーション
 	 */
-	virtual void draw(double dt, IAnimation *animation = NULL);
-	
-	
-	
+	virtual void draw(double dt, ViewContext *context);
 };
 
 #endif /* IMAGEVIEW_H_ */

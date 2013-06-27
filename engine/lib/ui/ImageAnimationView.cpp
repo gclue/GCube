@@ -34,6 +34,7 @@ ImageAnimationView::ImageAnimationView(GCContext *context) : ViewGroup(context) 
 	index = 0;
 	time = 0;
 	frameId = 0;
+	listener = NULL;
 }
 
 ImageAnimationView::~ImageAnimationView() {
@@ -71,8 +72,16 @@ void ImageAnimationView::addAnimationFrame(int id, AnimationFrame *af) {
 void ImageAnimationView::setAnimationFrameIndex(int id) {
 	if (frames[id]) {
 		frameId = id;
+		index = 0;
+		time = 0;
 	}
 }
+
+void ImageAnimationView::setImageAnimationListener(ImageAnimationListener *listener)
+{
+	this->listener = listener;
+}
+
 
 //////////////////////////////////////////////////////////////
 // Viewからの継承
@@ -83,7 +92,7 @@ void ImageAnimationView::setAnimationFrameIndex(int id) {
  * @param[in] dt 前回描画からの差分時間
  * @param[in] animation 反映するアニメーション
  */
-void ImageAnimationView::draw(double dt, IAnimation *animation) {
+void ImageAnimationView::draw(double dt, ViewContext *context) {
 	time += dt;
 
 	int idx;
@@ -98,6 +107,9 @@ void ImageAnimationView::draw(double dt, IAnimation *animation) {
 			index++;
 			index %= af->frames.size();
 			time = 0;
+			if (listener && index == 0) {
+				listener->onFrameEnd(frameId);
+			}
 
 			frm = af->frames.at(index);
 			idx = af->indexs.at(index);
@@ -109,10 +121,13 @@ void ImageAnimationView::draw(double dt, IAnimation *animation) {
 			index %= views.size();
 			// 時間を初期化
 			time = 0;
+			if (listener && index == 0) {
+				listener->onFrameEnd(0);
+			}
 		}
 		frm = frame;
 		idx = index;
 	}
 
-	views.at(idx)->render(dt);
+	views.at(idx)->render(dt, context);
 }

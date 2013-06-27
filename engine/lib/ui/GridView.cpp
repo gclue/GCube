@@ -37,7 +37,7 @@ GridView::GridView(GCContext *context, int row, int column) : ViewGroup(context)
 GridView::~GridView() {
 }
 
-void GridView::draw(double dt, IAnimation *a) {
+void GridView::draw(double dt, ViewContext *context) {
 	float w = size.x / row;
 	float h = size.y / column;
 	float px = - w * row + w;
@@ -54,7 +54,7 @@ void GridView::draw(double dt, IAnimation *a) {
 		float y = py - c * h * 2;
 
 		view->setPosition(x, y);
-		view->render(dt);
+		view->render(dt, context);
 		it++;
 		cnt++;
 	}

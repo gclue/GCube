@@ -57,6 +57,7 @@ void ImageButton::setView(View *view) {
 	this->view[0] = view;
 	this->view[0]->parent = this;
 	this->view[0]->retain();
+	this->size = view->size;
 }
 
 void ImageButton::setFocusView(View *view) {
@@ -68,6 +69,7 @@ void ImageButton::setFocusView(View *view) {
 
 void ImageButton::startClickAnimation(IAnimation *a) {
 	if (a == NULL) {
+		/*
 		Animation *a1 = new Animation();
 		a1->setAlpha(0.0, 1.0);
 		a1->setDuration(0.2);
@@ -75,13 +77,40 @@ void ImageButton::startClickAnimation(IAnimation *a) {
 		Animation *a2 = new Animation();
 		a2->setAlpha(1.0, 0.0);
 		a2->setDuration(0.2);
-
+		 
 		AnimationSet *animation = new AnimationSet();
 		animation->addAnimation(a1);
 		animation->addAnimation(a2);
 		animation->setRepeat(false);
 		animation->reset();
 		view[1]->startAnimation((IAnimation *) animation);
+		 */
+		
+		Animation *a1 = new Animation(EASING_IN_QUART);
+		a1->setScale(1, 1, 1.1, 0.8);
+		a1->setDuration(0.12);
+		
+		Animation *a2 = new Animation(EASING_IN_QUART);
+		a2->setScale(1.1, 0.8, 0.98, 1.02);
+		a2->setDuration(0.12);
+
+		Animation *a3= new Animation(EASING_IN_QUART);
+		a3->setScale(0.98, 1.02, 1.04, 0.96);
+		a3->setDuration(0.1);
+		
+		Animation *a4 = new Animation(EASING_IN_QUART);
+		a4->setScale(1.04, 0.96, 1, 1);
+		a4->setDuration(0.1);
+				
+		AnimationSet *animation = new AnimationSet();
+		animation->addAnimation(a1);
+		animation->addAnimation(a2);
+		animation->addAnimation(a3);
+		animation->addAnimation(a4);
+		animation->setRepeat(false);
+		animation->reset();
+		view[1]->startAnimation((IAnimation *) animation);
+		
 	} else {
 		view[1]->startAnimation(a);
 	}
@@ -102,16 +131,16 @@ bool ImageButton::onTouch(TouchEvent &event) {
 	return view[1]->isAnimation();
 }
 
-void ImageButton::draw(double dt, IAnimation *a) {
+void ImageButton::draw(double dt, ViewContext *context) {
 	if (view[1]->isAnimation()) {
-		view[0]->render(dt);
-		view[1]->render(dt);
+//		view[0]->render(dt, context);
+		view[1]->render(dt, context);
 		if (!view[1]->isAnimation()) {
 			if (listener) {
 				listener->onButtonClick(this);
 			}
 		}
 	} else {
-		view[0]->render(dt);
+		view[0]->render(dt, context);
 	}
 }

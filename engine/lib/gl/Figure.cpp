@@ -40,6 +40,7 @@ Figure::Figure() {
 	hasNormals = false;
 	hasTexture = false;
 	hasJoint = false;
+	hasColor = false;
 	useIndex = false;
 	visible = true;
 
@@ -84,6 +85,12 @@ void Figure::addVertexIndexes(const unsigned short *v, int len) {
 	vertexIndexes.insert(vertexIndexes.end(), tmp.begin(), tmp.end());
 }
 
+// カラー追加
+void Figure::addColors(const float *c, int len) {
+	std::vector<float> tmp(c, c + len);
+	colors.insert(colors.end(), tmp.begin(), tmp.end());
+}
+
 // ジョイント追加
 void Figure::addJoints(const unsigned short *j1, const float *w1, const unsigned short *j2, const float *w2, int len) {
 	for (int i = 0; i < len; i++) {
@@ -94,7 +101,6 @@ void Figure::addJoints(const unsigned short *j1, const float *w1, const unsigned
 		jointData.push_back(w2[i]/max);
 	}
 }
-
 
 // 描画
 void Figure::draw() {
@@ -108,7 +114,7 @@ void Figure::drawLines(float width) {
 	if (!visible) return;
 	glLineWidth(width);
 	GLshort indexCount = vertexIndexes.size();
-	glDrawElements(GL_LINE_STRIP, indexCount, GL_UNSIGNED_SHORT, NULL);
+	glDrawElements(GL_LINE_LOOP, indexCount, GL_UNSIGNED_SHORT, NULL);
 }
 
 // 描画（点）
@@ -142,6 +148,12 @@ void Figure::bind() {
 	if (hasTexture) {
 		glBindBuffer(GL_ARRAY_BUFFER, vboNames[VBO_TEXCOORD]);
 		enableAttribute(ATTRIB_TEXCOORD);
+	}
+	
+	// カラー
+	if (hasColor) {
+		glBindBuffer(GL_ARRAY_BUFFER, vboNames[VBO_COLOR]);
+		enableAttribute(ATTRIB_COLOR);
 	}
 
 	// ジョイント
@@ -196,6 +208,14 @@ void Figure::build() {
 		hasTexture = true;
 	}
 
+	// カラー
+	if (!colors.empty()) {
+		vboNames[VBO_COLOR] = buildVBO(&colors.front(),
+				colors.size() * sizeof(float), GL_ARRAY_BUFFER);
+		enableAttribute(ATTRIB_COLOR);
+		hasColor = true;
+	}
+	
 	// ジョイント
 	if (!jointData.empty()) {
 		vboNames[VBO_JOINTS] = buildVBO(&jointData.front(),
@@ -338,14 +358,13 @@ void Figure::enableAttribute(GLuint attrib) {
 	glVertexAttribPointer(attrib, elements, type, GL_FALSE, 0, 0);
 }
 
-
 void Figure::setAnimation(JointAnimation *animation) {
 	this->animation = animation;
 }
 
 void Figure::draw(float dt) {
 	if (animation) {
-		animation->animationTime += dt;
+		animation->animationTime += 0;
 		
 		// アニメーション時間を超えたらリピート
 		if (animation->repeat &&
@@ -363,4 +382,3 @@ void Figure::draw(float dt) {
 	}
 	draw();
 }
-

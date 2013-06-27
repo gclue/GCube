@@ -25,6 +25,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+static GLuint static_program = -1;
+
 Shader::Shader() {
 }
 
@@ -97,6 +99,13 @@ ERROR:	// エラー時の処理
 	return NULL;
 }
 
+void Shader::useProgram() {
+	if (static_program != gProgram) {
+		glUseProgram(gProgram);
+		static_program = gProgram;
+	}
+}
+
 
 ////////////////////////////////////////////////////////////////
 ///
@@ -163,7 +172,7 @@ GLuint Shader::compileShaderFromFile(GLenum shaderType, const char* fileName) {
 	const char *data = (const char *) &(*fdata)[0];
     
     // ログ
-    LOGD("[%s]:\n%s\n", fileName, data);
+//    LOGD("[%s]:\nFile Size: [%d]\n%s\n", fileName, fdata->size(), data);
 	
 	// シェーダのコンパイル処理
 	GLint status;

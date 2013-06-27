@@ -34,7 +34,6 @@
  */
 class BoneShader : public Shader {
 private:
-	GLuint gProgram;	//!< プログラム
 	float baseAlpha;	//!< 基準透明度
 	int texname;		//!< 使用しているtextureのID
 
@@ -84,6 +83,11 @@ public:
 	 */
 	void setAlpha(float a);
 	
+	void setUseEdge(bool use);
+	void setEdgeColor(float r, float g, float b, float a);
+	
+	void setUseColor(bool use);
+	
 	/**
 	 * カメラと変換行列からMVPをシェーダに設定します.
 	 * <br>
@@ -100,10 +104,6 @@ public:
 	 */
 	void setSkinningMatrix(Matrix3D **matrix, int len);
 	
-	/**
-	 * スキニング用のデータをFigureから取得し、設定します.
-	 * @param[in] fig スキニングデータを持っているFigure
-	 */
 	void setSkinningMatrix(Figure *fig);
 	
 	/**

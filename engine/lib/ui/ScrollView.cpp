@@ -47,6 +47,11 @@
  */
 #define RENDER_RANGE 1.0
 
+enum {
+	TOUCH_NONE = 0,
+	TOUCH_START,
+};
+
 ScrollView::ScrollView(GCContext *context) : ViewGroup(context) {
 	listener = NULL;
 	currentIndex = 0;
@@ -62,6 +67,7 @@ ScrollView::ScrollView(GCContext *context) : ViewGroup(context) {
 	scrollPos.x = 0.0;
 	scrollPos.y = 0.0;
 	sp = 0.0;
+	touchState = TOUCH_NONE;
 }
 
 ScrollView::~ScrollView() {
@@ -116,8 +122,26 @@ bool ScrollView::onTouch(TouchEvent &event) {
 		scrPos[posCount].y = event.y;
 		startTime[posCount] = event.time;
 		sp = 0.0;
+		
+		touchState = TOUCH_START;
 		break;
 	case touchMove:
+			if (touchState == TOUCH_NONE) {
+				startPos.x = event.x;
+				startPos.y = event.y;
+				currentPos.x = event.x;
+				currentPos.y = event.y;
+				
+				// タッチイベントの履歴保持
+				posCount = 0;
+				scrPos[posCount].x = event.x;
+				scrPos[posCount].y = event.y;
+				startTime[posCount] = event.time;
+				sp = 0.0;
+				
+				touchState = TOUCH_START;
+			}
+
 		currentPos.x = event.x;
 		currentPos.y = event.y;
 
@@ -182,6 +206,8 @@ bool ScrollView::onTouch(TouchEvent &event) {
 		return true;
 	case touchCancel:
 	case touchUp:
+		touchState = TOUCH_NONE;
+
 		currentPos.x = event.x;
 		currentPos.y = event.y;
 		if (isTouch) {
@@ -233,7 +259,7 @@ bool ScrollView::onTouch(TouchEvent &event) {
 	return false;
 }
 
-void ScrollView::draw(double dt, IAnimation *a) {
+void ScrollView::draw(double dt, ViewContext *context) {
 	if (views.empty()) {
 		// 表示するviewが無い場合は何もしない
 		return;
@@ -242,19 +268,19 @@ void ScrollView::draw(double dt, IAnimation *a) {
 	if (pageScroll) {
 		switch (mode) {
 		case ScrollMode_Horizon:
-			drawPageScrollHorizon(dt);
+			drawPageScrollHorizon(dt, context);
 			break;
 		case ScrollMode_Vertical:
-			drawPageScrollVertical(dt);
+			drawPageScrollVertical(dt, context);
 			break;
 		}
 	} else {
 		switch (mode) {
 		case ScrollMode_Horizon:
-			drawScrollHorizon(dt);
+			drawScrollHorizon(dt, context);
 			break;
 		case ScrollMode_Vertical:
-			drawScrollVertical(dt);
+			drawScrollVertical(dt, context);
 			break;
 		}
 	}
@@ -456,11 +482,11 @@ void ScrollView::createScrollAnimation(int nextIndex) {
 	DELETE(scrollAnim);
 	scrollAnim = new Animation();
 	scrollAnim->setMove(sx, sy, ex, ey);
-	scrollAnim->setDuration(0.10 * delta);
+	scrollAnim->setDuration(0.20 * delta);
 	scrollAnim->reset();
 }
 
-void ScrollView::drawScrollHorizon(double dt) {
+void ScrollView::drawScrollHorizon(double dt, ViewContext *context) {
 	float dx = 0;
 	if (isTouch) {
 		// 画面がタッチされている場合
@@ -513,14 +539,14 @@ void ScrollView::drawScrollHorizon(double dt) {
 		// 範囲内にあるViewのみを描画するようにする
 		if (left < x + views[i]->size.x && right > x - views[i]->size.x) {
 			if (top > y - views[i]->size.y && bottom < y + views[i]->size.y) {
-				views[i]->render(dt);
+				views[i]->render(dt, context);
 			}
 		}
 		x += views[i]->size.x * 2.0;
 	}
 }
 
-void ScrollView::drawPageScrollHorizon(double dt) {
+void ScrollView::drawPageScrollHorizon(double dt, ViewContext *context) {
 	int size = views.size();
 	if (currentIndex < 0 || currentIndex >= size) {
 		// カレントになっているviewが存在しない場合は何もしない
@@ -545,18 +571,18 @@ void ScrollView::drawPageScrollHorizon(double dt) {
 		}
 	}
 	views[currentIndex]->setPosition(x + dx, y);
-	views[currentIndex]->render(dt);
+	views[currentIndex]->render(dt, context);
 
 	if (currentIndex - 1 >= 0) {
 		float cx = x - 2.0 * this->size.x + dx;
 		views[currentIndex - 1]->setPosition(cx, y);
-		views[currentIndex - 1]->render(dt);
+		views[currentIndex - 1]->render(dt, context);
 	}
 
 	if (currentIndex + 1 < size) {
 		float cx = x + 2.0 * this->size.x + dx;
 		views[currentIndex + 1]->setPosition(cx, y);
-		views[currentIndex + 1]->render(dt);
+		views[currentIndex + 1]->render(dt, context);
 	}
 
 	if (scrollAnim) {
@@ -571,7 +597,7 @@ void ScrollView::drawPageScrollHorizon(double dt) {
 	}
 }
 
-void ScrollView::drawScrollVertical(double dt) {
+void ScrollView::drawScrollVertical(double dt, ViewContext *context) {
 	float dy = 0;
 	if (isTouch) {
 		// 画面がタッチされている場合
@@ -627,14 +653,14 @@ void ScrollView::drawScrollVertical(double dt) {
 		// 範囲内にあるViewのみを描画するようにする
 		if (left < x + views[i]->size.x && right > x - views[i]->size.x) {
 			if (top > y - views[i]->size.y && bottom < y + views[i]->size.y) {
-				views[i]->render(dt);
+				views[i]->render(dt, context);
 			}
 		}
 		y -= views[i]->size.y;
 	}
 }
 
-void ScrollView::drawPageScrollVertical(double dt) {
+void ScrollView::drawPageScrollVertical(double dt, ViewContext *context) {
 	int size = views.size();
 	if (currentIndex < 0 || currentIndex >= size) {
 		// カレントになっているviewが存在しない場合は何もしない
@@ -659,18 +685,18 @@ void ScrollView::drawPageScrollVertical(double dt) {
 		}
 	}
 	views[currentIndex]->setPosition(x, y + dy);
-	views[currentIndex]->render(dt);
+	views[currentIndex]->render(dt,context);
 
 	if (currentIndex - 1 >= 0) {
 		float cy = y + 2.0 * this->size.y + dy;
 		views[currentIndex - 1]->setPosition(x, cy);
-		views[currentIndex - 1]->render(dt);
+		views[currentIndex - 1]->render(dt, context);
 	}
 
 	if (currentIndex + 1 < size) {
 		float cy = y - 2.0 * this->size.y + dy;
 		views[currentIndex + 1]->setPosition(x, cy);
-		views[currentIndex + 1]->render(dt);
+		views[currentIndex + 1]->render(dt, context);
 	}
 
 	if (scrollAnim) {

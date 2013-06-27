@@ -52,7 +52,7 @@ void ImageView::setFigure(Figure *figure) {
 	}
 }
 
-void ImageView::draw(double dt, IAnimation *a) {
+void ImageView::draw(double dt, ViewContext *context) {
 	if (animation && !animation->isStarted()) {
 		return;
 	}
@@ -76,10 +76,8 @@ void ImageView::draw(double dt, IAnimation *a) {
 		default:
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			break;
-			
 	}
 	
-
 	float alpha = 1.0;
 	float bright = 1.0;
 	Matrix3D mtx;

@@ -41,6 +41,12 @@ enum AnimationFrameID {
 	AnimationFrameID_None = 0,
 };
 
+class ImageAnimationListener {
+public:
+	virtual ~ImageAnimationListener() {}
+	virtual void onFrameEnd(int frameId) = 0;
+};
+
 /**
  * フレームアニメーションを保持する値.
  */
@@ -61,10 +67,13 @@ private:
 	int index;		//!< 現在のインデックス
 	int frameId;	//!< 現在指定されているフレームアニメーションのID
 	std::map<int, AnimationFrame*> frames;	//!< フレーム保存用
-
+	ImageAnimationListener *listener;
+	
 public:
 	ImageAnimationView(GCContext *context);
 	virtual ~ImageAnimationView();
+	
+	void setImageAnimationListener(ImageAnimationListener *listener);
 
 	/**
 	 * Viewを切り替える時間を指定します.
@@ -103,7 +112,7 @@ public:
 	 * @param[in] dt 前回描画からの差分時間
 	 * @param[in] animation 反映するアニメーション
 	 */
-	virtual void draw(double dt, IAnimation *animation = NULL);
+	virtual void draw(double dt, ViewContext *context);
 };
 
 #endif /* IMAGEANIMATIONVIEW_H_ */

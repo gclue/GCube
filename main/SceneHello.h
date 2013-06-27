@@ -32,18 +32,6 @@ private:
 public:
     SceneHello(ApplicationController *controller);
     virtual ~SceneHello();
-    
-    /* IScene */
-    
-    virtual void step(float dt);
-    virtual void setup();
-    virtual void resize(int width, int height);
-    virtual void onActivate();
-    virtual void onSuspend();
-    virtual void onStart();
-    virtual void onEnd();
-    virtual void onContextChanged();
-    virtual bool onTouch(TouchEvent &event);
 };
 
 
