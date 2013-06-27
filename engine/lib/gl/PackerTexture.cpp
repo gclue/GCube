@@ -42,7 +42,7 @@ PackerTexture::PackerTexture(const char *texname, const char *packername) {
 		load(texname);
 	}
 	if (packername) {
-		load(packername);
+		loadText(packername);
 	}
 }
 
@@ -71,7 +71,7 @@ TexData PackerTexture::getTexData(const char *name) {
 	return list.at(0);
 }
 
-void PackerTexture::load(const char *packername) {
+void PackerTexture::loadText(const char *packername) {
 	LOGI("PackerTexture load.");
 	std::vector<char> *fdata = GCLoadAsset(packername);
 	if (fdata == NULL) {

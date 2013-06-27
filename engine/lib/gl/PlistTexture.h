@@ -45,7 +45,7 @@ private:
 	 * 指定されたPlist形式で出力されたファイルを読み込みます.
 	 * @param plist ファイル名
 	 */
-	void load(const char *plist);
+	void loadPlist(const char *plist);
 
 public:
     

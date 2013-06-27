@@ -45,7 +45,7 @@ private:
 	 * 指定されたTexturePackerで出力されたファイルを読み込みます.
 	 * @param packername ファイル名
 	 */
-	void load(const char *packername);
+	void loadText(const char *packername);
     
 	/**
 	 * TexturePackerで出力されたファイルの1ラインを読み込みます.

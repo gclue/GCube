@@ -42,7 +42,7 @@ PlistTexture::PlistTexture(const char *plist) {
 	list.clear();
     
     if (plist) {
-        load(plist);
+        loadPlist(plist);
     }
 }
 
@@ -51,7 +51,7 @@ PlistTexture::~PlistTexture() {
 }
 
 #pragma mark - private methods
-void PlistTexture::load(const char *plistName) {
+void PlistTexture::loadPlist(const char *plistName) {
     
     string sPlistName(plistName);
     string::size_type index = sPlistName.rfind("/");

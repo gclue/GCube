@@ -93,6 +93,9 @@
 		301D1946177B07AD0080BB95 /* GCString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301D1940177B07AD0080BB95 /* GCString.cpp */; };
 		301D1947177B07AD0080BB95 /* GCVector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301D1942177B07AD0080BB95 /* GCVector.cpp */; };
 		301D194A177B07D40080BB95 /* PlistParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 301D1948177B07D40080BB95 /* PlistParser.cpp */; };
+		30844D36177C2B1C000A58B0 /* SceneSamplePlist.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 30844D34177C2B1C000A58B0 /* SceneSamplePlist.cpp */; };
+		30844D39177C2C8E000A58B0 /* sample_plist.plist in Resources */ = {isa = PBXBuildFile; fileRef = 30844D37177C2C8E000A58B0 /* sample_plist.plist */; };
+		30844D3A177C2C8E000A58B0 /* sample_plist.png in Resources */ = {isa = PBXBuildFile; fileRef = 30844D38177C2C8E000A58B0 /* sample_plist.png */; };
 		44D4AC4615411457004B3442 /* LayoutInflater.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44D4AC4415411457004B3442 /* LayoutInflater.cpp */; };
 		44D4AC4A15411474004B3442 /* ViewFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 44D4AC4815411474004B3442 /* ViewFactory.cpp */; };
 		44D4AC4D154114A3004B3442 /* main.xml in Resources */ = {isa = PBXBuildFile; fileRef = 44D4AC4C154114A3004B3442 /* main.xml */; };
@@ -584,8 +587,10 @@
 		301D1943177B07AD0080BB95 /* GCVector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GCVector.h; sourceTree = "<group>"; };
 		301D1948177B07D40080BB95 /* PlistParser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PlistParser.cpp; sourceTree = "<group>"; };
 		301D1949177B07D40080BB95 /* PlistParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlistParser.h; sourceTree = "<group>"; };
-		301D194B177B0A6C0080BB95 /* sample_plist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sample_plist.plist; sourceTree = "<group>"; };
-		301D194C177B0A6D0080BB95 /* sample_plist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_plist.png; sourceTree = "<group>"; };
+		30844D34177C2B1C000A58B0 /* SceneSamplePlist.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneSamplePlist.cpp; sourceTree = "<group>"; };
+		30844D35177C2B1C000A58B0 /* SceneSamplePlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneSamplePlist.h; sourceTree = "<group>"; };
+		30844D37177C2C8E000A58B0 /* sample_plist.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = sample_plist.plist; sourceTree = "<group>"; };
+		30844D38177C2C8E000A58B0 /* sample_plist.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sample_plist.png; sourceTree = "<group>"; };
 		44D4AC4415411457004B3442 /* LayoutInflater.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LayoutInflater.cpp; sourceTree = "<group>"; };
 		44D4AC4515411457004B3442 /* LayoutInflater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LayoutInflater.h; sourceTree = "<group>"; };
 		44D4AC4815411474004B3442 /* ViewFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ViewFactory.cpp; sourceTree = "<group>"; };
@@ -2198,8 +2203,8 @@
 		6644323214568A55001847A0 /* texture */ = {
 			isa = PBXGroup;
 			children = (
-				301D194B177B0A6C0080BB95 /* sample_plist.plist */,
-				301D194C177B0A6D0080BB95 /* sample_plist.png */,
+				30844D37177C2C8E000A58B0 /* sample_plist.plist */,
+				30844D38177C2C8E000A58B0 /* sample_plist.png */,
 				C2D2B6CB169E9755004255F6 /* neko_siro-01metoji.png */,
 				1F6C8F971544E26D00ADCB80 /* game_center_ui.png */,
 				1F6C8F981544E26D00ADCB80 /* game_center_ui.txt */,
@@ -3465,6 +3470,8 @@
 				F54C490617571E2500C26576 /* SceneTitle.h */,
 				F54C490717571E2500C26576 /* SceneTwitterTest.cpp */,
 				F54C490817571E2500C26576 /* SceneTwitterTest.h */,
+				30844D34177C2B1C000A58B0 /* SceneSamplePlist.cpp */,
+				30844D35177C2B1C000A58B0 /* SceneSamplePlist.h */,
 			);
 			name = sample;
 			path = ../../../sample;
@@ -3564,6 +3571,8 @@
 				C2D2B6C9169E9539004255F6 /* 01walk.gav in Resources */,
 				C2D2B6CA169E9539004255F6 /* 01walk.gcb in Resources */,
 				C2D2B6CC169E9755004255F6 /* neko_siro-01metoji.png in Resources */,
+				30844D39177C2C8E000A58B0 /* sample_plist.plist in Resources */,
+				30844D3A177C2C8E000A58B0 /* sample_plist.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3912,6 +3921,7 @@
 				301D1946177B07AD0080BB95 /* GCString.cpp in Sources */,
 				301D1947177B07AD0080BB95 /* GCVector.cpp in Sources */,
 				301D194A177B07D40080BB95 /* PlistParser.cpp in Sources */,
+				30844D36177C2B1C000A58B0 /* SceneSamplePlist.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
