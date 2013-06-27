@@ -40,7 +40,7 @@
 class PackerTexture : public SharedTexture {
 private:
 	std::vector<TexData> list;		//!< TexturePackerで出力されるデータリスト
-    
+
 	/**
 	 * 指定されたTexturePackerで出力されたファイルを読み込みます.
 	 * @param packername ファイル名
@@ -71,7 +71,7 @@ public:
 	 * テクスチャのデータを設定します.
 	 * @param[in] tex テクスチャ
 	 */
-	void addTexData(TexData tex);
+	void addTexData(TexData& tex);
     
 	/**
 	 * テクスチャデータを取得します.

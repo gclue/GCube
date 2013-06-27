@@ -267,7 +267,7 @@ void ViewFactory::imageViewConfig(GCContext *context, ImageView* view, std::map<
             else {
                 view->setFigure(texture->makePlate(imageName.c_str()));
             }
-            view->setTexture(&texture->getTexture());
+            view->setTexture(texture);
         }
        
     }
@@ -315,7 +315,7 @@ void ViewFactory::buttonConfig(GCContext *context, Button* view, std::map<std::s
             else {
                 view->setFigure(texture->makePlate(imageName.c_str()));
             }
-            view->setTexture(&texture->getTexture());
+            view->setTexture(texture);
         }
         
     }
@@ -358,7 +358,7 @@ void ViewFactory::buttonConfig(GCContext *context, Button* view, std::map<std::s
             else {
                 view->setSelectFigure(texture->makePlate(imageName.c_str()));
             }
-            view->setTexture(&texture->getTexture());
+            view->setTexture(texture);
         }
         
     }

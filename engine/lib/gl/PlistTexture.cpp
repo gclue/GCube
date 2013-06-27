@@ -39,7 +39,6 @@
 #pragma mark - PlistTexture constructor
 
 PlistTexture::PlistTexture(const char *plist) {
-    texture = NULL;
 	list.clear();
     
     if (plist) {
@@ -48,7 +47,6 @@ PlistTexture::PlistTexture(const char *plist) {
 }
 
 PlistTexture::~PlistTexture() {
-	DELETE(texture);
 	list.clear();
 }
 
@@ -80,7 +78,7 @@ void PlistTexture::load(const char *plistName) {
     }
 
     
-    this->texture = new Texture(texturePath);
+    load(texturePath);
     
     // テクスチャデータの読み込み
     int format = ((GCString *) metadata->objectForKey("format"))->intValue();

@@ -48,20 +48,20 @@ SceneTwitterTest::SceneTwitterTest(ApplicationController *controller) : Scene(co
 	//ダイアログ背景
 	ImageView *twBack = new ImageView(controller);
 	twBack->setFigure(tex01->makePlate("ivTwitterBack.png"));
-	twBack->setTexture(&tex01->getTexture());
+	twBack->setTexture(tex01);
 	twBack->setPosition(0,0);
 	
 	//文字背景
 	ImageView *textBack = new ImageView(controller);
 	textBack->setFigure(tex01->makePlate("ivTextBack.png"));
-	textBack->setTexture(&tex01->getTexture());
+	textBack->setTexture(tex01);
 	textBack->setPosition(0, 0.1);
 	
 	//投稿
 	Button *btPost = new Button(controller);
 	btPost->setFigure(tex01->makePlate("btPost.png"));
 	btPost->setSelectFigure(tex01->makePlate("btPost.png"));
-	btPost->setTexture(&tex01->getTexture());
+	btPost->setTexture(tex01);
 	btPost->setPosition(-0.3, -0.4);
 	btPost->setOnButtonClickListener(this);
 	btPost->setUserID(100);
@@ -70,7 +70,7 @@ SceneTwitterTest::SceneTwitterTest(ApplicationController *controller) : Scene(co
 	Button *btCancel = new Button(controller);
 	btCancel->setFigure(tex01->makePlate("btCancel.png"));
 	btCancel->setSelectFigure(tex01->makePlate("btCancel.png"));
-	btCancel->setTexture(&tex01->getTexture());
+	btCancel->setTexture(tex01);
 	btCancel->setPosition(0.3, -0.4);
 	btCancel->setOnButtonClickListener(this);
 	btCancel->setUserID(101);
@@ -95,14 +95,14 @@ SceneTwitterTest::SceneTwitterTest(ApplicationController *controller) : Scene(co
 	//説明文
     ImageView *textLabel = new ImageView(controller);
     textLabel->setFigure(strTexture->makeFixPlate(0, 0, textBack->size.x));//登録順のインデックスもしくは、 strTexture->makePlate("Test")　GCDrawText時の文字列を指定する
-    textLabel->setTexture(&strTexture->getTexture());
+    textLabel->setTexture(strTexture);
     textLabel->setPosition(0, twBack->point.y + twBack->size.y - textLabel->size.y*2.0);
 	
 	
 	//投稿テキスト
 	ImageView *postText = new ImageView(controller);
 	postText->setFigure(strTexture->makeFixPlate(1, 0, textBack->size.x));
-	postText->setTexture(&strTexture->getTexture());
+	postText->setTexture(strTexture);
 	postText->setPosition(0, textBack->point.y);
 	
 	
@@ -111,7 +111,7 @@ SceneTwitterTest::SceneTwitterTest(ApplicationController *controller) : Scene(co
 	//投稿完了.
 	ImageView *successText = new ImageView(controller);
 	successText->setFigure(strTexture->makeFixPlate(2, 0, 0.8));
-	successText->setTexture(&strTexture->getTexture());
+	successText->setTexture(strTexture);
 	successText->setPosition(0,0);
 	successText->setVisible(false);
 	successText->setUserID(102);
@@ -121,7 +121,7 @@ SceneTwitterTest::SceneTwitterTest(ApplicationController *controller) : Scene(co
 	//投稿失敗.
 	ImageView *failedText = new ImageView(controller);
 	failedText->setFigure(strTexture->makeFixPlate(3, 0, 0.8));
-	failedText->setTexture(&strTexture->getTexture());
+	failedText->setTexture(strTexture);
 	failedText->setPosition(0,0);
 	failedText->setVisible(false);
 	failedText->setUserID(103);

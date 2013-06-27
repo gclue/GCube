@@ -157,7 +157,7 @@ static bool createTexture(Texture *texture, jobject image) {
  * @param data Javaから取得したtexture/Sprite
  * @return 変換されたTexData
  */
-static TexData createTexData(jobject data, TextTexture* textTex) {
+static void createTexData(jobject data, TextTexture* textTex) {
 	JNIEnv* env = jni.env;
 	jclass clazz = env->FindClass("com/gclue/gl/texture/Sprite");
 	if (clazz) {
@@ -239,6 +239,7 @@ static TexData createTexData(jobject data, TextTexture* textTex) {
 		textInfo.g = g;
 		textInfo.b = b;
 
+		textTex->addTexData(tex);
 		textTex->addTextInfo(textInfo);
 
 		LOGI("(%d, %d, %d, %d)", left, top, right, bottom);
@@ -246,11 +247,7 @@ static TexData createTexData(jobject data, TextTexture* textTex) {
 
 		env->ReleaseStringUTFChars(text, s);
 		env->DeleteLocalRef(clazz);
-
-		return tex;
 	}
-	TexData t;
-	return t;
 }
 
 static HttpResponse* createHttpResponse(jobject res) {
@@ -330,14 +327,17 @@ PackerTexture* JNIGetTextTexture() {
 			return NULL;
 		}
 
-		PackerTexture *packerTexture = new PackerTexture();
-		TextTexture* tex = new TextTexture();
+		TextTexture *textTexture = new TextTexture();
+		if (!textTexture) {
+			LOGE( "**ERROR(textTexture)**");
+			return NULL;
+		}
 
 		// 文字列の個数を取得
 		int count = env->CallIntMethod(texture, getCountID);
 		for (int i = 0; i < count; i++) {
 			jobject data = env->CallObjectMethod(texture, getSpriteID, i);
-			packerTexture->addTexData(createTexData(data, tex));
+			createTexData(data, textTexture);
 			env->DeleteLocalRef(data);
 		}
 
@@ -350,32 +350,31 @@ PackerTexture* JNIGetTextTexture() {
 			return NULL;
 		}
 
-		createTexture((Texture *)tex, image);
-		packerTexture->setTexture((Texture *)tex);
+		createTexture((Texture *) textTexture, image);
 
 		// 後始末
 		env->DeleteLocalRef(texture);
 		env->DeleteLocalRef(image);
 		env->DeleteLocalRef(clazz);
 
-		return packerTexture;
+		return textTexture;
 	}
 	return NULL;
 }
-PackerTexture* GCGetTextTexture(){
+
+PackerTexture* GCGetTextTexture() {
 	return JNIGetTextTexture();
 }
 
-bool GCReloadTextTexture(TextTexture *textTexture){
+bool GCReloadTextTexture(TextTexture *textTexture) {
 	bool ret = false;
 	std::vector<TextInfo>::iterator it;
 	TextInfo textInfo;
 
 	std::vector<TextInfo> list = textTexture->getTextList();
 
-	for(it = list.begin(); it != list.end(); it++){
+	for (it = list.begin(); it != list.end(); it++) {
 		textInfo = *it;
-
 		GCDrawText(textInfo.text.c_str(), textInfo.size, textInfo.r, textInfo.g, textInfo.b);
 	}
 

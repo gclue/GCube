@@ -40,7 +40,7 @@ SceneHello::SceneHello(ApplicationController *controller) : Scene(controller){
     // テキストビューの生成
     ImageView *textLabel = new ImageView(controller);
     textLabel->setFigure(strTexture->makePlate("Hello World!"));
-    textLabel->setTexture(&strTexture->getTexture());
+    textLabel->setTexture(strTexture);
     textLabel->setPosition(0,0);
     
     // テキストビューをビューグループに追加

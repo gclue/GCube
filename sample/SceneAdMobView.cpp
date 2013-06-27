@@ -68,7 +68,7 @@ void SceneAdMobView::createViews() {
 	Button *btVisible = new Button(controller);
 	btVisible->setFigure(tex01->makePlate(0,0));
 	btVisible->setSelectFigure(tex01->makePlate(0, 0));
-	btVisible->setTexture(&tex01->getTexture());
+	btVisible->setTexture(tex01);
 	btVisible->setPosition(-0.4, 0.3);
 	btVisible->setOnButtonClickListener(this);
 	btVisible->setUserID(100);
@@ -78,7 +78,7 @@ void SceneAdMobView::createViews() {
 	Button *btInvisible = new Button(controller);
 	btInvisible->setFigure(tex01->makePlate(1, 0));
 	btInvisible->setSelectFigure(tex01->makePlate(1, 0));
-	btInvisible->setTexture(&tex01->getTexture());
+	btInvisible->setTexture(tex01);
 	btInvisible->setPosition(0.4, 0.3);
 	btInvisible->setOnButtonClickListener(this);
 	btInvisible->setUserID(101);
@@ -87,7 +87,7 @@ void SceneAdMobView::createViews() {
 	Button *btChange = new Button(controller);
 	btChange->setFigure(tex01->makePlate(2, 0));
 	btChange->setSelectFigure(tex01->makePlate(2, 0));
-	btChange->setTexture(&tex01->getTexture());
+	btChange->setTexture(tex01);
 	btChange->setPosition(0, -0.4);
 	btChange->setOnButtonClickListener(this);
 	btChange->setUserID(102);

@@ -37,10 +37,9 @@
 #include <string.h>
 
 PackerTexture::PackerTexture(const char *texname, const char *packername) {
-	texture = NULL;
 	list.clear();
 	if (texname) {
-		texture = new Texture(texname);
+		load(texname);
 	}
 	if (packername) {
 		load(packername);
@@ -49,11 +48,10 @@ PackerTexture::PackerTexture(const char *texname, const char *packername) {
 
 PackerTexture::~PackerTexture() {
 	LOGD("PackerTextuer destructor");
-	DELETE(texture);
 	list.clear();
 }
 
-void PackerTexture::addTexData(TexData tex) {
+void PackerTexture::addTexData(TexData& tex) {
 	list.push_back(tex);
 }
 

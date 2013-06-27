@@ -60,7 +60,7 @@ ViewGroup* SceneGameCenterSample::createView() {
 	//テキスト
 	ImageView *textView = new ImageView(controller);
 	textView->setFigure(tex01->makeFixPlate(0,0,0.8));
-	textView->setTexture(&tex01->getTexture());
+	textView->setTexture(tex01);
 	textView->setPosition(0, 0.5);
 	
 	
@@ -68,7 +68,7 @@ ViewGroup* SceneGameCenterSample::createView() {
 	Button *btOpen = new Button(controller);
 	btOpen->setFigure(tex02->makePlate("game_center_icon_gclue.png"));
 	btOpen->setSelectFigure(tex02->makePlate("game_center_icon_gclue.png"));
-	btOpen->setTexture(&tex02->getTexture());
+	btOpen->setTexture(tex02);
 	btOpen->setOnButtonClickListener(this);
 	btOpen->setUserID(100);
 	btOpen->setPosition(-0.4, -0.3);
@@ -78,7 +78,7 @@ ViewGroup* SceneGameCenterSample::createView() {
 	Button *btSend = new Button(controller);
 	btSend->setFigure(tex02->makePlate("bt_sendScore.png"));
 	btSend->setSelectFigure(tex02->makePlate("bt_sendScore.png"));
-	btSend->setTexture(&tex02->getTexture());
+	btSend->setTexture(tex02);
 	btSend->setOnButtonClickListener(this);
 	btSend->setUserID(101);
 	btSend->setClickable(true);
@@ -89,7 +89,7 @@ ViewGroup* SceneGameCenterSample::createView() {
 	//ローディングビュー
 	ImageView *loading = new ImageView(controller);
 	loading->setFigure(tex02->makePlate("lodinginfo.png"));
-	loading->setTexture(&tex02->getTexture());
+	loading->setTexture(tex02);
 	loading->setVisible(false);
 	loading->setUserID(104);
 	
@@ -98,14 +98,14 @@ ViewGroup* SceneGameCenterSample::createView() {
 	//スコア送信成功
 	ImageView *textSuccess = new ImageView(controller);
 	textSuccess->setFigure(tex01->makeFixPlate(1, 0, 0.7));
-	textSuccess->setTexture(&tex01->getTexture());
+	textSuccess->setTexture(tex01);
 	textSuccess->setUserID(102);
 	textSuccess->setVisible(false);
 	
 	//スコア送信失敗
 	ImageView *textFailed = new ImageView(controller);
 	textFailed->setFigure(tex01->makeFixPlate(2, 0, 0.7));
-	textFailed->setTexture(&tex01->getTexture());
+	textFailed->setTexture(tex01);
 	textFailed->setUserID(103);
 	textFailed->setVisible(false);
 	

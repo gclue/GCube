@@ -53,6 +53,8 @@ public:
 	 */
 	virtual ~Texture();
 
+	void load(const char *fname);
+	
 	/**
 	 * イメージデータを設定します.
 	 * <br><br>

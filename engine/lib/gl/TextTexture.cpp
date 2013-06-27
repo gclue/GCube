@@ -8,26 +8,23 @@
 
 #include "TextTexture.h"
 #include "APIGlue.h"
+#include "Log.h"
 
-TextTexture::TextTexture() : Texture(){
-
+TextTexture::TextTexture() : PackerTexture() {
 }
 
 TextTexture::~TextTexture() {
-
-
 }
 
 std::vector<TextInfo> TextTexture::getTextList(){
-	return list;
+	return textlist;
 }
 
-void TextTexture::addTextInfo(TextInfo info) {
-	list.push_back(info);
+void TextTexture::addTextInfo(TextInfo& info) {
+	textlist.push_back(info);
 }
 
 void TextTexture::reload() {
-	//LOG("TextTexture::reload()");
-
+	LOGD("TextTexture::reload()");
 	GCReloadTextTexture(this);
 }

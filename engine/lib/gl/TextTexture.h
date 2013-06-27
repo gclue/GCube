@@ -10,7 +10,7 @@
 #define GCube_TextTexture_h
 
 #include "glcommon.h"
-#include "Texture.h"
+#include "PackerTexture.h"
 #include <string>
 
 
@@ -29,9 +29,9 @@ typedef struct _TextInfo TextInfo;
 /**
  * 文字列用テクスチャ.
  */
-class TextTexture : Texture {
+class TextTexture : public PackerTexture {
 private:
-	std::vector<TextInfo> list;
+	std::vector<TextInfo> textlist;
 
 public:
 	TextTexture();
@@ -43,7 +43,7 @@ public:
 
 	virtual void reload();
 
-	void addTextInfo(TextInfo info);
+	void addTextInfo(TextInfo& info);
 
 	std::vector<TextInfo> getTextList();
 };

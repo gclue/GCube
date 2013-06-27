@@ -28,30 +28,17 @@
 
 SharedTexture::SharedTexture() {
 	cache = new FigureCache();
-	texture = NULL;
 	dispW = 640.0;
 }
 
 SharedTexture::~SharedTexture() {
 	LOGD("SharedTexture destructor");
 	DELETE(cache);
-	DELETE(texture);
-}
-
-Texture& SharedTexture::getTexture() {
-	return *texture;
-}
-
-void SharedTexture::setTexture(Texture *texture) {
-	DELETE(this->texture);
-	this->texture = texture;
 }
 
 void SharedTexture::reload() {
 	LOGD("SharedTexture::reload");
-	if (texture) {
-		texture->reload();
-	}
+	Texture::reload();
 	if (cache) {
 		cache->rebuild();
 	}
@@ -82,9 +69,9 @@ Figure* SharedTexture::makePlate(int ID, int sub) {
 	}
     
     TexData tex = this->getTexData(ID, sub);
-	Rectf rect = normalize(texture, tex.rect);
-    normalize(texture, rect);
-	float w = (rect.right - rect.left) * texture->width / dispW;
+	Rectf rect = normalize(this, tex.rect);
+    normalize(this, rect);
+	float w = (rect.right - rect.left) * this->width / dispW;
 	float p = (rect.bottom - rect.top) / (rect.right - rect.left);
     if (tex.rotate == 1) {
         figure = createPlateWithRotateTexpos(w*p, w, rect.left, rect.top, rect.right, rect.bottom);
@@ -107,7 +94,7 @@ Figure* SharedTexture::makeFixPlate(int ID, int sub, float w) {
 	}
     
     TexData tex = this->getTexData(ID, sub);
-	Rectf rect = normalize(texture, tex.rect);
+	Rectf rect = normalize(this, tex.rect);
 	float p = (rect.bottom - rect.top) / (rect.right - rect.left);
     if (tex.rotate == 1) {
         figure = createPlateWithRotateTexpos(w*p, w, rect.left, rect.top, rect.right, rect.bottom);
@@ -130,7 +117,7 @@ Figure* SharedTexture::makeFixHeightPlate(int ID, int sub, float h) {
 	}
     
     TexData tex = this->getTexData(ID, sub);
-	Rectf rect = normalize(texture, tex.rect);
+	Rectf rect = normalize(this, tex.rect);
 	float p = (rect.right - rect.left) / (rect.bottom - rect.top);
     if (tex.rotate == 1) {
         figure = createPlateWithRotateTexpos(h, h*p, rect.left, rect.top, rect.right, rect.bottom);
@@ -152,7 +139,7 @@ Figure* SharedTexture::makePlateWithSize(int ID, int sub, float w, float h) {
 	}
     
     TexData tex = this->getTexData(ID, sub);
-	Rectf rect = normalize(texture, tex.rect);
+	Rectf rect = normalize(this, tex.rect);
     
     if (tex.rotate == 1) {
         figure = createPlateWithRotateTexpos(h, w, rect.left, rect.top, rect.right, rect.bottom);
@@ -176,8 +163,8 @@ Figure* SharedTexture::makePlate(const char *name) {
 	}
     
     TexData tex = this->getTexData(name);
-	Rectf rect = normalize(texture, tex.rect);
-	float w = (rect.right - rect.left) * texture->width / dispW;
+	Rectf rect = normalize(this, tex.rect);
+	float w = (rect.right - rect.left) * this->width / dispW;
 	float p = (rect.bottom - rect.top) / (rect.right - rect.left);
     if (tex.rotate == 1) {
         figure = createPlateWithRotateTexpos(w*p, w, rect.left, rect.top, rect.right, rect.bottom);
@@ -203,7 +190,7 @@ Figure* SharedTexture::makeFixPlate(const char *name, float w) {
 	}
     
     TexData tex = this->getTexData(name);
-	Rectf rect = normalize(texture, tex.rect);
+	Rectf rect = normalize(this, tex.rect);
 	float p = (rect.bottom - rect.top) / (rect.right - rect.left);
     
     if (tex.rotate == 1) {
@@ -226,7 +213,7 @@ Figure* SharedTexture::makeFixHeightPlate(const char *name, float h) {
 	}
     
     TexData tex = this->getTexData(name);
-    Rectf rect = normalize(texture, tex.rect);
+    Rectf rect = normalize(this, tex.rect);
 	float p = (rect.right - rect.left) / (rect.bottom - rect.top);
     
     if (tex.rotate == 1) {
@@ -249,7 +236,7 @@ Figure* SharedTexture::makePlateWithSize(const char *name, float w, float h) {
 	}
     
     TexData tex = this->getTexData(name);
-	Rectf rect = normalize(texture, tex.rect);
+	Rectf rect = normalize(this, tex.rect);
     
     if (tex.rotate == 1) {
         figure = createPlateWithRotateTexpos(h, w, rect.left, rect.top, rect.right, rect.bottom);

@@ -233,7 +233,6 @@ PackerTexture* GCGetTextTexture(){
     
     
     //NSData *imageData = UIImagePNGRepresentation(textImage);
-    Texture *tex = new Texture();
     
     CGImageRef img = [textImage CGImage];
     
@@ -256,16 +255,11 @@ PackerTexture* GCGetTextTexture(){
     CGContextRelease(texContext);
 	
 	// テクスチャ作成
-	tex->setImageData(texData, width, height);
+	packerTexture->setImageData(texData, width, height);
     
     // 解放
     free(texData);
-    
-    
-    
-    packerTexture->setTexture(tex);
-    
-    
+        
     //[textImage release];
     [textTextureArray removeAllObjects];
     textTextureSize.width = textTextureSize.height = 0;

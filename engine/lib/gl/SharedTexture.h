@@ -24,11 +24,11 @@
 #define SHAREDTEXTURE_H_
 
 #include "defines.h"
+#include "Texture.h"
 #include <string>
 
 class Figure;
 class FigureCache;
-class Texture;
 
 /**
  * TexturePackerで出力されるデータを格納する構造体.
@@ -44,10 +44,9 @@ typedef struct _TexData TexData;
 /**
  * テクスチャ.
  */
-class SharedTexture {
+class SharedTexture : public Texture {
 protected:
 	FigureCache *cache;		//!< フィギュアキャッシュ
-	Texture *texture;		//!< テクスチャ
 	float dispW;			//!< ディスプレイの横幅
 public:
 	/**
@@ -81,18 +80,6 @@ public:
 	 * @param[in] w 横幅
 	 */
 	void setSize(float w);
-    
-	/**
-	 * 使用しているテクスチャを取得します.
-	 * @return テクスチャ
-	 */
-	Texture& getTexture();
-    
-	/**
-	 * テクスチャを設定します.
-	 * @param[in] texture 設定するテクスチャ
-	 */
-	void setTexture(Texture *texture);
     
 	/**
 	 * テクスチャを再読み込みします.

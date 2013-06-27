@@ -24,8 +24,7 @@
 #include "APIGlue.h"
 
 Texture::Texture(const char *fname):GCObject() {
-	filename.assign(fname);
-	GCLoadTexture(this, fname);
+	load(fname);
 }
 
 Texture::Texture() {
@@ -36,6 +35,11 @@ Texture::~Texture() {
 	if (texName) {
 		glDeleteTextures(1 , &texName);
 	}
+}
+
+void Texture::load(const char *fname) {
+	filename.assign(fname);
+	GCLoadTexture(this, fname);
 }
 
 void Texture::setImageData(unsigned char *imageData, int width, int height) {

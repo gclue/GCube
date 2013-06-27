@@ -84,21 +84,21 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	
     ImageView *textLabel = new ImageView(controller);
     textLabel->setFigure(strTexture->makePlate(0, 0));//登録順のインデックスもしくは、 strTexture->makePlate("Test")　GCDrawText時の文字列を指定する
-    textLabel->setTexture(&strTexture->getTexture());
+    textLabel->setTexture(strTexture);
     textLabel->setPosition(0, 1.0/controller->getAspect()-textLabel->size.y);
     root->addView(textLabel);
     textLabel->release();
 	
     ImageView *textLabel2 = new ImageView(controller);
     textLabel2->setFigure(strTexture->makePlate(1, 0));
-    textLabel2->setTexture(&strTexture->getTexture());
+    textLabel2->setTexture(strTexture);
     textLabel2->setPosition(1.0 - textLabel2->size.x, 1.0/controller->getAspect()-textLabel2->size.y);
     root->addView(textLabel2);
     textLabel2->release();
 	
     ImageView *textLabel3 = new ImageView(controller);
     textLabel3->setFigure(strTexture->makePlate(2, 0));
-    textLabel3->setTexture(&strTexture->getTexture());
+    textLabel3->setTexture(strTexture);
     textLabel3->setPosition(-1.0 + textLabel3->size.x, -1.0/controller->getAspect()+textLabel3->size.y);
     root->addView(textLabel3);
     textLabel3->release();
@@ -122,7 +122,7 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	for (int i = 0; i < 12; i++) {
 		ImageView *image = new ImageView(controller);
 		image->setFigure(tex->makePlate(filename[i]));
-		image->setTexture(&tex->getTexture());
+		image->setTexture(tex);
 		animView->addView(image);
 	}
 	
@@ -158,7 +158,7 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	PhysicsLayer2D *pLayer = new PhysicsLayer2D(controller);
 	ImageView *pv = new ImageView(controller);
 	pv->setFigure(tex->makePlate(filename[0]));
-	pv->setTexture(&tex->getTexture());
+	pv->setTexture(tex);
 	pv->setPosition(0, 1);
 	pv->setScale(2, 2);
 	
@@ -167,7 +167,7 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	//	wall->setFigure(tex->makePlate(filename[0]));
 	wall->setPosition(0, -1/controller->getAspect());
 	wall->setSize(1, 0.05);
-	//	wall->setTexture(&tex->getTexture());
+	//	wall->setTexture(tex);
 	
 	
 	
