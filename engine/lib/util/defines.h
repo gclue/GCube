@@ -77,6 +77,46 @@ typedef struct TextureParam {
 	int tty;
 } TextureParam;
 
+
+/**
+ * タッチイベントのタイプを定義します.
+ */
+enum TouchEventAction {
+	touchDown = 0,		//!< タッチダウン
+	touchUp = 1,		//!< タッチアップ
+	touchMove = 2,		//!< タッチムーブ
+	touchCancel = 3,	//!< タッチキャンセル
+};
+	
+/**
+ * タッチイベント.
+ */
+typedef struct _TouchEvent {
+	float x;			//!< x座標
+	float y;			//!< y座標
+	int type;			//!< イベントタイプ
+	long time;			//!< イベントが発生した時間
+} TouchEvent;
+
+/**
+ * キーイベント.
+ */
+typedef struct _KeyEvent {
+	int type;
+	int keycode;
+	long time;
+} KeyEvent;
+	
+/**
+ * センサーイベント.
+ */
+typedef struct _SensorEvent {
+	Point3f acceleration;
+	Point3f accelerationIncludingGravity;
+	Point3f rotationRate;
+} SensorEvent;
+
+	
 inline Rectf makeRect(int x, int y, int w, int h) {
 	Rectf rect;
 	rect.top = y;

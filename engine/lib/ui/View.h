@@ -46,47 +46,12 @@ class Texture;
 class CommonTexture;
 class View;
 
-/**
- * タッチイベントのタイプを定義します.
- */
-enum TouchEventAction {
-	touchDown = 0,		//!< タッチダウン
-	touchUp = 1,		//!< タッチアップ
-	touchMove = 2,		//!< タッチムーブ
-	touchCancel = 3,	//!< タッチキャンセル
-};
-
 enum BlendingType {
 	BLEND_TYPE_ALPHA = 0,
 	BLEND_TYPE_ADD,
 	BLEND_TYPE_MULTIPLE,
 	BLEND_TYPE_REVERSE,
 };
-
-/**
- * タッチイベント.
- */
-struct _TouchEvent {
-	float x;			//!< x座標
-	float y;			//!< y座標
-	int type;			//!< イベントタイプ
-	long time;			//!< イベントが発生した時間
-};
-typedef struct _TouchEvent TouchEvent;
-
-struct _KeyEvent {
-	int type;
-	int keycode;
-	long time;
-};
-typedef struct _KeyEvent KeyEvent;
-
-struct _SensorEvent {
-	Point3f acceleration;
-	Point3f accelerationIncludingGravity;
-	Point3f rotationRate;
-};
-typedef struct _SensorEvent SensorEvent;
 
 struct _ViewContext {
 	SimpleShader *shader;
@@ -105,10 +70,9 @@ typedef int (*COMPARE_FUNC_PTR)(void* userObj1, void* userObj2);
 
 
 class IViewTouchListener {
-	
 public:
-	virtual ~IViewTouchListener(){};
-	virtual void onViewTouchEvent(View *view) = 0;
+	virtual ~IViewTouchListener() {};
+	virtual bool onViewTouchEvent(View *view, TouchEvent &event) = 0;
 };
 
 /**

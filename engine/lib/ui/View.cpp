@@ -131,12 +131,10 @@ bool View::onTouch(TouchEvent &event) {
 	}
 	
 	if (touchListener) {
-		switch (event.type) {
-			case touchDown:
-				if (isBound(event.x, event.y)) {
-					touchListener->onViewTouchEvent(this);
-				}
+		if (isBound(event.x, event.y)) {
+			if (touchListener->onViewTouchEvent(this, event)) {
 				return true;
+			}
 		}
 	}
 	return false;
