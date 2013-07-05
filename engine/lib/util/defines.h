@@ -28,6 +28,7 @@
 
 #define DELETE(a) if (a) {delete a;a=NULL;}
 #define FREE(a) if (a) {free(a);a=NULL;}
+#define RELEASE(a) if (a) {a->release(); a=NULL;}
 
 #ifdef __cplusplus
 extern "C" {

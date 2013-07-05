@@ -40,11 +40,8 @@ RadioButton::RadioButton(GCContext *context) : View(context) {
 }
 
 RadioButton::~RadioButton() {
-//	DELETE(view[0]);
-//	DELETE(view[1]);
-	
-	view[0]->release();
-	view[1]->release();
+    RELEASE(this->view[0]);
+    RELEASE(this->view[1]);
 }
 
 View* RadioButton::findViewByID(int id) {
@@ -106,14 +103,14 @@ void RadioButton::draw(double dt, ViewContext *context) {
 }
 
 void RadioButton::setView(View *view) {
-	DELETE(this->view[0]);
+    RELEASE(this->view[0]);
 	this->view[0] = view;
 	this->view[0]->parent = this;
 	this->view[0]->retain();
 }
 
 void RadioButton::setSelectedView(View *view) {
-	DELETE(this->view[1]);
+    RELEASE(this->view[1]);
 	this->view[1] = view;
 	this->view[1]->parent = this;
 	this->view[1]->retain();
