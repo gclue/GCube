@@ -46,7 +46,27 @@ private:
 public:
 	/**
 	 * コンストラクタ.
+	 */
+	ImageView();
+	
+	/**
+	 * コンストラクタ.
+	 *
+	 * ApplicationController::texMgrに読み込まれているテクスチャの中から
+	 * 指定された画像名のテクスチャを自動的に設定します。
+	 *
+	 * メモリが足りなくなり、texMgrからテクスチャをdestoryした場合に、そのテクスチャに
+	 * 属する画像が設定されていた場合には、このクラスも使用することができなくなりますので
+	 * ご注意ください。
+	 *
+	 * @param[in] name 画像名
+	 */
+	ImageView(const char *name);
+	
+	/**
+	 * コンストラクタ.
 	 * @param[in] context View用のコンテキスト
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	ImageView(GCContext *context);
 

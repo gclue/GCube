@@ -44,25 +44,31 @@ enum {
  */
 class NumberView : public View {
 private:
-	Figure *figure[15];		//!< ０〜9の文字列
-	long long value;				//!< 表示する数値
+	Figure *figure[15];		//!< 0〜9の文字列
+	long long value;		//!< 表示する数値
 	int digit;				//!< 表示する桁
 	int aligned;			//!< アライン
 	bool zeroFill;			//!< ゼロ埋めフラグ(true: ゼロで埋める
 	float w;
 	float h;
 	
-	
 	float adjustX[10];
 	float adjustY[10];
 	float space;
 
+	void initNumberView();
 	void drawFigure(ViewContext *context, int index, float x, float y);
 
 public:
 	/**
 	 * コンストラクタ.
+	 */
+	NumberView();
+	
+	/**
+	 * コンストラクタ.
 	 * @param context View用のコンテキスト
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	NumberView(GCContext *context);
 
@@ -128,15 +134,42 @@ public:
 	void setFigure(int index, Figure *figure);
 
 	/**
+	 * 指定された数値のFigureを設定します.
+	 * @param[in] index インデックス
+	 * @param[in] fname 数値のテクスチャ名
+	 */
+	void setFigure(int index, const char *fname);
+	
+	/**
+	 * 指定されたテクスチャ名の配列でFigureを設定します.
+	 *
+	 * テクスチャは、0〜9の10個のテクスチャ名の配列になっていない場合は
+	 * 動作不定になりますので、ご注意ください。
+	 *
+	 * @param[in] fname テクスチャ名の配列
+	 */
+	void setFigure(const char *fname[]);
+	
+	/**
 	 * 数値のFigureの大きさを設定します.
 	 * @param w 横幅
 	 * @param h 縦幅
 	 */
 	void setFontSize(float w, float h);
 	
-	
+	/**
+	 * 数値と数値の間のスペースサイズを設定します。
+	 * デフォルトでは0に設定されています。
+	 * @param[in] space スペースサイズ
+	 */
 	void setSpace(float space);
 	
+	/**
+	 * 指定された数値の位置を調整します。
+	 * @param[in] index 数値
+	 * @param[in] x 移動するサイズ
+	 * @param[in] y 移動するサイズ
+	 */
 	void setAdjustPositionEachNumbers(int index, float x, float y);
 
 	//////////////////////////////////////////////////////////////

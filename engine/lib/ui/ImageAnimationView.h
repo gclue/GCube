@@ -69,7 +69,19 @@ private:
 	std::map<int, AnimationFrame*> frames;	//!< フレーム保存用
 	ImageAnimationListener *listener;
 	
+	void initImageAnimationView();
+	
 public:
+	/**
+	 * コンストラクタ.
+	 */
+	ImageAnimationView();
+	
+	/**
+	 * コンストラクタ.
+	 * @param[in] context View用のコンテキスト
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
+	 */
 	ImageAnimationView(GCContext *context);
 	virtual ~ImageAnimationView();
 	

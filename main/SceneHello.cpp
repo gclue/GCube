@@ -28,36 +28,34 @@
 #include "PackerTexture.h"
 #include "ImageView.h"
 
-SceneHello::SceneHello(ApplicationController *controller) : Scene(controller){
+SceneHello::SceneHello() : Scene() {
     LOGD("*SceneHello::SceneHello");
     
     // テキストの登録
+	ApplicationController *controller = ApplicationController::getInstance();
     TextureManager *mgr = controller->texMgr;
     GCDrawText("Hello World!",80,1.0,1.0,1.0);
     PackerTexture *strTexture = GCGetTextTexture();
-    mgr->addExtraTexture("Text",strTexture);
-    
+    mgr->addExtraTexture("Text", strTexture);
+	
     // テキストビューの生成
-    ImageView *textLabel = new ImageView(controller);
-    textLabel->setFigure(strTexture->makePlate("Hello World!"));
-    textLabel->setTexture(strTexture);
+    ImageView *textLabel = new ImageView("Hello World!");
     textLabel->setPosition(0,0);
     
     // テキストビューをビューグループに追加
-    ViewGroup *root = new ViewGroup(controller);
+    ViewGroup *root = new ViewGroup();
     root->addView(textLabel);
     textLabel->release();
-    
+	
     // レイヤーにビューグループを追加
-    Layer2D *layer = new Layer2D(controller);
+    Layer2D *layer = new Layer2D();
     layer->setContentView(root);
     root->release();
     
     // レイヤーをシーンに追加
     addLayer(1,layer);
-    
 }
 
-SceneHello::~SceneHello(){
+SceneHello::~SceneHello() {
     LOGD("*SceneHello::~SceneHello");
 }

@@ -25,12 +25,28 @@
 
 #include "glcommon.h"
 #include "GCObject.h"
+#include "defines.h"
 #include <string>
+
+class Figure;
+class FigureCache;
 
 /**
  * テクスチャ.
  */
 class Texture : public GCObject {
+protected:
+	FigureCache *cache;		//!< フィギュアキャッシュ
+	float dispW;			//!< ディスプレイの横幅
+	
+	/**
+	 * 座標を正規化します.
+	 * @param[in] Texture 対象のテクスチャ
+	 * @param[in] rect 対象のRect座標
+	 * @return 正規化座標
+	 */
+	Rectf normalize(Rectf rect);
+	
 public:
 	std::string filename;	//!< ファイル名
 	GLuint texName;			//!< バインドしたときの名前.
@@ -46,6 +62,9 @@ public:
 	 */
 	Texture(const char *fname);
 
+	/**
+	 * コンストラクタ.
+	 */
 	Texture();
 
 	/**
@@ -53,6 +72,10 @@ public:
 	 */
 	virtual ~Texture();
 
+	/**
+	 * テクスチャを読み込みます。
+	 * @param[in] fname テクスチャ名
+	 */
 	void load(const char *fname);
 	
 	/**
@@ -68,8 +91,26 @@ public:
 	 */
 	void setImageData(unsigned char *imageData, int width, int height);
 
+	/**
+	 * テクスチャにクランプ処理を設定します。
+	 */
 	void clamp();
 
+	/**
+	 * 画面のサイズを設定します.
+	 * デフォルトでは、480に設定してあります。
+	 * @param[in] w 横幅
+	 */
+	void setSize(float w);
+	
+	/**
+	 * 一枚絵用のFigureを用意します。
+	 */
+	Figure* makePlate();
+
+	/**
+	 * テクスチャを再読み込みします.
+	 */
 	virtual void reload();
 };
 

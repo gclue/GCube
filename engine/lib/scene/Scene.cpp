@@ -30,6 +30,10 @@
 #include "Layer.h"
 #include "Log.h"
 
+Scene::Scene() : IScene() {
+	LOGD("****Scene");
+}
+
 Scene::Scene(ApplicationController *controller) : IScene(controller) {
 	LOGD("****Scene");
 }

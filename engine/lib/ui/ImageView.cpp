@@ -33,11 +33,35 @@
 #include "Camera.h"
 #include "SimpleShader.h"
 #include "Texture.h"
+#include "TextureManager.h"
+#include "SharedTexture.h"
+#include "ApplicationController.h"
+
+ImageView::ImageView() : View() {
+	figure = NULL;
+	clickable = false;
+}
+
+ImageView::ImageView(const char *name) : View(context) {
+	figure = NULL;
+	clickable = false;
+	
+	ApplicationController *ctl = ApplicationController::getInstance();
+	TextureManager *texMgr = ctl->texMgr;
+	Texture *tex = NULL;
+	SharedTexture *stex = NULL;
+	if ((stex = texMgr->findSharedTexture(name))) {
+		this->setFigure(stex->makePlate(name));
+		this->setTexture(stex);
+	} else if ((tex = texMgr->loadTexture(name))) {
+		this->setFigure(tex->makePlate());
+		this->setTexture(tex);
+	}
+}
 
 ImageView::ImageView(GCContext *context) : View(context) {
 	figure = NULL;
 	clickable = false;
-	touchListener = NULL;
 }
 
 ImageView::~ImageView() {

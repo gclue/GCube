@@ -27,9 +27,6 @@
 #include "Texture.h"
 #include <string>
 
-class Figure;
-class FigureCache;
-
 /**
  * TexturePackerで出力されるデータを格納する構造体.
  */
@@ -45,9 +42,6 @@ typedef struct _TexData TexData;
  * テクスチャ.
  */
 class SharedTexture : public Texture {
-protected:
-	FigureCache *cache;		//!< フィギュアキャッシュ
-	float dispW;			//!< ディスプレイの横幅
 public:
 	/**
 	 * コンストラクタ.
@@ -59,6 +53,13 @@ public:
 	 */
 	virtual ~SharedTexture();
     
+	/**
+	 * 対象の画像名のTexDataを持っているかチェックします。
+	 * @param[in] name 画像名
+	 * @return 画像がある場合はtrue,それ以外はfalse
+	 */
+	virtual bool hasTexData(const char *name) = 0;
+	
 	/**
 	 * 対象のIDのTexDataを返します.
 	 * @param[in] ID 対象のID
@@ -73,26 +74,6 @@ public:
 	 * @return TexData
 	 */
 	virtual TexData getTexData(const char *name) = 0;
-    
-	/**
-	 * 画面のサイズを設定します.
-	 * デフォルトでは、480に設定してあります。
-	 * @param[in] w 横幅
-	 */
-	void setSize(float w);
-    
-	/**
-	 * テクスチャを再読み込みします.
-	 */
-	void reload();
-    
-	/**
-	 * 座標を正規化します.
-	 * @param[in] Texture 対象のテクスチャ
-	 * @param[in] rect 対象のRect座標
-	 * @return 正規化座標
-	 */
-	Rectf normalize(Texture *tex, Rectf rect);
     
 	/**
 	 * 対象のテクスチャ用の板ポリゴンを作成します.

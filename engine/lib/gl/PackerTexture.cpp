@@ -55,6 +55,16 @@ void PackerTexture::addTexData(TexData& tex) {
 	list.push_back(tex);
 }
 
+bool PackerTexture::hasTexData(const char *name) {
+	for (int i = 0; i < list.size(); i++) {
+		TexData dat = list.at(i);
+		if (strcmp(dat.name.c_str(), name) == 0) {
+			return true;
+		}
+	}
+	return false;
+}
+
 TexData PackerTexture::getTexData(int ID, int sub) {
 	return list.at(ID);
 }

@@ -48,6 +48,13 @@ public:
 	/**
 	 * コンストラクタ.
 	 */
+	Scene();
+	
+	/**
+	 * コンストラクタ.
+	 * Scene()を使用することを推奨します。
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
+	 */
 	Scene(ApplicationController *controller);
 
 	/**

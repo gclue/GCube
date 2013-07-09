@@ -29,12 +29,12 @@
 #include "ImageAnimationView.h"
 #include "Log.h"
 
+ImageAnimationView::ImageAnimationView() : ViewGroup() {
+	initImageAnimationView();
+}
+
 ImageAnimationView::ImageAnimationView(GCContext *context) : ViewGroup(context) {
-	frame = 0.2;
-	index = 0;
-	time = 0;
-	frameId = 0;
-	listener = NULL;
+	initImageAnimationView();
 }
 
 ImageAnimationView::~ImageAnimationView() {
@@ -44,6 +44,14 @@ ImageAnimationView::~ImageAnimationView() {
 		delete frame;
 		it++;
 	}
+}
+
+void ImageAnimationView::initImageAnimationView() {
+	frame = 0.2;
+	index = 0;
+	time = 0;
+	frameId = 0;
+	listener = NULL;
 }
 
 /**

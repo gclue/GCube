@@ -30,6 +30,9 @@
 #include "Animation.h"
 #include "Matrix3D.h"
 
+ViewGroup::ViewGroup() : View() {
+}
+
 ViewGroup::ViewGroup(GCContext *context) : View(context) {
 }
 

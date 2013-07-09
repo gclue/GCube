@@ -33,8 +33,24 @@
 
 #include <math.h>
 
-View::View(GCContext *context):GCObject() {
+View::View() : GCObject() {
+	initView();
+}
+
+View::View(GCContext *context) : GCObject() {
 	this->context = context;
+	initView();
+}
+
+View::~View() {
+	context = NULL;
+	parent = NULL;
+	texture = NULL;
+	DELETE(animation);
+	
+}
+
+void View::initView() {
 	animation = NULL;
 	parent = NULL;
 	texture = NULL;
@@ -54,20 +70,13 @@ View::View(GCContext *context):GCObject() {
 	size.y = 0;
 	userObj = NULL;
 	userID = -1;
-	
 	blendType = BLEND_TYPE_ALPHA;
 	touchListener = NULL;
+	maskflag = false;
+	maskView = NULL;
 }
 
-View::~View() {
-	context = NULL;
-	parent = NULL;
-	texture = NULL;
-	DELETE(animation);
-	
-}
-
-void View::setPosition(Pointf point) {
+void View::setPosition(Pointf& point) {
 	this->point = point;
 }
 
@@ -76,7 +85,11 @@ void View::setPosition(float x, float y) {
 	this->point.y = y;
 }
 
-void View::setSize(Pointf size) {
+Pointf& View::getPosition() {
+	return this->point;
+}
+
+void View::setSize(Pointf& size) {
 	this->size = size;
 }
 
@@ -90,12 +103,55 @@ void View::setScale(float sx, float sy) {
 	scale.y = sy;
 }
 
+void View::setScale(Pointf& scale) {
+	this->scale = scale;
+}
+
+Pointf& View::getScale() {
+	return this->scale;
+}
+
 void View::setRotate(float rotate) {
 	this->rotate = rotate;
 }
 
+float View::getRotate() {
+	return this->rotate;
+}
+
 void View::setAlpha(float alpha) {
 	this->alpha = alpha;
+}
+
+float View::getAlpha() {
+	return this->alpha;
+}
+
+void View::setBright(float bright) {
+	this->bright = bright;
+}
+
+float View::getBright() {
+	return this->bright;
+}
+
+void View::setMaskView(View *maskview) {
+	RELEASE(this->maskView);
+	this->maskView = maskview;
+	this->maskView->parent = this;
+	this->maskView->retain();
+}
+
+View *View::getMaskView() {
+	return this->maskView;
+}
+
+void View::setMaskFlag(bool flag) {
+	this->maskflag = flag;
+}
+
+bool View::isMaskFlag() {
+	return this->maskflag;
 }
 
 void View::setTexture(Texture *texture) {
@@ -219,18 +275,48 @@ bool View::isBound(float x, float y) {
 
 void View::render(double dt, ViewContext *context) {
 	if (visible) {
+		// マスク処理
+		if (this->maskflag && this->maskView) {
+			glClearStencil(0);
+			
+			glEnable(GL_STENCIL_TEST);
+			
+			glStencilFunc(GL_ALWAYS, 1, ~0);
+			glStencilOp(GL_KEEP, GL_REPLACE, GL_REPLACE);
+			
+			glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+			glStencilMask(GL_TRUE);
+			glDepthMask(GL_FALSE);
+			
+			this->maskView->render(dt, context);
+			
+			glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+			glStencilMask(GL_FALSE);
+			glDepthMask(GL_TRUE);
+			
+			// ステンシルが1の所を描画
+			glStencilFunc(GL_EQUAL, 1, ~0);
+		}
+		
 		if (animation && !animation->isFinish()) {
 			animation->step(dt);
 		}
+		
 		// Viewで使用するテクスチャをバインド
 		if (texture) {
 			context->shader->bindTexture(texture->texName);
 		}
+		
 		draw(dt, context);
 		if (animation) {
 			if (animation->isFinish()) {
 				// アニメーション終了
 			}
+		}
+		
+		// マスク処理の後始末
+		if (this->maskflag && this->maskView) {
+			glDisable(GL_STENCIL_TEST);
 		}
 	}
 }

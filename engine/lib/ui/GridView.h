@@ -43,9 +43,17 @@ public:
 
 	/**
 	 * コンストラクタ.
+	 * @param[in] row 行数
+	 * @param[in] column 列数
+	 */
+	GridView(int row = 4, int column = 4);
+	
+	/**
+	 * コンストラクタ.
 	 * @param[in] context View用のコンテキスト
 	 * @param[in] row 行数
 	 * @param[in] column 列数
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	GridView(GCContext *context, int row = 4, int column = 4);
 

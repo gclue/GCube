@@ -157,7 +157,7 @@ void TextureManager::reload() {
 	}
 }
 
-void TextureManager::addExtraTexture(const char *name, SharedTexture *tex){
+void TextureManager::addExtraTexture(const char *name, SharedTexture *tex) {
 	if (tex) {
 		if (addTexture(name, (SharedTexture *) tex)) {
 			return;
@@ -167,6 +167,29 @@ void TextureManager::addExtraTexture(const char *name, SharedTexture *tex){
 	}
 	return;
 }
+
+Texture* TextureManager::findTexture(const char *name)
+{
+	TextureObj *obj = searchTexture(name);
+	if (obj) {
+		return obj->texture;
+	}
+	return NULL;
+}
+
+SharedTexture* TextureManager::findSharedTexture(const char *name)
+{
+	for (int i = 0; i < cache.size(); i++) {
+		TextureObj *obj = cache.at(i);
+		if (obj->sharedTex) {
+			if (obj->sharedTex->hasTexData(name)) {
+				return obj->sharedTex;
+			}
+		}
+	}
+	return NULL;
+}
+
 
 //////////////////////////////////////////////////////////////////////////////////////////
 /// privateな関数

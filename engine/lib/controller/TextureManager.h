@@ -71,7 +71,13 @@ public:
     SharedTexture* loadSharedTextureFromPlist(const char *plist);
 	void deleteTexture(const char *name);
     
+	/**
+	 * テクスチャを再読込します。
+	 */
 	void reload();
+	
+	Texture* findTexture(const char *name);
+	SharedTexture* findSharedTexture(const char *name);
 };
 
 #endif /* TEXTUREMANAGER_H_ */

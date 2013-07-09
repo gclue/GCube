@@ -42,7 +42,19 @@ protected:
 
 public:
 	bool pause;
-	Layer(GCContext *context) { this->context = context; pause=false; visible=true; touchable = true;}
+	
+	Layer() {
+		pause=false;
+		visible=true;
+		touchable=true;
+	}
+	
+	Layer(GCContext *context) {
+		this->context=context;
+		pause=false;
+		visible=true;
+		touchable=true;
+	}
 	virtual ~Layer() {};
 
 	virtual bool isVisible() {

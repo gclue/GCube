@@ -27,37 +27,10 @@
 #include "PrimitiveObjectBuilder.h"
 
 SharedTexture::SharedTexture() {
-	cache = new FigureCache();
-	dispW = 640.0;
 }
 
 SharedTexture::~SharedTexture() {
 	LOGD("SharedTexture destructor");
-	DELETE(cache);
-}
-
-void SharedTexture::reload() {
-	LOGD("SharedTexture::reload");
-	Texture::reload();
-	if (cache) {
-		cache->rebuild();
-	}
-	LOGD("SharedTexture::reload:end");
-}
-
-void SharedTexture::setSize(float w) {
-	dispW = w;
-}
-
-// 座標を正規化します
-Rectf SharedTexture::normalize(Texture *tex, Rectf rect) {
-	int width = tex->width;
-	int height = tex->height;
-	rect.top /= height;
-	rect.left /= width;
-	rect.right /= width;
-	rect.bottom /= height;
-	return rect;
 }
 
 // テクスチャを貼る板ポリゴン取得
@@ -69,8 +42,8 @@ Figure* SharedTexture::makePlate(int ID, int sub) {
 	}
     
     TexData tex = this->getTexData(ID, sub);
-	Rectf rect = normalize(this, tex.rect);
-    normalize(this, rect);
+	Rectf rect = normalize(tex.rect);
+    normalize(rect);
 	float w = (rect.right - rect.left) * this->width / dispW;
 	float p = (rect.bottom - rect.top) / (rect.right - rect.left);
     if (tex.rotate == 1) {
@@ -94,7 +67,7 @@ Figure* SharedTexture::makeFixPlate(int ID, int sub, float w) {
 	}
     
     TexData tex = this->getTexData(ID, sub);
-	Rectf rect = normalize(this, tex.rect);
+	Rectf rect = normalize(tex.rect);
 	float p = (rect.bottom - rect.top) / (rect.right - rect.left);
     if (tex.rotate == 1) {
         figure = createPlateWithRotateTexpos(w*p, w, rect.left, rect.top, rect.right, rect.bottom);
@@ -117,7 +90,7 @@ Figure* SharedTexture::makeFixHeightPlate(int ID, int sub, float h) {
 	}
     
     TexData tex = this->getTexData(ID, sub);
-	Rectf rect = normalize(this, tex.rect);
+	Rectf rect = normalize(tex.rect);
 	float p = (rect.right - rect.left) / (rect.bottom - rect.top);
     if (tex.rotate == 1) {
         figure = createPlateWithRotateTexpos(h, h*p, rect.left, rect.top, rect.right, rect.bottom);
@@ -139,7 +112,7 @@ Figure* SharedTexture::makePlateWithSize(int ID, int sub, float w, float h) {
 	}
     
     TexData tex = this->getTexData(ID, sub);
-	Rectf rect = normalize(this, tex.rect);
+	Rectf rect = normalize(tex.rect);
     
     if (tex.rotate == 1) {
         figure = createPlateWithRotateTexpos(h, w, rect.left, rect.top, rect.right, rect.bottom);
@@ -163,7 +136,7 @@ Figure* SharedTexture::makePlate(const char *name) {
 	}
     
     TexData tex = this->getTexData(name);
-	Rectf rect = normalize(this, tex.rect);
+	Rectf rect = normalize(tex.rect);
 	float w = (rect.right - rect.left) * this->width / dispW;
 	float p = (rect.bottom - rect.top) / (rect.right - rect.left);
     if (tex.rotate == 1) {
@@ -177,8 +150,6 @@ Figure* SharedTexture::makePlate(const char *name) {
 	// キャッシュに登録
 	cache->putFigure(name, 0, 0, figure);
 	
-	
-	
 	return figure;
 }
 
@@ -190,7 +161,7 @@ Figure* SharedTexture::makeFixPlate(const char *name, float w) {
 	}
     
     TexData tex = this->getTexData(name);
-	Rectf rect = normalize(this, tex.rect);
+	Rectf rect = normalize(tex.rect);
 	float p = (rect.bottom - rect.top) / (rect.right - rect.left);
     
     if (tex.rotate == 1) {
@@ -213,7 +184,7 @@ Figure* SharedTexture::makeFixHeightPlate(const char *name, float h) {
 	}
     
     TexData tex = this->getTexData(name);
-    Rectf rect = normalize(this, tex.rect);
+    Rectf rect = normalize(tex.rect);
 	float p = (rect.right - rect.left) / (rect.bottom - rect.top);
     
     if (tex.rotate == 1) {
@@ -236,7 +207,7 @@ Figure* SharedTexture::makePlateWithSize(const char *name, float w, float h) {
 	}
     
     TexData tex = this->getTexData(name);
-	Rectf rect = normalize(this, tex.rect);
+	Rectf rect = normalize(tex.rect);
     
     if (tex.rotate == 1) {
         figure = createPlateWithRotateTexpos(h, w, rect.left, rect.top, rect.right, rect.bottom);

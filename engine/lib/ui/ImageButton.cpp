@@ -35,6 +35,12 @@
 #include "Texture.h"
 #include "ImageView.h"
 
+ImageButton::ImageButton() : Button() {
+	view[0] = NULL;
+	view[1] = NULL;
+	listener = NULL;
+}
+
 ImageButton::ImageButton(GCContext *context) : Button(context) {
 	view[0] = NULL;
 	view[1] = NULL;
@@ -42,12 +48,8 @@ ImageButton::ImageButton(GCContext *context) : Button(context) {
 }
 
 ImageButton::~ImageButton() {
-//	DELETE(view[0]);
-//	DELETE(view[1]);
-	
-	view[0]->release();
-	view[1]->release();
-
+	RELEASE(view[0]);
+	RELEASE(view[1]);
 	// これらは他でdeleteするので、ここでは行わない。
 	listener = NULL;
 }

@@ -38,7 +38,13 @@ public:
 
 	/**
 	 * コンストラクタ.
+	 */
+	ViewGroup();
+	
+	/**
+	 * コンストラクタ.
 	 * @param[in] context コンテキスト
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	ViewGroup(GCContext *context);
 

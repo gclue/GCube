@@ -95,6 +95,8 @@ private:
 	int touchState;
 
 
+	void initScrollView();
+	
 	/**
 	 * スクロールアニメーションを作成します.
 	 * @param[in] 次にスクロールするインデックス
@@ -121,7 +123,13 @@ public:
 
 	/**
 	 * コンストラクタ.
+	 */
+	ScrollView();
+	
+	/**
+	 * コンストラクタ.
 	 * @param context View用のコンテキスト
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	ScrollView(GCContext *context);
 

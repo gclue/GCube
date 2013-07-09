@@ -11,6 +11,13 @@
 #include "APIGlue.h"
 #include <string>
 
+WebView::WebView(const char* url) : View(context) {
+	openedView = false;
+	initialURL = url;
+	LOGD("viewID = %d",wholeWebViewCount);
+	webViewID = wholeWebViewCount;
+	wholeWebViewCount++;
+}
 
 WebView::WebView(GCContext *context, const char* url) : View(context) {
 	openedView = false;

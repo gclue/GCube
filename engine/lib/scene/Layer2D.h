@@ -51,7 +51,13 @@ private:
 public:
 	/**
 	 * コンストラクタ.
+	 */
+	Layer2D();
+	
+	/**
+	 * コンストラクタ.
 	 * @param context 描画するためのコンテキスト
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	Layer2D(GCContext *context);
 

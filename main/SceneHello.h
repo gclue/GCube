@@ -30,7 +30,7 @@ private:
     typedef Scene super;
     
 public:
-    SceneHello(ApplicationController *controller);
+    SceneHello();
     virtual ~SceneHello();
 };
 

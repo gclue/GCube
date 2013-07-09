@@ -60,7 +60,13 @@ private:
 public:
 	/**
 	 * コンストラクタ.
+	 */
+	RadioGroup();
+	
+	/**
+	 * コンストラクタ.
 	 * @param context View用のコンテキスト
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	RadioGroup(GCContext *context);
 

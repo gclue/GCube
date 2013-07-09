@@ -22,19 +22,28 @@
 
 #include "Texture.h"
 #include "APIGlue.h"
+#include "Figure.h"
+#include "FigureCache.h"
+
+#define MAX_FIGURE_ID 100000
+#define MAX_FIGURE_SUB_ID 100001
 
 Texture::Texture(const char *fname):GCObject() {
+	cache = new FigureCache();
+	dispW = 640.0;
 	load(fname);
 }
 
 Texture::Texture() {
-
+	cache = new FigureCache();
+	dispW = 640.0;
 }
 
 Texture::~Texture() {
 	if (texName) {
 		glDeleteTextures(1 , &texName);
 	}
+	DELETE(cache);
 }
 
 void Texture::load(const char *fname) {
@@ -68,8 +77,50 @@ void Texture::clamp() {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
+
+// 座標を正規化します
+Rectf Texture::normalize(Rectf rect) {
+	int width = this->width;
+	int height = this->height;
+	rect.top /= height;
+	rect.left /= width;
+	rect.right /= width;
+	rect.bottom /= height;
+	return rect;
+}
+
+Figure* Texture::makePlate() {
+	// キャッシュにFigureが存在しないか検索
+	Figure *figure = cache->searchFigure(MAX_FIGURE_ID, MAX_FIGURE_SUB_ID, 0, 0);
+	if (figure) {
+		return figure;
+	}
+	
+	Rectf rect;
+	rect.top = 0;
+	rect.left = 0;
+	rect.right = 1;
+	rect.bottom = 1;
+	float w = (rect.right - rect.left) * this->width / dispW;
+	float p = (rect.bottom - rect.top) / (rect.right - rect.left);
+	figure = createPlate(w, w*p);
+	figure->build();
+	
+	// キャッシュに登録
+	cache->putFigure(MAX_FIGURE_ID, MAX_FIGURE_SUB_ID, 0, 0, figure);
+
+	return figure;
+}
+
+void Texture::setSize(float w) {
+	dispW = w;
+}
+
 void Texture::reload() {
 	if (!GCLoadTexture(this, filename.c_str())) {
 		LOGD("***********ERROR*Texture::reload**********");
+	}
+	if (cache) {
+		cache->rebuild();
 	}
 }

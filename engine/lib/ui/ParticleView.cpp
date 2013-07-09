@@ -34,6 +34,11 @@
 #include "SimpleShader.h"
 #include "Texture.h"
 
+ParticleView::ParticleView() : View() {
+	figure = NULL;
+	clickable = false;
+}
+
 ParticleView::ParticleView(GCContext *context) : View(context) {
 	figure = NULL;
 	clickable = false;

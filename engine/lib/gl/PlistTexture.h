@@ -62,7 +62,14 @@ public:
 	 * @param[in] tex テクスチャ
 	 */
 	void addTexData(TexData tex);
-    
+	
+    /**
+	 * 対象の画像名のTexDataを持っているかチェックします。
+	 * @param[in] name 画像名
+	 * @return 画像がある場合はtrue,それ以外はfalse
+	 */
+	bool hasTexData(const char *name);
+	
 	/**
 	 * テクスチャデータを取得します.
 	 * @param[in] ID 対象のID

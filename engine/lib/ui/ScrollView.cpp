@@ -52,22 +52,12 @@ enum {
 	TOUCH_START,
 };
 
+ScrollView::ScrollView() : ViewGroup() {
+	initScrollView();
+}
+
 ScrollView::ScrollView(GCContext *context) : ViewGroup(context) {
-	listener = NULL;
-	currentIndex = 0;
-	nextIndex = 0;
-	isTouch = false;
-	scrollAnim = NULL;
-	mode = ScrollMode_Horizon;
-	pageScroll = true;
-	startPos.x = 0.0;
-	startPos.y = 0.0;
-	currentPos.x = 0.0;
-	currentPos.y = 0.0;
-	scrollPos.x = 0.0;
-	scrollPos.y = 0.0;
-	sp = 0.0;
-	touchState = TOUCH_NONE;
+	initScrollView();
 }
 
 ScrollView::~ScrollView() {
@@ -289,6 +279,24 @@ void ScrollView::draw(double dt, ViewContext *context) {
 //////////////////////////////////////////////////////////////
 // privateな関数
 //////////////////////////////////////////////////////////////
+
+void ScrollView::initScrollView() {
+	listener = NULL;
+	currentIndex = 0;
+	nextIndex = 0;
+	isTouch = false;
+	scrollAnim = NULL;
+	mode = ScrollMode_Horizon;
+	pageScroll = true;
+	startPos.x = 0.0;
+	startPos.y = 0.0;
+	currentPos.x = 0.0;
+	currentPos.y = 0.0;
+	scrollPos.x = 0.0;
+	scrollPos.y = 0.0;
+	sp = 0.0;
+	touchState = TOUCH_NONE;
+}
 
 void ScrollView::onTouchScrollVertical(TouchEvent &event) {
 	float dy = currentPos.y - scrPos[0].y;

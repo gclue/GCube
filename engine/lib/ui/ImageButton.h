@@ -44,7 +44,13 @@ protected:
 public:
 	/**
 	 * コンストラクタ.
+	 */
+	ImageButton();
+	
+	/**
+	 * コンストラクタ.
 	 * @param[in] context View用のコンテキスト
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	ImageButton(GCContext *context);
 

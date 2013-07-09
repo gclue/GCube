@@ -79,6 +79,8 @@ public:
  * 描画するための基底クラス.
  */
 class View : public GCObject {
+private:
+	void initView();
 protected:
 	/**
 	 * 引数に渡されたマトリクスにViewに設定している値をかけていきます.
@@ -122,11 +124,20 @@ public:
 	
 	int blendType;				//!< アルファブレンド、加算減算合成を識別するタイプ
 	
+	bool maskflag;				//!< マスクフラグ
+	View *maskView;				//!< マスク用View
+	
 	IViewTouchListener *touchListener;	//!< タッチイベントのリスナー.
 
 	/**
 	 * コンストラクタ.
+	 */
+	View();
+	
+	/**
+	 * コンストラクタ.
 	 * @param[in] context コンテキスト
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	View(GCContext *context);
 
@@ -165,15 +176,24 @@ public:
         return visible&&clickable;
     }
     
+	/**
+	 * 親Viewを取得します.
+	 * 親Viewが設定されていない場合にはNULLを返却します。
+	 * @return 親View
+	 */
     virtual View* getParent() {
 		return this->parent;
 	}
-
+	
+	virtual void setParent(View *parent) {
+		this->parent = parent;
+	}
+	
 	/**
 	 * Viewの表示位置を設定します.
 	 * @param[in] pos 表示位置
 	 */
-	virtual void setPosition(Pointf pos);
+	virtual void setPosition(Pointf& pos);
 
 	/**
 	 * Viewの表示位置を設定します.
@@ -183,10 +203,16 @@ public:
 	virtual void setPosition(float x, float y);
 
 	/**
+	 * Viewの表示位置を取得します.
+	 * @return Viewの表示位置
+	 */
+	virtual Pointf& getPosition();
+	
+	/**
 	 * Viewのサイズを設定します.
 	 * @param[in] size サイズ
 	 */
-	virtual void setSize(Pointf size);
+	virtual void setSize(Pointf& size);
 
 	/**
 	 * Viewのサイズを設定します.
@@ -219,17 +245,59 @@ public:
 	virtual void setScale(float sx, float sy);
 
 	/**
+	 * スケールを設定します.
+	 * @param[in] スケール
+	 */
+	virtual void setScale(Pointf& scale);
+	
+	/**
+	 *　スケールを取得します.
+	 * @return スケール
+	 */
+	virtual Pointf& getScale();
+	
+	/**
 	 * 回転を設定します.
 	 * @param rotate 回転
 	 */
 	virtual void setRotate(float rotate);
 
 	/**
+	 * 回転を取得します.
+	 * @return 回転
+	 */
+	virtual float getRotate();
+	
+	/**
 	 * アルファ値を設定します.
 	 * @param alpha アルファ値
 	 */
 	virtual void setAlpha(float alpha);
 
+	/**
+	 * アルファ値を取得します.
+	 * @return アルファ値
+	 */
+	virtual float getAlpha();
+	
+	/**
+	 * ブライトネス値を設定します。
+	 * @param bright ブライトネス値
+	 */
+	virtual void setBright(float bright);
+	
+	/**
+	 * ブライトネス値を取得します。
+	 * @return ブライトネス値
+	 */
+	virtual float getBright();
+	
+	virtual void setMaskView(View *maskview);
+	virtual View *getMaskView();
+	
+	virtual void setMaskFlag(bool flag);
+	virtual bool isMaskFlag();
+	
 	/**
 	 * テクスチャを設定します.
 	 * @param[in] texture 設定するテクスチャ
@@ -346,25 +414,20 @@ public:
 	 * @param listener リスナー
 	 */
 	virtual void setOnTouchEventListener(IViewTouchListener *listener);
-//	
-//	/**
-//	 * Viewの描画を行います.
-//	 * @param[in] dt 前回描画からの差分時間
-//	 */
-//	virtual void render(double dt);
-//	
-//	/**
-//	 * Viewの描画を行います.
-//	 * アニメーションがない場合にはanimationにはNULLが渡されます.
-//	 * @param[in] dt 前回描画からの経過時間
-//	 * @param[in] animation アニメーション
-//	 */
-//	virtual void draw(double dt, IAnimation *animation = NULL) = 0;
 	
+	/**
+	 * Viewの描画を行います.
+	 * @param[in] dt 前回描画からの差分時間
+	 * @param[in] context 描画用コンテキスト
+	 */
 	virtual void render(double dt, ViewContext *context);
 	
+	/**
+	 * Viewの描画を行います.
+	 * @param[in] dt 前回描画からの経過時間
+	 * @param[in] context 描画用コンテキスト
+	 */
 	virtual void draw(double dt, ViewContext *context) = 0;
-	
 };
 
 #endif /* VIEW_H_ */

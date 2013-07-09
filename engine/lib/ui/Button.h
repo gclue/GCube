@@ -61,6 +61,7 @@ public:
 
 /**
  * ボタンを表示するためのクラス.
+ * @deprecated ImageButtonを使用することを推奨します。
  */
 class Button : public View{
 protected:
@@ -71,7 +72,13 @@ protected:
 public:
 	/**
 	 * コンストラクタ.
+	 */
+	Button();
+	
+	/**
+	 * コンストラクタ.
 	 * @param context コンテキスト
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	Button(GCContext *context);
 
@@ -80,8 +87,6 @@ public:
 	 */
 	virtual ~Button();
 	
-	
-
 	/////////////////////////////////////////////////////////////////
 	// public関数
 	/////////////////////////////////////////////////////////////////
@@ -135,7 +140,6 @@ public:
 	 */
 	virtual void draw(double dt, ViewContext *context);
 	
-
 };
 
 #endif /* BUTTON_H_ */

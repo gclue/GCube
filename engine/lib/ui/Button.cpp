@@ -34,6 +34,13 @@
 #include "SimpleShader.h"
 #include "Texture.h"
 
+Button::Button() : View() {
+	clickAnim = NULL;
+	figure[0] = NULL;
+	figure[1] = NULL;
+	listener = NULL;
+}
+
 Button::Button(GCContext *context) : View(context) {
 	clickAnim = NULL;
 	figure[0] = NULL;

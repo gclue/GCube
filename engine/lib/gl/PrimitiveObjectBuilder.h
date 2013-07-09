@@ -78,7 +78,11 @@ extern "C" {
      * @return Figure
      */
     Figure *createSphere(float radius, int slices, int stacks);
+	
+	Figure *createStar(float size);
     
+	Figure *createCircle(int count, float size);
+
 #ifdef __cplusplus
 }
 #endif

@@ -28,6 +28,12 @@
  */
 #include "GridView.h"
 
+GridView::GridView(int row, int column) : ViewGroup() {
+	this->row = row;
+	this->column = column;
+	aspect = 1.0;
+}
+
 GridView::GridView(GCContext *context, int row, int column) : ViewGroup(context) {
 	this->row = row;
 	this->column = column;

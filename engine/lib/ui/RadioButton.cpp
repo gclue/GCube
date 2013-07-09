@@ -33,15 +33,23 @@
 
 #include <math.h>
 
+RadioButton::RadioButton() : View() {
+	initRadioButton();
+}
+
 RadioButton::RadioButton(GCContext *context) : View(context) {
-	view[0] = NULL;
-	view[1] = NULL;
-	selectFlag = false;
+	initRadioButton();
 }
 
 RadioButton::~RadioButton() {
     RELEASE(this->view[0]);
     RELEASE(this->view[1]);
+}
+
+void RadioButton::initRadioButton() {
+	view[0] = NULL;
+	view[1] = NULL;
+	selectFlag = false;
 }
 
 View* RadioButton::findViewByID(int id) {

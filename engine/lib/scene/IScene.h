@@ -34,7 +34,7 @@ class TextureManager;
  * シーン.
  *
  * 以下の順に関数が呼ばれます.
- * onActivate() → resize() → onStart() → onEnd() → onSuspend()
+ * onActivate() → onResize() → onStart() → onEnd() → onSuspend()
  *
  */
 class IScene {
@@ -46,7 +46,19 @@ protected:
 public:
 	/**
 	 * コンストラクタ.
+	 */
+	IScene() {
+		_activeflg = false;
+		_startflg = false;
+	}
+	
+	/**
+	 * コンストラクタ.
+	 *
+	 * IScene()を使用することを推奨します。
+	 *
 	 * @param controller コントローラー
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	IScene(ApplicationController *controller) {
 		this->controller = controller;

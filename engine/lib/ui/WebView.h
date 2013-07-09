@@ -28,6 +28,8 @@ private:
 	
 public:
 	
+	WebView(const char* url = "");
+	
 	WebView(GCContext *context, const char* url = "");
 	
 	virtual ~WebView();

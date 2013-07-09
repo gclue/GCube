@@ -29,7 +29,7 @@ void Main::initApplicationController() {
 	LOGD("*Main::initApplicationController()");
 	    
     // シーンの生成
-	SceneHello *hello = new SceneHello(controller);
+	SceneHello *hello = new SceneHello();
     
     // シーンの登録
     controller->addScene(1, hello);

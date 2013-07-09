@@ -38,12 +38,20 @@ class RadioButton : public View {
 private:
 	View *view[2];						//!< ボタンの画像
 
+	void initRadioButton();
+	
 public:
 	bool selectFlag;			//!< ラジオボタンが選択されているか(true: 選択中)
 
 	/**
 	 * コンストラクタ.
+	 */
+	RadioButton();
+	
+	/**
+	 * コンストラクタ.
 	 * @param context View用のコンテキスト
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	RadioButton(GCContext *context);
 

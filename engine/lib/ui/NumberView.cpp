@@ -32,27 +32,34 @@
 #include "Figure.h"
 #include "Camera.h"
 #include "SimpleShader.h"
+#include "SharedTexture.h"
 #include "Texture.h"
+#include "TextureManager.h"
+#include "ApplicationController.h"
+
+NumberView::NumberView() : View() {
+	initNumberView();
+}
 
 NumberView::NumberView(GCContext *context) : View(context) {
+	initNumberView();
+}
+
+NumberView::~NumberView() {
+}
+
+void NumberView::initNumberView() {
 	zeroFill = false;
 	value = 0;
 	digit = 8;
 	aligned = ALIGN_RIGHT;
-	for (int i = 0; i < 15; i++) {
-		figure[i] = NULL;
-	}
 	w = 0;
 	h = 0;
-	
-	for(int i  = 0 ; i < 10 ; i++) {
-		adjustX[i] = 0;
-		adjustY[i] = 0;
-	}
 	space = 0;
-}
-
-NumberView::~NumberView() {
+	
+	memset(figure, 0x0, sizeof(figure));
+	memset(adjustX, 0x0, sizeof(adjustX));
+	memset(adjustY, 0x0, sizeof(adjustY));
 }
 
 void NumberView::drawFigure(ViewContext *context, int index, float x, float y) {
@@ -167,11 +174,26 @@ void NumberView::setFigure(int index, Figure *f) {
 	}
 }
 
+void NumberView::setFigure(int index, const char *fname) {
+	ApplicationController *ctl = ApplicationController::getInstance();
+	TextureManager *texMgr = ctl->texMgr;
+	SharedTexture *tex = NULL;
+	if ((tex = texMgr->findSharedTexture(fname))) {
+		this->setFigure(index, tex->makePlate(fname));
+		this->setTexture(tex);
+	}
+}
+
+void NumberView::setFigure(const char *fname[]) {
+	for (int i = 0; i < 10; i++) {
+		setFigure(i, fname[i]);
+	}
+}
+
 void NumberView::setFontSize(float w, float h) {
 	this->w = w;
 	this->h = h;
 }
-
 
 void NumberView::setAdjustPositionEachNumbers(int index, float x, float y){
 	adjustX[index] = x;

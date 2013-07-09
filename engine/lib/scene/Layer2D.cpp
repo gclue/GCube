@@ -29,31 +29,37 @@
 #include "Layer2D.h"
 #include "Camera.h"
 #include "SimpleShader.h"
+#include "ApplicationController.h"
+
+Layer2D::Layer2D() : Layer() {
+	root = NULL;
+	dialog = NULL;
+	deleteDialogFlag = false;
+	aspect = 1.0;
+	
+	ApplicationController *ctl = ApplicationController::getInstance();
+	viewcontext.shader = ctl->shader;
+	viewcontext.camera = ctl->camera;
+}
 
 Layer2D::Layer2D(GCContext *context) : Layer(context) {
 	root = NULL;
 	dialog = NULL;
+	deleteDialogFlag = false;
 	aspect = 1.0;
+	
 	viewcontext.shader = context->shader;
 	viewcontext.camera = context->camera;
-	deleteDialogFlag = false;
 }
 
 Layer2D::~Layer2D() {
-//	DELETE(root);
 	LOGD("~Layer2D");
-	if(root) {
-		root->release();
-	}
-//	DELETE(dialog);
-	if(dialog) {
-		dialog->release();
-	}
+	RELEASE(root);
+	RELEASE(dialog);
 	LOGD("~Layer2D end");
 }
 
-void Layer2D::setCamera(Camera *camera)
-{
+void Layer2D::setCamera(Camera *camera) {
 	viewcontext.camera = camera;
 }
 
@@ -65,9 +71,7 @@ View *Layer2D::findViewByID(int id) {
 }
 
 void Layer2D::setContentView(View *view) {
-	if(root) {
-		root->release();
-	}
+	RELEASE(root);
 	root = view;
 	root->retain();
 }
@@ -77,7 +81,9 @@ View *Layer2D::getContentView() {
 }
 
 void Layer2D::openDialog(View *view) {
-	closeDialog();
+	if (dialog) {
+		return ;
+	}
 	dialog = view;
 	dialog->retain();
 	deleteDialogFlag = false;
@@ -123,17 +129,16 @@ void Layer2D::resize(float aspect) {
  */
 void Layer2D::render(double dt) {
 	if (deleteDialogFlag) {
-		dialog->release();
-		dialog = NULL;
 		deleteDialogFlag = false;
+		RELEASE(dialog);
 	}
 
 	if (visible) {
 		glDisable(GL_DEPTH_TEST);
 		glDisable(GL_CULL_FACE);
 		if (root) {
-			if (context->shader) {
-				context->shader->useProgram();
+			if (viewcontext.shader) {
+				viewcontext.shader->useProgram();
 			}
 			root->render(dt, &viewcontext);
 		}
