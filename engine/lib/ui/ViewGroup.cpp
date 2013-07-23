@@ -49,6 +49,11 @@ void ViewGroup::addView(View *view) {
 	
 	// リストにViewを追加
 	views.push_back(view);
+	
+	// サイズが設定されていない場合はサイズを入れておく
+	if (size.x == 0 && size.y == 0) {
+		setSize(view->size);
+	}
 }
 
 void ViewGroup::removeView(View *view) {

@@ -12,10 +12,8 @@
 #include "log.h"
 #include "ApplicationController.h"
 
-Box2DManager::Box2DManager(float ppm) {
-	this->ppm = ppm;
-	
-	b2Vec2 gravity(0, -9.8);
+Box2DManager::Box2DManager() {
+	b2Vec2 gravity(0, -9.8 * PPM);
 	world = new b2World(gravity);
 }
 
@@ -23,8 +21,7 @@ Box2DManager::~Box2DManager() {
 	delete world;
 }
 
-b2World* Box2DManager::getWorld()
-{
+b2World* Box2DManager::getWorld() {
 	return world;
 }
 
@@ -33,17 +30,17 @@ void Box2DManager::removeBody(b2Body *body) {
 }
 
 b2Body* Box2DManager::addBox(PhysicsParams &param) {
-	//ボディの定義
+	// ボディの定義
 	b2BodyDef def;
-	def.position.Set(param.position.x * ppm, param.position.y * ppm);	//配置する場所
+	def.position.Set(param.position.x * PPM, param.position.y * PPM);
 	def.angle = param.angle;
 	def.type = param.type;
 	if (param.angle == -1) {
 		def.fixedRotation = true;
 	}
 	
-	//シェイプの定義
-	b2PolygonShape shape = createBoxShape(param.size.x * ppm, param.size.y * ppm);
+	// シェイプの定義
+	b2PolygonShape shape = createBoxShape(param.size.x * PPM, param.size.y * PPM);
 	
 	b2FixtureDef fixtureDef;
 	fixtureDef.shape = &shape;
@@ -52,7 +49,7 @@ b2Body* Box2DManager::addBox(PhysicsParams &param) {
 	fixtureDef.restitution = param.restitution;
 	fixtureDef.isSensor = param.isSensor;
 	
-	b2Vec2 pos(param.position.x * ppm, param.position.y * ppm);
+	b2Vec2 pos(param.position.x * PPM, param.position.y * PPM);
 	b2Body* body = world->CreateBody(&def);
 	body->CreateFixture(&fixtureDef);
 	body->ResetMassData();
@@ -68,13 +65,13 @@ b2PolygonShape Box2DManager::createBoxShape(float width, float height) {
 
 b2Body* Box2DManager::addCircle(PhysicsParams &param)
 {
-	//ボディの定義
+	// ボディの定義
 	b2BodyDef def;
-	def.position.Set(param.position.x * ppm, param.position.y * ppm);	//配置する場所
+	def.position.Set(param.position.x * PPM, param.position.y * PPM);
 	def.angle = param.angle;
 	def.type = param.type;
 	
-	//シェイプの定義
+	// シェイプの定義
 	b2CircleShape shape;
 	shape.m_radius = param.radius;
 	
@@ -84,8 +81,8 @@ b2Body* Box2DManager::addCircle(PhysicsParams &param)
 	fixtureDef.friction = param.friction;
 	fixtureDef.restitution = param.restitution;
 	fixtureDef.isSensor = param.isSensor;
-		
-	b2Vec2 pos(param.position.x * ppm, param.position.y * ppm);
+	
+	b2Vec2 pos(param.position.x * PPM, param.position.y * PPM);
 	b2Body* body = world->CreateBody(&def);
 	body->CreateFixture(&fixtureDef);
 	body->ResetMassData();
@@ -102,7 +99,7 @@ b2Body* Box2DManager::addBody(PhysicsParams &param, const char *json)
 	if (err.empty()) {
 		b2Vec2 vertices[b2_maxPolygonVertices];
 		b2BodyDef bodyDef;
-		bodyDef.position.Set(param.position.x * ppm, param.position.y * ppm);
+		bodyDef.position.Set(param.position.x * PPM, param.position.y * PPM);
 		bodyDef.angle = param.angle;
 		bodyDef.type = param.type;
 		
@@ -132,7 +129,7 @@ b2Body* Box2DManager::addBody(PhysicsParams &param, const char *json)
 					it3++;
 					float y = (it3->get<double>() - height) / dw;
 					it3++;
-					vertices[i].Set(x * ppm, y * ppm);
+					vertices[i].Set(x * PPM, y * PPM);
 					i++;
 				}
 				

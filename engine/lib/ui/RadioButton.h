@@ -98,7 +98,16 @@ public:
 	 * @param[in] animation 反映するアニメーション
 	 */
 	virtual void draw(double dt, ViewContext *context);
-
+	
+	/**
+	 * 指定された座標がボタンの範囲内にいるのかチェックします.
+	 * @param[in] x x座標
+	 * @param[in] y y座標
+	 * @retval true 範囲内
+	 * @retval false 範囲外
+	 */
+	virtual bool isBound(float x, float y);
+	
 	//////////////////////////////////////////////////////////////
 	// publicな関数
 	//////////////////////////////////////////////////////////////

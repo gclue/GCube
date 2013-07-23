@@ -61,6 +61,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    ui/ImageView.cpp \
                    ui/GridView.cpp \
                    ui/ScrollView.cpp \
+                   ui/PhysicsView.cpp \
                    ui/RadioButton.cpp \
                    ui/RadioGroup.cpp \
                    ui/NumberView.cpp \

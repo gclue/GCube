@@ -378,6 +378,7 @@
 		66EFF67314DA696B00A7CB94 /* PngData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66EFF67114DA696B00A7CB94 /* PngData.cpp */; };
 		66EFF67914DA6E4F00A7CB94 /* simpleShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322F14568A55001847A0 /* simpleShader.vsh */; };
 		66F980661467AF9200D85239 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66F980641467AF9200D85239 /* Light.cpp */; };
+		C24A95AC179E50E3009C60F2 /* PhysicsView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C24A95AA179E50E3009C60F2 /* PhysicsView.cpp */; };
 		C2D2B6C6169E93A1004255F6 /* JointAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2D2B6C5169E93A0004255F6 /* JointAnimation.cpp */; };
 		C2D2B6C9169E9539004255F6 /* 01walk.gav in Resources */ = {isa = PBXBuildFile; fileRef = C2D2B6C7169E9539004255F6 /* 01walk.gav */; };
 		C2D2B6CA169E9539004255F6 /* 01walk.gcb in Resources */ = {isa = PBXBuildFile; fileRef = C2D2B6C8169E9539004255F6 /* 01walk.gcb */; };
@@ -1468,6 +1469,8 @@
 		66EFF67214DA696B00A7CB94 /* PngData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PngData.h; sourceTree = "<group>"; };
 		66F980641467AF9200D85239 /* Light.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Light.cpp; sourceTree = "<group>"; };
 		66F980651467AF9200D85239 /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
+		C24A95AA179E50E3009C60F2 /* PhysicsView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsView.cpp; sourceTree = "<group>"; };
+		C24A95AB179E50E3009C60F2 /* PhysicsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsView.h; sourceTree = "<group>"; };
 		C2D2B6C4169E93A0004255F6 /* JointAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JointAnimation.h; sourceTree = "<group>"; };
 		C2D2B6C5169E93A0004255F6 /* JointAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JointAnimation.cpp; sourceTree = "<group>"; };
 		C2D2B6C7169E9539004255F6 /* 01walk.gav */ = {isa = PBXFileReference; lastKnownFileType = file; path = 01walk.gav; sourceTree = "<group>"; };
@@ -2809,6 +2812,8 @@
 				667475C714552F0A0065EDF3 /* NumberView.h */,
 				667475C814552F0A0065EDF3 /* ParticleView.cpp */,
 				667475C914552F0A0065EDF3 /* ParticleView.h */,
+				C24A95AA179E50E3009C60F2 /* PhysicsView.cpp */,
+				C24A95AB179E50E3009C60F2 /* PhysicsView.h */,
 				667475CA14552F0A0065EDF3 /* RadioButton.cpp */,
 				667475CB14552F0A0065EDF3 /* RadioButton.h */,
 				667475CC14552F0A0065EDF3 /* RadioGroup.cpp */,
@@ -3922,6 +3927,7 @@
 				301D1947177B07AD0080BB95 /* GCVector.cpp in Sources */,
 				301D194A177B07D40080BB95 /* PlistParser.cpp in Sources */,
 				30844D36177C2B1C000A58B0 /* SceneSamplePlist.cpp in Sources */,
+				C24A95AC179E50E3009C60F2 /* PhysicsView.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

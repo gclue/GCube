@@ -102,6 +102,23 @@ bool RadioButton::onTouch(TouchEvent &event) {
 	return false;
 }
 
+bool RadioButton::isBound(float x, float y) {
+	if (!clickable || !visible) {
+		return false;
+	}
+	
+	if (size.x == 0 || size.y == 0) {
+		for (int i = 0; i < 2; i++) {
+			if (view[i]->isBound(x, y)) {
+				return true;
+			}
+		}
+	} else {
+		return View::isBound(x, y);
+	}
+	return false;
+}
+
 void RadioButton::draw(double dt, ViewContext *context) {
 	if (selectFlag) {
 		view[1]->render(dt, context);

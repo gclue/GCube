@@ -40,6 +40,7 @@
 #include "XMLParser.h"
 #include "PngData.h"
 #include "WebView.h"
+#include "PhysicsView.h"
 
 SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	LOGD("****SceneTitle");
@@ -156,30 +157,46 @@ SceneTitle::SceneTitle(ApplicationController *controller) : Scene(controller) {
 	
 	
 	PhysicsLayer2D *pLayer = new PhysicsLayer2D(controller);
+	
+	PhysicsView *physics = new PhysicsView();
 	ImageView *pv = new ImageView(controller);
 	pv->setFigure(tex->makePlate(filename[0]));
 	pv->setTexture(tex);
-	pv->setPosition(0, 1);
 	pv->setScale(2, 2);
+	physics->addView(pv);
+	physics->setPosition(0, 0);
+	physics->setLinearVelocity(10, 100);
+	pv->release();
 	
 	
+	PhysicsView *physics2 = new PhysicsView();
 	ImageView *wall = new ImageView(controller);
 	//	wall->setFigure(tex->makePlate(filename[0]));
 	wall->setPosition(0, -1/controller->getAspect());
 	wall->setSize(1, 0.05);
 	//	wall->setTexture(tex);
-	
+	physics2->addView(wall);
+	physics2->setPosition(0, -0.5);
+	wall->release();
 	
 	
 	PhysicsParams param;
 	param.type = b2_dynamicBody;
+	param.density = 5;
+	param.size.x = 0.5;
+	param.size.y = 0.5;
+	
 	PhysicsParams param2;
 	param2.type = b2_staticBody;
+	param2.density = 5;
+	param2.size.x = 0.5;
+	param2.size.y = 0.5;
 	
-	pLayer->addBody(pv, param);
-	pLayer->addBody(wall, param2);
-	pv->release();
-	wall->release();
+	pLayer->addView(physics, param);
+	pLayer->addView(physics2, param2);
+	physics->release();
+	physics2->release();
+	pLayer->restartPhysics();
 	
 	addLayer(1, layer);
 	addLayer(2, pLayer);

@@ -15,80 +15,109 @@
 #include <map>
 #include <list>
 
-
 class DebugDraw;
+class PhysicsView;
 
-class PhysicsUserData {
-public:
-	std::vector<View*> view;
-	int id;
-	int userId;
-	PhysicsUserData() { id = -1; userId = -1; }
-	virtual ~PhysicsUserData() {}
-};
-
-class PhysicsLayerInfo {
-public:
-	b2Body *body;
-	int id;
-	int groupID;
-	
-	PhysicsLayerInfo(b2Body *body, int id) {
-		this->body = body;
-		this->id = id;
-		groupID = -1;
-	}
-	virtual ~PhysicsLayerInfo() {};
-};
-
-
+/**
+ * Box2Dを管理するためのレイヤー.
+ */
 class PhysicsLayer2D : public Layer {
 protected:
-	Box2DManager *b2Manager;
+	Box2DManager *b2Mgr;
 	
 	DebugDraw *draw;
 	
 	ViewContext viewcontext;
 	
-	std::map<unsigned long, PhysicsLayerInfo*> bodies;
-	std::list<b2Body*> removeList;
+	std::list<PhysicsView *> views;
+	std::list<PhysicsView *> removeViewList;
 	
-	int addBodyList(b2Body *body);
-	
-	int bodyCount;
-	float ppm;
 	bool canStepPhysics;
 	bool removeFlag;
-	
 	bool debugFlag;
 	
+	void init();
 	void stepPhysics(float dt);
-	void onDraw(float dt);
 	
 public:
+	PhysicsLayer2D();
 	PhysicsLayer2D(GCContext* context);
 	virtual ~PhysicsLayer2D();
 	
+	/**
+	 * Box2Dのインスタンスを取得します.
+	 * @return Box2Dのインスタンス
+	 */
 	b2World* getWorld();
 	
-	int addBody(View *view, PhysicsParams& param);
-	int addBody(View *view, PhysicsParams& param, const char *filename);
+	/**
+	 * Box2Dのデバックフラグを設定します.
+	 * @param[in] flag デバックフラグ
+	 */
+	void setDebugFlag(bool flag);
 	
-	int addCircleBody(View *view, PhysicsParams& param);
-	
-	int addJoint(int bodyA, int bodyB, float x1, float y1, float x2, float y2);
-	
-	b2Body* getBody(int id);
-	
+	/**
+	 * レイヤーにカメラを設定します.
+	 * @param[in] camera カメラ
+	 */
 	void setCamera(Camera *camera);
 	
-	void removeBody(int id);
-	void removeBody(b2Body *body);
-	void removeAllBodies();
-	
+	/**
+	 * Box2Dを一時停止します.
+	 */
 	void pausePhysics();
+	
+	/**
+	 * Box2Dを開始します.
+	 */
 	void restartPhysics();
+	
+	/**
+	 * 現在Box2Dが動作しているかをチェックします.
+	 * @return 動作している場合はtrue, それ以外はfalse
+	 */
 	bool isStepPhysics();
+	
+	/**
+	 * ViewをLayerに追加します.
+	 * 追加されたViewはretainします。
+	 * @param[in] view 追加するView
+	 * @param[in] param box2dに追加するパラメータ
+	 */
+	void addView(PhysicsView *view, PhysicsParams& param);
+	
+	/**
+	 * viewAとviewBのJointを作成します.
+	 * viewAとviewBは既に、LayerにaddViewされていることをが前提です。
+	 * また、この関数では、viewAとviewBにはretainしない。
+	 * @param[in] viewA
+	 * @param[in] viewB
+	 * @param[in] param
+	 */
+	void addJoint(PhysicsView *viewA, PhysicsView *viewB, PhysicsJointParams& param);
+	
+	/**
+	 * 指定されたViewをLayerから削除します.
+	 * @param[in] view 削除するView
+	 */
+	void removeView(PhysicsView *view);
+	
+	/**
+	 * 指定されたIDのViewをLayerから削除します.
+	 * @param[in] userId 削除するViewのID
+	 */
+	void removeView(int userId);
+	
+	/**
+	 * LayerにあるViewをすべて削除します.
+	 */
+	void removeAllViews();
+	
+	/**
+	 * 指定されたUserIDのViewを探します.
+	 * @param[in] userId ユーザID
+	 */
+	View *findViewById(int userId);
 	
 	//////////////////////////////////////////////////////////
 	// Layer の実装
@@ -109,6 +138,13 @@ public:
 	 * @param dt 前回描画からの差分時間
 	 */
 	virtual void render(double dt = 0.033);
+	
+	/**
+	 * タッチイベント.
+	 * @param event タッチイベント
+	 * @return true: 次のレイヤーにイベントを渡さない、false: 次のレイヤーにイベントを渡す
+	 */
+	virtual bool onTouchEvent(TouchEvent &event);
 };
 
 #endif
