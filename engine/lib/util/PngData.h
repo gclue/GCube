@@ -17,11 +17,12 @@ public:
 	int height;
 	int bpp;
 	int color_type;
-
+	
 	PngData();
 	virtual ~PngData();
-
-	bool load(std::vector<char>*fdata);
+	
+	bool loadData(unsigned char *data, int size);
+	bool load(std::vector<unsigned char>*fdata);
 	bool load(const char *name);
 };
 

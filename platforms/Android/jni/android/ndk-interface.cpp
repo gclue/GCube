@@ -795,12 +795,26 @@ std::vector<char>* GCLoadAsset(const char *fileName) {
 	return NULL;
 }
 
+/** 一時的にパスを保持するためのバッファ. */
+static char temp[512];
+
 /**
  * 保存領域へのパスを取得します.
  * @return パス
  */
 const char* GCGetStoragePath(const char* fileName) {
-	return "";
+	JNIEnv* env = jni.env;
+	if (env) {
+		jstring str = env->NewStringUTF(fileName);
+		jstring data = (jstring) env->CallObjectMethod(jni.obj, jni.getFilePathMethod, str);
+		env->DeleteLocalRef(str);
+		if (data) {
+			std::string str(env->GetStringUTFChars(data, NULL));
+			sprintf((char *) temp, str.c_str());
+			env->DeleteLocalRef(data);
+		}
+	}
+	return temp;
 }
 
 int GCHttpRequestAsync(std::string url, std::map<std::string, std::string> headers, std::string body,  IHttpRquestListener *callback) {

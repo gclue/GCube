@@ -379,6 +379,11 @@
 		66EFF67914DA6E4F00A7CB94 /* simpleShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 6644322F14568A55001847A0 /* simpleShader.vsh */; };
 		66F980661467AF9200D85239 /* Light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66F980641467AF9200D85239 /* Light.cpp */; };
 		C24A95AC179E50E3009C60F2 /* PhysicsView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C24A95AA179E50E3009C60F2 /* PhysicsView.cpp */; };
+		C28D450117A7907D004205CD /* ParticleShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C28D44FF17A7907D004205CD /* ParticleShader.cpp */; };
+		C28D450417A79086004205CD /* particleShader.fsh in Sources */ = {isa = PBXBuildFile; fileRef = C28D450217A79086004205CD /* particleShader.fsh */; };
+		C28D450517A79086004205CD /* particleShader.vsh in Sources */ = {isa = PBXBuildFile; fileRef = C28D450317A79086004205CD /* particleShader.vsh */; };
+		C28D450A17A79161004205CD /* Base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C28D450617A79161004205CD /* Base64.cpp */; };
+		C28D450B17A79161004205CD /* ZipUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C28D450817A79161004205CD /* ZipUtil.cpp */; };
 		C2D2B6C6169E93A1004255F6 /* JointAnimation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C2D2B6C5169E93A0004255F6 /* JointAnimation.cpp */; };
 		C2D2B6C9169E9539004255F6 /* 01walk.gav in Resources */ = {isa = PBXBuildFile; fileRef = C2D2B6C7169E9539004255F6 /* 01walk.gav */; };
 		C2D2B6CA169E9539004255F6 /* 01walk.gcb in Resources */ = {isa = PBXBuildFile; fileRef = C2D2B6C8169E9539004255F6 /* 01walk.gcb */; };
@@ -1471,6 +1476,14 @@
 		66F980651467AF9200D85239 /* Light.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Light.h; sourceTree = "<group>"; };
 		C24A95AA179E50E3009C60F2 /* PhysicsView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PhysicsView.cpp; sourceTree = "<group>"; };
 		C24A95AB179E50E3009C60F2 /* PhysicsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhysicsView.h; sourceTree = "<group>"; };
+		C28D44FF17A7907D004205CD /* ParticleShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleShader.cpp; sourceTree = "<group>"; };
+		C28D450017A7907D004205CD /* ParticleShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleShader.h; sourceTree = "<group>"; };
+		C28D450217A79086004205CD /* particleShader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = particleShader.fsh; sourceTree = "<group>"; };
+		C28D450317A79086004205CD /* particleShader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = particleShader.vsh; sourceTree = "<group>"; };
+		C28D450617A79161004205CD /* Base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Base64.cpp; sourceTree = "<group>"; };
+		C28D450717A79161004205CD /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
+		C28D450817A79161004205CD /* ZipUtil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ZipUtil.cpp; sourceTree = "<group>"; };
+		C28D450917A79161004205CD /* ZipUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZipUtil.h; sourceTree = "<group>"; };
 		C2D2B6C4169E93A0004255F6 /* JointAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JointAnimation.h; sourceTree = "<group>"; };
 		C2D2B6C5169E93A0004255F6 /* JointAnimation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JointAnimation.cpp; sourceTree = "<group>"; };
 		C2D2B6C7169E9539004255F6 /* 01walk.gav */ = {isa = PBXFileReference; lastKnownFileType = file; path = 01walk.gav; sourceTree = "<group>"; };
@@ -2186,6 +2199,8 @@
 		6644322914568A55001847A0 /* shader */ = {
 			isa = PBXGroup;
 			children = (
+				C28D450217A79086004205CD /* particleShader.fsh */,
+				C28D450317A79086004205CD /* particleShader.vsh */,
 				6644322A14568A55001847A0 /* boneShader.fsh */,
 				6644322B14568A55001847A0 /* boneShader.vsh */,
 				6644322C14568A55001847A0 /* pointShader.fsh */,
@@ -2764,6 +2779,8 @@
 		667475AF14552F0A0065EDF3 /* shader */ = {
 			isa = PBXGroup;
 			children = (
+				C28D44FF17A7907D004205CD /* ParticleShader.cpp */,
+				C28D450017A7907D004205CD /* ParticleShader.h */,
 				667475B014552F0A0065EDF3 /* BoneShader.cpp */,
 				667475B114552F0A0065EDF3 /* BoneShader.h */,
 				667475B214552F0A0065EDF3 /* PointSpriteShader.cpp */,
@@ -2833,6 +2850,10 @@
 		667475D414552F0A0065EDF3 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				C28D450617A79161004205CD /* Base64.cpp */,
+				C28D450717A79161004205CD /* Base64.h */,
+				C28D450817A79161004205CD /* ZipUtil.cpp */,
+				C28D450917A79161004205CD /* ZipUtil.h */,
 				301D193C177B07AD0080BB95 /* GCList.cpp */,
 				301D193D177B07AD0080BB95 /* GCList.h */,
 				301D193E177B07AD0080BB95 /* GCMap.cpp */,
@@ -3928,6 +3949,11 @@
 				301D194A177B07D40080BB95 /* PlistParser.cpp in Sources */,
 				30844D36177C2B1C000A58B0 /* SceneSamplePlist.cpp in Sources */,
 				C24A95AC179E50E3009C60F2 /* PhysicsView.cpp in Sources */,
+				C28D450117A7907D004205CD /* ParticleShader.cpp in Sources */,
+				C28D450417A79086004205CD /* particleShader.fsh in Sources */,
+				C28D450517A79086004205CD /* particleShader.vsh in Sources */,
+				C28D450A17A79161004205CD /* Base64.cpp in Sources */,
+				C28D450B17A79161004205CD /* ZipUtil.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

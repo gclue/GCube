@@ -7,10 +7,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -30,10 +30,18 @@
 #define FREE(a) if (a) {free(a);a=NULL;}
 #define RELEASE(a) if (a) {a->release(); a=NULL;}
 
+#define SWAP(x, y, type) { type temp = (x); x = y; y = temp; }
+
+#define MAX(a, b) ((a) > (b) ? (a) : (b))
+#define MIN(a, b) ((a) < (b) ? (a) : (b))
+
+#define DEGREES_TO_RADIANS(angle) ((angle) / 180.0 * M_PI)
+#define RADIANS_TO_DEGREES(radians) ((radians) * (180.0 / M_PI))
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+	
 struct Ratio {
 	double x;
 	double y;
@@ -43,13 +51,13 @@ struct Position {
 	double x;
 	double y;
 };
-
+	
 //struct Point {
 //	int x;
 //	int y;
 //};
 //typedef struct Point Point;
-
+	
 struct Pointf {
 	float x;
 	float y;
@@ -62,14 +70,14 @@ struct Point3f {
 	float z;
 };
 typedef struct Point3f Point3f;
-
+	
 typedef struct Rectf {
-    float left;
-    float top;
-    float right;
-    float bottom;
+	float left;
+	float top;
+	float right;
+	float bottom;
 } Rectf;
-
+	
 typedef struct TextureParam {
 	int max;
 	int stx;
@@ -77,8 +85,14 @@ typedef struct TextureParam {
 	int ttx;
 	int tty;
 } TextureParam;
-
-
+	
+typedef struct Colorf {
+	float r;
+	float g;
+	float b;
+	float a;
+} Colorf;
+	
 /**
  * タッチイベントのタイプを定義します.
  */
@@ -98,7 +112,7 @@ typedef struct _TouchEvent {
 	int type;			//!< イベントタイプ
 	long time;			//!< イベントが発生した時間
 } TouchEvent;
-
+	
 /**
  * キーイベント.
  */
@@ -116,7 +130,7 @@ typedef struct _SensorEvent {
 	Point3f accelerationIncludingGravity;
 	Point3f rotationRate;
 } SensorEvent;
-
+	
 	
 inline Rectf makeRect(int x, int y, int w, int h) {
 	Rectf rect;
@@ -126,13 +140,27 @@ inline Rectf makeRect(int x, int y, int w, int h) {
 	rect.right = rect.left + w;
 	return rect;
 }
-
+	
 // 乱数
 inline int GetRandom(int min,int max) {
 	return min + (int)(rand()*(max-min+1.0)/(1.0+RAND_MAX));
 }
-
-
+	
+/**
+ * -1.0 〜 1.0の間の乱数を作成します.
+ * @return 乱数
+ */
+inline float GetRandom1_1() {
+	return ((2.0f*(rand()/(float)RAND_MAX))-1.0f);
+}
+	
+inline float clampf(float value, float min_inclusive, float max_inclusive) {
+	if (min_inclusive > max_inclusive) {
+		SWAP(min_inclusive, max_inclusive, float);
+	}
+	return value < min_inclusive ? min_inclusive : value < max_inclusive? value : max_inclusive;
+}
+	
 #ifdef __cplusplus
 };
 #endif

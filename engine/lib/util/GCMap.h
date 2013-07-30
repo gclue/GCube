@@ -33,6 +33,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 #include "GCObject.h"
 
 class GCMap : public GCObject {
@@ -77,6 +78,12 @@ public:
      */
     void allKeys(std::string *keys);
     
+	/**
+	 * すべてのキーを取得します.
+	 * @param[out] keys キーを格納するvectorクラス
+	 */
+	void allKeys(std::vector<std::string> &keys);
+	
     /**
      マップをクリアする
      */

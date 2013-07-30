@@ -76,6 +76,15 @@ void GCMap::allKeys(std::string *keys) {
     }
 }
 
+void GCMap::allKeys(std::vector<std::string> &keys)
+{
+    map<string, GCObject*>::iterator it = mMap.begin();
+    while (it != mMap.end()) {
+		keys.push_back((*it).first);
+        it++;
+    }
+}
+
 void GCMap::clear() {
     
     map<string, GCObject*>::iterator it = mMap.begin();

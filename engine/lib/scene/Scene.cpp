@@ -29,13 +29,17 @@
 #include "Scene.h"
 #include "Layer.h"
 #include "Log.h"
+#include "ApplicationController.h"
 
 Scene::Scene() : IScene() {
 	LOGD("****Scene");
+	controller = ApplicationController::getInstance();
+	touchable = true;
 }
 
 Scene::Scene(ApplicationController *controller) : IScene(controller) {
 	LOGD("****Scene");
+	touchable = true;
 }
 
 Scene::~Scene() {
@@ -164,6 +168,9 @@ bool Scene::dispatchKeyEvent(KeyEvent &event) {
 }
 
 bool Scene::dispatchTouchEvent(TouchEvent &event) {
+	if (!touchable) {
+		return false;
+	}
 	if (layers.size() > 0) {
 		std::map<int, Layer*>::iterator it = layers.end();
 		it--;
@@ -181,6 +188,15 @@ bool Scene::dispatchTouchEvent(TouchEvent &event) {
 	return this->onTouchEvent(event);
 }
 
+void Scene::setTouchable(bool flag)
+{
+	touchable = flag;
+}
+
+bool Scene::isTouchable()
+{
+	return touchable;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////////
 // IScene の実装

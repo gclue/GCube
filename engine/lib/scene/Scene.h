@@ -43,6 +43,7 @@ private:
 
 protected:
 	std::map<int, Layer*> layers;	//!< レイヤー
+	bool touchable;					//!< タッチ可能フラグ
 
 public:
 	/**
@@ -85,9 +86,23 @@ public:
 	 */
 	bool removeLayer(int id);
 	
-	
+	/**
+	 * 追加されているすべてのレイヤーを削除します.
+	 */
 	void removeAllLayers();
 	
+	/**
+	 * タッチ可能フラグを設定します.
+	 * @param[in] flag タッチ可能の場合はtrue,それ以外の場合はfalse
+	 */
+	void setTouchable(bool flag);
+	
+	/**
+	 * タッチ可能フラグを取得します.
+	 * @return タッチ可能の場合はtrue,それ以外の場合はfalse
+	 */
+	bool isTouchable();
+
 	void setup();
 	void resize(int width, int height);
 	
