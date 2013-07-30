@@ -266,15 +266,6 @@ void Animation::setRotation(float start, float end) {
 	rotate = start;
 }
 
-
-void Animation::setAnimationListener(IAnimationListener *listener) {
-	this->listener = listener;
-}
-
-void Animation::setRepeat(bool repeat) {
-	this->repeat = repeat;
-}
-
 ////////////////////////////////////////////////////////////
 // IAnimationからの継承クラス
 ////////////////////////////////////////////////////////////

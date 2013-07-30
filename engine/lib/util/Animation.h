@@ -35,8 +35,6 @@ class AnimationSet;
  */
 class Animation : public IAnimation {
 private:
-	IAnimationListener *listener;			//!< アニメーションイベントを通知するリスナー
-
 	Easing *mX;			//!< x軸移動のイージング.
 	Easing *mY;			//!< y軸移動のイージング.
 	Easing *mAlpha;		//!< アルファ値のイージング.
@@ -55,7 +53,6 @@ private:
 	double time;		//!< 経過時間.
 	bool startflg;		//!< アニメーション開始フラグ(true: アニメーションが開始されている)
 	bool finishflg;		//!< 終了フラグ
-	bool repeat;		//!< リピート再生フラグ
 
 	/**
 	 * イージング処理を行います.
@@ -160,20 +157,6 @@ public:
 	 * @param[in] duration 時間
 	 */
 	void setDuration(float duration);
-
-	/**
-	 * アニメーションイベント通知用リスナーを設定します.
-	 * 設定されたリスナーは、このクラスでは破棄しないので、注意してください。
-	 * @param[in] listener リスナー
-	 */
-	void setAnimationListener(IAnimationListener *listener);
-
-	/**
-	 * リピート設定を行います.
-	 * デフォルトでは、falseに設定されているの注意してください。
-	 * @param repeat リピートフラグ
-	 */
-	void setRepeat(bool repeat);
 
 	//////////////////////////////////////////////////
 	// IAnimation からの継承

@@ -86,14 +86,6 @@ void AnimationSet::addAnimation(Animation *animation) {
 	}
 }
 
-void AnimationSet::setAnimationListener(IAnimationListener *listener) {
-	this->listener = listener;
-}
-
-void AnimationSet::setRepeat(bool repeat) {
-	this->repeat = repeat;
-}
-
 ////////////////////////////////////////////////////////////
 // IAnimationからの継承クラス
 ////////////////////////////////////////////////////////////

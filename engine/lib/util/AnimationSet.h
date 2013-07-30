@@ -37,14 +37,12 @@
  */
 class AnimationSet : public IAnimation {
 private:
-	IAnimationListener *listener;			//!< アニメーションイベントを通知するリスナー
 	std::vector<Animation*> animations;		//!< アニメーションのリスト
 	int index;								//!< 再生しているアニメーションのインデックス
 	double delay;							//!< アニメーションを開始するまでの遅延時間
 	double delayTime;						//!< アニメーションを開始するまでの遅延時間
 	bool startflg;							//!< アニメーション開始フラグ(true: アニメーションが開始されている)
 	bool finishflg;							//!< 終了フラグ
-	bool repeat;							//!< リピート再生フラグ
 
 public:
 	Matrix3D *matrix;	//!< アニメーションの結果を格納するマトリクス
@@ -75,20 +73,6 @@ public:
 	 * @param[in] animation 追加するアニメーション
 	 */
 	void addAnimation(Animation *animation);
-
-	/**
-	 * アニメーションイベント通知用リスナーを設定します.
-	 * 設定されたリスナーは、このクラスでは破棄しないので、注意してください。
-	 * @param[in] listener リスナー
-	 */
-	void setAnimationListener(IAnimationListener *listener);
-
-	/**
-	 * リピート設定を行います.
-	 * デフォルトでは、trueに設定されているの注意してください。
-	 * @param repeat リピートフラグ
-	 */
-	void setRepeat(bool repeat);
 
 	////////////////////////////////////////////////////////////
 	// IAnimationからの継承クラス

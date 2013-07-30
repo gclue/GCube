@@ -31,8 +31,6 @@ class Matrix3D;
  */
 class IAnimationListener {
 public:
-	
-	
 	virtual ~IAnimationListener(){};
 	
 	/**
@@ -59,11 +57,52 @@ public:
  * アニメーションを行うインターフェイスクラス.
  */
 class IAnimation {
+protected:
+	IAnimationListener *listener;			//!< アニメーションイベントを通知するリスナー
+	bool repeat;		//!< リピート再生フラグ
+
 public:
-	int tag;
-	
+	int tag;			//!< アニメーション識別用タグ
 	
 	virtual ~IAnimation(){};
+
+	/**
+	 * アニメーションイベント通知用リスナーを設定します.
+	 * 設定されたリスナーは、このクラスでは破棄しないので、注意してください。
+	 * @param[in] listener リスナー
+	 */
+	void setAnimationListener(IAnimationListener *listener) {
+		this->listener = listener;
+	}
+
+	/**
+	 * アニメーション識別用タグを設定します.
+	 * @param[in] tag 識別用のタグ
+	 */
+	void setTag(int tag) { this->tag = tag; }
+	
+	/**
+	 * アニメーション識別用タグを取得します.
+	 * @return タグ
+	 */
+	int getTag() { return tag; }
+	
+	/**
+	 * リピート設定を行います.
+	 * デフォルトでは、falseに設定されているの注意してください。
+	 * @param repeat リピートフラグ
+	 */
+	void setRepeat(bool repeat) {
+		this->repeat = repeat;
+	}
+	
+	/**
+	 * リピート設定を取得します.
+	 * @return リピートする場合はtrue, それ以外はfalse
+	 */
+	bool isRepeat() {
+		return repeat;
+	}
 
 	/**
 	 * 指定されたmtxに対してアニメーションのマトリクスを計算します.
