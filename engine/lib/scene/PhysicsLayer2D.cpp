@@ -184,9 +184,10 @@ void PhysicsLayer2D::addView(PhysicsView *view, PhysicsParams& param)
 			case SHAPE_TYPE_NONE:
 				break;
 		}
-		
-		body->SetUserData(view);
-		view->setBody(body);
+		if (body) {
+			body->SetUserData(view);
+			view->setBody(body);
+		}
 		view->retain();
 		
 		views.push_back(view);
@@ -201,6 +202,16 @@ void PhysicsLayer2D::addJoint(PhysicsView *viewA, PhysicsView *viewB, PhysicsJoi
 	
 	switch (param.jointType) {
 		case JOINT_DISTANCE:
+			break;
+		case JOINT_REVOLUTE:
+			break;
+		case JOINT_PRISMATIC:
+			break;
+		case JOINT_PULLEY:
+			break;
+		case JOINT_GEAR:
+			break;
+		default:
 			break;
 	}
 	
@@ -324,11 +335,11 @@ void PhysicsLayer2D::stepPhysics(float dt)
 //////////////////////////////////////////////////////////
 
 void PhysicsLayer2D::setup() {
-	
+	LOGD("**PhysicsLayer2D::setup");
 }
 
 void PhysicsLayer2D::resize(float aspect) {
-	
+	LOGD("**PhysicsLayer2D::resize: %f", aspect);
 }
 
 void PhysicsLayer2D::render(double dt) {

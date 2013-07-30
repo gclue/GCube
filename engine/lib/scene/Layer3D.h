@@ -134,6 +134,9 @@ private:
 	unsigned long objcount;						//!< 総オブジェクト数
 	Storage *tmpStorage;
 
+	/** 初期化します. */
+	void initLayer3D();
+	
 	/**
 	 * 外力をかける.
 	 */
@@ -145,6 +148,13 @@ public:
 	
 	/**
 	 * コンストラクタ.
+	 */
+	Layer3D();
+	
+	/**
+	 * コンストラクタ.
+	 * @param context 描画するためのコンテキスト
+	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	Layer3D(GCContext *context);
 	
@@ -271,22 +281,22 @@ public:
 	//////////////////////////////////////////////////////////
 	
 	/**
-	 * 各オブキェクトの処理.
+	 * 各オブジェクトの処理.
 	 */
 	virtual void stepBulletObject(BulletWorld *world, btCollisionObject *obj);
 	
 	/**
-	 * 各オブキェクトの衝突処理.
+	 * 各オブジェクトの衝突処理.
 	 */
 	virtual void contactBulletObject(BulletWorld *world, btRigidBody *obj0, btRigidBody *obj1);
 	
 	/**
-	 * 各オブキェクトの保存処理.
+	 * 各オブジェクトの保存処理.
 	 */
 	virtual bool saveBulletObject(BulletWorld *world, btRigidBody *body, UserObj *obj, int index, int max);
 	
 	/**
-	 * 各オブキェクトの読み込み処理.
+	 * 各オブジェクトの読み込み処理.
 	 */
 	virtual bool loadBulletObject(BulletWorld *world, btRigidBody *body, UserObj *obj, int index, int max);
 	
