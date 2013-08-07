@@ -110,6 +110,36 @@ int ViewGroup::count() {
 	return views.size();
 }
 
+static bool compareView(View *a, View *b) {
+	return a->getUserID() < b->getUserID();
+}
+
+void ViewGroup::sort(ViewSortFunc func) {
+	if (func) {
+		std::sort(views.begin(), views.end(), func);
+	} else {
+		std::sort(views.begin(), views.end(), compareView);
+	}
+}
+
+void ViewGroup::front(View *v) {
+	bool flag = false;
+	std::vector<View *>::iterator it = views.begin();
+	while (!views.empty() && it != views.end()) {
+		View *view = *it;
+		if (view == v) {
+			it = views.erase(it);
+			flag = true;
+		} else {
+			it++;
+		}
+	}
+	
+	if (flag) {
+		views.push_back(v);
+	}
+}
+
 View* ViewGroup::findViewByID(int id) {
 	if (userID == id) {
 		return this;

@@ -59,9 +59,13 @@ public:
 	 * 属する画像が設定されていた場合には、このクラスも使用することができなくなりますので
 	 * ご注意ください。
 	 *
+	 * w, hは指定されていない場合には、Textureに指定されているサイズでFigureを作成します。
+	 *
 	 * @param[in] name 画像名
+	 * @param[in] w 横幅
+	 * @param[in] h 縦幅
 	 */
-	ImageView(const char *name);
+	ImageView(const char *name, float w=-1, float h=-1);
 	
 	/**
 	 * コンストラクタ.

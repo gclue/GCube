@@ -271,6 +271,9 @@ void Animation::setRotation(float start, float end) {
 ////////////////////////////////////////////////////////////
 
 void Animation::multiply(Matrix3D *mtx) {
+	if (animation) {
+		animation->multiply(mtx);
+	}
 	if (xscale != 1.0 || yscale != 1.0) {
 		mtx->scale(xscale, yscale, 1.0);
 	}

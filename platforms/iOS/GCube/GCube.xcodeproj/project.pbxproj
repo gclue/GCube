@@ -388,6 +388,8 @@
 		C2D2B6C9169E9539004255F6 /* 01walk.gav in Resources */ = {isa = PBXBuildFile; fileRef = C2D2B6C7169E9539004255F6 /* 01walk.gav */; };
 		C2D2B6CA169E9539004255F6 /* 01walk.gcb in Resources */ = {isa = PBXBuildFile; fileRef = C2D2B6C8169E9539004255F6 /* 01walk.gcb */; };
 		C2D2B6CC169E9755004255F6 /* neko_siro-01metoji.png in Resources */ = {isa = PBXBuildFile; fileRef = C2D2B6CB169E9755004255F6 /* neko_siro-01metoji.png */; };
+		C2DAF72A17AF409F00F48D00 /* particleShader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = C28D450217A79086004205CD /* particleShader.fsh */; };
+		C2DAF72B17AF409F00F48D00 /* particleShader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = C28D450317A79086004205CD /* particleShader.vsh */; };
 		F54C490917571E2500C26576 /* SampleMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54C48FB17571E2500C26576 /* SampleMain.cpp */; };
 		F54C490A17571E2500C26576 /* Scene3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54C48FD17571E2500C26576 /* Scene3D.cpp */; };
 		F54C490B17571E2500C26576 /* SceneAdMobView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F54C48FF17571E2500C26576 /* SceneAdMobView.cpp */; };
@@ -3569,6 +3571,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C2DAF72A17AF409F00F48D00 /* particleShader.fsh in Resources */,
+				C2DAF72B17AF409F00F48D00 /* particleShader.vsh in Resources */,
 				66EFF67914DA6E4F00A7CB94 /* simpleShader.vsh in Resources */,
 				6644323A14568A55001847A0 /* boneShader.fsh in Resources */,
 				6644323B14568A55001847A0 /* boneShader.vsh in Resources */,

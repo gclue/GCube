@@ -31,7 +31,20 @@
 
 #include "View.h"
 #include <vector>
+#include <algorithm>
+#include <functional>
 
+/**
+ * Viewをソートするときに比較を行う関数の定義.
+ * @param[in] a 比較対象のView
+ * @param[in] b 比較対象のView
+ * @return aよりbを後ろにする場合にはtrue, それ以外はfalse
+ */
+typedef bool (*ViewSortFunc)(View *a, View *b);
+
+/**
+ * Viewを複数格納し管理するViewクラス.
+ */
 class ViewGroup : public View {
 public:
 	std::vector<View *> views;			//!< Viewを格納するviector
@@ -99,6 +112,22 @@ public:
 	 */
 	int count();
 
+	/**
+	 * addViewされたViewをソートします。
+	 * funcが指定されていない場合には、View::getUserIDの小さい順にソートします。
+	 * ViewGroup::draw中に、この関数が呼ばれると動作がおかしくなるので、注意してください。
+	 * @param[in] func ソート関数
+	 */
+	void sort(ViewSortFunc func=NULL);
+	
+	/**
+	 * 指定されたViewを一番上に移動します.
+	 * 指定されたviewが存在しない場合には無視します.
+	 * ViewGroup::draw中に、この関数が呼ばれると動作がおかしくなるので、注意してください。
+	 * @param[in] v 一番上にくるView
+	 */
+	void front(View *v);
+	
 	/////////////////////////////////////////////////////////////////
 	// Viewからの継承
 	/////////////////////////////////////////////////////////////////

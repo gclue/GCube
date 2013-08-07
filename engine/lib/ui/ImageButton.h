@@ -40,6 +40,11 @@ class Figure;
 class ImageButton : public Button {
 protected:
 	View *view[2];						//!< ボタンの画像
+	/**
+	 * ボタンのクリックアニメーションを開始します.
+	 * @param[in] a アニメーション
+	 */
+	virtual void startClickAnimation(IAnimation *a = NULL);
 
 public:
 	/**
@@ -93,12 +98,6 @@ public:
 	 * @param view 表示するView
 	 */
 	virtual void setFocusView(View *view);
-
-	/**
-	 * ボタンのクリックアニメーションを開始します.
-	 * @param[in] a アニメーション
-	 */
-	virtual void startClickAnimation(IAnimation *a = NULL);
 };
 
 #endif /* IMAGEBUTTON_H_ */

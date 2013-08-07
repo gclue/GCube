@@ -42,7 +42,7 @@ ImageView::ImageView() : View() {
 	clickable = false;
 }
 
-ImageView::ImageView(const char *name) : View(context) {
+ImageView::ImageView(const char *name, float w, float h) : View() {
 	figure = NULL;
 	clickable = false;
 	
@@ -51,7 +51,13 @@ ImageView::ImageView(const char *name) : View(context) {
 	Texture *tex = NULL;
 	SharedTexture *stex = NULL;
 	if ((stex = texMgr->findSharedTexture(name))) {
-		this->setFigure(stex->makePlate(name));
+		if (w > 0 && h > 0) {
+			this->setFigure(stex->makePlateWithSize(name, w, h));
+		} else if (w > 0) {
+			this->setFigure(stex->makeFixPlate(name, w));
+		} else {
+			this->setFigure(stex->makePlate(name));
+		}
 		this->setTexture(stex);
 	} else if ((tex = texMgr->loadTexture(name))) {
 		this->setFigure(tex->makePlate());

@@ -172,8 +172,12 @@ public:
 		return clickable;
 	}
     
+	/**
+	 * タッチ可能かをチェックします.
+	 * @return タッチ可能の場合はtrue, それ以外はfalse
+	 */
     virtual bool isTouchable() {
-        return visible&&clickable;
+        return visible && clickable;
     }
     
 	/**
@@ -185,6 +189,10 @@ public:
 		return this->parent;
 	}
 	
+	/**
+	 * 親Viewを設定します.
+	 * @param[in] parent 親となるView
+	 */
 	virtual void setParent(View *parent) {
 		this->parent = parent;
 	}
@@ -292,10 +300,29 @@ public:
 	 */
 	virtual float getBright();
 	
+	/**
+	 * マスク用のViewを設定.
+	 * このViewに設定されているFigureの形でマスク処理が行われます。
+	 * @param[in] maskview マスク用のView
+	 */
 	virtual void setMaskView(View *maskview);
+	
+	/**
+	 * マスク用のViewを取得します.
+	 * @return マスク用のView
+	 */
 	virtual View *getMaskView();
 	
+	/**
+	 * マスク処理のON/OFFを設定します.
+	 * @param[in] flag フラグ
+	 */
 	virtual void setMaskFlag(bool flag);
+	
+	/**
+	 * マスク処理フラグを取得します.
+	 * @return マスク処理中はtrue、それ以外はfalse
+	 */
 	virtual bool isMaskFlag();
 	
 	/**

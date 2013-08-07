@@ -41,9 +41,16 @@ enum AnimationFrameID {
 	AnimationFrameID_None = 0,
 };
 
+/**
+ * 画像のアニメーション通知リスナー.
+ */
 class ImageAnimationListener {
 public:
 	virtual ~ImageAnimationListener() {}
+	/**
+	 * アニメーションが完了したときに呼び出します.
+	 * @param[in] frameId 完了したフレームのID
+	 */
 	virtual void onFrameEnd(int frameId) = 0;
 };
 
@@ -67,7 +74,7 @@ private:
 	int index;		//!< 現在のインデックス
 	int frameId;	//!< 現在指定されているフレームアニメーションのID
 	std::map<int, AnimationFrame*> frames;	//!< フレーム保存用
-	ImageAnimationListener *listener;
+	ImageAnimationListener *listener;	//!< リスナー
 	
 	void initImageAnimationView();
 	
@@ -79,12 +86,22 @@ public:
 	
 	/**
 	 * コンストラクタ.
+	 * @param[in] filename ファイル名
+	 */
+	ImageAnimationView(const char *filename);
+	
+	/**
+	 * コンストラクタ.
 	 * @param[in] context View用のコンテキスト
 	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
 	 */
 	ImageAnimationView(GCContext *context);
 	virtual ~ImageAnimationView();
 	
+	/**
+	 * リスナーを設定します.
+	 * @param[in] listener リスナー
+	 */
 	void setImageAnimationListener(ImageAnimationListener *listener);
 
 	/**
@@ -114,6 +131,53 @@ public:
 	 * @param id フレームアニメーションのID
 	 */
 	void setAnimationFrameIndex(int id);
+	
+	/**
+	 * アニメーションデータが記載されたJSONファイルを読み込みます。
+	 * @param[in] filename ファイル名
+	 */
+	void loadFile(const char *filename);
+	
+	/**
+	 * アニメーションデータのJSONを読み込みます.
+	 * @param[in] json JSONデータ
+	 * @exmaple
+	 * {
+	 *		"png" : "texture/chara_texture.png",
+	 *		"txt" : "texture/chara_texture.txt",
+	 *		"figure": [
+	 *			"chara00.png",
+	 *			"chara01.png",
+	 *			"chara02.png",
+	 *			"chara03.png",
+	 *			"chara04.png",
+	 *			"chara05.png",
+	 *			"chara06.png",
+	 *			"chara07.png",
+	 *			"chara08.png",
+	 *			"chara09.png",
+	 *			"chara10.png",
+	 *			"chara11.png"
+	 *		],
+	 *		"animation" : [
+	 *			{
+	 *				"id" : 1,
+	 *				"frame" : [
+	 *					{"index" : 0, "time" : 0.12},
+	 *					{"index" : 2, "time" : 0.12}
+	 *				]
+	 *			},
+	 *			{
+	 *				"id" : 2,
+	 *				"frame" : [
+	 *					{"index" : 9, "time" : 0.12},
+	 *					{"index" :11, "time" : 0.12}
+	 *				]
+	 *			}
+	 *		]
+	 *	}
+	 */
+	void loadJson(const char *json);
 
 	//////////////////////////////////////////////////////////////
 	// Viewからの継承

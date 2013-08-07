@@ -28,9 +28,19 @@
  */
 #include "ImageAnimationView.h"
 #include "Log.h"
+#include "picojson.h"
+#include "AssetManager.h"
+#include "ImageView.h"
+#include "ApplicationController.h"
+#include "TextureManager.h"
 
 ImageAnimationView::ImageAnimationView() : ViewGroup() {
 	initImageAnimationView();
+}
+
+ImageAnimationView::ImageAnimationView(const char *filename) : ViewGroup() {
+	initImageAnimationView();
+	loadFile(filename);
 }
 
 ImageAnimationView::ImageAnimationView(GCContext *context) : ViewGroup(context) {
@@ -85,9 +95,66 @@ void ImageAnimationView::setAnimationFrameIndex(int id) {
 	}
 }
 
-void ImageAnimationView::setImageAnimationListener(ImageAnimationListener *listener)
-{
+void ImageAnimationView::setImageAnimationListener(ImageAnimationListener *listener) {
 	this->listener = listener;
+}
+
+void ImageAnimationView::loadFile(const char *filename) {
+	AssetManager mgr = AssetManager::getInstance();
+	std::vector<char> *fdata = mgr.open(filename);
+	if (!fdata) return ;
+	fdata->push_back('\0');
+	const char *json = (const char *) &(*fdata)[0];
+	loadJson(json);
+	delete fdata;
+}
+
+void ImageAnimationView::loadJson(const char *json) {
+	ApplicationController *ctl = ApplicationController::getInstance();
+	std::string err;
+	picojson::value v;
+	picojson::parse(v, json, json + strlen(json), &err);
+	if (err.empty()) {
+		picojson::object root = v.get<picojson::object>();
+		
+		picojson::value pngvalue = root["png"];
+		picojson::value txtvalue = root["txt"];
+		if (pngvalue.is<std::string>() && txtvalue.is<std::string>()) {
+			std::string png = pngvalue.get<std::string>();
+			std::string txt = txtvalue.get<std::string>();
+			ctl->texMgr->loadSharedTexture(png.c_str(), txt.c_str());
+		}
+		
+		picojson::value plistvalue = root["plist"];
+		if (plistvalue.is<std::string>()) {
+			std::string plist = plistvalue.get<std::string>();
+			ctl->texMgr->loadSharedTextureFromPlist(plist.c_str());
+		}
+		
+		picojson::array figures = root["figure"].get<picojson::array>();
+		picojson::array::iterator it;
+		for (it = figures.begin(); it != figures.end(); it++) {
+			std::string abc = it->get<std::string>();
+			ImageView *view = new ImageView(abc.c_str());
+			addView(view);
+			view->release();
+		}
+		
+		picojson::array animations = root["animation"].get<picojson::array>();
+		for (it = animations.begin(); it != animations.end(); it++) {
+			picojson::object animation = it->get<picojson::object>();
+			
+			int id = animation["id"].get<double>();
+			picojson::array frames = animation["frame"].get<picojson::array>();
+			picojson::array::iterator it2;
+			for (it2 = frames.begin(); it2 != frames.end(); it2++) {
+				picojson::object frame = it2->get<picojson::object>();
+				int index = frame["index"].get<double>();
+				float time = frame["time"].get<double>();
+				addAnimationFrame(id, index, time);
+			}
+		}
+	}
 }
 
 
