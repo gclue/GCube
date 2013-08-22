@@ -40,7 +40,7 @@ public:
 	/**
 	 * コンストラクタ.
 	 */
-	Scene3D(ApplicationController *controller);
+	Scene3D();
     
 	/**
 	 * デストラクタ.

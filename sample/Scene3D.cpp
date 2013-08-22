@@ -32,7 +32,7 @@
 #include "WFObjLoader.h"
 #include <string>
 
-Scene3D::Scene3D(ApplicationController *controller) : Scene(controller) {
+Scene3D::Scene3D() : Scene() {
 	LOGD("****Scene3D");
 #if 0
 	/*
@@ -384,32 +384,33 @@ Scene3D::Scene3D(ApplicationController *controller) : Scene(controller) {
 	fig2->transForm->translate(1.5,0,0);
 #endif
 	
-	animation = WFObjLoader::loadGAVFile("model/01walk.gav");
-	
-	fig = WFObjLoader::loadGCBFile("model/01walk.gcb");
-	fig->setAnimation(animation);
-	
-	Texture *tex = new Texture("texture/neko_siro-01metoji.png");
-	Layer3D *layer = new Layer3D(controller);
-	
-	FigureInfo info = {0};
-	info.fig = fig;
-	info.tex = tex;
-	layer->addFigure(info);
-
-//	info.fig = fig2;
+//	animation = WFObjLoader::loadGAVFile("model/01walk.gav");
+//	
+//	fig = WFObjLoader::loadGCBFile("model/01walk.gcb");
+//	fig->setAnimation(animation);
+//	animation->repeat = true;
+//
+//	Texture *tex = new Texture("texture/neko_siro-01metoji.png");
+//	Layer3D *layer = new Layer3D();
+//	
+//	FigureInfo info = {0};
+//	info.fig = fig;
 //	info.tex = tex;
 //	layer->addFigure(info);
-	
-	
-	Light *light = new Light();
-	light->position.x = 0;
-	light->position.y = 4;
-	light->position.z = 5;
-	layer->addLight(1, light);
-	
-
-	addLayer(1, layer);
+//
+////	info.fig = fig2;
+////	info.tex = tex;
+////	layer->addFigure(info);
+//	
+//	
+//	Light *light = new Light();
+//	light->position.x = 0;
+//	light->position.y = 4;
+//	light->position.z = 5;
+//	layer->addLight(1, light);
+//	
+//
+//	addLayer(1, layer);
 	
 	
 	rot = 0;

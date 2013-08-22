@@ -38,7 +38,7 @@ GCContext::GCContext() {
 	// カメラの初期化
 	camera = new Camera();
 	camera->loadOrthographic(true);
-	camera->transForm.translate(0, 0, 100);
+	camera->lookAt(0,0,100, 0,0,0, 0,1,0);
 
 	// 初期化
 	shader = new SimpleShader();

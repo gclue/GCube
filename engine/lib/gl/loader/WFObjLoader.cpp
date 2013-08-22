@@ -206,7 +206,9 @@ public:
 #define TYPE_INDEX 4
 // ジョイントのデータ群を表すタグ
 #define TYPE_NODE 5
+// ジョイントのウェイト群を表すタグ
 #define TYPE_WEIGHT 6
+// カラーのデータ群を表すタグ
 #define TYPE_COLOR 7
 
 
@@ -273,7 +275,11 @@ Figure* WFObjLoader::loadGCBData(std::vector<char>* data)
 			}	break;
 			case TYPE_COLOR:
 			{
-				// no implements.
+				short size = stream.readShort();
+				for (int i = 0; i < size; i++) {
+					float v = stream.readFloat();
+					fig->addColors(&v, 1);
+				}
 			}	break;
 			case TYPE_WEIGHT:
 			{
@@ -383,8 +389,7 @@ JointAnimation* WFObjLoader::loadGAVFile(const char *fileName)
 	std::vector<char>* data = GCLoadAsset(fileName);
 	JointAnimation* result = WFObjLoader::loadGAVData(data);
 	delete data;
-	return result;
-	
+	return result;	
 }
 
 JointAnimation* WFObjLoader::loadGAVData(std::vector<char>* data)

@@ -41,6 +41,38 @@ public:
 	 * デストラクタ.
 	 */
 	~Light();
+	
+	/**
+	 * ライトのx座標を取得します.
+	 * @return x座標
+	 */
+	float getX();
+	
+	/**
+	 * ライトのy座標を取得します.
+	 * @return y座標
+	 */
+	float getY();
+	
+	/**
+	 * ライトのz座標を取得します.
+	 * @return z座標
+	 */
+	float getZ();
+	
+	/**
+	 * ライトの位置を設定します.
+	 * @param[in] p 座標
+	 */
+	void setPosition(Vector3D &p);
+	
+	/**
+	 * ライトの位置を設定します.
+	 * @param[in] x x座標
+	 * @param[in] y y座標
+	 * @param[in] z z座標
+	 */
+	void setPosition(float x, float y, float z);
 };
 
 

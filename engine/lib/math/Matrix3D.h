@@ -77,6 +77,8 @@ public:
 	 * @param[out] outElements マトリクスを格納する配列
 	 */
 	void getElements(float *outElements);
+	
+	void getInvertElements(float *outElements);
 
 	/**
 	 * 4x4のマトリクスを設定します.

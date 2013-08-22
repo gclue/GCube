@@ -304,6 +304,81 @@ Figure* createTexturalPlate(float sx, float sy, float ex, float ey, float z, flo
     return fig;
 }
 
+Figure *createMesh(float x, float y, int xcount, int ycount) {
+	std::vector<float> posArray;
+	std::vector<float> texcoordArray;
+	std::vector<float> normalArray;
+	std::vector<float> colorArray;
+	std::vector<unsigned short> elementArray;
+	
+	float dx = 2.0 * x / (float) xcount;
+	float dy = 2.0 * y / (float) ycount;
+	
+	float du = 1.0 / (float) xcount;
+	float dv = 1.0 / (float) ycount;
+	
+	float u = 0;
+	float v = 0;
+	
+	float xx = -x;
+	float yy = -y;
+	
+	for (int i = 0; i < ycount + 1; i++) {
+		xx = -x;
+		for (int j = 0; j < xcount + 1; j++) {
+			posArray.push_back(xx);
+			posArray.push_back(0);
+			posArray.push_back(yy);
+			
+			normalArray.push_back(0);
+			normalArray.push_back(1);
+			normalArray.push_back(0);
+			
+			colorArray.push_back(0);
+			colorArray.push_back(0);
+			colorArray.push_back(1);
+			colorArray.push_back(1);
+			
+			xx += dx;
+		}
+		yy += dy;
+	}
+	for (int i = 0; i < ycount + 1; i++) {
+		u = 0;
+		for (int j = 0; j < xcount + 1; j++) {
+			texcoordArray.push_back(u);
+			texcoordArray.push_back(v);
+			u += du;
+		}
+		v += dv;
+	}
+	for (int i = 0; i < ycount; i++) {
+		for (int j = 0; j < xcount; j++) {
+			unsigned short index1 = i * (xcount + 1) + j;
+			unsigned short index2 = index1 + 1;
+			unsigned short index3 = (i + 1) * (xcount + 1) + j;
+			unsigned short index4 = index3 + 1;
+			elementArray.push_back(index1);
+			elementArray.push_back(index3);
+			elementArray.push_back(index2);
+			
+			elementArray.push_back(index2);
+			elementArray.push_back(index3);
+			elementArray.push_back(index4);
+		}
+	}
+	
+	Figure *fig = new Figure();
+	fig->addVertices((float *)&(posArray)[0], posArray.size());
+	fig->addNormal((float *)&(normalArray)[0], normalArray.size());
+	fig->addTextureCoords((float *)&(texcoordArray)[0], texcoordArray.size());
+	fig->addVertexIndexes((unsigned short *)&(elementArray)[0], elementArray.size());
+	fig->addColors((float *)&(colorArray)[0], colorArray.size());
+	fig->build();
+	return fig;
+}
+
+
 Figure* createBox(float x, float y, float z) {
 	const GLfloat posArray[] = {
         x, y, z,  -x, y, z,  -x,-y, z,   x,-y, z,  // v0-v1-v2-v3 front
@@ -341,12 +416,43 @@ Figure* createBox(float x, float y, float z) {
 		20,21,22,  20,22,23    // back
 	};
     
+	const GLfloat colorArray[] = {
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+		1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,  1.0, 0.0, 0.0, 1.0,
+	};
+	
 	Figure *fig = new Figure();
 	fig->addVertices(posArray, 72);
 	fig->addNormal(normalArray, 72);
 	fig->addTextureCoords(texcoordArray, 48);
 	fig->addVertexIndexes(elementArray, 36);
-    
+    fig->addColors(colorArray, 4 * 24);
+
 	return fig;
 }
 

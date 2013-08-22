@@ -28,3 +28,24 @@ Light::Light() {
 Light::~Light() {
 }
 
+float Light::getX() {
+	return position.x;
+}
+
+float Light::getY() {
+	return position.y;
+}
+
+float Light::getZ() {
+	return position.z;
+}
+
+void Light::setPosition(Vector3D &p) {
+	position = p;
+}
+
+void Light::setPosition(float x, float y, float z) {
+	position.x = x;
+	position.y = y;
+	position.z = z;
+}

@@ -58,6 +58,30 @@ public:
 	void loadOrthographic(bool fitWidth);
 
 	/**
+	 * カメラのLookAtを設定します.
+	 * @param[in] eye 目の位置
+	 * @param[in] at 目視点の位置
+	 * @param[in] up カメラの上方向
+	 */
+	void lookAt(Vector3D &eye, Vector3D &at, Vector3D &up);
+	
+	/**
+	 * カメラのLookAtを設定します.
+	 * @param[in] eyex 目の位置のx座標
+	 * @param[in] eyey 目の位置のy座標
+	 * @param[in] eyez 目の位置のz座標
+	 * @param[in] atx 目視点の位置のx座標
+	 * @param[in] aty 目視点の位置のy座標
+	 * @param[in] atz 目視点の位置のz座標
+	 * @param[in] upx カメラの上方向のx座標
+	 * @param[in] upy カメラの上方向のy座標
+	 * @param[in] upz カメラの上方向のz座標
+	 */
+	void lookAt(float eyex, float eyey, float eyez,
+				float atx, float aty, float atz,
+				float upx, float upy, float upz);
+	
+	/**
 	 * 指定されたモデルのマトリクスを視点座標に変換します.
 	 * @param[in] modelMtx 視点座標系に変換するマトリクス
 	 * @param[out] 視点座標系に変換されたマトリクス(4x4の配列)
@@ -70,6 +94,12 @@ public:
 	 * @param[out] クリップ座標系に変換されたマトリクス(4x4の配列)
 	 */
 	void modelViewProjectionMatrix(Matrix3D *modelMtx, float *outMtx);
+	
+	/**
+	 * プロジェクションマッピングのマトリクスを取得します.
+	 * @param[out] プロジェクションマッピングのマトリクス(4x4の配列)
+	 */
+	void modelViewProjectionMatrix(float *outMtx);
 
 	/**
 	 * 指定された座標からスクリーンの座標に変換します.

@@ -136,6 +136,7 @@ void Layer2D::render(double dt) {
 	if (visible) {
 		glDisable(GL_DEPTH_TEST);
 		glDisable(GL_CULL_FACE);
+		glEnable(GL_BLEND);
 		if (root) {
 			if (viewcontext.shader) {
 				viewcontext.shader->useProgram();

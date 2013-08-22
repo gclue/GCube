@@ -364,7 +364,7 @@ void Figure::setAnimation(JointAnimation *animation) {
 
 void Figure::draw(float dt) {
 	if (animation) {
-		animation->animationTime += 0;
+		animation->animationTime += dt;
 		
 		// アニメーション時間を超えたらリピート
 		if (animation->repeat &&

@@ -1,671 +1,476 @@
-/*
- * The MIT License (MIT)
- * Copyright (c) 2011 GClue, inc.
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
+//
+//  Layer3D.cpp
+//  GCube
+//
+//  Created by 小林 伸郎 on 2013/08/21.
+//
+//
 
-/*
- * Layer3D.cpp
- *
- *  Created on: 2011/09/15
- *      Author: GClue, Inc.
- */
 #include "Layer3D.h"
-
-#include <memory>
-#include "Camera.h"
+#include "glcommon.h"
+#include "DepthStorageShader.h"
+#include "ShadowShader.h"
+#include "SimpleShader.h"
 #include "BoneShader.h"
-#include "Joint.h"
-#include "BulletWorld.h"
-#include "Storage.h"
-#include "ApplicationController.h"
 
-// ファイルのバージョン
-#define kFileVersion 1
+FigureSet::FigureSet() {
+	removeFlag = false;
+	useEdge = false;
+	figure = NULL;
+	texture = NULL;
+	userId = 0;
+	matrix.loadIdentity();
+	edgeColor.r = 0;
+	edgeColor.g = 0;
+	edgeColor.b = 0;
+	edgeColor.a = 1;
+}
 
+FigureSet::~FigureSet() {
+}
 
-/**
- * 3Dオブジェクト情報構造体.
- */
-struct FigureSet {
-	int id;
-	Figure *fig;
-	Texture *tex;
-	Matrix3D *mtx;
-	btRigidBody* body;
-	GCObject *userObj;
-	
-	FigureSet() {
-		fig = NULL;
-		tex = NULL;
-		mtx = NULL;
-		body = NULL;
-		userObj = NULL;
-		id = -1;
-	}
-	
-	FigureSet(const FigureSet& obj) {
-		this->set(obj.id, obj.fig, obj.tex, obj.mtx, obj.userObj);
-		this->body = obj.body;
-	}
-	
-	virtual ~FigureSet() {
-		if (mtx) mtx->release();
-		if (fig) fig->release();
-		if (tex) tex->release();
-		if (userObj) userObj->release();
-	}
-	
-	void set(int id, Figure *fig, Texture *tex, Matrix3D *mtx, GCObject *userObj) {
-		if (mtx) {mtx->retain();}
-		if (fig) {fig->retain();}
-		if (tex) {tex->retain();}
-		if (userObj) {userObj->retain();}
-		this->id = id;
-		this->fig = fig;
-		this->tex = tex;
-		this->mtx = mtx;
-		this->userObj = userObj;
-	}
-	
-	void setInfoData(FigureInfo &info) {
-		info.id = id;
-		info.fig = fig;
-		info.tex = tex;
-		info.mtx = mtx;
-		info.userObj = userObj;
-	}
+bool FigureSet::isRemoveFlag() {
+	return removeFlag;
+}
 
-	Matrix3D *getMatrix() {
-		if (mtx) {
-			return mtx;
-		} else {
-			return fig->transForm;
-		}
+void FigureSet::setRemoveFlag(bool flag) {
+	removeFlag = flag;
+}
+
+void FigureSet::setUseEdge(bool flag) {
+	useEdge = flag;
+}
+
+bool FigureSet::isUseEdge() {
+	return useEdge;
+}
+
+void FigureSet::setEdgeColor(float r, float g, float b, float a) {
+	edgeColor.r = r;
+	edgeColor.g = g;
+	edgeColor.b = b;
+	edgeColor.a = a;
+}
+
+void FigureSet::setShadowFlag(bool flag) {
+	shadowFlag = flag;
+}
+
+void FigureSet::setUserID(int userId) {
+	this->userId = userId;
+}
+
+int FigureSet::getUserID() {
+	return userId;
+}
+
+FigureSet *FigureSet::findFigureSetByID(int userId) {
+	if (this->userId == userId) {
+		return this;
 	}
-};
+	return NULL;
+}
+
+void FigureSet::makeIdentity() {
+	matrix.loadIdentity();
+}
+
+void FigureSet::translate(float x, float y, float z) {
+	matrix.translate(x, y, z);
+}
+
+void FigureSet::scale(float x, float y, float z) {
+	matrix.scale(x, y, z);
+}
+
+void FigureSet::rotate(float angle, float x, float y, float z) {
+	matrix.rotate(angle, x, y, z);
+}
+
+void FigureSet::setFigure(Figure *fig) {
+	this->figure = fig;
+	this->figure->build();
+}
+
+void FigureSet::setTexture(Texture *texture) {
+	this->texture = texture;
+}
+
+void FigureSet::render(float dt, GC3DContext &context) {
+	figure->bind();
+
+	switch (context.type) {
+		case DepthStorageShaderType: {
+			DepthStorageShader *shader = context.depthShader;
+			shader->setMVPMatrix(context.lightcamera, &matrix);
+			shader->setSkinningMatrix(figure);
+			figure->draw(dt);
+		}	break;
+		case ShadowShaderType: {
+			ShadowShader *shader = context.shadowShader;
+			shader->setModelMatrix(&matrix);
+			shader->setMVPMatrix(context.camera, &matrix);
+			shader->setLightMatrix(context.lightcamera, &matrix);
+			shader->setInverseMatrix(&matrix);
+			shader->setSkinningMatrix(figure);
+			shader->setUseShadow(shadowFlag);
+			if (texture) {
+				shader->bindTexture(texture->texName);
+			}
+			if (useEdge) {
+				glCullFace(GL_FRONT);
+				shader->setUseEdge(true);
+				shader->setEdgeColor(edgeColor.r, edgeColor.g, edgeColor.b, edgeColor.a);
+				figure->draw(dt);
+				
+				glCullFace(GL_BACK);
+				shader->setUseEdge(false);
+				shader->setEdgeColor(0, 0, 0, 0);
+				figure->draw(0);
+			} else {
+				figure->draw(dt);
+			}
+		}	break;
+		case BoneShaderType: {
+			BoneShader *shader = context.boneShader;
+			shader->setMVPMatrix(context.camera, &matrix);
+			shader->setSkinningMatrix(figure);
+			if (texture) {
+				shader->bindTexture(texture->texName);
+			}
+			
+			if (useEdge) {
+				glCullFace(GL_FRONT);
+				shader->setUseEdge(true);
+				shader->setEdgeColor(edgeColor.r, edgeColor.g, edgeColor.b, edgeColor.a);
+				figure->draw(dt);
+				
+				glCullFace(GL_BACK);
+				shader->setUseEdge(false);
+				shader->setEdgeColor(0, 0, 0, 0);
+				figure->draw(0);
+			} else {
+				figure->draw(dt);
+			}
+		}	break;
+		case SimpleShaderType:
+		default: {
+			SimpleShader *shader = context.simpleShader;
+			shader->setMVPMatrix(context.camera, &matrix);
+			if (texture) {
+				shader->bindTexture(texture->texName);
+			}
+			figure->draw(dt);
+		}	break;
+	}
+}
+
+/////////////////////////////////////////////////////////////////////////////////////
 
 Layer3D::Layer3D() {
-	LOGD("**Layer3D");
-	context = ApplicationController::getInstance();
-	initLayer3D();
+	lockflag = false;
+	depthBufferFlag = false;
+	useShadowFlag = false;
+	renderMode = 0;
+	
+	memset(&fb, 0x0, sizeof(GCFrameBuffer));
+	
+	Vector3D eye(40,30,40);
+	Vector3D at(0,0,0);
+	Vector3D up(0,1,0);
+	
+	camera.zNear = 0.1;
+	camera.zFar = 1000.0;
+	camera.fieldOfView = 60.0;
+	camera.aspect = 0.67; // 320x480
+	camera.loadPerspective();
+	camera.lookAt(eye, at, up);
+	
+	fbWidth = 512;
+	fbHeight = 512;
+	
+	depthShader = new DepthStorageShader();
+	shadowShader = new ShadowShader();
+	simpleShader = new SimpleShader();
+	boneShader = new BoneShader();
+	
+	lightfigure = new FigureSet();
+	lightfigure->setFigure(createSphere(0.5, 8, 8));
+	
+	light.setPosition(0, 35, 0);
+	Vector3D lightup(0,0,-1);
+	
+	lightcamera.zNear = 0.1;
+	lightcamera.zFar = 150.0;
+	lightcamera.fieldOfView = 100.0;
+	lightcamera.aspect = 1;
+	lightcamera.lookAt(light.position, at, lightup);
+	lightcamera.loadPerspective();
+	
+	createFrameBuffer(fbWidth, fbHeight);
+	
+	gc3dcontext.depthShader = depthShader;
+	gc3dcontext.simpleShader = simpleShader;
+	gc3dcontext.shadowShader = shadowShader;
+	gc3dcontext.boneShader = boneShader;
+	gc3dcontext.camera = &camera;
+	gc3dcontext.lightcamera = &lightcamera;
+	gc3dcontext.shadowFlag = false;
 }
 
-// コンストラクタ
-Layer3D::Layer3D(GCContext *context) : Layer(context) {
-	LOGD("**Layer3D");
-	initLayer3D();
-}
-
-// デストラクタ
 Layer3D::~Layer3D() {
-	LOGD("**~Layer3D");
-	delete camera;
-	delete bullet;
-	std::map<unsigned long, FigureSet*>::iterator it = figures.begin();
-	while (it != figures.end()) {
-		FigureSet *set = (*it).second;
-		delete set;
-		it++;
+	removeAllFigureSet();
+	DELETE(lightfigure);
+	DELETE(depthShader);
+	DELETE(shadowShader);
+	DELETE(simpleShader);
+	if (fb.fb) {
+		glDeleteFramebuffers(1, &fb.fb);
+	}
+	if (fb.rb) {
+		glDeleteRenderbuffers(1, &fb.rb);
+	}
+	if (fb.t) {
+		glDeleteTextures(1 , &fb.t);
 	}
 }
 
-void Layer3D::initLayer3D() {
-	camera = new Camera();
-	Vector3D eye = Vector3D(5,5,10);
-	Vector3D at = Vector3D(0,0,0);
-	camera->transForm.lookAt(&eye, &at);
-	bullet = NULL;
-	handler = NULL;
-	tmpStorage = NULL;
-	gravity = -9.8;
-	objcount = 0;
+void Layer3D::removeInternal() {
+	std::vector<FigureSet*>::iterator it = figures.begin();
+	while (!figures.empty() && it != figures.end()) {
+		FigureSet *a = *it;
+		if (a->isRemoveFlag()) {
+			it = figures.erase(it);
+			RELEASE(a);
+		} else {
+			it++;
+		}
+	}
 }
 
-// 内容のクリア.
-void Layer3D::clear() {
-	LOGD("**Layer3D::clear");
-	std::map<unsigned long, FigureSet*>::iterator it = figures.begin();
-	while (it != figures.end()) {
-		FigureSet *set = (*it).second;
-		if (bullet && set->body) {
-			bullet->dynamicsWorld->removeRigidBody(set->body);
-			delete set->body;
-			delete set;
-			figures.erase(it++);
-			continue;
+void Layer3D::addFigureSet(FigureSet *set) {
+	figures.push_back(set);
+	set->retain();
+}
+
+void Layer3D::removeFigureSet(int userId) {
+	FigureSet *set = findFigureSetByID(userId);
+	if (set) {
+		removeFigureSet(set);
+	}
+}
+
+void Layer3D::removeFigureSet(FigureSet *set) {
+	std::vector<FigureSet*>::iterator it = figures.begin();
+	while (!figures.empty() && it != figures.end()) {
+		FigureSet *a = *it;
+		if (a == set) {
+			if (lockflag) {
+				a->setRemoveFlag(true);
+			} else {
+				it = figures.erase(it);
+				RELEASE(a);
+			}
+		} else {
+			it++;
 		}
-		it++;
+	}
+}
+
+void Layer3D::removeAllFigureSet() {
+	for (int i = 0; i < figures.size(); i++) {
+		RELEASE(figures.at(i));
 	}
 	figures.clear();
 }
 
-// Figure追加
-int Layer3D::addFigure(FigureInfo &info, RigidBodyOption option) {
-
-	int id;
-	if (info.id>0) {
-		// ID指定の場合はそのまま使用
-		id = info.id;
-	} else {
-		// 開いてるIDを検索
-		while (true) {
-			std::map<unsigned long, FigureSet*>::iterator it = figures.find(++objcount);
-			if (it==figures.end()) {
-				break;
-			}
+FigureSet *Layer3D::findFigureSetByID(int userId) {
+	std::vector<FigureSet *>::iterator it = figures.begin();
+	while (!figures.empty() && it != figures.end()) {
+		FigureSet *a = *it;
+		FigureSet *v = a->findFigureSetByID(userId);
+		if (v != NULL) {
+			return v;
 		}
-		id = objcount;
-	}
-	
-	FigureSet *set = new FigureSet();
-	if (info.fig || info.mtx) {
-		set->set(id, info.fig, info.tex, info.mtx, info.userObj);
-	} else {
-		info.mtx = new Matrix3D();
-		set->set(id, info.fig, info.tex, info.mtx, info.userObj);
-		info.mtx->release();
-	}
-
-	if (option.type != RigidBodyType_None) {
-		if (!bullet) {
-			bullet = new BulletWorld(gravity);
-			bullet->setEventHandler(this);
-		}
-		//
-		switch (option.type) {
-			case RigidBodyType_None:
-				break;
-			case RigidBodyType_Box:
-				set->body = bullet->addRigidBoxShape(option.x, option.y, option.z, option.sizeX, option.sizeY, option.sizeZ, option.mass, option.restitution, option.friction, option.isKinematic);
-				break;
-			case RigidBodyType_Cylinder:
-				set->body = bullet->addRigidCylinderShape(option.x, option.y, option.z, option.sizeX, option.sizeY, option.sizeZ, option.mass, option.restitution, option.friction, option.isKinematic);
-				break;
-			case RigidBodyType_Ground:
-				bullet->addGround(option.x, option.y, option.z, option.restitution, option.friction);
-				break;
-			case RigidBodyType_Sphere:
-				set->body = bullet->addRigidSphereShape(option.x, option.y, option.z, option.radius, option.mass, option.restitution, option.friction, option.isKinematic);
-				break;
-			case RigidBodyType_Mesh:
-				set->body = bullet->addMeshShape(option.x, option.y, option.z, info.fig, option.mass, option.restitution, option.friction, option.isKinematic);
-				break;
-		}
-		if (set->body) {
-			UserObj *user = (UserObj*)set->body->getUserPointer();
-			user->user = set;
-			user->id = objcount;
-		}
-	}
-	
-	figures[id] = set;
-	return id;
-}
-
-// Object置き換え
-bool Layer3D::replaceObjectByID(unsigned long id, FigureInfo &info) {
-	std::map<unsigned long, FigureSet*>::iterator it = figures.find(id);
-	if (it!=figures.end()) {
-		FigureSet *set = (*it).second;
-		// TODO: リークあり
-		set->set(set->id, info.fig, info.tex, info.mtx, info.userObj);
-		return true;
-	} else {
-		return false;
-	}
-}
-
-// Fugure検索
-Figure* Layer3D::findFigureByID(unsigned long id) {
-	std::map<unsigned long, FigureSet*>::iterator it = figures.find(id);
-	if (it!=figures.end()) {
-		return (*it).second->fig;
-	} else {
-		return NULL;
-	}
-}
-
-// Texture検索
-Texture* Layer3D::findTextureByID(unsigned long id) {
-	std::map<unsigned long, FigureSet*>::iterator it = figures.find(id);
-	if (it!=figures.end()) {
-		return (*it).second->tex;
-	} else {
-		return NULL;
-	}
-}
-
-// Matrix検索
-Matrix3D* Layer3D::findMatrixByID(unsigned long id) {
-	std::map<unsigned long, FigureSet*>::iterator it = figures.find(id);
-	if (it!=figures.end()) {
-		return (*it).second->getMatrix();
-	} else {
-		return NULL;
-	}
-}
-
-// UserObject検索
-GCObject* Layer3D::findUserObjectByID(unsigned long id) {
-	std::map<unsigned long, FigureSet*>::iterator it = figures.find(id);
-	if (it!=figures.end()) {
-		return (*it).second->userObj;
-	} else {
-		return NULL;
-	}
-}
-
-// ライト追加
-void Layer3D::addLight(int id, Light *light) {
-	lights[id] = light;
-}
-
-// 現在の状態を指定されたファイルに保持します.
-bool Layer3D::save(const char *filename) {
-	if (!filename) return false;
-	// 全オブジェクトの保存処理
-	std::map<unsigned long, FigureSet*>::iterator it = figures.begin();
-	int max = figures.size()-1;
-	int count = 0;
-	while (it != figures.end()) {
-		FigureSet *set = (*it).second;
-		FigureInfo info = {0};
-		set->setInfoData(info);
-		if (handler) handler->save3DObject(this, &info, count++, max);
 		it++;
 	}
-	// 剛体データの保存処理
-	if (!bullet) return true;
-	return bullet->save(filename);
+	return NULL;
 }
 
-// 指定されたファイルから前回の状態を復帰します.
-bool Layer3D::load(const char *filename) {
-	if (!filename) return false;
-	if (!bullet) {
-		bullet = new BulletWorld(gravity);
-		bullet->setEventHandler(this);
+void Layer3D::createFrameBuffer(int width, int height)
+{
+	GLuint frameBuffer;
+	glGenFramebuffers(1, &frameBuffer);
+	
+	glBindFramebuffer(GL_FRAMEBUFFER, frameBuffer);
+	
+	GLuint depthRenderBuffer;
+	glGenRenderbuffers(1, &depthRenderBuffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, depthRenderBuffer);
+	
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, width, height);
+	
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, depthRenderBuffer);
+	
+	GLuint fTexture;
+	glGenTextures(1, &fTexture);
+	
+	glBindTexture(GL_TEXTURE_2D, fTexture);
+	
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, fTexture, 0);
+	
+	glBindTexture(GL_TEXTURE_2D, NULL);
+	glBindRenderbuffer(GL_RENDERBUFFER, NULL);
+	glBindFramebuffer(GL_FRAMEBUFFER, NULL);
+	
+	fb.fb = frameBuffer;
+	fb.rb = depthRenderBuffer;
+	fb.t = fTexture;
+}
+
+void Layer3D::setLightPos(float x, float y, float z) {
+	light.setPosition(x, y, z);
+	Vector3D at(0,0,0);
+	Vector3D up(0,0,-1);
+	lightcamera.lookAt(light.position, at, up);
+}
+
+void Layer3D::setShadowFlag(bool flag) {
+	if (flag) {
+		renderMode = RenderTypeShadow;
+	} else {
+		renderMode = RenderTypeNone;
 	}
-	return bullet->load(filename);
 }
 
-
-// 外力をかける
-void Layer3D::applyForce(FigureInfo &info, FigureSet *set) {
-	if (set->body) {
-		// 外力
-		float fx = info.force.x;
-		float fy = info.force.y;
-		float fz = info.force.z;
-		if (fx>0 || fy>0 || fz>0) {
-			// 位置
-			float px = info.rel_pos.x;
-			float py = info.rel_pos.y;
-			float pz = info.rel_pos.z;
-			set->body->applyForce(btVector3(fx,fy,fz), btVector3(px,py,pz));
-			set->body->activate(true);
-		}
-		// 初速
-		fx = info.velocity.x;
-		fy = info.velocity.y;
-		fz = info.velocity.z;
-		if (fx>0 || fy>0 || fz>0) {
-			float px = info.rel_pos.x;
-			float py = info.rel_pos.y;
-			float pz = info.rel_pos.z;
-			set->body->setLinearVelocity(btVector3(fx,fy,fz));
-			set->body->setAngularVelocity(btVector3(px,py,pz));
-			set->body->activate(true);
-		}
+void Layer3D::drawScene(float dt) {
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+	glEnable(GL_CULL_FACE);
+	glDisable(GL_BLEND);
+	
+	boneShader->useProgram();
+	
+	gc3dcontext.type = BoneShaderType;
+	
+	for (int i = 0; i < figures.size(); i++) {
+		figures.at(i)->render(dt, gc3dcontext);
 	}
 }
+
+void Layer3D::drawSceneWithShadow(float dt) {
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LEQUAL);
+	glEnable(GL_CULL_FACE);
+	glDisable(GL_BLEND);
+	
+	// 現在のviewportを退避
+	GLint viewport[4];
+	glGetIntegerv(GL_VIEWPORT, viewport);
+	
+	// 現在のフレームバッファを退避
+	int oldId;
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &oldId);
+	
+	// depthで影の描画
+	depthShader->useProgram();
+	depthShader->setDepthBuffer(depthBufferFlag);
+	
+	glBindFramebuffer(GL_FRAMEBUFFER, fb.fb);
+	
+	// フレームバッファを初期化
+	glViewport(0, 0, fbWidth, fbHeight);
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+    glClearDepthf(1.0);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+	gc3dcontext.type = DepthStorageShaderType;
+	
+	int size = figures.size();
+	for (int i = 0; i < size; i++) {
+		figures.at(i)->render(dt, gc3dcontext);
+	}
+	
+	// viewportを元に戻す
+	glViewport(viewport[0], viewport[1], viewport[2], viewport[3]);
+	// フレームバッファを元に戻す
+	glBindFramebuffer(GL_FRAMEBUFFER, oldId);
+	
+	glClearColor(0.0, 0.0, 0.0, 1.0);
+    glClearDepthf(1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+#if 0
+	simpleShader->useProgram();
+	
+	gc3dcontext.type = SimpleShaderType;
+	simpleShader->bindTexture(fb.t);
+	
+	for (int i = 0; i < figures.size(); i++) {
+		figures.at(i)->render(0, GC3DContext);
+	}
+#else
+	shadowShader->useProgram();
+	shadowShader->setDepthBuffer(depthBufferFlag);
+	
+	gc3dcontext.type = ShadowShaderType;
+	
+	shadowShader->bindShadowTexture(fb.t);
+	shadowShader->setLightPosition(&light);
+	shadowShader->setTextureMatrix(&lightcamera);
+	
+	for (int i = 0; i < figures.size(); i++) {
+		figures.at(i)->render(0, gc3dcontext);
+	}
+#endif
+	
+#if 0
+	// デバック用にライトの位置を表示
+	simpleShader->useProgram();
+	
+	gc3dcontext.type = -1;
+	
+	lightfigure->makeIdentity();
+	lightfigure->translate(light.getX(), light.getY(), light.getZ());
+	lightfigure->render(0, gc3dcontext);
+#endif
+}
+
 
 //////////////////////////////////////////////////////////
 // Layer の実装
 //////////////////////////////////////////////////////////
 
-/**
- * セットアップを行います.
- */
 void Layer3D::setup() {
-	LOGD("**Layer3D::setup");
 }
 
-/**
- * 画面のリサイズを行います.
- * @param aspect 画面のアスペクト比
- */
 void Layer3D::resize(float aspect) {
-	LOGD("**Layer3D::resize:%f", aspect);
-	camera->aspect = aspect;
-	camera->loadPerspective();
+	camera.aspect = aspect;
 }
 
-/**
- * 画面の描画を行います.
- * @param dt 前回描画からの差分時間
- */
 void Layer3D::render(double dt) {
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
-
-	if (bullet) {
-		// 位置変更があった場合はBulletに反映（TODO:スケーリングの考慮も必要）
-		float mat[16];
-		std::map<unsigned long, FigureSet*>::iterator it = figures.begin();
-		while (it != figures.end()) {
-			FigureSet *set = (*it).second;
-			if( set->getMatrix()->dirtyflag && set->body ){
-				// 移動
-				btTransform transform;
-				set->getMatrix()->getElements(mat);
-				transform.setFromOpenGLMatrix(mat);
-				// kinematic
-				if (set->body->isStaticOrKinematicObject()) {
-					set->body->setCollisionFlags(set->body->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
-					set->body->setActivationState(DISABLE_DEACTIVATION);
-					if (set->body->getMotionState()) {
-						set->body->getMotionState()->setWorldTransform(transform);
-					} else {
-						set->body->setWorldTransform(transform);
-					}
-				} else {
-					set->body->setWorldTransform(transform);
-				}
-				set->body->activate(true);
-			}
-			it++;
-		}
-		
-		// 物理演算
-		bullet->step(dt);
-	}
+	lockflag = true;
 	
-	// ライト
-	BoneShader *shader = context->shader3d;
-	shader->useProgram();
-	if (lights.size()>0) {
-		std::map<int, Light*>::iterator itl = lights.begin();
-		while (itl != lights.end()) {
-			shader->setLight((*itl).second);
-			itl++;
-		}
-	} else {
-		shader->setLight(NULL);
+	switch (renderMode) {
+		case RenderTypeNone:
+			drawScene(dt);
+			break;
+		case RenderTypeShadow:
+			drawSceneWithShadow(dt);
+			break;
 	}
-	
-	// 描画
-	std::map<unsigned long, FigureSet*>::iterator it = figures.begin();
-	Figure *fig = NULL;
-	while (it != figures.end()) {
-		FigureSet *set = (*it).second;
 		
-		// 削除処理
-		if (handler) {
-			FigureInfo info = {NULL};
-			set->setInfoData(info);
-			if (handler->handleFigure(this, info)) {
-				if (set->body) {
-					if (bullet) {
-						bullet->dynamicsWorld->removeRigidBody(set->body);
-						delete set->body;
-					}
-				}
-				delete set;
-				figures.erase(it++);
-				continue;
-			} else {
-				// 外力がかかっている場合
-				this->applyForce(info, set);
-			}
-		}
-
-		// 描画対象がないので無視
-		if (!set->fig) {
-			it++;
-			continue;
-		}
-		
-		// マトリックス設定
-		Matrix3D *mtx = set->getMatrix();
-		shader->setNormalMatrix(mtx);
-		shader->setMVPMatrix(camera, mtx);
-		
-		// テクスチャ設定
-		if (set->tex) {
-			shader->bindTexture(set->tex->texName);
-		} else {
-			shader->bindTexture(0);
-		}
-		
-		// ジョイント設定
-		if (set->fig->joint) {
-			set->fig->joint->setSkinningMatrix(shader);
-		} else {
-			shader->setSkinningMatrix(NULL, 0);
-		}
-		
-		// 描画
-		if (fig != set->fig) {
-			set->fig->bind();
-			fig = set->fig;
-		}
-		set->fig->draw();
-		
-		it++;
-	}
+	lockflag = false;
+	removeInternal();
 }
 
-/**
- * タッチイベント.
- * @param event タッチイベント
- */
 bool Layer3D::onTouchEvent(TouchEvent &event) {
-//	LOGD("**Layer3D::onTouch:(%f,%f)", event.x, event.y);
 	return false;
 }
-
-/**
- * コンテキストが切り替わったことを通知します.
- */
-void Layer3D::onContextChanged() {
-	LOGD("**Layer3D::onContextChanged:()");
-	
-	// FigureとTextureを再構築
-	std::vector<Figure*> figs;
-	std::vector<Texture*> texs;
-	std::map<unsigned long, FigureSet*>::iterator it = figures.begin();
-	while (it != figures.end()) {
-		FigureSet set = *(*it).second;
-		// 同じオブジェクトを２回処理しないように。。。
-		if (set.fig) {
-			std::vector<Figure*>::iterator itf = std::find(figs.begin(), figs.end(), set.fig);
-			if (itf == figs.end()) {
-				figs.push_back(set.fig);
-				set.fig->build();
-			}
-		}
-		if (set.tex) {
-			std::vector<Texture*>::iterator its = std::find(texs.begin(), texs.end(), set.tex);
-			if (its == texs.end()) {
-				texs.push_back(set.tex);
-				set.tex->reload();
-			}
-		}
-		
-		it++;
-	}
-}
-
-//////////////////////////////////////////////////////////
-// IBulletWorldEventHandler の実装
-//////////////////////////////////////////////////////////
-
-/**
- * 各オブキェクトの処理.
- */
-void Layer3D::stepBulletObject(BulletWorld *world, btCollisionObject *obj) {
-	// オブジェクトに物理演算の結果を設定
-	UserObj *user = (UserObj*)obj->getUserPointer();
-	FigureSet *set = (FigureSet*)user->user;
-	if (set) {
-		float worldMat[16];
-		btRigidBody* body = btRigidBody::upcast(obj);
-		if( body && body->getMotionState() ){
-			btDefaultMotionState* motion = (btDefaultMotionState*)body->getMotionState();
-			motion->m_graphicsWorldTrans.getOpenGLMatrix(worldMat);
-		} else {
-			obj->getWorldTransform().getOpenGLMatrix(worldMat);
-		}
-		set->getMatrix()->setElements(worldMat);
-		set->getMatrix()->dirtyflag = false;
-	}
-}
-
-/**
- * 各オブキェクトの衝突処理.
- */
-void Layer3D::contactBulletObject(BulletWorld *world, btRigidBody *obj0, btRigidBody *obj1) {
-	if (handler) {
-		UserObj *user0 = (UserObj*)obj0->getUserPointer();
-		UserObj *user1 = (UserObj*)obj1->getUserPointer();
-		FigureSet *set0 = (FigureSet*)user0->user;
-		FigureSet *set1 = (FigureSet*)user1->user;
-		
-		FigureInfo info0 = {NULL};
-		if (set0) {
-			set0->setInfoData(info0);
-		}
-		
-		FigureInfo info1 = {NULL};
-		if (set1) {
-			set1->setInfoData(info1);
-		}
-		
-		handler->contactFigure(this, info0, info1);
-		
-		this->applyForce(info0, set0);
-		this->applyForce(info1, set1);
-	}
-}
-
-/**
- * 各オブキェクトの保存処理.
- */
-bool Layer3D::saveBulletObject(BulletWorld *world, btRigidBody *body, UserObj *obj, int index, int max) {
-	// 初期化
-	if (index==0) {
-		delete tmpStorage;
-		tmpStorage = new Storage();
-		// file version
-		int ver = kFileVersion;
-		tmpStorage->addData((const char*)&(ver), sizeof(int));
-		LOGD("Layer3D::saveBulletObject:v:%d", ver);
-	}
-	
-	// IDを保存
-	tmpStorage->addData((const char*)&(obj->id), sizeof(int));
-//	LOGD("*obj:[%d]:id:%d",index,obj->id);
-	// 摩擦係数を保存
-	float f = body->getFriction();
-	tmpStorage->addData((const char*)&f, sizeof(float));
-	// 反発係数を保存
-	f = body->getRestitution();
-	tmpStorage->addData((const char*)&f, sizeof(float));
-	// 減衰係数を保存
-	f = body->getLinearDamping();
-	tmpStorage->addData((const char*)&f, sizeof(float));
-	f = body->getAngularDamping();
-	tmpStorage->addData((const char*)&f, sizeof(float));
-	
-//	LOGD("%f",body->getFriction());
-//	LOGD("%f",body->getRestitution());
-//	LOGD("%f",body->getLinearDamping());
-//	LOGD("%f",body->getAngularDamping());
-	
-	// 最後にファイルに書き込み TODO ファイル名
-	if (index==max) {
-		tmpStorage->writeFile(Storage::getStoragePath("_lyaer3d.dat"));
-		delete tmpStorage;
-		tmpStorage = NULL;
-		LOGD("*end*");
-	}
-	
-	return true;
-}
-
-/**
- * 各オブキェクトの読み込み処理.
- */
-bool Layer3D::loadBulletObject(BulletWorld *world, btRigidBody *body, UserObj *obj, int index, int max) {
-	// 初期化 TODO ファイル名 version
-	if (index==0) {
-		delete tmpStorage;
-		tmpStorage = new Storage();
-		tmpStorage->readFile(Storage::getStoragePath("_lyaer3d.dat"));
-		int ver = 0;
-		tmpStorage->nextData(&ver, sizeof(int));
-		LOGD("Layer3D::loadBulletObject:v:%d", ver);
-		// バージョンが違う場合は読み込み失敗
-		if (ver!=kFileVersion) return false;
-	}
-	
-	// IDを取得
-	int id;
-	tmpStorage->nextData(&id, sizeof(int));
-	FigureSet *set = figures[id];
-//	LOGD("*obj:[%d]:id:%d",index,id);
-	// 摩擦係数を取得
-	float f,f2;
-	tmpStorage->nextData(&f, sizeof(float));
-	body->setFriction(f);
-	// 反発係数を取得
-	tmpStorage->nextData(&f, sizeof(float));
-	body->setRestitution(f);
-	// 減衰係数を取得
-	tmpStorage->nextData(&f, sizeof(float));
-	tmpStorage->nextData(&f2, sizeof(float));
-	body->setDamping(f, f2);
-	
-//	LOGD("%f",body->getFriction());
-//	LOGD("%f",body->getRestitution());
-//	LOGD("%f",body->getLinearDamping());
-//	LOGD("%f",body->getAngularDamping());
-	
-	obj->id = id;
-	if (set) {
-		set->body = body;
-		body->setUserPointer(obj);
-		obj->user = set;
-	}
-	
-	// 最後に後始末
-	if (index==max) {
-		delete tmpStorage;
-		tmpStorage = NULL;
-		LOGD("*end*");
-	}
-	
-	return true;
-}
-
-
-

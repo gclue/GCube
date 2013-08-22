@@ -40,7 +40,7 @@ void SampleMain::initApplicationController() {
 	srand((unsigned) time(NULL));
 
 	SceneTitle *scene1 = new SceneTitle(controller);
-	Scene3D *scene2 = new Scene3D(controller);
+	Scene3D *scene2 = new Scene3D();
     SceneSample1 *sceneSample1 = new SceneSample1(controller);
     SceneTwitterTest *scene3 = new SceneTwitterTest(controller);
 	SceneGameCenterSample *scene4 = new SceneGameCenterSample(controller);

@@ -1,247 +1,270 @@
-/*
- * The MIT License (MIT)
- * Copyright (c) 2011 GClue, inc.
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- * 
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- */
+//
+//  Layer3D.h
+//  GCube
+//
+//  Created by 小林 伸郎 on 2013/08/21.
+//
+//
 
-/*
- * Layer3D.h
- *
- *  Created on: 2011/09/15
- *      Author: GClue, Inc.
- */
-#ifndef LAYER3D_H_
-#define LAYER3D_H_
+#ifndef __GCube__Layer3D__
+#define __GCube__Layer3D__
 
-#include <map>
-#include <vector>
+
 #include "Layer.h"
-#include "BulletWorld.h"
+#include "Light.h"
+#include "Camera.h"
+#include <vector>
 
-#include "dixsmartptr.h"
+class DepthStorageShader;
+class SimpleShader;
+class ShadowShader;
+class BoneShader;
 
-class Camera;
-class Figure;
-class Matrix3D;
-class Light;
-class Layer3D;
-class FigureSet;
-class Storage;
-
-/**
- * 剛体の種類.
- */
-enum RigidBodyType {
-	RigidBodyType_None,
-	RigidBodyType_Ground,
-	RigidBodyType_Box,
-	RigidBodyType_Sphere,
-	RigidBodyType_Cylinder,
-	RigidBodyType_Mesh
+enum GC3DRenderMode {
+	RenderTypeNone = 0,
+	RenderTypeShadow,
 };
 
+enum GC3DShaderType {
+	DepthStorageShaderType = 1,
+	ShadowShaderType,
+	SimpleShaderType,
+	BoneShaderType,
+};
+
+typedef struct GC3DContext {
+	DepthStorageShader *depthShader;
+	SimpleShader *simpleShader;
+	ShadowShader *shadowShader;
+	BoneShader *boneShader;
+	Camera *camera;
+	Camera *lightcamera;
+	int type;
+	bool shadowFlag;
+} GC3DContext;
+
+typedef struct GCFrameBuffer {
+	GLuint fb;
+	GLuint rb;
+	GLuint t;
+} GCFrameBuffer;
+
+
 /**
- * 剛体情報構造体.
+ * Layer3DでFigureを表示するためのクラス.
  */
-struct RigidBodyOption {
-	float x;
-	float y;
-	float z;
-	float sizeX;
-	float sizeY;
-	float sizeZ;
-	float radius;
-	float mass; // 質量
-	float restitution; // 反発係数
-	float friction; // 摩擦係数
-	bool isKinematic;
-	RigidBodyType type;
+class FigureSet : public GCObject {
+protected:
+	Figure *figure;
+	Texture *texture;
 	
-	RigidBodyOption() {
-		x = y = z = restitution = friction = isKinematic = 0;
-		sizeX = sizeY = sizeZ = radius = mass = 1.0;
-		type = RigidBodyType_None;
+	bool useEdge;
+	bool shadowFlag;
+	bool removeFlag;
+	int userId;
+	
+	Point3f pos;
+	
+	Matrix3D matrix;
+	
+	Colorf edgeColor;
+	
+public:
+	FigureSet();
+	virtual ~FigureSet();
+	
+	Figure *getFigure() {
+		return figure;
 	}
+	
+	Texture *getTexture() {
+		return texture;
+	}
+	
+	/**
+	 * 削除フラグの状態を取得します.
+	 * @return 削除された場合はtrue、それ以外の場合はfalse
+	 */
+	bool isRemoveFlag();
+	
+	/**
+	 * 削除フラグを設定します.
+	 * @param[in] flag 削除フラグ
+	 */
+	void setRemoveFlag(bool flag);
+	
+	/**
+	 * エッジの描画設定.
+	 */
+	void setUseEdge(bool flag);
+	
+	/**
+	 * エッジの描画設定を取得します.
+	 */
+	bool isUseEdge();
+	
+	/**
+	 * エッジのカラーを設定します.
+	 * @param[in] r 赤色成分
+	 * @param[in] g 緑色成分
+	 * @param[in] b 青色成分
+	 * @param[in] a アルファ値成分
+	 */
+	void setEdgeColor(float r, float g, float b, float a);
+	
+	void setShadowFlag(bool flag);
+	
+	/**
+	 * 指定されたユーザIDチェックします.
+	 * @param[in] userId ユーザID
+	 * @return
+	 */
+	FigureSet *findFigureSetByID(int userId);
+	
+	/**
+	 * ユーザIDを設定します.
+	 * @param[in] userId ユーザID
+	 */
+	void setUserID(int userId);
+	
+	/**
+	 * ユーザIDを取得します.
+	 * @return ユーザID
+	 */
+	int getUserID();
+	
+	/**
+	 * テクスチャを設定します.
+	 * @param[in] texture テクスチャ
+	 */
+	void setTexture(Texture *texture);
+	
+	/**
+	 * Figureデータを設定します.
+	 * @param[in] fig Figureデータ
+	 */
+	void setFigure(Figure *fig);
+	
+	void makeIdentity();
+	void translate(float x, float y, float z);
+	void scale(float x, float y, float z);
+	void rotate(float angle, float x, float y, float z);
+	
+	/**
+	 * 描画を行います.
+	 * @param[in] dt
+	 * @param[in] context
+	 */
+	void render(float dt, GC3DContext &context);
 };
 
 /**
- * Figure情報構造体.
+ * 3D表示用のレイヤークラス.
  */
-struct FigureInfo {
-	int id;
-	Figure *fig;
-	Texture *tex;
-	Matrix3D *mtx;
-	GCObject *userObj;
-	Vector3D force; // out
-	Vector3D velocity; // out
-	Vector3D rel_pos; // out
-};
-
-/**
- * イベントハンドラインターフェイス.
- */
-class ILayer3DEventHandler {
+class Layer3D : public Layer {
+protected:
+	std::vector<FigureSet*> figures;
+	bool lockflag;
+	bool depthBufferFlag;
+	bool useShadowFlag;
+	
+	int renderMode;
+	
+	Camera camera;
+	Camera lightcamera;
+	Light light;
+	
+	GC3DContext gc3dcontext;
+	
+	DepthStorageShader *depthShader;
+	ShadowShader *shadowShader;
+	SimpleShader *simpleShader;
+	BoneShader *boneShader;
+	
+	FigureSet *lightfigure;
+	
+	int fbWidth;
+	int fbHeight;
+	GCFrameBuffer fb;
+	
+	/**
+	 * @private
+	 * シャドウマッピング用のフレームバッファを作成します.
+	 * @param[in] width 横幅
+	 * @param[in] height 縦幅
+	 */
+	void createFrameBuffer(int width, int height);
+	
+	/**
+	 * FigureSetの削除を行います.
+	 * removeFigureSetでは、削除フラグをONにするだけで、実際にはこの関数で削除する。
+	 */
+	void removeInternal();
+	
+	void drawScene(float dt);
+	void drawSceneWithShadow(float dt);
+	
 public:
-	/**
-	 * デストラクタ.
-	 */
-	virtual ~ILayer3DEventHandler(){};
-	
-	/**
-	 * 各3Dオブジェクトの処理.
-	 * @return trueでワールドから削除されます.
-	 */
-	virtual bool handleFigure(Layer3D *layer, FigureInfo &info) = 0;
-	
-	/**
-	 * 各オブキェクトの衝突処理.
-	 */
-	virtual void contactFigure(Layer3D *layer, FigureInfo &obj0, FigureInfo &obj1) {};
-	
-	/**
-	 * 各オブキェクトの保存処理.
-	 */
-	virtual void save3DObject(Layer3D *layer, FigureInfo *info, int index, int max) {};
-	
-};
-
-/**
- * 3Dを描画するためのレイヤー.
- */
-class Layer3D : public Layer, IBulletWorldEventHandler {
-private:
-	std::map<unsigned long, FigureSet*> figures;	//!< FigureSetを保持
-	std::map<int, Light*> lights;		//!< 追加したライトを保持
-	BulletWorld *bullet;				//!< 物理演算ワールド
-	ILayer3DEventHandler *handler;		//!< イベントハンドラ
-	unsigned long objcount;						//!< 総オブジェクト数
-	Storage *tmpStorage;
-
-	/** 初期化します. */
-	void initLayer3D();
-	
-	/**
-	 * 外力をかける.
-	 */
-	void applyForce(FigureInfo &info, FigureSet *set);
-	
-public:
-	Camera *camera;	//!< カメラ
-	float gravity;
-	
-	/**
-	 * コンストラクタ.
-	 */
 	Layer3D();
-	
-	/**
-	 * コンストラクタ.
-	 * @param context 描画するためのコンテキスト
-	 * @deprecated コンテキストを使用しないように変更したので、コンストラクタで設定する必要がない
-	 */
-	Layer3D(GCContext *context);
-	
-	/**
-	 * デストラクタ.
-	 */
 	virtual ~Layer3D();
 	
 	/**
-	 * 内容のクリア.
+	 * カメラを取得します.
+	 * @return カメラ
 	 */
-	void clear();
+	Camera& getCamera() {
+		return camera;
+	}
 	
 	/**
-	 * イベントリスナー設定.
-	 * @param[in] listener リスナー
+	 * シャドウマッピング用のカメラを取得します.
+	 * @return カメラ
 	 */
-	void setEventHandler(ILayer3DEventHandler *handler) {this->handler=handler;};
+	Camera& getLightCamera() {
+		return lightcamera;
+	}
+	
+	void setShadowFlag(bool flag);
 	
 	/**
-	 * Figureを追加します.
-	 * 追加したFigureはこのオブジェクトと共に解放されます.
-	 * @param info オブジェクト情報
-	 * @param mtx 座標変換行列（NULLの場合はFigureのtransformを使用します）
-	 * @return 識別ID
+	 * ライトの位置を設定します.
+	 * @param[in] x x座標
+	 * @param[in] y y座標
+	 * @param[in] z z座標
 	 */
-	virtual int addFigure(FigureInfo &info, RigidBodyOption option=RigidBodyOption());
+	void setLightPos(float x, float y, float z);
 	
 	/**
-	 * オブジェクトの情報を書き換えます.
-	 * @param id 識別ID
-	 * @param info オブジェクト情報
-	 * @return 成功true
+	 * 表示するFigureSetを追加します.
+	 * @param[in] set 追加するFigureSet
 	 */
-	virtual bool replaceObjectByID(unsigned long id, FigureInfo &info);
+	void addFigureSet(FigureSet *set);
 	
 	/**
-	 * 指定したIDに対応するFigureを取得します.
-	 * 指定したIDに対応するFigureが存在しない場合にはNULLを返却します.
-	 * @param id ID
-	 * @return Figure
+	 * 指定されたユーザIDのFigureSetを削除します.
+	 * 指定されたユーザIDがレイヤーに存在しない場合には何もしません。
+	 * @param[in] userId ユーザID
 	 */
-	virtual Figure* findFigureByID(unsigned long id);
+	void removeFigureSet(int userId);
 	
 	/**
-	 * 指定したIDに対応するTextureを取得します.
-	 * 指定したIDに対応するTextureが存在しない場合にはNULLを返却します.
-	 * @param id ID
-	 * @return Texture
+	 * 指定されたFigureSetを削除します.
+	 * 指定されたFigureSetがレイヤーに存在しない場合には何もしません。
+	 * @param[in] set 削除するFigureSet
 	 */
-	virtual Texture* findTextureByID(unsigned long id);
+	void removeFigureSet(FigureSet *set);
 	
 	/**
-	 * 指定したIDに対応するMatrix3Dを取得します.
-	 * 指定したIDに対応するMatrix3Dが存在しない場合にはNULLを返却します.
-	 * @param id ID
-	 * @return Matrix3D
+	 * すべてのFigureSetを削除します.
 	 */
-	virtual Matrix3D* findMatrixByID(unsigned long id);
-
-	/**
-	 * 指定したIDに対応するUserObjectを取得します.
-	 * 指定したIDに対応するUserObjectが存在しない場合にはNULLを返却します.
-	 * @param id ID
-	 * @return Matrix3D
-	 */
-	virtual GCObject* findUserObjectByID(unsigned long id);
-
-	/**
-	 * ライトを追加します.
-	 * 追加したライトはこのオブジェクトと共に解放されます.
-	 * @param id 識別ID
-	 * @param fig Light
-	 */
-	virtual void addLight(int id, Light *light);
-
-	/**
-	 * 現在の状態を指定されたファイルに保持します.
-	 * @param[in] filename ファイル名
-	 */
-	virtual bool save(const char *filename);
+	void removeAllFigureSet();
 	
 	/**
-	 * 指定されたファイルから前回の状態を復帰します.
-	 * @param[in] filename ファイル名
+	 * 指定されたユーザIDのFigureSetを取得します.
+	 * @param[in] userId ユーザID
+	 * @return 指定されたユーザIDのFigureSet
 	 */
-	virtual bool load(const char *filename);
+	FigureSet *findFigureSetByID(int userId);
 	
 	//////////////////////////////////////////////////////////
 	// Layer の実装
@@ -250,56 +273,25 @@ public:
 	 * セットアップを行います.
 	 */
 	virtual void setup();
-
+	
 	/**
 	 * 画面のリサイズを行います.
 	 * @param aspect 画面のアスペクト比
 	 */
 	virtual void resize(float aspect);
-
+	
 	/**
 	 * 画面の描画を行います.
 	 * @param dt 前回描画からの差分時間
 	 */
 	virtual void render(double dt = 0.033);
-
+	
 	/**
 	 * タッチイベント.
 	 * @param event タッチイベント
 	 * @return true: 次のレイヤーにイベントを渡さない、false: 次のレイヤーにイベントを渡す
 	 */
 	virtual bool onTouchEvent(TouchEvent &event);
-	
-	/**
-	 * コンテキストが切り替わったことを通知します.
-	 */
-	virtual void onContextChanged();
-	
-	
-	//////////////////////////////////////////////////////////
-	// IBulletWorldEventHandler の実装
-	//////////////////////////////////////////////////////////
-	
-	/**
-	 * 各オブジェクトの処理.
-	 */
-	virtual void stepBulletObject(BulletWorld *world, btCollisionObject *obj);
-	
-	/**
-	 * 各オブジェクトの衝突処理.
-	 */
-	virtual void contactBulletObject(BulletWorld *world, btRigidBody *obj0, btRigidBody *obj1);
-	
-	/**
-	 * 各オブジェクトの保存処理.
-	 */
-	virtual bool saveBulletObject(BulletWorld *world, btRigidBody *body, UserObj *obj, int index, int max);
-	
-	/**
-	 * 各オブジェクトの読み込み処理.
-	 */
-	virtual bool loadBulletObject(BulletWorld *world, btRigidBody *body, UserObj *obj, int index, int max);
-	
 };
 
-#endif /* LAYER3D_H_ */
+#endif /* defined(__GCube__Layer3D__) */

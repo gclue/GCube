@@ -57,6 +57,10 @@ void Matrix3D::getElements(float *outElements) {
     memcpy(outElements, matrix, sizeof(float) * 16);
 }
 
+void Matrix3D::getInvertElements(float *outElements) {
+	mtxInvert(outElements, matrix);
+}
+
 // 単位行列を設定
 void Matrix3D::loadIdentity() {
 	mtxLoadIdentity(matrix);
@@ -177,7 +181,7 @@ void Matrix3D::transformVector3D(Vector3D *outVec, const Vector3D *inVec) {
 
 // 指定の方向を向かせる
 void Matrix3D::lookAt(Vector3D* eye, Vector3D* at, Vector3D* up) {
-	
+	/*
 	Vector3D ra = Vector3D(at);
 	ra.multiply(-1);
 	
@@ -223,6 +227,45 @@ void Matrix3D::lookAt(Vector3D* eye, Vector3D* at, Vector3D* up) {
 	matrix[15] = 1;
 
 	this->translate(eye->x, eye->y, eye->z, true);
+	 */
+	float eyeX = eye->x;
+	float eyeY = eye->y;
+	float eyeZ = eye->z;
+	float centerX = at->x;
+	float centerY = at->y;
+	float centerZ = at->z;
+	float upX = up->x;
+	float upY = up->y;
+	float upZ = up->z;
+	float x0, x1, x2, y0, y1, y2, z0, z1, z2, l;
+	z0 = eyeX - centerX; z1 = eyeY - centerY; z2 = eyeZ - centerZ;
+	l = 1 / sqrtf(z0 * z0 + z1 * z1 + z2 * z2);
+	z0 *= l; z1 *= l; z2 *= l;
+	x0 = upY * z2 - upZ * z1;
+	x1 = upZ * z0 - upX * z2;
+	x2 = upX * z1 - upY * z0;
+	l = sqrtf(x0 * x0 + x1 * x1 + x2 * x2);
+	if (!l) {
+		x0 = 0; x1 = 0; x2 = 0;
+	} else {
+		l = 1 / l;
+		x0 *= l; x1 *= l; x2 *= l;
+	}
+	y0 = z1 * x2 - z2 * x1; y1 = z2 * x0 - z0 * x2; y2 = z0 * x1 - z1 * x0;
+	l = sqrtf(y0 * y0 + y1 * y1 + y2 * y2);
+	if (!l) {
+		y0 = 0; y1 = 0; y2 = 0;
+	} else {
+		l = 1 / l;
+		y0 *= l; y1 *= l; y2 *= l;
+	}
+	matrix[0] = x0; matrix[1] = y0; matrix[2]  = z0; matrix[3]  = 0;
+	matrix[4] = x1; matrix[5] = y1; matrix[6]  = z1; matrix[7]  = 0;
+	matrix[8] = x2; matrix[9] = y2; matrix[10] = z2; matrix[11] = 0;
+	matrix[12] = -(x0 * eyeX + x1 * eyeY + x2 * eyeZ);
+	matrix[13] = -(y0 * eyeX + y1 * eyeY + y2 * eyeZ);
+	matrix[14] = -(z0 * eyeX + z1 * eyeY + z2 * eyeZ);
+	matrix[15] = 1;
 }
 
 

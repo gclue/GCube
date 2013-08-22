@@ -43,11 +43,14 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    controller/TextureManager.cpp \
                    scene/Scene.cpp \
                    scene/Layer2D.cpp \
+                   scene/Layer3D.cpp \
                    scene/PhysicsLayer2D.cpp \
                    shader/Shader.cpp \
                    shader/SimpleShader.cpp \
                    shader/PointSpriteShader.cpp \
                    shader/BoneShader.cpp \
+                   shader/DepthStorageShader.cpp \
+                   shader/ShadowShader.cpp \
                    sound/MusicPlayer.cpp \
                    sound/OpenALPlayer.cpp \
                    sound/SoundEffect.cpp \
@@ -65,6 +68,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    ui/RadioButton.cpp \
                    ui/RadioGroup.cpp \
                    ui/NumberView.cpp \
+                   ui/ParticleView.cpp \
                    ui/WebView.cpp \
                    ui/LayoutInflater.cpp \
                    ui/factory/ViewFactory.cpp \

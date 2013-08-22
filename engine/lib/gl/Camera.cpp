@@ -57,40 +57,28 @@ void Camera::loadOrthographic(bool fitWidth) {
 }
 
 void Camera::modelViewMatrix(Matrix3D *modelMtx, float *outMtx) {
-	// カメラは見え方と逆に動く
-	float mr[16];
-	transForm.getElements(mr);
-	
-//	// 回転成分
-//	float tmp = mr[1];
-//	mr[1] = mr[4];
-//	mr[4] = tmp;
-//	tmp = mr[2];
-//	mr[2] = mr[8];
-//	mr[8] = tmp;
-//	tmp = mr[6];
-//	mr[6] = mr[9];
-//	mr[9] = tmp;
-//	// w
-//	mr[3] = 0;
-//	mr[7] = 0;
-//	mr[11] = 0;
-//	// 移動成分
-//	mr[12] = -(mr[0]*mr[12]+mr[4]*mr[13]+mr[8]*mr[14]);
-//	mr[13] = -(mr[1]*mr[12]+mr[5]*mr[13]+mr[9]*mr[14]);
-//	mr[14] = -(mr[2]*mr[12]+mr[6]*mr[13]+mr[10]*mr[14]);
-//	mr[15] = 1;
-	mr[12] = -mr[12];
-	mr[13] = -mr[13];
-	mr[14] = -mr[14];
-
-	mtxMultiply(outMtx, mr, modelMtx->matrix);
+	mtxMultiply(outMtx, transForm.matrix, modelMtx->matrix);
 }
 
 void Camera::modelViewProjectionMatrix(Matrix3D *modelMtx, float *outMtx) {
 	float lookatMtx[16];
 	modelViewMatrix(modelMtx, lookatMtx);
 	mtxMultiply(outMtx, projection.matrix, lookatMtx);
+}
+
+void Camera::modelViewProjectionMatrix(float *outMtx) {
+	mtxMultiply(outMtx, projection.matrix, transForm.matrix);
+}
+
+void Camera::lookAt(Vector3D &eye, Vector3D &at, Vector3D &up) {
+	transForm.lookAt(&eye, &at, &up);
+}
+
+void Camera::lookAt(float eyex, float eyey, float eyez, float atx, float aty, float atz, float upx, float upy, float upz) {
+	Vector3D eye(eyex, eyey, eyez);
+	Vector3D at(atx, aty, atz);
+	Vector3D up(upx, upy, upz);
+	transForm.lookAt(&eye, &at, &up);
 }
 
 Vector2D* Camera::positionOnScreen(Matrix3D *modelView, Vector3D *localPos) {

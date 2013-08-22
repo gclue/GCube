@@ -60,6 +60,7 @@ extern "C" {
     Figure *createLine(void);
     Figure *createLine2(float sx, float sy, float sz, float ex, float ey, float ez);
     
+	Figure *createMesh(float x, float y, int xcount, int ycount);
     
     /**
      * ボックスのFigureクラスを作成します.
@@ -79,8 +80,20 @@ extern "C" {
      */
     Figure *createSphere(float radius, int slices, int stacks);
 	
+	/**
+	 * 星のFigureクラスを作成します.
+	 * @param[in] size サイズ
+	 * @return Figure
+	 */
 	Figure *createStar(float size);
     
+	/**
+	 * 円のFigureを作成します.
+	 * countが3の場合は三角形、countが4の場合は四角形、
+	 * countが5の場合は五角形にそれぞれなります。
+	 * @param[in] count 分割
+	 * @param[in] size 半径
+	 */
 	Figure *createCircle(int count, float size);
 
 #ifdef __cplusplus

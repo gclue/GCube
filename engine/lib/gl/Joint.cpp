@@ -111,14 +111,6 @@ int Joint::applyMatrix(Matrix3D* parentMtx, std::vector<Matrix3D*> *visitor) {
 	return count;
 }
 
-// シェーダーにスキニング用行列を設定
-void Joint::setSkinningMatrix(BoneShader *shader) {
-	std::vector<Matrix3D*> visitor;
-	int count = this->applyMatrix(NULL, &visitor);
-	shader->setSkinningMatrix(&visitor[0], count);
-}
-
-
 void Joint::printf(int tab) {
 	char tmp[512];
 	for (int i = 0; i < tab; i++) {

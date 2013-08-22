@@ -27,8 +27,6 @@
 #include <vector>
 #include <string>
 
-class BoneShader;
-
 /**
  * ジョイントクラス.
  */
@@ -82,12 +80,6 @@ public:
 	Joint *findJointBySID(std::string sid);
 
 	/**
-	 * シェーダにスキニング用行列を設定します.
-	 * @param[in] shader シェーダ
-	 */
-    void setSkinningMatrix(BoneShader *shader);
-
-	/**
 	 * 変換行列を適用します.
 	 * @param[in] parentMtx 親の変換行列
 	 * @param[in] visitor 行列格納用の配列
@@ -95,6 +87,10 @@ public:
 	 */
     int applyMatrix(Matrix3D* parentMtx, std::vector<Matrix3D*> *visitor);
 	
+	/**
+	 * Jointのデータを出力します.
+	 * @param tab タブ
+	 */
 	void printf(int tab);
 };
 
