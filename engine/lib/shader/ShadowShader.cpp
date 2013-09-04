@@ -19,9 +19,10 @@ static const char shadow_vsh[] = ""
 "uniform mat4 u_mvpMatrix;"
 "uniform mat4 u_lgtMatrix;"
 "uniform mat4 u_tMatrix;"
-"uniform mat4 u_skinningMatrix[30];"
+"uniform mat4 u_skinningMatrix[50];"
 "uniform bool u_useSkinning;"
 "uniform bool u_edge;"
+"uniform float u_edgeSize;"
 ""
 "varying vec3 v_position;"
 "varying vec3 v_normal;"
@@ -39,7 +40,7 @@ static const char shadow_vsh[] = ""
 "void main(void) {"
 "	vec3 pos = a_position;"
 "	if (u_edge) {"
-"		pos += a_normal * 0.04;"
+"		pos += a_normal * u_edgeSize;"
 "	}"
 ""
 "	mat4 skmtx = mat4(1);"
@@ -135,6 +136,7 @@ enum {
 	UNIFORM_SKINNING_MATRIX,				//!< スキニングマトリクスのユニフォーム
 	UNIFORM_USE_EDGE,						//!< エッジを使用するフラグ
 	UNIFORM_EDGE_COLOR,						//!< エッジの色
+	UNIFORM_EDGE_SIZE,						//!< エッジの色
 	UNIFORM_USE_SHADOW,						//!< 影を使用するフラグ
 	NUM_UNIFORMS							//!< ユニフォーム数
 };
@@ -243,7 +245,11 @@ void ShadowShader::setEdgeColor(float r, float g, float b, float a) {
 }
 
 void ShadowShader::setUseEdge(bool use) {
-	glUniform1f(uniforms[UNIFORM_USE_EDGE], use ? 1 : 0);
+	glUniform1i(uniforms[UNIFORM_USE_EDGE], use ? 1 : 0);
+}
+
+void ShadowShader::setEdgeSize(float size) {
+	glUniform1f(uniforms[UNIFORM_EDGE_SIZE], size);
 }
 
 void ShadowShader::bindAttribute(GLuint program, const char *name, int user) {
@@ -268,4 +274,5 @@ void ShadowShader::getUniform(GLuint program, const char *name, int user) {
 	uniforms[UNIFORM_USE_SHADOW] = glGetUniformLocation(program, "u_useShadowFlag");	
 	uniforms[UNIFORM_USE_EDGE] = glGetUniformLocation(program, "u_edge");
 	uniforms[UNIFORM_EDGE_COLOR] = glGetUniformLocation(program, "u_edgeColor");
+	uniforms[UNIFORM_EDGE_SIZE] = glGetUniformLocation(program, "u_edgeSize");
 }

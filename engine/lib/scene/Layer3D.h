@@ -62,6 +62,7 @@ protected:
 	bool shadowFlag;
 	bool removeFlag;
 	int userId;
+	float edgeSize;
 	
 	Point3f pos;
 	
@@ -111,6 +112,8 @@ public:
 	 * @param[in] a アルファ値成分
 	 */
 	void setEdgeColor(float r, float g, float b, float a);
+	
+	void setEdgeSize(float size);
 	
 	void setShadowFlag(bool flag);
 	

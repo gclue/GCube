@@ -24,6 +24,7 @@ FigureSet::FigureSet() {
 	edgeColor.g = 0;
 	edgeColor.b = 0;
 	edgeColor.a = 1;
+	edgeSize = 0.4;
 }
 
 FigureSet::~FigureSet() {
@@ -50,6 +51,10 @@ void FigureSet::setEdgeColor(float r, float g, float b, float a) {
 	edgeColor.g = g;
 	edgeColor.b = b;
 	edgeColor.a = a;
+}
+
+void FigureSet::setEdgeSize(float size) {
+	edgeSize = size;
 }
 
 void FigureSet::setShadowFlag(bool flag) {
@@ -84,7 +89,8 @@ void FigureSet::scale(float x, float y, float z) {
 }
 
 void FigureSet::rotate(float angle, float x, float y, float z) {
-	matrix.rotate(angle, x, y, z);
+//	matrix.rotate(angle, x, y, z);
+	matrix.rotate(angle, RotateDirX);
 }
 
 void FigureSet::setFigure(Figure *fig) {
@@ -121,6 +127,7 @@ void FigureSet::render(float dt, GC3DContext &context) {
 				glCullFace(GL_FRONT);
 				shader->setUseEdge(true);
 				shader->setEdgeColor(edgeColor.r, edgeColor.g, edgeColor.b, edgeColor.a);
+				shader->setEdgeSize(edgeSize);
 				figure->draw(dt);
 				
 				glCullFace(GL_BACK);
@@ -143,6 +150,7 @@ void FigureSet::render(float dt, GC3DContext &context) {
 				glCullFace(GL_FRONT);
 				shader->setUseEdge(true);
 				shader->setEdgeColor(edgeColor.r, edgeColor.g, edgeColor.b, edgeColor.a);
+				shader->setEdgeSize(edgeSize);
 				figure->draw(dt);
 				
 				glCullFace(GL_BACK);

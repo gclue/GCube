@@ -288,6 +288,7 @@ Figure* WFObjLoader::loadGCBData(std::vector<char>* data)
 			case TYPE_NODE:
 			{
 				fig->joint = loadJoint(stream);
+				fig->joint->printf(1);
 			}	break;
 			default:
 			{
@@ -314,28 +315,28 @@ void WFObjLoader::loadWeight(BinaryStream& stream, Figure *fig)
 	}
 	
 	int vcount = stream.readShort();
-	GLushort joint1Array[vcount];
-	GLushort joint2Array[vcount];
-	GLfloat weight1Array[vcount];
-	GLfloat weight2Array[vcount];
+	GLushort joint1Array;
+	GLushort joint2Array;
+	GLfloat weight1Array;
+	GLfloat weight2Array;
 	
 	int jidx = 0;
 	for (int i = 0; i < vcount; i++) {
 		short v = stream.readShort();
-		joint1Array[i] = weightIndex[jidx];
-		weight1Array[i] = weights[jidx];
+		joint1Array = weightIndex[jidx];
+		weight1Array = weights[jidx];
 		if (v > 1) {
-			joint2Array[i] = weightIndex[jidx + 1];
-			weight2Array[i] = weights[jidx + 1];
+			joint2Array = weightIndex[jidx + 1];
+			weight2Array = weights[jidx + 1];
 		} else {
-			joint2Array[i] = 0;
-			weight2Array[i] = 0;
+			joint2Array = 0;
+			weight2Array = 0;
 		}
 		jidx += v;
 		
 		// FIXEDME: Figureが2つのウェイトしか持てないので、それ以上のデータが入っていても無視する
 		
-		fig->addJoints(&joint1Array[i], &weight1Array[i], &joint2Array[i], &weight2Array[i], 1);
+		fig->addJoints(&joint1Array, &weight1Array, &joint2Array, &weight2Array, 1);
 	}
 }
 
@@ -358,6 +359,7 @@ Joint* WFObjLoader::loadJoint(BinaryStream& stream)
 			m[i] = stream.readFloat();
 		}
 		jt->baseMatrix->setElements(m);
+		jt->transForm->setElements(m);
 	}
 	
 	bool hasBindPoses = stream.readByte() == 1 ? true : false;

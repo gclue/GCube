@@ -37,6 +37,7 @@ enum {
 	UNIFORM_LIGHT_STATE_POS,				//!< ライトの状態（位置）
 	UNIFORM_USE_EDGE,						//!< エッジを使用するフラグ
 	UNIFORM_EDGE_COLOR,						//!< エッジの色
+	UNIFORM_EDGE_SIZE,						//!< エッジのサイズ
 	UNIFORM_USE_COLOR,						//!< 色指定
 	NUM_UNIFORMS							//!< ユニフォーム数
 };
@@ -139,6 +140,7 @@ void BoneShader::getUniform(GLuint program, const char *name, int user) {
 	uniforms[UNIFORM_ALPHA] = glGetUniformLocation(program, "u_alpha");
 	uniforms[UNIFORM_USE_EDGE] = glGetUniformLocation(program, "u_edge");
 	uniforms[UNIFORM_EDGE_COLOR] = glGetUniformLocation(program, "u_edgeColor");
+	uniforms[UNIFORM_EDGE_SIZE] = glGetUniformLocation(program, "u_edgeSize");
 	uniforms[UNIFORM_USE_LIGHTING] = glGetUniformLocation(program, "u_useLighting");
 	uniforms[UNIFORM_USE_COLOR] = glGetUniformLocation(program, "u_useColor");
 	uniforms[UNIFORM_LIGHT_STATE_POS] = glGetUniformLocation(program, "u_lightState.position");
@@ -153,12 +155,16 @@ void BoneShader::setBaseAlpha(float baseAlpha) {
 }
 
 void BoneShader::setUseEdge(bool use) {
-	glUniform1f(uniforms[UNIFORM_USE_EDGE], use ? 1 : 0);
+	glUniform1i(uniforms[UNIFORM_USE_EDGE], use ? 1 : 0);
 }
 
 void BoneShader::setEdgeColor(float r, float g, float b, float a) {
 	GLfloat color[4] = {r, g, b, a};
 	glUniform4fv(uniforms[UNIFORM_EDGE_COLOR], 1, color);
+}
+
+void BoneShader::setEdgeSize(float size) {
+	glUniform1f(uniforms[UNIFORM_EDGE_SIZE], size);
 }
 
 void BoneShader::setUseColor(bool use) {

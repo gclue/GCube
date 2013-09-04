@@ -120,6 +120,6 @@ void Joint::printf(int tab) {
 	LOGI("%s", tmp);
 	
 	for (int i = 0; i < children.size(); i++) {
-		children.at(i)->printf(tab + 4);
+		children.at(i)->printf(tab + 2);
 	}
 }

@@ -8,11 +8,13 @@ struct light {
 
 uniform mat4 u_mvMatrix;
 uniform mat4 u_mvpMatrix;
-uniform mat4 u_skinningMatrix[30];
+uniform mat4 u_skinningMatrix[50];
 uniform mat3 u_nMatrix;
 uniform bool u_useSkinning;
 uniform bool u_useLighting;
 uniform light u_lightState;
+uniform bool u_edge;
+uniform float u_edgeSize;
 
 attribute vec3 a_position;
 attribute vec3 a_normal;
@@ -24,6 +26,11 @@ varying vec3 v_color;
 
 void main()
 {
+	vec3 pos = a_position;
+	if (u_edge) {
+		pos += a_normal * u_edgeSize;
+	}
+	
     v_texcoord = a_texcoord;
 	
 	// bone
@@ -32,11 +39,11 @@ void main()
 		mat4 m1 = u_skinningMatrix[int(a_joints[0])] * a_joints[1];
 		mat4 m2 = u_skinningMatrix[int(a_joints[2])] * a_joints[3];
 		skmtx = m1 + m2;
-		vec4 p1 = m1 * vec4(a_position, 1.0);
-		vec4 p2 = m2 * vec4(a_position, 1.0);
+		vec4 p1 = m1 * vec4(pos, 1.0);
+		vec4 p2 = m2 * vec4(pos, 1.0);
 		gl_Position = u_mvpMatrix * (p1 + p2);
 	} else {
-		gl_Position = u_mvpMatrix * vec4(a_position, 1.0);
+		gl_Position = u_mvpMatrix * vec4(pos, 1.0);
 	}
 
     // light

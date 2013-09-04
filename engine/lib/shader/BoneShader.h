@@ -85,6 +85,7 @@ public:
 	
 	void setUseEdge(bool use);
 	void setEdgeColor(float r, float g, float b, float a);
+	void setEdgeSize(float size);
 	
 	void setUseColor(bool use);
 	
