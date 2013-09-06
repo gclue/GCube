@@ -43,9 +43,12 @@ AnimationSet::AnimationSet() {
 	b = 1.0;
 	xscale = 1.0;
 	yscale = 1.0;
+	zscale = 1.0;
 	alpha = 1.0;
 	bright = 1.0;
-	rotate = 0.0;
+	xrotate = 0.0;
+	yrotate = 0.0;
+	zrotate = 0.0;
 	repeat = true;
 }
 
@@ -73,16 +76,20 @@ void AnimationSet::addAnimation(Animation *animation) {
 
 	if (animations.size() == 1) {
 		matrix = animation->matrix;
-		alpha = animation->alpha;
 		x = animation->x;
 		y = animation->y;
 		z = animation->z;
 		xscale = animation->xscale;
 		yscale = animation->yscale;
-		rotate = animation->rotate;
+		zscale = animation->zscale;
+		xrotate = animation->xrotate;
+		yrotate = animation->yrotate;
+		zrotate = animation->zrotate;
 		r = animation->r;
 		g = animation->g;
 		b = animation->b;
+		alpha = animation->alpha;
+		bright = animation->bright;
 	}
 }
 
@@ -91,13 +98,19 @@ void AnimationSet::addAnimation(Animation *animation) {
 ////////////////////////////////////////////////////////////
 
 void AnimationSet::multiply(Matrix3D *mtx) {
-	if (xscale != 1.0 || yscale != 1.0) {
-		mtx->scale(xscale, yscale, 1.0);
+	if (xscale != 1.0 || yscale != 1.0 || zscale != 1.0) {
+		mtx->scale(xscale, yscale, zscale);
 	}
-	if (rotate != 0) {
-		mtx->rotate(rotate, RotateDirZ);
+	if (xrotate != 0) {
+		mtx->rotate(xrotate, RotateDirX);
 	}
-	mtx->translate(x, y, 0.0);
+	if (yrotate != 0) {
+		mtx->rotate(yrotate, RotateDirY);
+	}
+	if (zrotate != 0) {
+		mtx->rotate(zrotate, RotateDirZ);
+	}
+	mtx->translate(x, y, z);
 }
 
 void AnimationSet::finish() {
@@ -114,20 +127,23 @@ void AnimationSet::reset() {
 	startflg = false;
 
 	if (animations.size() > 0) {
-		Animation *a = animations.at(index);
+		Animation *a = animations.at(0);
 		a->reset();
 
 		matrix = a->matrix;
-		alpha = a->alpha;
 		x = a->x;
 		y = a->y;
 		z = a->z;
 		xscale = a->xscale;
 		yscale = a->yscale;
-		rotate = a->rotate;
+		zscale = a->zscale;
+		xrotate = a->xrotate;
+		yrotate = a->yrotate;
+		zrotate = a->zrotate;
 		r = a->r;
 		g = a->g;
 		b = a->b;
+		alpha = a->alpha;
 		bright = a->bright;
 	}
 }
@@ -160,16 +176,19 @@ void AnimationSet::step(double dt) {
 	a->step(dt);
 
 	matrix = a->matrix;
-	alpha = a->alpha;
 	x = a->x;
 	y = a->y;
 	z = a->z;
 	xscale = a->xscale;
 	yscale = a->yscale;
-	rotate = a->rotate;
+	zscale = a->zscale;
+	xrotate = a->xrotate;
+	yrotate = a->yrotate;
+	zrotate = a->zrotate;
 	r = a->r;
 	g = a->g;
 	b = a->b;
+	alpha = a->alpha;
 	bright = a->bright;
 
 	if (a->isFinish()) {
@@ -201,7 +220,6 @@ bool AnimationSet::isFinish() {
 	return finishflg;
 }
 
-
 void AnimationSet::getMatrix(float *m) {
 	matrix->getElements(m);
 }
@@ -213,4 +231,3 @@ float AnimationSet::getAlpha() {
 float AnimationSet::getBright() {
 	return bright;
 }
-

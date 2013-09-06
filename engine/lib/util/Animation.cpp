@@ -22,6 +22,7 @@
 
 #include "Animation.h"
 #include "AnimationSet.h"
+#include "defines.h"
 #include <stdio.h>
 
 Animation::Animation(int type) {
@@ -30,13 +31,17 @@ Animation::Animation(int type) {
 
 	mX = NULL;
 	mY = NULL;
-	mAlpha = NULL;
-	mRotation = NULL;
+	mZ = NULL;
+	mxRotation = NULL;
+	myRotation = NULL;
+	mzRotation = NULL;
 	mxScale = NULL;
 	myScale = NULL;
+	mzScale = NULL;
 	mR = NULL;
 	mG = NULL;
 	mB = NULL;
+	mAlpha = NULL;
 	mBright = NULL;
 
 	this->type = type;
@@ -48,15 +53,19 @@ Animation::Animation(int type) {
 	aspect = 1.0;
 	width = 1.0;
 	height = 1.0;
+	depth = 1.0;
 	x = 0.0;
 	y = 0.0;
 	z = 0.0;
 	r = 1.0;
 	g = 1.0;
 	b = 1.0;
-	rotate = 0.0;
+	xrotate = 0.0;
+	yrotate = 0.0;
+	zrotate = 0.0;
 	xscale = 1.0;
 	yscale = 1.0;
+	zscale = 1.0;
 	tag = 0;
 	startflg = false;
 	finishflg = false;
@@ -69,65 +78,26 @@ Animation::Animation(int type) {
 }
 
 Animation::~Animation() {
-	if (mX) {
-		delete mX;
-	}
-	mX = NULL;
+	DELETE(mX);
+	DELETE(mY);
+	DELETE(mZ);
 
-	if (mY) {
-		delete mY;
-	}
-	mY = NULL;
+	DELETE(mxScale);
+	DELETE(myScale);
+	DELETE(mzScale);
+	
+	DELETE(mxRotation);
+	DELETE(myRotation);
+	DELETE(mzRotation);
+	
+	DELETE(mAlpha);
+	DELETE(mBright);
 
-	if (mAlpha) {
-		delete mAlpha;
-	}
-	mAlpha = NULL;
-
-	if (mBright) {
-		delete mBright;
-	}
-	mBright = NULL;
-
-	if (mRotation) {
-		delete mRotation;
-	}
-	mRotation = NULL;
-
-	if (mxScale) {
-		delete mxScale;
-	}
-	mxScale = NULL;
-
-	if (myScale) {
-		delete myScale;
-	}
-	myScale = NULL;
-
-	if (matrix) {
-		delete matrix;
-	}
-	matrix = NULL;
-
-	if (mR) {
-		delete mR;
-	}
-	mR = NULL;
-
-	if (mG) {
-		delete mG;
-	}
-	mG = NULL;
-
-	if (mB) {
-		delete mB;
-	}
-	mB = NULL;
-
-	if (animation) {
-		delete animation;
-	}
-	animation = NULL;
+	DELETE (matrix);
+	DELETE(mR);
+	DELETE(mG);
+	DELETE(mB);
+	DELETE(animation);
 }
 
 bool Animation::isStarted() {
@@ -146,28 +116,24 @@ double Animation::getDelay() {
 void Animation::setDuration(float duration) {
 	this->duration = duration;
 
-	if (mX) {
-		mX->duration = duration;
-	}
+	if (mX) mX->duration = duration;
+	if (mY) mY->duration = duration;
+	if (mZ) mZ->duration = duration;
 
-	if (mY) {
-		mY->duration = duration;
-	}
-
+	if (mxScale) mxScale->duration = duration;
+	if (myScale) myScale->duration = duration;
+	if (mzScale) mzScale->duration = duration;
+	
+	if (mxRotation) mxRotation->duration = duration;
+	if (myRotation) myRotation->duration = duration;
+	if (mzRotation) mzRotation->duration = duration;
+	
 	if (mAlpha) {
 		mAlpha->duration = duration;
 	}
-
-	if (mRotation) {
-		mRotation->duration = duration;
-	}
-
-	if (mxScale) {
-		mxScale->duration = duration;
-	}
-
-	if (myScale) {
-		myScale->duration = duration;
+	
+	if (mBright) {
+		mBright->duration = duration;
 	}
 
 	if (mR) {
@@ -178,10 +144,6 @@ void Animation::setDuration(float duration) {
 	}
 	if (mB) {
 		mB->duration = duration;
-	}
-
-	if (mBright) {
-		mBright->duration = duration;
 	}
 }
 
@@ -194,36 +156,83 @@ void Animation::setAlpha(float start, float end) {
 	alpha = start;
 }
 
-void Animation::setMove(float sx, float sy, float ex, float ey) {
+void Animation::setMoveX(float start, float end) {
 	if (!mX) {
 		mX = new Easing(type);
 	}
+	mX->begin = start;
+	mX->delta = end - start;
+	x = start;
+}
+
+void Animation::setMoveY(float start, float end) {
 	if (!mY) {
 		mY = new Easing(type);
 	}
-
-	mX->begin = sx;
-	mY->begin = sy;
-	mX->delta = ex - sx;
-	mY->delta = ey - sy;
-	x = sx;
-	y = sy;
+	mY->begin = start;
+	mY->delta = end - start;
+	y = start;
 }
 
-void Animation::setScale(float sx, float sy, float ex, float ey) {
+void Animation::setMoveZ(float start, float end) {
+	if (!mZ) {
+		mZ = new Easing(type);
+	}
+	mZ->begin = start;
+	mZ->delta = end - start;
+	z = start;
+}
+
+void Animation::setMove(float sx, float sy, float ex, float ey) {
+	setMoveX(sx, ex);
+	setMoveY(sy, ey);
+}
+
+void Animation::setMove(float sx, float sy, float sz, float ex, float ey, float ez) {
+	setMoveX(sx, ex);
+	setMoveY(sy, ey);
+	setMoveY(sz, ez);
+}
+
+void Animation::setScaleX(float start, float end) {
 	if (!mxScale) {
 		mxScale = new Easing(type);
 	}
+	
+	mxScale->begin = start;
+	mxScale->delta = end - start;
+	xscale = start;
+}
+
+void Animation::setScaleY(float start, float end) {
 	if (!myScale) {
 		myScale = new Easing(type);
 	}
+	
+	myScale->begin = start;
+	myScale->delta = end - start;
+	yscale = start;
+}
 
-	mxScale->begin = sx;
-	myScale->begin = sy;
-	mxScale->delta = ex - sx;
-	myScale->delta = ey - sy;
-	xscale = sx;
-	yscale = sy;
+void Animation::setScaleZ(float start, float end) {
+	if (!mzScale) {
+		mzScale = new Easing(type);
+	}
+	
+	mzScale->begin = start;
+	mzScale->delta = end - start;
+	zscale = start;
+}
+
+void Animation::setScale(float sx, float sy, float ex, float ey) {
+	setScaleX(sx, ex);
+	setScaleY(sy, ey);
+}
+
+void Animation::setScale(float sx, float sy, float sz, float ex, float ey, float ez) {
+	setScaleX(sx, ex);
+	setScaleY(sy, ey);
+	setScaleZ(sz, ez);
 }
 
 void Animation::setBright(float sb, float eb) {
@@ -258,13 +267,41 @@ void Animation::setRGB(float sr, float sg, float sb, float er, float eg, float e
 }
 
 void Animation::setRotation(float start, float end) {
-	if (!mRotation) {
-		mRotation = new Easing(type);
+	if (!mzRotation) {
+		mzRotation = new Easing(type);
 	}
-	mRotation->begin = start;
-	mRotation->delta = end - start;
-	rotate = start;
+	mzRotation->begin = start;
+	mzRotation->delta = end - start;
+	zrotate = start;
 }
+
+void Animation::setRotationX(float start, float end) {
+	if (!mxRotation) {
+		mxRotation = new Easing(type);
+	}
+	mxRotation->begin = start;
+	mxRotation->delta = end - start;
+	xrotate = start;
+}
+
+void Animation::setRotationY(float start, float end) {
+	if (!myRotation) {
+		myRotation = new Easing(type);
+	}
+	myRotation->begin = start;
+	myRotation->delta = end - start;
+	yrotate = start;
+}
+
+void Animation::setRotationZ(float start, float end) {
+	if (!mzRotation) {
+		mzRotation = new Easing(type);
+	}
+	mzRotation->begin = start;
+	mzRotation->delta = end - start;
+	zrotate = start;
+}
+
 
 ////////////////////////////////////////////////////////////
 // IAnimationからの継承クラス
@@ -274,13 +311,19 @@ void Animation::multiply(Matrix3D *mtx) {
 	if (animation) {
 		animation->multiply(mtx);
 	}
-	if (xscale != 1.0 || yscale != 1.0) {
-		mtx->scale(xscale, yscale, 1.0);
+	if (xscale != 1.0 || yscale != 1.0 || zscale != 1.0) {
+		mtx->scale(xscale, yscale, zscale);
 	}
-	if (rotate != 0) {
-		mtx->rotate(rotate, RotateDirZ);
+	if (xrotate != 0) {
+		mtx->rotate(xrotate, RotateDirX);
 	}
-	mtx->translate(x, y, 0.0);
+	if (yrotate != 0) {
+		mtx->rotate(yrotate, RotateDirY);
+	}
+	if (zrotate != 0) {
+		mtx->rotate(zrotate, RotateDirZ);
+	}
+	mtx->translate(x, y, z);
 }
 
 void Animation::finish() {
@@ -295,12 +338,17 @@ void Animation::reset() {
 	delayTime = delay;
 	finishflg = false;
 	startflg = false;
-	if(mX) x = mX->begin;
-	if(mY) y = mY->begin;
-	if(mxScale) xscale = mxScale->begin;
-	if(mxScale) yscale = myScale->begin;
-	if(mRotation) rotate = mRotation->begin;
-	if(mAlpha) alpha = mAlpha->begin;
+	if (mX) x = mX->begin;
+	if (mY) y = mY->begin;
+	if (mZ) z = mZ->begin;
+	if (mxScale) xscale = mxScale->begin;
+	if (mxScale) yscale = myScale->begin;
+	if (mzScale) zscale = mzScale->begin;
+	if (mxRotation) xrotate = mxRotation->begin;
+	if (myRotation) yrotate = myRotation->begin;
+	if (mzRotation) zrotate = mzRotation->begin;
+	if (mAlpha) alpha = mAlpha->begin;
+	if (mBright) bright = mBright->begin;
 }
 
 void Animation::step(double dt) {
@@ -364,24 +412,40 @@ void Animation::easing(double dt) {
 		}
 	}
 
-	if (mxScale && myScale) {
+	if (mxScale) {
 		xscale = mxScale->easing(time);
+	}
+	if (myScale) {
 		yscale = myScale->easing(time);
-		matrix->scale(xscale, yscale, 1);
 	}
-	matrix->scale(width, height, 1);
+	if (mzScale) {
+		zscale = mzScale->easing(time);
+	}
+	matrix->scale(xscale, yscale, zscale);
 
-	if (mRotation) {
-		rotate = mRotation->easing(time);
-		matrix->rotate(rotate, RotateDirZ);
+	if (mxRotation) {
+		xrotate = mxRotation->easing(time);
+		matrix->rotate(xrotate, RotateDirX);
+	}
+	if (myRotation) {
+		yrotate = myRotation->easing(time);
+		matrix->rotate(yrotate, RotateDirY);
+	}
+	if (mzRotation) {
+		zrotate = mzRotation->easing(time);
+		matrix->rotate(zrotate, RotateDirZ);
 	}
 
-	if (mX && mY) {
+	if (mX) {
 		x = mX->easing(time);
-		y = mY->easing(time);
-		matrix->translate(x, y, 0);
 	}
-	matrix->translate(0, 0, z);
+	if (mY) {
+		y = mY->easing(time);
+	}
+	if (mZ) {
+		z = mZ->easing(time);
+	}
+	matrix->translate(x, y, z);
 
 	if (mR) {
 		r = mR->easing(time);
@@ -396,7 +460,6 @@ void Animation::easing(double dt) {
 	if (mBright) {
 		bright = mBright->easing(time);
 	}
-
 	if (mAlpha) {
 		alpha = mAlpha->easing(time);
 	}

@@ -12,12 +12,15 @@
 #include "ShadowShader.h"
 #include "SimpleShader.h"
 #include "BoneShader.h"
+#include "Animation.h"
+#include "AnimationSet.h"
 
 FigureSet::FigureSet() {
 	removeFlag = false;
 	useEdge = false;
 	figure = NULL;
 	texture = NULL;
+	animation = NULL;
 	userId = 0;
 	matrix.loadIdentity();
 	edgeColor.r = 0;
@@ -28,6 +31,13 @@ FigureSet::FigureSet() {
 }
 
 FigureSet::~FigureSet() {
+}
+
+void FigureSet::startAnimation(IAnimation *a) {
+	if (animation) {
+		delete animation;
+	}
+	animation = a;
 }
 
 bool FigureSet::isRemoveFlag() {
@@ -102,6 +112,15 @@ void FigureSet::setTexture(Texture *texture) {
 	this->texture = texture;
 }
 
+
+void FigureSet::testMatrix(Matrix3D *m) {
+	if (animation) {
+		animation->multiply(m);
+	}
+	m->multiply(&matrix);
+}
+
+
 void FigureSet::render(float dt, GC3DContext &context) {
 	figure->bind();
 
@@ -139,8 +158,16 @@ void FigureSet::render(float dt, GC3DContext &context) {
 			}
 		}	break;
 		case BoneShaderType: {
+			
+			if (animation) {
+				animation->step(dt);
+			}
+			
+			Matrix3D mtx;
+			testMatrix(&mtx);
+			
 			BoneShader *shader = context.boneShader;
-			shader->setMVPMatrix(context.camera, &matrix);
+			shader->setMVPMatrix(context.camera, &mtx);
 			shader->setSkinningMatrix(figure);
 			if (texture) {
 				shader->bindTexture(texture->texName);

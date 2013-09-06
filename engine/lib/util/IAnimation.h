@@ -62,7 +62,22 @@ protected:
 	bool repeat;		//!< リピート再生フラグ
 
 public:
-	int tag;			//!< アニメーション識別用タグ
+	int tag;			//!< アニメーション識別用タグ.
+	
+	float alpha;		//!< アルファ値.
+	float bright;		//!< ブライト値.
+	float x;			//!< x座標.
+	float y;			//!< y座標.
+	float z;			//!< z座標.
+	float xscale;		//!< x方向へのスケール.
+	float yscale;		//!< y方向へのスケール.
+	float zscale;		//!< z方向へのスケール.
+	float xrotate;		//!< 回転角度.
+	float yrotate;		//!< 回転角度.
+	float zrotate;		//!< 回転角度.
+	float r;			//!< 赤色.
+	float g;			//!< 緑色.
+	float b;			//!< 青色.
 	
 	virtual ~IAnimation(){};
 

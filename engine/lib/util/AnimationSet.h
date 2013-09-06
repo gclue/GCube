@@ -46,17 +46,6 @@ private:
 
 public:
 	Matrix3D *matrix;	//!< アニメーションの結果を格納するマトリクス
-	float alpha;		//!< アルファ値
-	float bright;		//!< ブライト値
-	float x;			//!< x座標
-	float y;			//!< y座標
-	float z;			//!< 奥行き
-	float xscale;		//!< x方向へのスケール
-	float yscale;		//!< y方向へのスケール
-	float rotate;		//!< 回転角度
-	float r;			//!< 赤色
-	float g;			//!< 緑色
-	float b;			//!< 青色
 
 	AnimationSet();
 	virtual ~AnimationSet();

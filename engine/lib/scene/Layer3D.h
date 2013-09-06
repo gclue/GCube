@@ -69,6 +69,9 @@ protected:
 	Matrix3D matrix;
 	
 	Colorf edgeColor;
+	IAnimation *animation;
+	
+	void testMatrix(Matrix3D *m);
 	
 public:
 	FigureSet();
@@ -81,6 +84,8 @@ public:
 	Texture *getTexture() {
 		return texture;
 	}
+	
+	void startAnimation(IAnimation *a);
 	
 	/**
 	 * 削除フラグの状態を取得します.
