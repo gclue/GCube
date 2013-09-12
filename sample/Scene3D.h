@@ -26,6 +26,8 @@
 #include "Scene.h"
 #include "JointAnimation.h"
 
+class Layer3D;
+
 /**
  * 3Dサンプルシーンクラス.
  */
@@ -35,6 +37,7 @@ private:
 	float rot;
 	Figure *fig;
 	JointAnimation *animation;
+	Layer3D *layer3d;
 
 public:
 	/**
