@@ -243,7 +243,7 @@ Figure* WFObjLoader::loadGCBData(std::vector<char>* data)
 		switch (type) {
 			case TYPE_VERTEX:
 			{
-				short size = stream.readShort();
+				int size = stream.readInt();
 				for (int i = 0; i < size; i++) {
 					float v = stream.readFloat();
 					fig->addVertices(&v, 1);
@@ -251,7 +251,7 @@ Figure* WFObjLoader::loadGCBData(std::vector<char>* data)
 			}	break;
 			case TYPE_NORMAL:
 			{
-				short size = stream.readShort();
+				int size = stream.readInt();
 				for (int i = 0; i < size; i++) {
 					float v = stream.readFloat();
 					fig->addNormal(&v, 1);
@@ -259,7 +259,7 @@ Figure* WFObjLoader::loadGCBData(std::vector<char>* data)
 			}	break;
 			case TYPE_TEXCOOD:
 			{
-				short size = stream.readShort();
+				int size = stream.readInt();
 				for (int i = 0; i < size; i++) {
 					float v = stream.readFloat();
 					fig->addTextureCoords(&v, 1);
@@ -267,7 +267,7 @@ Figure* WFObjLoader::loadGCBData(std::vector<char>* data)
 			}	break;
 			case TYPE_INDEX:
 			{
-				short size = stream.readShort();
+				int size = stream.readInt();
 				for (int i = 0; i < size; i++) {
 					unsigned short v = stream.readInt();
 					fig->addVertexIndexes(&v, 1);
@@ -275,7 +275,7 @@ Figure* WFObjLoader::loadGCBData(std::vector<char>* data)
 			}	break;
 			case TYPE_COLOR:
 			{
-				short size = stream.readShort();
+				int size = stream.readInt();
 				for (int i = 0; i < size; i++) {
 					float v = stream.readFloat();
 					fig->addColors(&v, 1);
@@ -302,19 +302,19 @@ Figure* WFObjLoader::loadGCBData(std::vector<char>* data)
 
 void WFObjLoader::loadWeight(BinaryStream& stream, Figure *fig)
 {
-	int weightIndexSize = stream.readShort();
-	short weightIndex[weightIndexSize];
+	int weightIndexSize = stream.readInt();
+	int weightIndex[weightIndexSize];
 	for (int i = 0; i < weightIndexSize; i++) {
-		weightIndex[i] = stream.readShort();
+		weightIndex[i] = stream.readInt();
 	}
 	
-	int weightsSize = stream.readShort();
+	int weightsSize = stream.readInt();
 	float weights[weightsSize];
 	for (int i = 0; i < weightIndexSize; i++) {
 		weights[i] = stream.readFloat();
 	}
 	
-	int vcount = stream.readShort();
+	int vcount = stream.readInt();
 	GLushort joint1Array;
 	GLushort joint2Array;
 	GLfloat weight1Array;
@@ -322,7 +322,7 @@ void WFObjLoader::loadWeight(BinaryStream& stream, Figure *fig)
 	
 	int jidx = 0;
 	for (int i = 0; i < vcount; i++) {
-		short v = stream.readShort();
+		short v = stream.readInt();
 		joint1Array = weightIndex[jidx];
 		weight1Array = weights[jidx];
 		if (v > 1) {
@@ -408,7 +408,7 @@ JointAnimation* WFObjLoader::loadGAVData(std::vector<char>* data)
 	
 	JointAnimation *animation = new JointAnimation();
 	
-	short animationCount = stream.readShort();
+	int animationCount = stream.readInt();
 	
 	for (int i = 0; i < animationCount; i++) {
 		JointKeyFrame *frame = new JointKeyFrame();
@@ -418,7 +418,7 @@ JointAnimation* WFObjLoader::loadGAVData(std::vector<char>* data)
 			frame->sid.append(1, stream.readByte());
 		}
 		
-		short matrixSize = stream.readShort();
+		int matrixSize = stream.readInt();
 		for (int j = 0; j < matrixSize; j++) {
 			float t = stream.readFloat();
 			frame->addTime(&t, 1);
