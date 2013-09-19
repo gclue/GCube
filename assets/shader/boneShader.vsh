@@ -35,7 +35,7 @@ void main()
 	
 	// bone
 	mat4 skmtx = mat4(1);
-	if (u_useSkinning) {
+	if (u_useSkinning && a_joints[0] < 65535.0) {
 		mat4 m1 = u_skinningMatrix[int(a_joints[0])] * a_joints[1];
 		mat4 m2 = u_skinningMatrix[int(a_joints[2])] * a_joints[3];
 		skmtx = m1 + m2;
