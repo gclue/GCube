@@ -39,6 +39,7 @@ typedef struct GC3DContext {
 	BoneShader *boneShader;
 	Camera *camera;
 	Camera *lightcamera;
+	Light *light;
 	int type;
 	bool shadowFlag;
 } GC3DContext;

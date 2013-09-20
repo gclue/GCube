@@ -122,21 +122,29 @@ void FigureSet::testMatrix(Matrix3D *m) {
 
 
 void FigureSet::render(float dt, GC3DContext &context) {
+	
+	if (animation) {
+		animation->step(dt);
+	}
+	
+	Matrix3D mtx;
+	testMatrix(&mtx);
+	
 	figure->bind();
 
 	switch (context.type) {
 		case DepthStorageShaderType: {
 			DepthStorageShader *shader = context.depthShader;
-			shader->setMVPMatrix(context.lightcamera, &matrix);
+			shader->setMVPMatrix(context.lightcamera, &mtx);
 			shader->setSkinningMatrix(figure);
 			figure->draw(dt);
 		}	break;
 		case ShadowShaderType: {
 			ShadowShader *shader = context.shadowShader;
-			shader->setModelMatrix(&matrix);
-			shader->setMVPMatrix(context.camera, &matrix);
-			shader->setLightMatrix(context.lightcamera, &matrix);
-			shader->setInverseMatrix(&matrix);
+			shader->setModelMatrix(&mtx);
+			shader->setMVPMatrix(context.camera, &mtx);
+			shader->setLightMatrix(context.lightcamera, &mtx);
+			shader->setInverseMatrix(&mtx);
 			shader->setSkinningMatrix(figure);
 			shader->setUseShadow(shadowFlag);
 			if (texture) {
@@ -154,23 +162,22 @@ void FigureSet::render(float dt, GC3DContext &context) {
 				shader->setEdgeColor(0, 0, 0, 0);
 				figure->draw(0);
 			} else {
-				figure->draw(dt);
+				figure->draw(0);
 			}
 		}	break;
 		case BoneShaderType: {
-			
-			if (animation) {
-				animation->step(dt);
-			}
-			
-			Matrix3D mtx;
-			testMatrix(&mtx);
-			
 			BoneShader *shader = context.boneShader;
 			shader->setMVPMatrix(context.camera, &mtx);
 			shader->setSkinningMatrix(figure);
 			if (texture) {
 				shader->bindTexture(texture->texName);
+			}
+			
+			if (shadowFlag) {
+				shader->setNormalMatrix(&mtx);
+				shader->setLight(context.light);
+			} else {
+				shader->setLight(NULL);
 			}
 			
 			if (useEdge) {
@@ -192,9 +199,9 @@ void FigureSet::render(float dt, GC3DContext &context) {
 		default: {
 			SimpleShader *shader = context.simpleShader;
 			shader->setMVPMatrix(context.camera, &matrix);
-			if (texture) {
-				shader->bindTexture(texture->texName);
-			}
+//			if (texture) {
+//				shader->bindTexture(texture->texName);
+//			}
 			figure->draw(dt);
 		}	break;
 	}
@@ -251,6 +258,7 @@ Layer3D::Layer3D() {
 	gc3dcontext.camera = &camera;
 	gc3dcontext.lightcamera = &lightcamera;
 	gc3dcontext.shadowFlag = false;
+	gc3dcontext.light = &light;
 }
 
 Layer3D::~Layer3D() {
@@ -449,7 +457,7 @@ void Layer3D::drawSceneWithShadow(float dt) {
 	simpleShader->bindTexture(fb.t);
 	
 	for (int i = 0; i < figures.size(); i++) {
-		figures.at(i)->render(0, GC3DContext);
+		figures.at(i)->render(0, gc3dcontext);
 	}
 #else
 	shadowShader->useProgram();
