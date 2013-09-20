@@ -87,8 +87,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    util/GCMap.cpp \
                    xml/XMLParser.cpp \
                    xml/PlistParser.cpp \
-                   util/BulletWorld.cpp \
-                   scene/Layer3D.cpp 
+                   util/BulletWorld.cpp
                    
 LOCAL_LDLIBS    := -llog -lGLESv2
 LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
@@ -133,7 +132,7 @@ LOCAL_C_INCLUDES:= $(LOCAL_PATH)/ \
                    $(LOCAL_PATH)/../external/Bullet/BulletDynamics/Dynamics \
 				   $(LOCAL_PATH)/../external/Bullet/Extras/Serialize/BulletWorldImporter  \
 				   $(LOCAL_PATH)/../external/Bullet/Extras/Serialize/BulletFileLoader \
-				   $(LOCAL_PATH)/../../main/ \
+				   $(LOCAL_PATH)/../../main/
 LOCAL_STATIC_LIBRARIES := box2d math bullet xml png
 
 include $(BUILD_STATIC_LIBRARY)

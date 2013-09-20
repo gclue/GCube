@@ -1,6 +1,7 @@
 LOCAL_PATH := $(call my-dir)
 MK_PATH := $(LOCAL_PATH)
 
+ifdef BUILD_LIB
 
 include $(CLEAR_VARS)
 
@@ -29,6 +30,9 @@ include $(MK_PATH)/xml.mk
 #include $(CLEAR_VARS)
 
 #include $(MK_PATH)/bullet.mk
+
+endif
+
 
 include $(CLEAR_VARS)
 
