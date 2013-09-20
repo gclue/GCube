@@ -472,7 +472,7 @@ void GCSoundEvent(const char *fileName, int mode) {
 void GCSendGameEvent(int type, int param1, long param2, double param3, int param4, const char *param5) {
 	JNIEnv* env = jni.env;
 	if (env) {
-		LOGD( "**JNISendGameEvent**:%d, %d, %d, %d, %d, %s", type, param1, param2, param3, param4, param5);
+		LOGD( "**JNISendGameEvent**:%d, %d, %ld, %f, %d, %s", type, param1, param2, param3, param4, param5);
 		jstring str = NULL;
 		if (param4) {
 			str = env->NewStringUTF(param5);
@@ -809,12 +809,12 @@ const char* GCGetStoragePath(const char* fileName) {
 		jstring data = (jstring) env->CallObjectMethod(jni.obj, jni.getFilePathMethod, str);
 		env->DeleteLocalRef(str);
 		if (data) {
-			std::string str(env->GetStringUTFChars(data, NULL));
-			sprintf((char *) temp, str.c_str());
-			env->DeleteLocalRef(data);
+//			std::string str(env->GetStringUTFChars(data, NULL));
+//			sprintf((char *) temp, str.c_str());
+//			env->DeleteLocalRef(data);
 		}
 	}
-	return temp;
+	return "";
 }
 
 int GCHttpRequestAsync(std::string url, std::map<std::string, std::string> headers, std::string body,  IHttpRquestListener *callback) {
@@ -1131,7 +1131,7 @@ Java_com_gclue_gl_JNILib_onPressBackKey(
 JNIEXPORT void JNICALL
 Java_com_gclue_gl_JNILib_touchEvent(
 		JNIEnv * env, jobject obj, jint action, jfloat x, jfloat y, jlong time) {
-	LOGD("Java_com_gclue_gl_JNILib_touchEvent: %d, (%f, %f) %d", action, x, y, time);
+	LOGD("Java_com_gclue_gl_JNILib_touchEvent: %d, (%f, %f) %lld", action, x, y, time);
 	if (controller) {
 		controller->onTouch(action, x, y, time);
 	}

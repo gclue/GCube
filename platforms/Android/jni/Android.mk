@@ -7,8 +7,10 @@ LOCAL_PATH := $(MY_PATH)/../../..
 include $(CLEAR_VARS)
 
 MAIN_PATH := main
+SAMPLE_PATH := sample
 ENGINE_PATH := $(LOCAL_PATH)/engine
 INC_PATH := $(LOCAL_PATH)/main
+INC_PATH2 := $(LOCAL_PATH)/sample
 
 
 APP_MODULES     := gcube
@@ -16,9 +18,9 @@ LOCAL_MODULE    := gcube
 LOCAL_CFLAGS    := -Werror
 LOCAL_SRC_FILES := platforms/Android/jni/android/ndk-interface.cpp \
                    $(MAIN_PATH)/main.cpp \
-                   $(MAIN_PATH)/SceneHello.cpp
-                   
-LOCAL_LDLIBS    := -llog -lGLESv2 -lz
+                   $(MAIN_PATH)/SceneHello.cpp \
+                   $(SAMPLE_PATH)/Scene3D.cpp
+LOCAL_LDLIBS    := -llog -lGLESv2 -lz -L$(MY_PATH)/../libs -lbox2d -lmath -logg -lopenal -lpng -lxml
 LOCAL_C_INCLUDES:= $(MY_PATH)/ \
                    $(MY_PATH)/android/ \
                    $(ENGINE_PATH)/lib \
@@ -57,7 +59,8 @@ LOCAL_C_INCLUDES:= $(MY_PATH)/ \
                    $(ENGINE_PATH)/external/Ogg/libogg-1.3.0/src \
                    $(ENGINE_PATH)/external/Ogg/libvorbis-1.3.2/include \
                    $(ENGINE_PATH)/external/Ogg/libvorbis-1.3.2/lib \
-                   $(INC_PATH)
+                   $(INC_PATH) \
+                   $(INC_PATH2)
 LOCAL_STATIC_LIBRARIES := common box2d xml math bullet ogg openal png
 
 include $(BUILD_SHARED_LIBRARY)
