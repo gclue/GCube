@@ -243,7 +243,7 @@ Layer3D::Layer3D() {
 	Vector3D lightup(0,0,-1);
 	
 	lightcamera.zNear = 0.1;
-	lightcamera.zFar = 150.0;
+	lightcamera.zFar = 300.0;
 	lightcamera.fieldOfView = 100.0;
 	lightcamera.aspect = 1;
 	lightcamera.lookAt(light.position, at, lightup);
