@@ -192,9 +192,9 @@ void FigureSet::render(float dt, GC3DContext &context) {
 		default: {
 			SimpleShader *shader = context.simpleShader;
 			shader->setMVPMatrix(context.camera, &matrix);
-			if (texture) {
-				shader->bindTexture(texture->texName);
-			}
+//			if (texture) {
+//				shader->bindTexture(texture->texName);
+//			}
 			figure->draw(dt);
 		}	break;
 	}
@@ -236,7 +236,7 @@ Layer3D::Layer3D() {
 	Vector3D lightup(0,0,-1);
 	
 	lightcamera.zNear = 0.1;
-	lightcamera.zFar = 150.0;
+	lightcamera.zFar = 300.0;
 	lightcamera.fieldOfView = 100.0;
 	lightcamera.aspect = 1;
 	lightcamera.lookAt(light.position, at, lightup);
@@ -449,7 +449,7 @@ void Layer3D::drawSceneWithShadow(float dt) {
 	simpleShader->bindTexture(fb.t);
 	
 	for (int i = 0; i < figures.size(); i++) {
-		figures.at(i)->render(0, GC3DContext);
+		figures.at(i)->render(0, gc3dcontext);
 	}
 #else
 	shadowShader->useProgram();

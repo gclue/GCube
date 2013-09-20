@@ -105,7 +105,7 @@ void Figure::addJoints(const unsigned short *j1, const float *w1, const unsigned
 // 描画
 void Figure::draw() {
 	if (!visible) return;
-	GLshort indexCount = vertexIndexes.size();
+	GLushort indexCount = vertexIndexes.size();
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, NULL);
 }
 
@@ -113,7 +113,7 @@ void Figure::draw() {
 void Figure::drawLines(float width) {
 	if (!visible) return;
 	glLineWidth(width);
-	GLshort indexCount = vertexIndexes.size();
+	GLushort indexCount = vertexIndexes.size();
 	glDrawElements(GL_LINE_LOOP, indexCount, GL_UNSIGNED_SHORT, NULL);
 }
 
@@ -350,7 +350,7 @@ void Figure::enableAttribute(GLuint attrib) {
 			elements = 4;
 			break;
 		case ATTRIB_INDEX:
-			type = GL_SHORT;
+			type = GL_UNSIGNED_SHORT;
 			elements = 1;
 			break;
 	}

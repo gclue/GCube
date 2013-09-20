@@ -22,14 +22,14 @@
 
 #include "main.h"
 #include "ApplicationController.h"
-#include "SceneHello.h"
+#include "Scene3D.h"
 
 // 初期化処理.
 void Main::initApplicationController() {
 	LOGD("*Main::initApplicationController()");
 	    
     // シーンの生成
-	SceneHello *hello = new SceneHello();
+	Scene3D *hello = new Scene3D();
     
     // シーンの登録
     controller->addScene(1, hello);
