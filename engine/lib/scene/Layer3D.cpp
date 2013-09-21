@@ -20,6 +20,7 @@ FigureSet::FigureSet() {
 	useEdge = false;
 	figure = NULL;
 	texture = NULL;
+	textureMlt = NULL;
 	animation = NULL;
 	userId = 0;
 	matrix.loadIdentity();
@@ -111,7 +112,9 @@ void FigureSet::setFigure(Figure *fig) {
 void FigureSet::setTexture(Texture *texture) {
 	this->texture = texture;
 }
-
+void FigureSet::setTextureMlt(Texture *texture) {
+	this->textureMlt = texture;
+}
 
 void FigureSet::testMatrix(Matrix3D *m) {
 	if (animation) {
@@ -171,6 +174,14 @@ void FigureSet::render(float dt, GC3DContext &context) {
 			shader->setSkinningMatrix(figure);
 			if (texture) {
 				shader->bindTexture(texture->texName);
+			} else {
+				shader->bindTexture(0);
+			}
+			
+			if (textureMlt) {
+				shader->bindTextureMlt(textureMlt->texName);
+			} else {
+				shader->bindTextureMlt(0);
 			}
 			
 			if (shadowFlag) {
@@ -228,8 +239,8 @@ Layer3D::Layer3D() {
 	camera.loadPerspective();
 	camera.lookAt(eye, at, up);
 	
-	fbWidth = 512;
-	fbHeight = 512;
+	fbWidth = 1024;
+	fbHeight = 1024;
 	
 	depthShader = new DepthStorageShader();
 	shadowShader = new ShadowShader();

@@ -19,9 +19,11 @@ uniform float u_edgeSize;
 attribute vec3 a_position;
 attribute vec3 a_normal;
 attribute vec2 a_texcoord;
+attribute vec2 a_texcoord_mlt;
 attribute vec4 a_joints; // j1,w1,j2,w2
 
 varying vec2 v_texcoord;
+varying vec2 v_texcoord_mlt;
 varying vec3 v_color;
 
 void main()
@@ -32,6 +34,7 @@ void main()
 	}
 	
     v_texcoord = a_texcoord;
+	v_texcoord_mlt = a_texcoord_mlt;
 	
 	// bone
 	mat4 skmtx = mat4(1);

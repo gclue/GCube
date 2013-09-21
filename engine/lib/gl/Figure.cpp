@@ -49,16 +49,9 @@ Figure::Figure() {
 
 // デストラクタ
 Figure::~Figure() {
-//	for (int i = 0; i < NUM_VBO; i++) {
-//		glDeleteBuffers(1, &vboNames[i]);
-//		vboNames[i] = 0;
-//	}
-
 	destroy();
-	
 	delete transForm;
 	delete joint;
-	
 }
 
 // 頂点追加
@@ -77,6 +70,12 @@ void Figure::addNormal(const float *v, int len) {
 void Figure::addTextureCoords(const float *v, int len) {
 	std::vector<float> tmp(v, v+len);
 	textureCoords.insert(textureCoords.end(), tmp.begin(), tmp.end());
+}
+
+// uv追加
+void Figure::addTextureCoordsMlt(const float *v, int len) {
+	std::vector<float> tmp(v, v+len);
+	textureCoordsMlt.insert(textureCoordsMlt.end(), tmp.begin(), tmp.end());
 }
 
 // インデックス追加
@@ -150,6 +149,11 @@ void Figure::bind() {
 		enableAttribute(ATTRIB_TEXCOORD);
 	}
 	
+	if (hasTextureMlt) {
+		glBindBuffer(GL_ARRAY_BUFFER, vboNames[VBO_TEXCOORD_MLT]);
+		enableAttribute(ATTRIB_TEXCOORD_MLT);
+	}
+	
 	// カラー
 	if (hasColor) {
 		glBindBuffer(GL_ARRAY_BUFFER, vboNames[VBO_COLOR]);
@@ -207,7 +211,15 @@ void Figure::build() {
 		enableAttribute(ATTRIB_TEXCOORD);
 		hasTexture = true;
 	}
-
+	
+	// マルチテクスチャ
+	if (!textureCoordsMlt.empty()) {
+		vboNames[VBO_TEXCOORD_MLT] = buildVBO(&textureCoordsMlt.front(),
+										  textureCoordsMlt.size() * sizeof(float), GL_ARRAY_BUFFER);
+		enableAttribute(ATTRIB_TEXCOORD_MLT);
+		hasTextureMlt = true;
+	}
+	
 	// カラー
 	if (!colors.empty()) {
 		vboNames[VBO_COLOR] = buildVBO(&colors.front(),
@@ -344,6 +356,7 @@ void Figure::enableAttribute(GLuint attrib) {
 	
 	switch (attrib) {
 		case ATTRIB_TEXCOORD:
+		case ATTRIB_TEXCOORD_MLT:
 			elements = 2;
 			break;
 		case ATTRIB_JOINTS:

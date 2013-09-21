@@ -210,6 +210,8 @@ public:
 #define TYPE_WEIGHT 6
 // カラーのデータ群を表すタグ
 #define TYPE_COLOR 7
+// マルチテクスチャ
+#define TYPE_TEXCOOD_MLT 8
 
 
 Figure* WFObjLoader::loadGCBFile(const char *fileName)
@@ -288,7 +290,14 @@ Figure* WFObjLoader::loadGCBData(std::vector<char>* data)
 			case TYPE_NODE:
 			{
 				fig->joint = loadJoint(stream);
-				fig->joint->printf(1);
+			}	break;
+			case TYPE_TEXCOOD_MLT:
+			{
+				int size = stream.readInt();
+				for (int i = 0; i < size; i++) {
+					float v = stream.readFloat();
+					fig->addTextureCoordsMlt(&v, 1);
+				}
 			}	break;
 			default:
 			{

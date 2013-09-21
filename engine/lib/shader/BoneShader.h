@@ -36,6 +36,7 @@ class BoneShader : public Shader {
 private:
 	float baseAlpha;	//!< 基準透明度
 	int texname;		//!< 使用しているtextureのID
+	int texnameMlt;		//!< マルチテクスチャ用のID
 
 public:
 	/**
@@ -61,11 +62,26 @@ public:
 	void bindTexture(int texname);
 	
 	/**
+	 * マルチテクスチャ用のテクスチャをバインドします.
+	 * <br>
+	 * @param[in] texname テクスチャ名
+	 */
+	void bindTextureMlt(int texname);
+	
+	/**
 	 * ライトを設定します.
 	 * <br>
 	 * @param[in] light ライト
 	 */
 	void setLight(Light *light);
+	
+	/**
+	 * ライトを設定します.
+	 * @param[in] x x座標
+	 * @param[in] y y座標
+	 * @param[in] z z座標
+	 */
+	void setLight(float x, float y, float z);
 
 	/**
 	 * 基底の透明度をシェーダに設定します.

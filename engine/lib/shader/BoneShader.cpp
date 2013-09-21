@@ -28,7 +28,9 @@ enum {
 	UNIFORM_MODELVIEW_PROJECTION_MATRIX,	//!< モデルのマトリクスとカメラのマトリクスをかけた変数へのユニフォーム
 	UNIFORM_MODELVIEW_MATRIX,				//!< モデルのマトリクス変数へのユニフォーム
 	UNIFORM_TEXTURE_BASE,					//!< テクスチャへのユニフォーム
+	UNIFORM_TEXTURE_MULTI,					//!< マルチテクスチャへのユニフォーム
 	UNIFORM_USE_TEXTURE,					//!< テクスチャを使用するフラグ
+	UNIFORM_USE_TEXTURE_MLT,				//!< テクスチャを使用するフラグ
 	UNIFORM_ALPHA,							//!< アルファ値へのユニフォーム
 	UNIFORM_NORMAL_MATRIX,					//!< 法線マトリックス
 	UNIFORM_USE_SKINNING,					//!< スキニングを使用するフラグ
@@ -47,6 +49,7 @@ BoneShader::BoneShader() {
 	gProgram = loadShader("shader/boneShader", 0);
 	baseAlpha = 1.0;
 	texname = -1;
+	texnameMlt = -1;
 }
 
 BoneShader::~BoneShader() {
@@ -61,6 +64,7 @@ void BoneShader::useProgram() {
 	glUseProgram(gProgram);
 	this->setAlpha(1.0);
 	this->texname = -1;
+	this->texnameMlt = -1;
 }
 
 void BoneShader::setLight(Light *light) {
@@ -72,6 +76,12 @@ void BoneShader::setLight(Light *light) {
 		glUniform1i(uniforms[UNIFORM_USE_LIGHTING], 0);
 	}
 }
+void BoneShader::setLight(float x, float y, float z) {
+	GLfloat lightpos[3] = {x, y, z};
+	glUniform3fv(uniforms[UNIFORM_LIGHT_STATE_POS], 1, lightpos);
+	glUniform1i(uniforms[UNIFORM_USE_LIGHTING], 1);
+}
+
 
 void BoneShader::bindTexture(int texname) {
 	if (this->texname == texname && texname>0) {
@@ -84,6 +94,19 @@ void BoneShader::bindTexture(int texname) {
 	glUniform1f(uniforms[UNIFORM_USE_TEXTURE], texname>0?0:1.0);
 
 	this->texname = texname;
+}
+
+void BoneShader::bindTextureMlt(int texname) {
+	if (this->texnameMlt == texname && texname>0) {
+		// 前回bindしたテクスチャと同じ場合には何も処理を行わない
+		return;
+	}
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, texname);
+	glUniform1i(uniforms[UNIFORM_TEXTURE_MULTI], 1);
+	glUniform1f(uniforms[UNIFORM_USE_TEXTURE_MLT], texname>0?0:1.0);
+	
+	this->texnameMlt = texname;
 }
 
 void BoneShader::setMVPMatrix(Camera *camera, Matrix3D *matrix) {
@@ -124,6 +147,7 @@ void BoneShader::setNormalMatrix(Matrix3D *matrix) {
 void BoneShader::bindAttribute(GLuint program, const char *name, int user) {
 	glBindAttribLocation(program, ATTRIB_VERTEX, "a_position");
 	glBindAttribLocation(program, ATTRIB_TEXCOORD, "a_texcoord");
+	glBindAttribLocation(program, ATTRIB_TEXCOORD_MLT, "a_texcoord_mlt");
 	glBindAttribLocation(program, ATTRIB_NORMAL, "a_normal");
 	glBindAttribLocation(program, ATTRIB_JOINTS, "a_joints");
 	glBindAttribLocation(program, ATTRIB_COLOR, "a_color");
@@ -133,7 +157,9 @@ void BoneShader::getUniform(GLuint program, const char *name, int user) {
 	uniforms[UNIFORM_MODELVIEW_PROJECTION_MATRIX] = glGetUniformLocation(program, "u_mvpMatrix");
 	uniforms[UNIFORM_MODELVIEW_MATRIX] = glGetUniformLocation(program, "u_mvMatrix");
 	uniforms[UNIFORM_USE_TEXTURE] = glGetUniformLocation(program, "u_useTexture");
+	uniforms[UNIFORM_USE_TEXTURE_MLT] = glGetUniformLocation(program, "u_useTexture_mlt");
 	uniforms[UNIFORM_TEXTURE_BASE] = glGetUniformLocation(program, "u_diffuseTexture");
+	uniforms[UNIFORM_TEXTURE_MULTI] = glGetUniformLocation(program, "u_diffuseTexture_mlt");
 	uniforms[UNIFORM_NORMAL_MATRIX] = glGetUniformLocation(program, "u_nMatrix");
 	uniforms[UNIFORM_SKINNING_MATRIX] = glGetUniformLocation(program, "u_skinningMatrix");
 	uniforms[UNIFORM_USE_SKINNING] = glGetUniformLocation(program, "u_useSkinning");

@@ -70,6 +70,7 @@ private:
 	
 	bool hasNormals;	//!< 法線データあり
 	bool hasTexture;	//!< uvデータあり
+	bool hasTextureMlt;	//!< uv2データあり
 	bool hasJoint;		//!< jointデータあり
 	bool hasColor;		//!< カラーデータあり
 	
@@ -91,13 +92,14 @@ public:
 	std::vector<float> jointData;		//!< jointデータ.（内容はjoint1, weight1, joint2, weight2の順）
 	std::vector<short> vertexIndexes;	//!< 頂点インデックスデータ.
 	std::vector<float> colors;			//!< 色データ.
+	std::vector<float> textureCoordsMlt;//!< uvデータ.
 	
 	Matrix3D *transForm;	//!< フィギュアのマトリクス.
 	Joint *joint;			//!< ルートジョイント
 	Point3f size;			//!< フィギュアのサイズ
 	bool useIndex;			//!< インデックスのAttributeを使用する場合はtrue
 	bool visible;			//!< 表示する場合はtrue
-	const char* name;
+	const char* name;		//!< フィギュア名
 	
 	JointAnimation *animation;	//!< アニメーションデータ
 
@@ -169,6 +171,13 @@ public:
 	 */
 	void addTextureCoords(const float *v, int len);
 
+	/**
+	 * uvを追加します.
+	 * @param[in] v 追加するuv
+	 * @param[in] len 追加するuvの個数
+	 */
+	void addTextureCoordsMlt(const float *v, int len);
+	
 	/**
 	 * Jointを追加します.
 	 * @param[in] j1 １番目jointインデックス

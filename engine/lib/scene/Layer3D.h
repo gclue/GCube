@@ -58,6 +58,7 @@ class FigureSet : public GCObject {
 protected:
 	Figure *figure;
 	Texture *texture;
+	Texture *textureMlt;
 	
 	bool useEdge;
 	bool shadowFlag;
@@ -147,6 +148,12 @@ public:
 	 * @param[in] texture テクスチャ
 	 */
 	void setTexture(Texture *texture);
+	
+	/**
+	 * マルチテクスチャを設定します.
+	 * @param[in] texture テクスチャ
+	 */
+	void setTextureMlt(Texture *texture);
 	
 	/**
 	 * Figureデータを設定します.
