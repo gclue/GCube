@@ -16,6 +16,7 @@
 #include "AnimationSet.h"
 
 FigureSet::FigureSet() {
+	parent = NULL;
 	removeFlag = false;
 	useEdge = false;
 	shadowFlag = true;
@@ -30,6 +31,13 @@ FigureSet::FigureSet() {
 	edgeColor.b = 0;
 	edgeColor.a = 1;
 	edgeSize = 0.4;
+	alpha = 1.0f;
+	pos.x = 0;
+	pos.y = 0;
+	pos.z = 0;
+	_scale.x = 1;
+	_scale.y = 1;
+	_scale.z = 1;
 }
 
 FigureSet::~FigureSet() {
@@ -73,6 +81,10 @@ void FigureSet::setShadowFlag(bool flag) {
 	shadowFlag = flag;
 }
 
+void FigureSet::setAlpha(float alpha) {
+	this->alpha = alpha;
+}
+
 void FigureSet::setUserID(int userId) {
 	this->userId = userId;
 }
@@ -94,15 +106,20 @@ void FigureSet::makeIdentity() {
 
 void FigureSet::translate(float x, float y, float z) {
 	matrix.translate(x, y, z);
+	pos.x = x;
+	pos.y = y;
+	pos.z = z;
 }
 
 void FigureSet::scale(float x, float y, float z) {
 	matrix.scale(x, y, z);
+	_scale.x = x;
+	_scale.y = y;
+	_scale.z = z;
 }
 
-void FigureSet::rotate(float angle, float x, float y, float z) {
-//	matrix.rotate(angle, x, y, z);
-	matrix.rotate(angle, RotateDirX);
+void FigureSet::rotate(float angle, RotateDir dir) {
+	matrix.rotate(angle, dir);
 }
 
 void FigureSet::setFigure(Figure *fig) {
@@ -113,6 +130,7 @@ void FigureSet::setFigure(Figure *fig) {
 void FigureSet::setTexture(Texture *texture) {
 	this->texture = texture;
 }
+
 void FigureSet::setTextureMlt(Texture *texture) {
 	this->textureMlt = texture;
 }
@@ -121,9 +139,11 @@ void FigureSet::testMatrix(Matrix3D *m) {
 	if (animation) {
 		animation->multiply(m);
 	}
-	m->multiply(&matrix);
+	m->multiply(&matrix, true);
+	if (parent) {
+		parent->testMatrix(m);
+	}
 }
-
 
 void FigureSet::render(float dt, GC3DContext &context) {
 	
@@ -147,6 +167,7 @@ void FigureSet::render(float dt, GC3DContext &context) {
 		}	break;
 		case ShadowShaderType: {
 			ShadowShader *shader = context.shadowShader;
+			shader->setAlpha(alpha);
 			shader->setModelMatrix(&mtx);
 			shader->setMVPMatrix(context.camera, &mtx);
 			shader->setLightMatrix(context.lightcamera, &mtx);
@@ -155,7 +176,10 @@ void FigureSet::render(float dt, GC3DContext &context) {
 			shader->setUseShadow(shadowFlag);
 			if (texture) {
 				shader->bindTexture(texture->texName);
+			} else {
+				shader->bindTexture(0);
 			}
+			
 			if (useEdge) {
 				glCullFace(GL_FRONT);
 				shader->setUseEdge(true);
@@ -527,6 +551,8 @@ void Layer3D::drawSceneWithShadow(float dt) {
 		figures.at(i)->render(0, gc3dcontext);
 	}
 #else
+	glEnable(GL_BLEND);
+
 	shadowShader->useProgram();
 	
 	gc3dcontext.type = ShadowShaderType;

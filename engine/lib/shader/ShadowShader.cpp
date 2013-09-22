@@ -12,12 +12,15 @@
 
 #define STRINGIFY(x) #x
 
-
+/**
+ * バーテックスシェーダ.
+ */
 static const char shadow_vsh[] = STRINGIFY(
 	attribute vec3 a_position;
 	attribute vec3 a_normal;
 	attribute vec2 a_texcoord;
 	attribute vec4 a_joints;
+	attribute vec4 a_color;
 
 	uniform mat4 u_mMatrix;
 	uniform mat4 u_mvpMatrix;
@@ -70,6 +73,9 @@ static const char shadow_vsh[] = STRINGIFY(
 	}
 );
 
+/**
+ * フラグメントシェーダ.
+ */
 static const char shadow_vfsh[] = STRINGIFY(
 	precision mediump float;
 
@@ -79,6 +85,7 @@ static const char shadow_vfsh[] = STRINGIFY(
 	uniform sampler2D u_shadow_texture;
 	uniform bool      u_useShadowFlag;
 	uniform vec4      u_edgeColor;
+	uniform float     u_alpha;
 
 	varying vec3      v_position;
 	varying vec3      v_normal;
@@ -96,9 +103,6 @@ static const char shadow_vfsh[] = STRINGIFY(
 	}
 
 	void main(void) {
-		vec3  light = u_lightPosition - v_position;
-		vec3  invLight = normalize(u_invMatrix * vec4(light, 0.0)).xyz;
-		float diffuse = clamp(dot(v_normal, invLight), 0.8, 1.0);
 		vec4 depthColor = vec4(1.0);
 		if (u_useShadowFlag && v_depth.w > 0.0) {
 	       vec4 tx = texture2DProj(u_shadow_texture, v_shadow_texcoord);
@@ -113,9 +117,16 @@ static const char shadow_vfsh[] = STRINGIFY(
 		}
 	
 		if (u_edgeColor.a > 0.0) {
-			gl_FragColor = vec4(vec3(u_edgeColor), 1.0);
+			gl_FragColor = vec4(vec3(u_edgeColor), 1.0) * vec4(vec3(1.0), u_alpha);
 		} else {
-			gl_FragColor = texture2D(u_texture, v_texcoord.st) * depthColor;
+			vec4 color = texture2D(u_texture, v_texcoord.st) * vec4(vec3(1.0), u_alpha) * depthColor;
+			
+//			vec3  light = u_lightPosition - v_position;
+//			vec3  invLight = normalize(u_invMatrix * vec4(light, 0.0)).xyz;
+//			float diffuse = clamp(dot(v_normal, invLight), 0.8, 1.0);
+//			color *= vec4(vec3(diffuse), 1.0);
+			
+			gl_FragColor = color;
 		}
 	}
 );
@@ -137,6 +148,7 @@ enum {
 	UNIFORM_EDGE_COLOR,						//!< エッジの色
 	UNIFORM_EDGE_SIZE,						//!< エッジの色
 	UNIFORM_USE_SHADOW,						//!< 影を使用するフラグ
+	UNIFORM_ALPHA,							//!< アルファ値へのユニフォーム
 	NUM_UNIFORMS							//!< ユニフォーム数
 };
 static GLint uniforms[NUM_UNIFORMS];
@@ -154,6 +166,7 @@ ShadowShader::~ShadowShader() {
 }
 void ShadowShader::useProgram() {
 	glUseProgram(gProgram);
+	setAlpha(1.0);
 }
 
 void ShadowShader::bindTexture(int texname) {
@@ -247,6 +260,10 @@ void ShadowShader::setEdgeSize(float size) {
 	glUniform1f(uniforms[UNIFORM_EDGE_SIZE], size);
 }
 
+void ShadowShader::setAlpha(float alpha) {
+	glUniform1f(uniforms[UNIFORM_ALPHA], alpha);
+}
+
 void ShadowShader::bindAttribute(GLuint program, const char *name, int user) {
 	glBindAttribLocation(program, ATTRIB_VERTEX, "a_position");
 	glBindAttribLocation(program, ATTRIB_NORMAL, "a_normal");
@@ -269,4 +286,5 @@ void ShadowShader::getUniform(GLuint program, const char *name, int user) {
 	uniforms[UNIFORM_USE_EDGE] = glGetUniformLocation(program, "u_edge");
 	uniforms[UNIFORM_EDGE_COLOR] = glGetUniformLocation(program, "u_edgeColor");
 	uniforms[UNIFORM_EDGE_SIZE] = glGetUniformLocation(program, "u_edgeSize");
+	uniforms[UNIFORM_ALPHA] = glGetUniformLocation(program, "u_alpha");
 }

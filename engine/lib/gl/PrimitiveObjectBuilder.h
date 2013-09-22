@@ -96,6 +96,14 @@ extern "C" {
 	 */
 	Figure *createCircle(int count, float size);
 
+	/**
+	 * 円錐のFigureを作成します.
+	 * @param[in] count 分割
+	 * @param[in] size 半径
+	 * @param[in] height 高さ
+	 */
+	Figure *createCone(int count, float size, float height);
+	
 #ifdef __cplusplus
 }
 #endif

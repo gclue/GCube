@@ -719,3 +719,72 @@ Figure *createCircle(int count, float size) {
 	fig->addVertexIndexes((unsigned short *)&(elementArray)[0], elementArray.size());
 	return fig;
 }
+
+Figure *createCone(int count, float size, float height)
+{
+	std::vector<float> posArray;
+	for (int i = 0; i < count; i++) {
+		float t = angleToRadian(360 * i / count);
+		float x = size * sinf(t);
+		float y = size * cosf(t);
+		float z = height;
+		posArray.push_back(x);
+		posArray.push_back(y);
+		posArray.push_back(z);
+	}
+	// 原点を頂点に追加
+	posArray.push_back(0);
+	posArray.push_back(0);
+	posArray.push_back(height);
+	
+	posArray.push_back(0);
+	posArray.push_back(0);
+	posArray.push_back(0);
+	
+	// テクスチャ
+	std::vector<float> texcoordArray;
+	for (int i = 0; i < count; i++) {
+		float t = angleToRadian(360 * i / count);
+		float x = 0.5 + 0.5 * sinf(t);
+		float y = 1.0 - (0.5 + 0.5 * cosf(t));
+		texcoordArray.push_back(x);
+		texcoordArray.push_back(y);
+		texcoordArray.push_back(x);
+		texcoordArray.push_back(y);
+	}
+	texcoordArray.push_back(0.5);
+	texcoordArray.push_back(0.5);
+	
+	
+	// 法線ベクトル
+	std::vector<float> normalArray;
+	for (int i = 0; i < count * 2; i++) {
+		normalArray.push_back(0);
+		normalArray.push_back(0);
+		normalArray.push_back(1);
+	}
+	normalArray.push_back(0);
+	normalArray.push_back(0);
+	normalArray.push_back(1);
+	
+	// 頂点の配列
+	std::vector<unsigned short> elementArray;
+	for (int i = 0; i < count; i++) {
+		elementArray.push_back(i);
+		elementArray.push_back((i + 1) % count);
+		elementArray.push_back(count);
+	}
+	for (int i = 0; i < count; i++) {
+		elementArray.push_back(i);
+		elementArray.push_back(count + 1);
+		elementArray.push_back((i + 1) % count);
+	}
+	
+	Figure *fig = new Figure();
+	fig->addVertices((float *)&(posArray)[0], posArray.size());
+	fig->addNormal((float *)&(normalArray)[0], normalArray.size());
+	fig->addTextureCoords((float *)&(texcoordArray)[0], texcoordArray.size());
+	fig->addVertexIndexes((unsigned short *)&(elementArray)[0], elementArray.size());
+	return fig;
+
+}

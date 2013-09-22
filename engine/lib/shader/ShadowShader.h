@@ -120,6 +120,11 @@ public:
 	 * エッジのサイズを設定します.
 	 */
 	void setEdgeSize(float size);
+	
+	/**
+	 * アルファ値を設定します.
+	 */
+	void setAlpha(float alpha);
 
 	/**
 	 * シェーダのAttributeへのバインド処理を行います.

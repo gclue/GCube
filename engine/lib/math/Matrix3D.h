@@ -69,8 +69,9 @@ public:
 	 * 指定されたmtxをかけ算します.
 	 * <br><br>
 	 * @param[in] mtx かけ算を行うMatrix3D
+	 * @param[in] apply trueで右辺に乗算します.
 	 */
-	void multiply(Matrix3D *mtx);
+	void multiply(Matrix3D *mtx, bool apply=false);
 
 	/**
 	 * 4x4のマトリクスをoutElementsに格納します.
@@ -78,6 +79,10 @@ public:
 	 */
 	void getElements(float *outElements);
 	
+	/**
+	 * 4x4の逆行列をoutElementsに格納します.
+	 * @param[out] outElements マトリクスを格納する配列
+	 */
 	void getInvertElements(float *outElements);
 
 	/**

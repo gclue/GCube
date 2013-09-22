@@ -65,8 +65,10 @@ protected:
 	bool removeFlag;
 	int userId;
 	float edgeSize;
+	float alpha;
 	
 	Point3f pos;
+	Point3f _scale;
 	
 	Matrix3D matrix;
 	
@@ -76,6 +78,7 @@ protected:
 	void testMatrix(Matrix3D *m);
 	
 public:
+	FigureSet *parent;
 	FigureSet();
 	virtual ~FigureSet();
 	
@@ -131,6 +134,11 @@ public:
 	void setShadowFlag(bool flag);
 	
 	/**
+	 * アルファ値を設定します.
+	 */
+	void setAlpha(float alpha);
+	
+	/**
 	 * 指定されたユーザIDチェックします.
 	 * @param[in] userId ユーザID
 	 * @return
@@ -170,7 +178,7 @@ public:
 	void makeIdentity();
 	void translate(float x, float y, float z);
 	void scale(float x, float y, float z);
-	void rotate(float angle, float x, float y, float z);
+	void rotate(float angle, RotateDir dir);
 	
 	/**
 	 * 描画を行います.

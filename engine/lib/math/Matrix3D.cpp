@@ -74,9 +74,13 @@ void Matrix3D::setElements(const float *inElements) {
 }
 
 // 乗算
-void Matrix3D::multiply(Matrix3D *mtx) {
+void Matrix3D::multiply(Matrix3D *mtx, bool apply) {
 	float ret[16];
-	mtxMultiply(ret, matrix, mtx->matrix);
+	if (apply) {
+		mtxMultiply(ret, mtx->matrix, matrix);
+	} else {
+		mtxMultiply(ret, matrix, mtx->matrix);
+	}
 	memcpy(matrix, ret, sizeof(float)*16);
 	dirtyflag = true;
 }
