@@ -56,10 +56,15 @@ typedef struct GCFrameBuffer {
  */
 class FigureSet : public GCObject {
 protected:
+	std::vector<FigureSet*> childrens;
+	
+	FigureSet *parent;
+	
 	Figure *figure;
 	Texture *texture;
 	Texture *textureMlt;
 	
+	bool visible;
 	bool useEdge;
 	bool shadowFlag;
 	bool removeFlag;
@@ -68,7 +73,7 @@ protected:
 	float alpha;
 	
 	Point3f pos;
-	Point3f _scale;
+	Point3f scaleSize;
 	
 	Matrix3D matrix;
 	
@@ -78,7 +83,6 @@ protected:
 	void testMatrix(Matrix3D *m);
 	
 public:
-	FigureSet *parent;
 	FigureSet();
 	virtual ~FigureSet();
 	
@@ -90,7 +94,22 @@ public:
 		return texture;
 	}
 	
+	FigureSet *getParent() {
+		return parent;
+	}
+	
+	void addChildern(FigureSet *set);
+	void removeChildern(FigureSet *set);
+	void removeChildern(int userId);
+	
+	/**
+	 * アニメーションを開始します.
+	 * @param[in] a 開始するアニメーション
+	 */
 	void startAnimation(IAnimation *a);
+	
+	void setVisible(bool visible);
+	bool isVisible();
 	
 	/**
 	 * 削除フラグの状態を取得します.

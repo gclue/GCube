@@ -17,6 +17,7 @@
 
 FigureSet::FigureSet() {
 	parent = NULL;
+	visible = true;
 	removeFlag = false;
 	useEdge = false;
 	shadowFlag = true;
@@ -35,12 +36,45 @@ FigureSet::FigureSet() {
 	pos.x = 0;
 	pos.y = 0;
 	pos.z = 0;
-	_scale.x = 1;
-	_scale.y = 1;
-	_scale.z = 1;
+	scaleSize.x = 1;
+	scaleSize.y = 1;
+	scaleSize.z = 1;
 }
 
 FigureSet::~FigureSet() {
+	for (int i = 0; i < childrens.size(); i++) {
+		childrens.at(i)->release();
+	}
+	childrens.clear();
+}
+
+void FigureSet::addChildern(FigureSet *set) {
+	if (set && !set->parent) {
+		childrens.push_back(set);
+		set->parent = this;
+		set->retain();
+	}
+}
+
+void FigureSet::removeChildern(FigureSet *set) {
+	std::vector<FigureSet *>::iterator it = childrens.begin();
+	while (!childrens.empty() && it != childrens.end()) {
+		FigureSet *a = *it;
+		if (a == set) {
+			it = childrens.erase(it);
+            a->parent = NULL;
+			a->release();
+		} else {
+			it++;
+		}
+	}
+}
+
+void FigureSet::removeChildern(int userId) {
+	FigureSet *set = findFigureSetByID(userId);
+	if (set) {
+		removeChildern(set);
+	}
 }
 
 void FigureSet::startAnimation(IAnimation *a) {
@@ -48,6 +82,14 @@ void FigureSet::startAnimation(IAnimation *a) {
 		delete animation;
 	}
 	animation = a;
+}
+
+void FigureSet::setVisible(bool visible) {
+	this->visible = visible;
+}
+
+bool FigureSet::isVisible() {
+	return visible;
 }
 
 bool FigureSet::isRemoveFlag() {
@@ -97,6 +139,12 @@ FigureSet *FigureSet::findFigureSetByID(int userId) {
 	if (this->userId == userId) {
 		return this;
 	}
+	for (int i = 0; i < childrens.size(); i++) {
+		FigureSet *set = childrens.at(i)->findFigureSetByID(userId);
+		if (set) {
+			return set;
+		}
+	}
 	return NULL;
 }
 
@@ -113,9 +161,9 @@ void FigureSet::translate(float x, float y, float z) {
 
 void FigureSet::scale(float x, float y, float z) {
 	matrix.scale(x, y, z);
-	_scale.x = x;
-	_scale.y = y;
-	_scale.z = z;
+	scaleSize.x = x;
+	scaleSize.y = y;
+	scaleSize.z = z;
 }
 
 void FigureSet::rotate(float angle, RotateDir dir) {
@@ -146,6 +194,9 @@ void FigureSet::testMatrix(Matrix3D *m) {
 }
 
 void FigureSet::render(float dt, GC3DContext &context) {
+	if (!visible) {
+		return;
+	}
 	
 	if (animation) {
 		animation->step(dt);
@@ -243,6 +294,10 @@ void FigureSet::render(float dt, GC3DContext &context) {
 			figure->draw(dt);
 		}	break;
 	}
+	
+	for (int i = 0; i < childrens.size(); i++) {
+		childrens.at(i)->render(dt, context);
+	}
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
@@ -326,8 +381,10 @@ void Layer3D::removeInternal() {
 }
 
 void Layer3D::addFigureSet(FigureSet *set) {
-	figures.push_back(set);
-	set->retain();
+	if (set && !set->getParent()) {
+		figures.push_back(set);
+		set->retain();
+	}
 }
 
 void Layer3D::removeFigureSet(int userId) {
