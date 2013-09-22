@@ -191,7 +191,7 @@ void Animation::setMove(float sx, float sy, float ex, float ey) {
 void Animation::setMove(float sx, float sy, float sz, float ex, float ey, float ez) {
 	setMoveX(sx, ex);
 	setMoveY(sy, ey);
-	setMoveY(sz, ez);
+	setMoveZ(sz, ez);
 }
 
 void Animation::setScaleX(float start, float end) {

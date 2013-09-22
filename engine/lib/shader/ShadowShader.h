@@ -48,12 +48,6 @@ public:
 	void bindShadowTexture(int texname);
 	
 	/**
-	 * デップスバッファの使用許可を設定します.
-	 * @param[in] flag 使用する場合はtrue,それ以外はfalse
-	 */
-	void setDepthBuffer(bool flag);
-	
-	/**
 	 * カメラと変換行列からMVPをシェーダに設定します.
 	 * <br>
 	 * @param[in] camera カメラオブジェクト
@@ -112,8 +106,19 @@ public:
 	 */
 	void setUseShadow(bool flag);
 	
+	/**
+	 * トゥーンシェーダのON/OFFを設定します.
+	 */
 	void setUseEdge(bool use);
+	
+	/**
+	 * エッジの色を指定します.
+	 */
 	void setEdgeColor(float r, float g, float b, float a);
+	
+	/**
+	 * エッジのサイズを設定します.
+	 */
 	void setEdgeSize(float size);
 
 	/**

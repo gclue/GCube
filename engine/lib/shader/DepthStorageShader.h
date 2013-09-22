@@ -40,12 +40,6 @@ public:
 	void setMVPMatrix(Camera *camera, Matrix3D *matrix);
 	
 	/**
-	 * デップスバッファの使用許可を設定します.
-	 * @param[in] flag 使用する場合はtrue,それ以外はfalse
-	 */
-	void setDepthBuffer(bool flag);
-	
-	/**
 	 * スキニング用のボーンの変換行列をシェーダに設定します.
 	 * <br>
 	 * @param[in] matrix 変換行列の配列

@@ -120,8 +120,14 @@ public:
 	 */
 	void setEdgeColor(float r, float g, float b, float a);
 	
+	/**
+	 * エッジのサイズを設定します.
+	 */
 	void setEdgeSize(float size);
 	
+	/**
+	 * 影を反映させるかのフラグを設定します.
+	 */
 	void setShadowFlag(bool flag);
 	
 	/**
@@ -199,9 +205,9 @@ protected:
 	
 	FigureSet *lightfigure;
 	
-	int fbWidth;
-	int fbHeight;
-	GCFrameBuffer fb;
+	int fbWidth;		//!< フレームバッファのサイズ
+	int fbHeight;		//!< フレームバッファのサイズ
+	GCFrameBuffer fb;	//!< デップスシャドウを作成するためのフレームバッファなどを格納する構造体
 	
 	/**
 	 * @private
@@ -240,8 +246,24 @@ public:
 		return lightcamera;
 	}
 	
+	/**
+	 * デップスシャドウのON/OFF
+	 */
 	void setShadowFlag(bool flag);
 	
+	/**
+	 * デップスシャドウの準備を行います.
+	 * @param[in] width デップスシャドウで使用するテクスチャの横幅
+	 * @param[in] height デップスシャドウで使用するテクスチャの縦幅
+	 */
+	void createDepthShadow(int width, int height);
+	
+	/**
+	 * デップスシャドウを破棄します.
+	 * これを行った後はsetShadowFlag(true)にしても動作しません。
+	 */
+	void destroyDepthShadow();
+
 	/**
 	 * ライトの位置を設定します.
 	 * @param[in] x x座標

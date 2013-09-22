@@ -18,6 +18,7 @@
 FigureSet::FigureSet() {
 	removeFlag = false;
 	useEdge = false;
+	shadowFlag = true;
 	figure = NULL;
 	texture = NULL;
 	textureMlt = NULL;
@@ -137,10 +138,12 @@ void FigureSet::render(float dt, GC3DContext &context) {
 
 	switch (context.type) {
 		case DepthStorageShaderType: {
-			DepthStorageShader *shader = context.depthShader;
-			shader->setMVPMatrix(context.lightcamera, &mtx);
-			shader->setSkinningMatrix(figure);
-			figure->draw(dt);
+			if (shadowFlag) {
+				DepthStorageShader *shader = context.depthShader;
+				shader->setMVPMatrix(context.lightcamera, &mtx);
+				shader->setSkinningMatrix(figure);
+				figure->draw(dt);
+			}
 		}	break;
 		case ShadowShaderType: {
 			ShadowShader *shader = context.shadowShader;
@@ -235,20 +238,16 @@ Layer3D::Layer3D() {
 	camera.zNear = 0.1;
 	camera.zFar = 1000.0;
 	camera.fieldOfView = 60.0;
-	camera.aspect = 0.67; // 320x480
+	camera.aspect = 0.67;
 	camera.loadPerspective();
 	camera.lookAt(eye, at, up);
 	
 	fbWidth = 1024;
 	fbHeight = 1024;
 	
-	depthShader = new DepthStorageShader();
-	shadowShader = new ShadowShader();
-	simpleShader = new SimpleShader();
 	boneShader = new BoneShader();
-	
-	lightfigure = new FigureSet();
-	lightfigure->setFigure(createSphere(0.5, 8, 8));
+	depthShader = NULL;
+	shadowShader = NULL;
 	
 	light.setPosition(0, 35, 0);
 	Vector3D lightup(0,0,-1);
@@ -260,33 +259,33 @@ Layer3D::Layer3D() {
 	lightcamera.lookAt(light.position, at, lightup);
 	lightcamera.loadPerspective();
 	
-	createFrameBuffer(fbWidth, fbHeight);
-	
-	gc3dcontext.depthShader = depthShader;
-	gc3dcontext.simpleShader = simpleShader;
-	gc3dcontext.shadowShader = shadowShader;
 	gc3dcontext.boneShader = boneShader;
+	gc3dcontext.depthShader = NULL;
+	gc3dcontext.shadowShader = NULL;
+	gc3dcontext.simpleShader = simpleShader;
 	gc3dcontext.camera = &camera;
-	gc3dcontext.lightcamera = &lightcamera;
+	gc3dcontext.lightcamera = NULL;
 	gc3dcontext.shadowFlag = false;
 	gc3dcontext.light = &light;
+	
+	createDepthShadow(1024, 1024);
+	
+	// ここから先はデバック用データ
+	// デバック用シェーダ
+	simpleShader = new SimpleShader();
+	// ライト表示用フィギュア
+	lightfigure = new FigureSet();
+	lightfigure->setFigure(createSphere(0.5, 8, 8));
 }
 
 Layer3D::~Layer3D() {
 	removeAllFigureSet();
+	
 	DELETE(lightfigure);
-	DELETE(depthShader);
-	DELETE(shadowShader);
+	DELETE(boneShader);
 	DELETE(simpleShader);
-	if (fb.fb) {
-		glDeleteFramebuffers(1, &fb.fb);
-	}
-	if (fb.rb) {
-		glDeleteRenderbuffers(1, &fb.rb);
-	}
-	if (fb.t) {
-		glDeleteTextures(1 , &fb.t);
-	}
+	
+	destroyDepthShadow();
 }
 
 void Layer3D::removeInternal() {
@@ -351,6 +350,64 @@ FigureSet *Layer3D::findFigureSetByID(int userId) {
 	return NULL;
 }
 
+void Layer3D::createDepthShadow(int width, int height)
+{
+	fbWidth = width;
+	fbHeight = height;
+	
+	depthShader = new DepthStorageShader();
+	shadowShader = new ShadowShader();
+	
+	lightfigure = new FigureSet();
+	lightfigure->setFigure(createSphere(0.5, 8, 8));
+	
+	light.setPosition(0, 35, 0);
+	Vector3D lightup(0,0,-1);
+	Vector3D at(0,0,0);
+	
+	lightcamera.zNear = 0.1;
+	lightcamera.zFar = 300.0;
+	lightcamera.fieldOfView = 100.0;
+	lightcamera.aspect = 1;
+	lightcamera.lookAt(light.position, at, lightup);
+	lightcamera.loadPerspective();
+	
+	createFrameBuffer(width, height);
+	
+	gc3dcontext.depthShader = depthShader;
+	gc3dcontext.simpleShader = simpleShader;
+	gc3dcontext.shadowShader = shadowShader;
+	gc3dcontext.boneShader = boneShader;
+	gc3dcontext.camera = &camera;
+	gc3dcontext.lightcamera = &lightcamera;
+	gc3dcontext.shadowFlag = false;
+	gc3dcontext.light = &light;
+}
+
+void Layer3D::destroyDepthShadow()
+{
+	DELETE(depthShader);
+	DELETE(shadowShader);
+	if (fb.fb) {
+		glDeleteFramebuffers(1, &fb.fb);
+		fb.fb = 0;
+	}
+	if (fb.rb) {
+		glDeleteRenderbuffers(1, &fb.rb);
+		fb.rb = 0;
+	}
+	if (fb.t) {
+		glDeleteTextures(1 , &fb.t);
+		fb.t = 0;
+	}
+	
+	gc3dcontext.depthShader = NULL;
+	gc3dcontext.shadowShader = NULL;
+	gc3dcontext.lightcamera = NULL;
+	gc3dcontext.shadowFlag = false;
+	gc3dcontext.light = &light;
+}
+
 void Layer3D::createFrameBuffer(int width, int height)
 {
 	GLuint frameBuffer;
@@ -397,7 +454,7 @@ void Layer3D::setLightPos(float x, float y, float z) {
 }
 
 void Layer3D::setShadowFlag(bool flag) {
-	if (flag) {
+	if (flag && gc3dcontext.depthShader) {
 		renderMode = RenderTypeShadow;
 	} else {
 		renderMode = RenderTypeNone;
@@ -435,7 +492,6 @@ void Layer3D::drawSceneWithShadow(float dt) {
 	
 	// depthで影の描画
 	depthShader->useProgram();
-	depthShader->setDepthBuffer(depthBufferFlag);
 	
 	glBindFramebuffer(GL_FRAMEBUFFER, fb.fb);
 	
@@ -472,7 +528,6 @@ void Layer3D::drawSceneWithShadow(float dt) {
 	}
 #else
 	shadowShader->useProgram();
-	shadowShader->setDepthBuffer(depthBufferFlag);
 	
 	gc3dcontext.type = ShadowShaderType;
 	
