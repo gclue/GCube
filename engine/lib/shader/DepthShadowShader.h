@@ -1,13 +1,13 @@
 //
-//  ShadowShader.h
+//  DepthShadowShader.h
 //  GCube
 //
 //  Created by 小林 伸郎 on 2013/08/09.
 //
 //
 
-#ifndef __GCube__ShadowShader__
-#define __GCube__ShadowShader__
+#ifndef __GCube__DepthShadowShader__
+#define __GCube__DepthShadowShader__
 
 
 #include "Shader.h"
@@ -16,17 +16,17 @@
 /**
  * シェーダークラス.
  */
-class ShadowShader : public Shader {
+class DepthShadowShader : public Shader {
 public:
 	/**
 	 * コンストラクタ.
 	 */
-	ShadowShader();
+	DepthShadowShader();
 	
 	/**
 	 * デストラクタ.
 	 */
-	virtual ~ShadowShader();
+	virtual ~DepthShadowShader();
 	
 	/**
 	 * シェーダの使用を開始します.
@@ -152,4 +152,4 @@ public:
 	
 };
 
-#endif /* defined(__GCube__ShadowShader__) */
+#endif /* defined(__GCube__DepthShadowShader__) */

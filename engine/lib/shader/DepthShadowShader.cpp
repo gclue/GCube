@@ -1,12 +1,12 @@
 //
-//  ShadowShader.cpp
+//  DepthShadowShader.cpp
 //  GCube
 //
 //  Created by 小林 伸郎 on 2013/08/09.
 //
 //
 
-#include "ShadowShader.h"
+#include "DepthShadowShader.h"
 #include "Joint.h"
 
 
@@ -153,74 +153,74 @@ enum {
 };
 static GLint uniforms[NUM_UNIFORMS];
 
-ShadowShader::ShadowShader() {
+DepthShadowShader::DepthShadowShader() {
 	gProgram = loadShader(shadow_vsh, shadow_vfsh, 0);
 }
 
-ShadowShader::~ShadowShader() {
+DepthShadowShader::~DepthShadowShader() {
 	if (gProgram) {
 		if (glIsProgram(gProgram)==GL_TRUE) {
 			glDeleteProgram(gProgram);
 		}
 	}
 }
-void ShadowShader::useProgram() {
+void DepthShadowShader::useProgram() {
 	glUseProgram(gProgram);
 	setAlpha(1.0);
 }
 
-void ShadowShader::bindTexture(int texname) {
+void DepthShadowShader::bindTexture(int texname) {
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, texname);
 	glUniform1i(uniforms[UNIFORM_TEXTURE], 1);
 }
 
-void ShadowShader::bindShadowTexture(int texname) {
+void DepthShadowShader::bindShadowTexture(int texname) {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texname);
 	glUniform1i(uniforms[UNIFORM_SHADOW_TEXTURE], 0);
 }
 
-void ShadowShader::setMVPMatrix(Camera *camera, Matrix3D *matrix) {
+void DepthShadowShader::setMVPMatrix(Camera *camera, Matrix3D *matrix) {
 	GLfloat mvp[16];
 	camera->modelViewProjectionMatrix(matrix, mvp);
 	glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_PROJECTION_MATRIX], 1, GL_FALSE, mvp);
 }
 
-void ShadowShader::setModelMatrix(Matrix3D *matrix) {
+void DepthShadowShader::setModelMatrix(Matrix3D *matrix) {
 	GLfloat mvp[16];
 	matrix->getElements(mvp);
 	glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_MATRIX], 1, GL_FALSE, mvp);
 }
 
-void ShadowShader::setTextureMatrix(Camera *camera) {
+void DepthShadowShader::setTextureMatrix(Camera *camera) {
 	// TODO: バイアス行列のかけ算をシェーダではなく、ここで行った方が速いかもしれない。
 	GLfloat mvp[16];
 	camera->modelViewProjectionMatrix(mvp);
 	glUniformMatrix4fv(uniforms[UNIFORM_TEXTURE_MATRIX], 1, GL_FALSE, mvp);
 }
 
-void ShadowShader::setLightMatrix(Camera *camera, Matrix3D *matrix) {
+void DepthShadowShader::setLightMatrix(Camera *camera, Matrix3D *matrix) {
 	GLfloat mvp[16];
 	camera->modelViewProjectionMatrix(matrix, mvp);
 	glUniformMatrix4fv(uniforms[UNIFORM_LIGHT_PROJECTION_MATRIX], 1, GL_FALSE, mvp);
 }
 
-void ShadowShader::setInverseMatrix(Matrix3D *matrix) {
+void DepthShadowShader::setInverseMatrix(Matrix3D *matrix) {
 	GLfloat mvp[16];
 //	matrix->getInvertElements(mvp);
 	matrix->getElements(mvp);
 	glUniformMatrix4fv(uniforms[UNIFORM_INVERSE_MODEL_MATRIX], 1, GL_FALSE, mvp);
 }
 
-void ShadowShader::setLightPosition(Light *light) {
+void DepthShadowShader::setLightPosition(Light *light) {
 	GLfloat lightPosition[] = {
 		light->getX(), light->getY(), light->getZ()
 	};
 	glUniform3fv(uniforms[UNIFORM_LIGHT_POSITION], 1, lightPosition);
 }
 
-void ShadowShader::setSkinningMatrix(Matrix3D **matrix, int len) {
+void DepthShadowShader::setSkinningMatrix(Matrix3D **matrix, int len) {
 	if (matrix) {
 		GLfloat mtx[16*len];
 		for (int i = 0; i < len; ++i) {
@@ -233,7 +233,7 @@ void ShadowShader::setSkinningMatrix(Matrix3D **matrix, int len) {
 	}
 }
 
-void ShadowShader::setSkinningMatrix(Figure *fig) {
+void DepthShadowShader::setSkinningMatrix(Figure *fig) {
 	if (fig->joint && fig->animation) {
 		std::vector<Matrix3D*> visitor;
 		int count = fig->joint->applyMatrix(NULL, &visitor);
@@ -243,35 +243,35 @@ void ShadowShader::setSkinningMatrix(Figure *fig) {
 	}
 }
 
-void ShadowShader::setUseShadow(bool flag) {
+void DepthShadowShader::setUseShadow(bool flag) {
 	glUniform1i(uniforms[UNIFORM_USE_SHADOW], flag ? 1 : 0);
 }
 
-void ShadowShader::setEdgeColor(float r, float g, float b, float a) {
+void DepthShadowShader::setEdgeColor(float r, float g, float b, float a) {
 	GLfloat color[4] = {r, g, b, a};
 	glUniform4fv(uniforms[UNIFORM_EDGE_COLOR], 1, color);
 }
 
-void ShadowShader::setUseEdge(bool use) {
+void DepthShadowShader::setUseEdge(bool use) {
 	glUniform1i(uniforms[UNIFORM_USE_EDGE], use ? 1 : 0);
 }
 
-void ShadowShader::setEdgeSize(float size) {
+void DepthShadowShader::setEdgeSize(float size) {
 	glUniform1f(uniforms[UNIFORM_EDGE_SIZE], size);
 }
 
-void ShadowShader::setAlpha(float alpha) {
+void DepthShadowShader::setAlpha(float alpha) {
 	glUniform1f(uniforms[UNIFORM_ALPHA], alpha);
 }
 
-void ShadowShader::bindAttribute(GLuint program, const char *name, int user) {
+void DepthShadowShader::bindAttribute(GLuint program, const char *name, int user) {
 	glBindAttribLocation(program, ATTRIB_VERTEX, "a_position");
 	glBindAttribLocation(program, ATTRIB_NORMAL, "a_normal");
 	glBindAttribLocation(program, ATTRIB_TEXCOORD, "a_texcoord");
 	glBindAttribLocation(program, ATTRIB_JOINTS, "a_joints");
 }
 
-void ShadowShader::getUniform(GLuint program, const char *name, int user) {
+void DepthShadowShader::getUniform(GLuint program, const char *name, int user) {
 	uniforms[UNIFORM_MODELVIEW_PROJECTION_MATRIX] = glGetUniformLocation(program, "u_mvpMatrix");
 	uniforms[UNIFORM_LIGHT_PROJECTION_MATRIX] = glGetUniformLocation(program, "u_lgtMatrix");
 	uniforms[UNIFORM_INVERSE_MODEL_MATRIX] = glGetUniformLocation(program, "u_invMatrix");

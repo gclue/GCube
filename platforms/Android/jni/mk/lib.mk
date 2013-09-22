@@ -50,7 +50,7 @@ LOCAL_SRC_FILES := math/Vector2D.cpp \
                    shader/PointSpriteShader.cpp \
                    shader/BoneShader.cpp \
                    shader/DepthStorageShader.cpp \
-                   shader/ShadowShader.cpp \
+                   shader/DepthShadowShader.cpp \
                    sound/MusicPlayer.cpp \
                    sound/OpenALPlayer.cpp \
                    sound/SoundEffect.cpp \

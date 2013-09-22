@@ -16,8 +16,8 @@
 #include <vector>
 
 class DepthStorageShader;
+class DepthShadowShader;
 class SimpleShader;
-class ShadowShader;
 class BoneShader;
 
 enum GC3DRenderMode {
@@ -27,16 +27,16 @@ enum GC3DRenderMode {
 
 enum GC3DShaderType {
 	DepthStorageShaderType = 1,
-	ShadowShaderType,
+	DepthShadowShaderType,
 	SimpleShaderType,
 	BoneShaderType,
 };
 
 typedef struct GC3DContext {
 	DepthStorageShader *depthShader;
-	SimpleShader *simpleShader;
-	ShadowShader *shadowShader;
+	DepthShadowShader *shadowShader;
 	BoneShader *boneShader;
+	SimpleShader *simpleShader;
 	Camera *camera;
 	Camera *lightcamera;
 	Light *light;
@@ -226,7 +226,7 @@ protected:
 	GC3DContext gc3dcontext;
 	
 	DepthStorageShader *depthShader;
-	ShadowShader *shadowShader;
+	DepthShadowShader *shadowShader;
 	SimpleShader *simpleShader;
 	BoneShader *boneShader;
 	

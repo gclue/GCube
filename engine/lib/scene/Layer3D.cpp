@@ -9,7 +9,7 @@
 #include "Layer3D.h"
 #include "glcommon.h"
 #include "DepthStorageShader.h"
-#include "ShadowShader.h"
+#include "DepthShadowShader.h"
 #include "SimpleShader.h"
 #include "BoneShader.h"
 #include "Animation.h"
@@ -216,8 +216,8 @@ void FigureSet::render(float dt, GC3DContext &context) {
 				figure->draw(dt);
 			}
 		}	break;
-		case ShadowShaderType: {
-			ShadowShader *shader = context.shadowShader;
+		case DepthShadowShaderType: {
+			DepthShadowShader *shader = context.shadowShader;
 			shader->setAlpha(alpha);
 			shader->setModelMatrix(&mtx);
 			shader->setMVPMatrix(context.camera, &mtx);
@@ -437,7 +437,7 @@ void Layer3D::createDepthShadow(int width, int height)
 	fbHeight = height;
 	
 	depthShader = new DepthStorageShader();
-	shadowShader = new ShadowShader();
+	shadowShader = new DepthShadowShader();
 	
 	lightfigure = new FigureSet();
 	lightfigure->setFigure(createSphere(0.5, 8, 8));
@@ -612,7 +612,7 @@ void Layer3D::drawSceneWithShadow(float dt) {
 
 	shadowShader->useProgram();
 	
-	gc3dcontext.type = ShadowShaderType;
+	gc3dcontext.type = DepthShadowShaderType;
 	
 	shadowShader->bindShadowTexture(fb.t);
 	shadowShader->setLightPosition(&light);
