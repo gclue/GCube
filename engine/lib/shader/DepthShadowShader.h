@@ -41,6 +41,12 @@ public:
 	void bindTexture(int texname);
 	
 	/**
+	 * マルチテクスチャをバインドします.
+	 * @param[in] texname テクスチャ名
+	 */
+	void bindTextureMlt(int texname);
+	
+	/**
 	 * テクスチャをバインドします.
 	 * <br>
 	 * @param[in] texname テクスチャ名
@@ -125,7 +131,14 @@ public:
 	 * アルファ値を設定します.
 	 */
 	void setAlpha(float alpha);
-
+	
+	void setColor(float r, float g, float b, float a);
+	
+	void setUseColor(bool flag);
+	
+	void setNear(float near);
+	void setFar(float far);
+	
 	/**
 	 * シェーダのAttributeへのバインド処理を行います.
 	 * <br><br>

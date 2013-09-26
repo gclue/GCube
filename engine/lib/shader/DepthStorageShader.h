@@ -53,6 +53,10 @@ public:
 	 * @param fig
 	 */
 	void setSkinningMatrix(Figure *fig);
+	
+	void setNear(float near);
+	void setFar(float far);
+	void setTextureSize(float textureSize);
 
 	/**
 	 * シェーダのAttributeへのバインド処理を行います.

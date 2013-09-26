@@ -50,6 +50,10 @@ static const char vsh[] = STRINGIFY(
 static const char vfsh[] = STRINGIFY(
 	precision mediump float;
 
+	uniform float u_near;
+	uniform float u_far;
+	uniform float u_textureSize;
+									 
 	varying vec4 v_position;
 
 	vec4 convRGBA(float depth) {
@@ -67,9 +71,9 @@ static const char vfsh[] = STRINGIFY(
 	void main(void) {
 	    vec4 convColor = vec4(1.0, 1.0, 1.0, 1.0);
 	    if (gl_FragCoord.x > 1.0 && gl_FragCoord.y > 1.0 &&
-			gl_FragCoord.x < 1023.0 && gl_FragCoord.y < 1023.0) {
-	        float near = 0.1;
-	        float far  = 500.0;
+			gl_FragCoord.x < u_textureSize && gl_FragCoord.y < u_textureSize) {
+	        float near = u_near;
+	        float far  = u_far;
 	        float linerDepth = 1.0 / (far - near);
 	        linerDepth *= length(v_position);
 	        convColor = convRGBA(linerDepth);
@@ -84,6 +88,9 @@ enum {
 	UNIFORM_MODELVIEW_PROJECTION_MATRIX,	//!< モデルのマトリクスとカメラのマトリクスをかけた変数へのユニフォーム
 	UNIFORM_USE_SKINNING,					//!< スキニングを使用するフラグ
 	UNIFORM_SKINNING_MATRIX,				//!< スキニングマトリクスのユニフォーム
+	UNIFORM_NEAR,							//!< ニアの位置
+	UNIFORM_FAR,							//!< ファーの位置
+	UNIFORM_TEXTURE_SIZE,					//!< テクスチャのサイズ
 	NUM_UNIFORMS							//!< ユニフォーム数
 };
 static GLint uniforms[NUM_UNIFORMS];
@@ -133,6 +140,18 @@ void DepthStorageShader::setSkinningMatrix(Figure *fig) {
 	}
 }
 
+void DepthStorageShader::setNear(float near) {
+	glUniform1f(uniforms[UNIFORM_NEAR], near);
+}
+
+void DepthStorageShader::setFar(float far) {
+	glUniform1f(uniforms[UNIFORM_FAR], far);
+}
+
+void DepthStorageShader::setTextureSize(float textureSize) {
+	glUniform1f(uniforms[UNIFORM_TEXTURE_SIZE], textureSize);
+}
+
 void DepthStorageShader::bindAttribute(GLuint program, const char *name, int user) {
 	glBindAttribLocation(program, ATTRIB_VERTEX, "a_position");
 	glBindAttribLocation(program, ATTRIB_JOINTS, "a_joints");
@@ -142,4 +161,7 @@ void DepthStorageShader::getUniform(GLuint program, const char *name, int user) 
 	uniforms[UNIFORM_MODELVIEW_PROJECTION_MATRIX] = glGetUniformLocation(program, "u_mvpMatrix");
 	uniforms[UNIFORM_USE_SKINNING] = glGetUniformLocation(program, "u_useSkinning");
 	uniforms[UNIFORM_SKINNING_MATRIX] = glGetUniformLocation(program, "u_skinningMatrix");
+	uniforms[UNIFORM_NEAR] = glGetUniformLocation(program, "u_near");
+	uniforms[UNIFORM_FAR] = glGetUniformLocation(program, "u_far");
+	uniforms[UNIFORM_TEXTURE_SIZE] = glGetUniformLocation(program, "u_textureSize");
 }

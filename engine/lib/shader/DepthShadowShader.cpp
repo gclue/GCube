@@ -19,9 +19,10 @@ static const char shadow_vsh[] = STRINGIFY(
 	attribute vec3 a_position;
 	attribute vec3 a_normal;
 	attribute vec2 a_texcoord;
+	attribute vec2 a_texcoord_mlt;
 	attribute vec4 a_joints;
 	attribute vec4 a_color;
-
+										   
 	uniform mat4 u_mMatrix;
 	uniform mat4 u_mvpMatrix;
 	uniform mat4 u_lgtMatrix;
@@ -30,26 +31,27 @@ static const char shadow_vsh[] = STRINGIFY(
 	uniform bool u_useSkinning;
 	uniform bool u_edge;
 	uniform float u_edgeSize;
-
+										   
 	varying vec3 v_position;
 	varying vec3 v_normal;
 	varying vec2 v_texcoord;
+	varying vec2 v_texcoord_mlt;
 	varying vec4 v_shadow_texcoord;
 	varying vec4 v_depth;
-
+										   
 	const mat4 bias = mat4(
 		0.5, 0.0, 0.0, 0.0,
 		0.0, 0.5, 0.0, 0.0,
 		0.0, 0.0, 0.5, 0.0,
 		0.5, 0.5, 0.5, 1.0
 	);
-
+										   
 	void main(void) {
 		vec3 pos = a_position;
 		if (u_edge) {
 			pos += a_normal * u_edgeSize;
 		}
-
+		
 		mat4 skmtx = mat4(1);
 		vec4 apos;
 		if (u_useSkinning && a_joints[0] < 65535.0) {
@@ -64,12 +66,13 @@ static const char shadow_vsh[] = STRINGIFY(
 			apos = vec4(pos, 1.0);
 			gl_Position = u_mvpMatrix * apos;
 		}
-
-	    v_position  = (u_mMatrix * apos).xyz;
-	    v_normal    = a_normal;
-	    v_texcoord  = a_texcoord;
-	    v_shadow_texcoord  = bias * u_tMatrix * vec4(v_position, 1.0);
-	    v_depth     = u_lgtMatrix * apos;
+		
+		v_position  = (u_mMatrix * apos).xyz;
+		v_normal    = a_normal;
+		v_texcoord  = a_texcoord;
+		v_texcoord_mlt  = a_texcoord_mlt;
+		v_shadow_texcoord  = bias * u_tMatrix * vec4(v_position, 1.0);
+		v_depth     = u_lgtMatrix * apos;
 	}
 );
 
@@ -78,48 +81,63 @@ static const char shadow_vsh[] = STRINGIFY(
  */
 static const char shadow_vfsh[] = STRINGIFY(
 	precision mediump float;
-
+ 
 	uniform mat4      u_invMatrix;
 	uniform vec3      u_lightPosition;
 	uniform sampler2D u_texture;
+	uniform sampler2D u_texture_mlt;
 	uniform sampler2D u_shadow_texture;
 	uniform bool      u_useShadowFlag;
+	uniform bool      u_useColorFlag;
+	uniform bool      u_useMultiFlag;
 	uniform vec4      u_edgeColor;
+	uniform vec4      u_color;
 	uniform float     u_alpha;
-
+	uniform float     u_near;
+	uniform float     u_far;
+	
 	varying vec3      v_position;
 	varying vec3      v_normal;
 	varying vec2      v_texcoord;
+	varying vec2      v_texcoord_mlt;
 	varying vec4      v_shadow_texcoord;
 	varying vec4      v_depth;
-
-	float restDepth(vec4 RGBA) {
-	    const float rMask = 1.0;
-	    const float gMask = 1.0 / 255.0;
-	    const float bMask = 1.0 / (255.0 * 255.0);
-	    const float aMask = 1.0 / (255.0 * 255.0 * 255.0);
-	    float depth = dot(RGBA, vec4(rMask, gMask, bMask, aMask));
-	    return depth;
-	}
-
-	void main(void) {
-		vec4 depthColor = vec4(1.0);
-		if (u_useShadowFlag && v_depth.w > 0.0) {
-	       vec4 tx = texture2DProj(u_shadow_texture, v_shadow_texcoord);
-			float shadow = restDepth(tx);
-			float near = 0.1;
-			float far  = 500.0;
-			float linerDepth = 1.0 / (far - near);
-			linerDepth *= length(v_depth);
-			if (linerDepth - 0.004 > shadow) {
-				depthColor = vec4(0.7, 0.7, 0.7, 1.0);
-			}
-		}
 	
+	float restDepth(vec4 RGBA) {
+		const float rMask = 1.0;
+		const float gMask = 1.0 / 255.0;
+		const float bMask = 1.0 / (255.0 * 255.0);
+		const float aMask = 1.0 / (255.0 * 255.0 * 255.0);
+		float depth = dot(RGBA, vec4(rMask, gMask, bMask, aMask));
+		return depth;
+	}
+	
+	void main(void) {
 		if (u_edgeColor.a > 0.0) {
 			gl_FragColor = vec4(vec3(u_edgeColor), 1.0) * vec4(vec3(1.0), u_alpha);
 		} else {
-			vec4 color = texture2D(u_texture, v_texcoord.st) * vec4(vec3(1.0), u_alpha) * depthColor;
+			vec4 color;
+			if (u_useColorFlag) {
+				color = u_color * vec4(vec3(1.0), u_alpha);
+			} else {
+				color = texture2D(u_texture, v_texcoord.st) * vec4(vec3(1.0), u_alpha);
+			}
+			
+			if (u_useShadowFlag && v_depth.w > 0.0) {
+				vec4 tx = texture2DProj(u_shadow_texture, v_shadow_texcoord);
+				float shadow = restDepth(tx);
+				float near = u_near;
+				float far  = u_far;
+				float linerDepth = 1.0 / (far - near);
+				linerDepth *= length(v_depth);
+				if (linerDepth - 0.001 > shadow) {
+					color *= vec4(0.7, 0.7, 0.7, 1.0);
+				}
+			}
+			
+			if (u_useMultiFlag) {
+				color *= vec4(texture2D(u_texture_mlt, v_texcoord_mlt.st));
+			}
 			
 //			vec3  light = u_lightPosition - v_position;
 //			vec3  invLight = normalize(u_invMatrix * vec4(light, 0.0)).xyz;
@@ -130,6 +148,7 @@ static const char shadow_vfsh[] = STRINGIFY(
 		}
 	}
 );
+
 //"		gl_FragColor = texture2D(u_texture, v_texcoord.st) * vec4(vec3(diffuse), 1.0) * depthColor;"
 
 // uniform index
@@ -141,6 +160,7 @@ enum {
 	UNIFORM_TEXTURE_MATRIX,					//!< 影テクスチャのマトリクス
 	UNIFORM_LIGHT_POSITION,					//!< ライトの位置
 	UNIFORM_TEXTURE,						//!< テクスチャ
+	UNIFORM_TEXTURE_MLT,					//!< マルチテクスチャ
 	UNIFORM_SHADOW_TEXTURE,					//!< 影のテクスチャ
 	UNIFORM_USE_SKINNING,					//!< スキニングを使用するフラグ
 	UNIFORM_SKINNING_MATRIX,				//!< スキニングマトリクスのユニフォーム
@@ -149,6 +169,11 @@ enum {
 	UNIFORM_EDGE_SIZE,						//!< エッジの色
 	UNIFORM_USE_SHADOW,						//!< 影を使用するフラグ
 	UNIFORM_ALPHA,							//!< アルファ値へのユニフォーム
+	UNIFORM_USE_COLOR,						//!< カラー使用フラグへのユニフォーム
+	UNIFORM_COLOR,							//!< カラー値へのユニフォーム
+	UNIFORM_USE_MULTI_TEXTURE,				//!< マルチテクスチャフラグのユニフォーム
+	UNIFORM_NEAR,							//!< ニアの位置
+	UNIFORM_FAR,							//!< ファーの位置
 	NUM_UNIFORMS							//!< ユニフォーム数
 };
 static GLint uniforms[NUM_UNIFORMS];
@@ -170,15 +195,22 @@ void DepthShadowShader::useProgram() {
 }
 
 void DepthShadowShader::bindTexture(int texname) {
-	glActiveTexture(GL_TEXTURE1);
+	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texname);
-	glUniform1i(uniforms[UNIFORM_TEXTURE], 1);
+	glUniform1i(uniforms[UNIFORM_TEXTURE], 0);
+}
+
+void DepthShadowShader::bindTextureMlt(int texname) {
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, texname);
+	glUniform1i(uniforms[UNIFORM_TEXTURE_MLT], 2);
+	glUniform1i(uniforms[UNIFORM_USE_MULTI_TEXTURE], texname>0 ? 1 : 0);
 }
 
 void DepthShadowShader::bindShadowTexture(int texname) {
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, texname);
-	glUniform1i(uniforms[UNIFORM_SHADOW_TEXTURE], 0);
+	glUniform1i(uniforms[UNIFORM_SHADOW_TEXTURE], 1);
 }
 
 void DepthShadowShader::setMVPMatrix(Camera *camera, Matrix3D *matrix) {
@@ -208,7 +240,7 @@ void DepthShadowShader::setLightMatrix(Camera *camera, Matrix3D *matrix) {
 
 void DepthShadowShader::setInverseMatrix(Matrix3D *matrix) {
 	GLfloat mvp[16];
-//	matrix->getInvertElements(mvp);
+	//	matrix->getInvertElements(mvp);
 	matrix->getElements(mvp);
 	glUniformMatrix4fv(uniforms[UNIFORM_INVERSE_MODEL_MATRIX], 1, GL_FALSE, mvp);
 }
@@ -218,6 +250,14 @@ void DepthShadowShader::setLightPosition(Light *light) {
 		light->getX(), light->getY(), light->getZ()
 	};
 	glUniform3fv(uniforms[UNIFORM_LIGHT_POSITION], 1, lightPosition);
+}
+
+void DepthShadowShader::setNear(float near) {
+	glUniform1f(uniforms[UNIFORM_NEAR], near);
+}
+
+void DepthShadowShader::setFar(float far) {
+	glUniform1f(uniforms[UNIFORM_FAR], far);
 }
 
 void DepthShadowShader::setSkinningMatrix(Matrix3D **matrix, int len) {
@@ -264,10 +304,20 @@ void DepthShadowShader::setAlpha(float alpha) {
 	glUniform1f(uniforms[UNIFORM_ALPHA], alpha);
 }
 
+void DepthShadowShader::setColor(float r, float g, float b, float a) {
+	GLfloat color[4] = {r, g, b, a};
+	glUniform4fv(uniforms[UNIFORM_COLOR], 1, color);
+}
+
+void DepthShadowShader::setUseColor(bool flag) {
+	glUniform1i(uniforms[UNIFORM_USE_COLOR], flag ? 1 : 0);
+}
+
 void DepthShadowShader::bindAttribute(GLuint program, const char *name, int user) {
 	glBindAttribLocation(program, ATTRIB_VERTEX, "a_position");
 	glBindAttribLocation(program, ATTRIB_NORMAL, "a_normal");
 	glBindAttribLocation(program, ATTRIB_TEXCOORD, "a_texcoord");
+	glBindAttribLocation(program, ATTRIB_TEXCOORD_MLT, "a_texcoord_mlt");
 	glBindAttribLocation(program, ATTRIB_JOINTS, "a_joints");
 }
 
@@ -287,4 +337,10 @@ void DepthShadowShader::getUniform(GLuint program, const char *name, int user) {
 	uniforms[UNIFORM_EDGE_COLOR] = glGetUniformLocation(program, "u_edgeColor");
 	uniforms[UNIFORM_EDGE_SIZE] = glGetUniformLocation(program, "u_edgeSize");
 	uniforms[UNIFORM_ALPHA] = glGetUniformLocation(program, "u_alpha");
+	uniforms[UNIFORM_USE_COLOR] = glGetUniformLocation(program, "u_useColorFlag");
+	uniforms[UNIFORM_COLOR] = glGetUniformLocation(program, "u_color");
+	uniforms[UNIFORM_TEXTURE_MLT] = glGetUniformLocation(program, "u_texture_mlt");
+	uniforms[UNIFORM_USE_MULTI_TEXTURE] = glGetUniformLocation(program, "u_useMultiFlag");
+	uniforms[UNIFORM_NEAR] = glGetUniformLocation(program, "u_near");
+	uniforms[UNIFORM_FAR] = glGetUniformLocation(program, "u_far");
 }

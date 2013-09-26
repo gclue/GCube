@@ -193,6 +193,38 @@ void FigureSet::testMatrix(Matrix3D *m) {
 	}
 }
 
+static float  shadowMat[16];
+static void
+myShadowMatrix(float ground[4], float light[4])
+{
+    float  dot;
+	
+    dot = ground[0] * light[0] +
+	ground[1] * light[1] +
+	ground[2] * light[2] +
+	ground[3] * light[3];
+    
+    shadowMat[0] = dot - light[0] * ground[0];
+    shadowMat[1] = 0.0 - light[0] * ground[1];
+    shadowMat[2] = 0.0 - light[0] * ground[2];
+    shadowMat[3] = 0.0 - light[0] * ground[3];
+    
+    shadowMat[4] = 0.0 - light[1] * ground[0];
+    shadowMat[5] = dot - light[1] * ground[1];
+    shadowMat[6] = 0.0 - light[1] * ground[2];
+    shadowMat[7] = 0.0 - light[1] * ground[3];
+    
+    shadowMat[8] = 0.0 - light[2] * ground[0];
+    shadowMat[9] = 0.0 - light[2] * ground[1];
+    shadowMat[10] = dot - light[2] * ground[2];
+    shadowMat[11] = 0.0 - light[2] * ground[3];
+    
+    shadowMat[12] = 0.0 - light[3] * ground[0];
+    shadowMat[13] = 0.0 - light[3] * ground[1];
+    shadowMat[14] = 0.0 - light[3] * ground[2];
+    shadowMat[15] = dot - light[3] * ground[3];
+}
+
 void FigureSet::render(float dt, GC3DContext &context) {
 	if (!visible) {
 		return;
@@ -231,6 +263,12 @@ void FigureSet::render(float dt, GC3DContext &context) {
 				shader->bindTexture(0);
 			}
 			
+			if (textureMlt) {
+				shader->bindTextureMlt(textureMlt->texName);
+			} else {
+				shader->bindTextureMlt(0);
+			}
+
 			if (useEdge) {
 				glCullFace(GL_FRONT);
 				shader->setUseEdge(true);
@@ -323,6 +361,8 @@ Layer3D::Layer3D() {
 	
 	fbWidth = 1024;
 	fbHeight = 1024;
+	near = 0.1;
+	far = 500;
 	
 	boneShader = new BoneShader();
 	depthShader = NULL;
@@ -331,9 +371,9 @@ Layer3D::Layer3D() {
 	light.setPosition(0, 35, 0);
 	Vector3D lightup(0,0,-1);
 	
-	lightcamera.zNear = 0.1;
-	lightcamera.zFar = 300.0;
-	lightcamera.fieldOfView = 100.0;
+	lightcamera.zNear = near;
+	lightcamera.zFar = far;
+	lightcamera.fieldOfView = 60.0;
 	lightcamera.aspect = 1;
 	lightcamera.lookAt(light.position, at, lightup);
 	lightcamera.loadPerspective();
@@ -584,6 +624,10 @@ void Layer3D::drawSceneWithShadow(float dt) {
 	
 	gc3dcontext.type = DepthStorageShaderType;
 	
+	depthShader->setNear(near);
+	depthShader->setFar(far);
+	depthShader->setTextureSize(fbWidth);
+	
 	int size = figures.size();
 	for (int i = 0; i < size; i++) {
 		figures.at(i)->render(dt, gc3dcontext);
@@ -617,7 +661,9 @@ void Layer3D::drawSceneWithShadow(float dt) {
 	shadowShader->bindShadowTexture(fb.t);
 	shadowShader->setLightPosition(&light);
 	shadowShader->setTextureMatrix(&lightcamera);
-	
+	shadowShader->setNear(near);
+	shadowShader->setFar(far);
+
 	for (int i = 0; i < figures.size(); i++) {
 		figures.at(i)->render(0, gc3dcontext);
 	}
@@ -649,7 +695,6 @@ void Layer3D::resize(float aspect) {
 
 void Layer3D::render(double dt) {
 	lockflag = true;
-	
 	switch (renderMode) {
 		case RenderTypeNone:
 			drawScene(dt);
