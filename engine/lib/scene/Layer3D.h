@@ -232,9 +232,6 @@ protected:
 	
 	FigureSet *lightfigure;
 	
-	float near;
-	float far;
-	
 	int fbWidth;		//!< フレームバッファのサイズ
 	int fbHeight;		//!< フレームバッファのサイズ
 	GCFrameBuffer fb;	//!< デップスシャドウを作成するためのフレームバッファなどを格納する構造体

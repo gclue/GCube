@@ -8,6 +8,7 @@
 
 #include "DepthShadowShader.h"
 #include "Joint.h"
+#include "matrixUtil.h"
 
 
 #define STRINGIFY(x) #x
@@ -39,25 +40,16 @@ static const char shadow_vsh[] = STRINGIFY(
 	varying vec4 v_shadow_texcoord;
 	varying vec4 v_depth;
 										   
-	const mat4 bias = mat4(
-		0.5, 0.0, 0.0, 0.0,
-		0.0, 0.5, 0.0, 0.0,
-		0.0, 0.0, 0.5, 0.0,
-		0.5, 0.5, 0.5, 1.0
-	);
-										   
 	void main(void) {
 		vec3 pos = a_position;
 		if (u_edge) {
 			pos += a_normal * u_edgeSize;
 		}
 		
-		mat4 skmtx = mat4(1);
 		vec4 apos;
 		if (u_useSkinning && a_joints[0] < 65535.0) {
 			mat4 m1 = u_skinningMatrix[int(a_joints[0])] * a_joints[1];
 			mat4 m2 = u_skinningMatrix[int(a_joints[2])] * a_joints[3];
-			skmtx = m1 + m2;
 			vec4 p1 = m1 * vec4(pos, 1.0);
 			vec4 p2 = m2 * vec4(pos, 1.0);
 			apos = p1 + p2;
@@ -71,7 +63,7 @@ static const char shadow_vsh[] = STRINGIFY(
 		v_normal    = a_normal;
 		v_texcoord  = a_texcoord;
 		v_texcoord_mlt  = a_texcoord_mlt;
-		v_shadow_texcoord  = bias * u_tMatrix * vec4(v_position, 1.0);
+		v_shadow_texcoord  = u_tMatrix * vec4(v_position, 1.0);
 		v_depth     = u_lgtMatrix * apos;
 	}
 );
@@ -226,9 +218,15 @@ void DepthShadowShader::setModelMatrix(Matrix3D *matrix) {
 }
 
 void DepthShadowShader::setTextureMatrix(Camera *camera) {
-	// TODO: バイアス行列のかけ算をシェーダではなく、ここで行った方が速いかもしれない。
 	GLfloat mvp[16];
+	GLfloat bias[16] = {
+		0.5, 0.0, 0.0, 0.0,
+		0.0, 0.5, 0.0, 0.0,
+		0.0, 0.0, 0.5, 0.0,
+		0.5, 0.5, 0.5, 1.0
+	};
 	camera->modelViewProjectionMatrix(mvp);
+	mtxMultiply(mvp, bias, mvp);
 	glUniformMatrix4fv(uniforms[UNIFORM_TEXTURE_MATRIX], 1, GL_FALSE, mvp);
 }
 

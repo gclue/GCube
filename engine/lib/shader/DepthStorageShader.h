@@ -54,8 +54,22 @@ public:
 	 */
 	void setSkinningMatrix(Figure *fig);
 	
+	/**
+	 * ニアの位置を設定します.
+	 * @param[in] near ニア
+	 */
 	void setNear(float near);
+	
+	/**
+	 * ファーの位置を設定します.
+	 * @param[in] far ファー
+	 */
 	void setFar(float far);
+	
+	/**
+	 * テクスチャサイズを設定します.
+	 * @param[in] textureSize テクスチャサイズ
+	 */
 	void setTextureSize(float textureSize);
 
 	/**

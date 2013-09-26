@@ -361,8 +361,6 @@ Layer3D::Layer3D() {
 	
 	fbWidth = 1024;
 	fbHeight = 1024;
-	near = 0.1;
-	far = 500;
 	
 	boneShader = new BoneShader();
 	depthShader = NULL;
@@ -371,8 +369,8 @@ Layer3D::Layer3D() {
 	light.setPosition(0, 35, 0);
 	Vector3D lightup(0,0,-1);
 	
-	lightcamera.zNear = near;
-	lightcamera.zFar = far;
+	lightcamera.zNear = 0.1;
+	lightcamera.zFar = 500;
 	lightcamera.fieldOfView = 60.0;
 	lightcamera.aspect = 1;
 	lightcamera.lookAt(light.position, at, lightup);
@@ -624,8 +622,8 @@ void Layer3D::drawSceneWithShadow(float dt) {
 	
 	gc3dcontext.type = DepthStorageShaderType;
 	
-	depthShader->setNear(near);
-	depthShader->setFar(far);
+	depthShader->setNear(lightcamera.zNear);
+	depthShader->setFar(lightcamera.zFar);
 	depthShader->setTextureSize(fbWidth);
 	
 	int size = figures.size();
@@ -661,8 +659,8 @@ void Layer3D::drawSceneWithShadow(float dt) {
 	shadowShader->bindShadowTexture(fb.t);
 	shadowShader->setLightPosition(&light);
 	shadowShader->setTextureMatrix(&lightcamera);
-	shadowShader->setNear(near);
-	shadowShader->setFar(far);
+	shadowShader->setNear(lightcamera.zNear);
+	shadowShader->setFar(lightcamera.zFar);
 
 	for (int i = 0; i < figures.size(); i++) {
 		figures.at(i)->render(0, gc3dcontext);
